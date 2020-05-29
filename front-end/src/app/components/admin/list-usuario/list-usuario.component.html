@@ -1,0 +1,236 @@
+<div class="container-fluid">
+	<div class="block-header">
+		<div class="row">
+			<div class="col-lg-5 col-md-8 col-sm-12">
+				<h2>
+					Usuarios 
+				</h2>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a [routerLink]="['/admin/dashboard/index']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item">Dashboard</li>
+					<li class="breadcrumb-item active">Usuarios</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
+		(click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
+			Usuario</span></button>
+
+	<div ngbDropdown class="d-inline-block" placement="bottom-left">
+		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+			<button class="btn btn-default" [routerLink]="['../', 'usuario']" ngbDropdownItem>Listar Todos</button>
+			<button class="btn btn-default" [routerLink]="['../', 'administrador']" ngbDropdownItem>Listar Administradores</button>
+			<button class="btn btn-default" [routerLink]="['../', 'director']" ngbDropdownItem>Listar Directores</button>
+			<button class="btn btn-default" [routerLink]="['../', 'investigador']" ngbDropdownItem>Listar Investigadores</button>
+		</div>
+	</div>
+
+	<div ngbDropdown class="d-inline-block" *ngIf="punteroListado > 3" placement="bottom-left">
+		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic2" ngbDropdownToggle>Investigadores</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+			<button class="btn btn-default" [routerLink]="['../', 'inv-titular']" ngbDropdownItem>Titular</button>
+			<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-proyecto']" ngbDropdownItem>Asociado con proyecto</button>
+			<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-invitacion']" ngbDropdownItem>Asociado por invitacion</button>
+		</div>
+	</div>
+
+	<div class="row clearfix">
+		<div class="col-lg-12">
+			<div class="card product_item_list product-order-list">
+				<div class="header">
+					<p class="h6 text-center text-lg-left">{{punteroMostrar}}</p>
+					<p class="h4 text-center">{{punteroMostrarInvestigador}}</p>
+				</div>
+				<div class="body">
+					<div class="table-responsive">
+						<table class="table table-hover m-b-0">
+							<thead class="thead-dark">
+								<tr>
+									<th>Nombre Completo</th>
+									<th data-breakpoints="sm xs">Cedula Identidad</th>
+									<th>Foto</th>
+									<th>Correo Electronico</th>
+									<th data-breakpoints="xs">Tipo Usuario</th>
+									<th>Grado Academico</th>
+									<th data-breakpoints="xs md">Estado</th>
+									<th data-breakpoints="sm xs md">Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let usuario_rol of adm_usuario_roles">
+									<td>{{usuario_rol.adm_usuario.persona.nombres}}
+										{{usuario_rol.adm_usuario.persona.paterno}}
+										{{usuario_rol.adm_usuario.persona.materno}}</td>
+									<td>{{usuario_rol.adm_usuario.persona.ci}}</td>
+									<td><img src="{{url +'get-fotografia/'+ usuario_rol.adm_usuario.persona.fotografia.imagen + '/true'}}"
+											width="48" alt="usr img"></td>
+									<td>
+										<span>{{usuario_rol.adm_usuario.persona.correo}}</span>
+									</td>
+									<td>
+										<span>{{usuario_rol.adm_role.rol}}</span>
+									</td>
+									<td>{{usuario_rol.adm_usuario.persona.grado_academico}}</td>
+									<td>
+										<span *ngIf="usuario_rol.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
+										<span *ngIf="!usuario_rol.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">cerrada</span>
+									</td>
+									<td>
+										<a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"
+											(click)="openModalEditar(content,'lg', usuario_rol.adm_usuario.id_usuario, usuario_rol.estado)"><i
+												class="icon-pencil"></i></a>
+										<a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+												class="icon-trash"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL -->
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">{{ !this.usuario.id_usuario ? 'Nuevo Usuario' : 'Actualizar Usuario' }}</h4>
+	</div>
+	<div class="modal-body">
+		<form class="container" #usuarioForm="ngForm" (ngSubmit)="tipo_form ? editar() : agregar()">
+			<div class="form-group row">
+				<label class="col-3" for="tipo">Nombres: </label>
+				<div class="col-9">
+					<input [(ngModel)]="persona.nombres" class="form-control" name="nombres" #nombres="ngModel"
+						[ngClass]="{'parsley-error':!nombres.valid && (nombres.touched || usuarioForm.submitted)}"
+						required>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!nombres.valid && (nombres.touched || usuarioForm.submitted)">
+						<li class="parsley-required" *ngIf="nombres.hasError('required')">Nombre completo requerido.
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-3" for="paterno">Apellido Paterno: </label>
+				<div class="col-9">
+					<input [(ngModel)]="persona.paterno" class="form-control" name="paterno" #paterno="ngModel"
+						[ngClass]="{'parsley-error':!paterno.valid && (paterno.touched || usuarioForm.submitted)}"
+						required>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!paterno.valid && (paterno.touched || usuarioForm.submitted)">
+						<li class="parsley-required" *ngIf="paterno.hasError('required')">Apellido Paterno requerido
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-3" for="materno">Apellido Materno: </label>
+				<div class="col-9">
+					<input [(ngModel)]="persona.materno" class="form-control" name="materno" #materno="ngModel">
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-3" for="ci">Cedula de Identidad: </label>
+				<div class="col-9">
+					<input [(ngModel)]="persona.ci" class="form-control" name="ci" #ci="ngModel"
+						[ngClass]="{'parsley-error':!ci.valid && (ci.touched || usuarioForm.submitted)}" required>
+					<ul class="parsley-errors-list filled" *ngIf="!ci.valid && (ci.touched || usuarioForm.submitted)">
+						<li class="parsley-required" *ngIf="ci.hasError('required')">Cedula de identidad requerida.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-3" for="correo">Correo Electronico: </label>
+				<div class="col-9">
+					<input type="email" class="form-control" [(ngModel)]="persona.correo" name="correo"
+						#correo="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+						[ngClass]="{'parsley-error':!correo.valid && (correo.touched || usuarioForm.submitted)}"
+						required>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!correo.valid && (correo.touched || usuarioForm.submitted)">
+						<li class="parsley-required" *ngIf="correo.hasError('required')">Campo requerido</li>
+						<li class="parsley-type" *ngIf="correo.hasError('pattern')">Debe escribir un correo electronico
+							valido
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-3" for="tipo">Tipo de Usuario: </label>
+				<div class="col-9">
+					<ng-multiselect-dropdown name="multiSelect" #multiSelect="ngModel" [placeholder]="'Seleccionar'"
+					[settings]="dropdownConfiguracion" [data]="dropdownLista" [(ngModel)]="seleccionados">
+					</ng-multiselect-dropdown>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!multiSelect.valid && (multiSelect.touched || usuarioForm.submitted)">
+						<li class="parsley-required" *ngIf="multiSelect.hasError('required')">El tipo de Usuario
+							requerido.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div *ngFor="let seleccionado of seleccionados">
+				<div class="form-group row" *ngIf="seleccionado.id_rol==3">
+					<label class="col-3" for="tipo">Tipo de Investigador: </label>
+					<div class="col-9">
+						<select [(ngModel)]="investigador.id_inv_tipo" class="form-control" name="tipo" #tipo="ngModel"
+							[ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || usuarioForm.submitted)}"
+							required>
+							<option value="">Seleccionar</option>
+							<option value="1">Titular</option>
+							<option value="2">Asociado con proyecto</option>
+							<option value="3">Asociado por invitación</option>
+						</select>
+						<ul class="parsley-errors-list filled"
+							*ngIf="!tipo.valid && (tipo.touched || usuarioForm.submitted)">
+							<li class="parsley-required" *ngIf="tipo.hasError('required')">El tipo de Investigador
+								requerido.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-3" for="grado_academico">Grado Academico: </label>
+				<div class="col-9">
+					<select [(ngModel)]="persona.grado_academico" class="form-control" name="grado_academico"
+						#grado_academico="ngModel"
+						[ngClass]="{'parsley-error':!grado_academico.valid && (grado_academico.touched || usuarioForm.submitted)}"
+						required>
+						<option value="">Seleccionar</option>
+						<option value="Ph. D.">Ph. D. (Doctorado)</option>
+						<option value="M. Sc.">M. Sc. (Maestria)</option>
+						<option value="Lic.">Lic. (Licenciado)</option>
+						<option value="Dipl.">Dipl. (Diplomado)</option>
+						<option value="Otro">Otros</option>
+					</select>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!grado_academico.valid && (grado_academico.touched || usuarioForm.submitted)">
+						<li class="parsley-required" *ngIf="grado_academico.hasError('required')">Grado Academido del Investigador requerido.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="estado" name="estado"
+						[(ngModel)]="usuario.estado">
+					<label class="form-check-label" for="estado">Estado</label>
+				</div>
+			</div>
+			<button class="btn btn-success" [disabled]="!usuarioForm.form.valid" type="submit">Guardar
+				Cambios</button>
+			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
+		</form>
+	</div>
+</ng-template>

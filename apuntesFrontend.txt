@@ -1,0 +1,49 @@
+1. vamos a modificar un template
+2. Instalamos paquete
+    "npm install @ng-bootstrap/ng-bootstrap"
+3. Intalamos otro paquete
+    'npm install ngx-toastr'
+4. Instalamos el paquete
+    'npm install ng-multiselect-dropdown'
+5. Instalamos el paquete
+    'npm install @syncfusion/ej2-angular-richtexteditor'
+    'npm install @angular/animations'
+6. instalamos paquete
+    'npm install font-awesome'
+7. Instalamos los siguientes paquetes para el manejo dea archivos
+    'npm install angular-file --save'
+8. Instalamos el paquete visor de pdf
+    'npm install --save ng2-pdf-viewer'
+
+
+9. Instalamos paquete HTTP por un error
+    npm install @angular/http@latest
+
+10. error
+    ng add @angular/localize
+
+
+--- correos electronicos
+
+institutoecologiaumsa@gmail.com
+1234umsa
+
+p1ecologia@outlook.es
+1234umsa
+
+p2ecologia@outlook.es
+1234umsa
+
+p3ecologia@outlook.es
+1234umsa
+
+p4ecologia@outlook.es
+1234umsa
+
+p5ecologia@outlook.es
+1234umsa
+
+
+# Deploy
+ng build --prod --aot
+

@@ -1,0 +1,142 @@
+1. Habra un cliente SSH (puede usar PUTTY)
+2. Localice su archivo de clave privado (ecologic-hey.pem)
+3. Su clave no debe ser públicamente visible para que SSH funcione. Use este comando si es necesario:
+    chmod 400 umsa-ecologia.pem
+4. Conéctese a su instancia utilizando su DNS público o Ip público:
+    ec2-3-81-19-219.compute-1.amazonaws.com
+    3.81.19.219
+5. Utilizamos el siguiente comando para conectarnos con DNS público:
+    ssh -i "umsa-ecologia.pem" ubuntu@ec2-3-81-19-219.compute-1.amazonaws.com
+6. Tambien podemos utilizar el siguiente comando, utilizando Ip público:
+    ssh -i "umsa-ecologia.pem" ubuntu@3.81.19.219
+
+
+*********************************** APUNTES DE INSTALACION AL SERVIDOR ***********************************
+1. Comprobar SERVIDOR
+    sudo apt-get upgrade
+    sudo apt-get update
+    sudo apt-get install -y git
+2. Instalamos NodeJS
+    sudo apt-get install -y nodejs
+    sudo apt-get install -y npm
+3. Verificamos la version de NodeJS y si esta en version 8 debemos cambiarla a version 10
+    cd ~
+    curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+    sudo bash nodesource_setup.sh
+    sudo apt-get install -y nodejs
+4. Instalamos Angular/cli
+    sudo npm install -g @angular/cli
+5. Instalamos NGINX
+    sudo apt-get install -y nginx
+6. Clonamos el repositorio
+    sudo git config --global user.name "borisvargas"
+    sudo git config --global user.email "borisvargaspaucara@gmail.com"
+    sudo git config --list
+    cd /var/www/
+    sudo git clone https://github.com/borisvargas/proyecto_ecologia.git
+6. Configuramos NGINX
+    cd /etc/nginx/sites-available
+    sudo nano default
+
+    server {     
+    		listen 80;      
+    		listen [::]:80;      
+    		server_name http://your-site-name.com;      
+    		root /var/www/proyecto_ecologia/front-end/dist/front-end;   
+    		server_tokens off;   
+    		index index.html index.htm;     
+    		location / {         
+        			# First attempt to server request as file, then         
+        			# as directory, then fall back to displaying a 404.          
+        			try_files $uri $uri/ /index.html =404;      
+    		}
+7. Configurar Firewall, obviamos esta parte si tenemos el Firewall desactivado
+    sudo ufw enable                 // para activar
+	sudo ufw allow OpenSSH
+	sudo ufw app list
+	sudo ufw “Nginx Full”
+	sudo ufw allow 'Nginx HTTP'
+8. Corremos Angular
+    cd /var/www/proyecto_ecologia/front-end/
+    ng serve --sourceMap=false # no es necesario
+    npm run build
+	ng build
+	ng build --prod --build-optimizer
+9. Reiniciar NGINX
+    sudo service nginx restart
+------------- POR SI FALTA -------------
+    npm cache clean --force
+    rm -rf node_modules package-lock.json
+    npm install
+-------------- PARA DAR PERMISO CARPETA ------------
+    chmod -R 777 proyecto_ecologia 
+
+10. Cambiar password de postgres ( ya no sirve esta configuracion)
+    sudo -u postgres psql postgres
+    \password postgres
+    \q
+11. Importar Base de datos ( pasos que hice, son pruebas)
+    cd /var/www/proyecto_umsa/
+    sudo -u postgres psql postgres
+    CREATE DATABASE bd_ecologia;
+    psql -U postgres -W -h localhost bd_ecologia < restauracion_bd_ecologia.sql
+    sudo -u postgres pg_restore -d bd_ecologia -C -O restauracion_bd_ecologia.sql
+    \q
+    sudo -u postgres psql postgres
+    \c bd_ecologia
+
+12. Si no corre el back-end (ya no es necesario), tenemos que instalar con usuario normal y no root
+    // sudo apt-get install g++
+    // sudo apt-get install -y build-essential python
+    // sudo apt-get install node-pre-gyp
+    // npm install node-pre-gyp
+    // npm rebuild bcrypt --build-from-source
+
+13. Configuramos servidor nginx.conf
+    para abrir puerto del servidor
+
+    scp -rp /C:/Users/Carolina/Desktop/aasana/front-end/dist develop@212.115.109.148:/var/www/nuclear/appBoson/sistema_aasana/back-end
+    scp -rp -i "umsa-ecologia.pem" /Users/boris/Documents/angular-projects/proyecto_umsa/front-end/dist ubuntu@3.81.19.219:/var/www/proyecto_umsa/front-end
+    
+
+14. para subir a dist
+    scp -rp -i "umsa-ecologia.pem" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist ubuntu@3.81.19.219:/var/www/proyecto_ecologia/back-end
+
+15. Preparando BD
+    https://computingforgeeks.com/install-postgresql-11-on-ubuntu-linux/
+
+
+16. Para entrar a la base de datos
+    sudo su - postgres
+    psql -U postgres -W
+    \c bd_ecologia
+    \dt
+
+17. En Back-end
+    Instalaremos PM2 para NodeJS
+    https://www.digitalocean.com/community/tutorials/como-configurar-una-aplicacion-de-node-js-para-produccion-en-ubuntu-18-04-es
+
+    sudo su
+    npm install -g pm2
+
+18. configurar pm2 (se debe resetar el VPS para que funcione correctamente)
+    cd ../backend
+    pm2 start bin/www.js --name web --watch
+
+19. Eliminar puerto 8012
+    netstat -tanp | grep  8012
+    kill <id>
+
+20. Restaurar BD
+    psql -U <username> -d <dbname> -1 -f <filename>.sql
+    psql -U postgres bd_ecologia < bd_ecologia.sql
+
+21. Permitir el puerto ( no es necesario) 
+    -- ufw allow 8012/tcp
+    ufw allow 8012
+
+22. Mas informacion
+    https://medium.com/@anasecn/how-to-serve-an-angular-app-with-node-js-api-on-a-nginx-server-ca59de51850
+
+
+

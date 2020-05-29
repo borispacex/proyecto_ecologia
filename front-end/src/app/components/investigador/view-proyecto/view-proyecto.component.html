@@ -1,0 +1,337 @@
+<div class="container-fluid file_manager">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                <h2>
+                    Proyecto
+                </h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a [routerLink]="['../../']"><i class="icon-home"></i></a>
+                    </li>
+                    <li class="breadcrumb-item">Dashboard</li>
+                    <li class="breadcrumb-item">
+                        <a [routerLink]="['../../list-proyectos-inv','proyecto']">Proyectos investigador</a>
+                    </li>
+                    <li class="breadcrumb-item active">{{ id }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-8 col-md-8">
+            <div class="card">
+                <div class="header">
+                    <h2>{{proyecto.titulo}}</h2>
+                    <small>{{proyecto.createdAt}}</small>
+                </div>
+                <div class="body">
+                    <h6 class="m-b-15">Fechas</h6>
+                    <p> <strong>fecha inicio: </strong> {{proyecto.fechaini}}</p>
+                    <p> <strong>fecha fin: </strong> {{proyecto.fechafin}}</p>
+                    <ul class="list-unstyled team-info m-t-20">
+                        <li class="m-r-15"><small class="text-muted">Grupo</small></li>
+                        <li>
+                            <img class="avatar-coordinador" src="assets/images/xs/avatar1.jpg" title="Avatar"
+                                alt="Avatar" />
+                        </li>
+                        <li>
+                            <img class="avatar" src="assets/images/xs/avatar2.jpg" title="Avatar" alt="Avatar" />
+                        </li>
+                        <li>
+                            <img class="avatar" src="assets/images/xs/avatar3.jpg" title="Avatar" alt="Avatar" />
+                        </li>
+                        <li>
+                            <img class="avatar" src="assets/images/xs/avatar4.jpg" title="Avatar" alt="Avatar" />
+                        </li>
+                        <li>
+                            <img class="avatar" src="assets/images/xs/avatar5.jpg" title="Avatar" alt="Avatar" />
+                        </li>
+                        <li>
+                            <img class="avatar" src="assets/images/xs/avatar6.jpg" title="Avatar" alt="Avatar" />
+                        </li>
+                    </ul>
+                    <p>
+                        <ngb-progressbar type="warning" [value]="34" height="5px"></ngb-progressbar>
+                    </p>
+                    <div class="row">
+                        <div class="col-7">
+                            <small>Numero de archivos: 23</small>
+                            <h6><strong>estado: </strong>{{proyecto.estado}}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4">
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
+                (click)="openModal(content, 'lg', 1)">
+                <i class="fa fa-plus-square"></i>&nbsp;<span class="h6">
+                    Petición</span>
+            </button>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-5 col-md-8 col-sm-12">
+            <h3>Lista de archivos</h3>
+        </div>
+    </div>
+
+    <div class="row clearfix">
+        <div class="col-lg-5 col-md-8 col-sm-12">
+            <form id="navbar-search" class="navbar-form search-form">
+                <input [formControl]="search" class="form-control" placeholder="Buscar documento ..." type="text" />
+                <button type="button" class="btn btn-default">
+                    <i class="icon-magnifier"></i>
+                </button>
+            </form>
+        </div>
+        <div ngbDropdown class="d-inline-block col-lg-5 col-md-8 col-sm-12">
+            <button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>
+                Listado
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" right>
+                <button class="btn btn-default" (click)="getArchivosByTipo('1')" ngbDropdownItem>
+                    Permisos
+                </button>
+                <button class="btn btn-default" (click)="getArchivosByTipo('2')" ngbDropdownItem>
+                    Suscripción Convenios
+                </button>
+                <button class="btn btn-default" (click)="getArchivosByTipo('3')" ngbDropdownItem>
+                    Modificaciones
+                </button>
+                <button class="btn btn-default" (click)="getArchivosByTipo('4')" ngbDropdownItem>
+                    Cierre de proyecto
+                </button>
+                <button class="btn btn-default" (click)="getArchivosByTipo('5')" ngbDropdownItem>
+                    Otros
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let proy_archivo of proy_archivos | searchArchivos:valorBusqueda">
+            <div class="card">
+                <div class="file">
+                    <a href="javascript:void(0);">
+                        <div class="hover">
+                            <button type="button" class="btn btn-icon btn-outline-secondary mr-1"
+                                (click)="openArchivo(proy_archivo.archivo.archivo)">
+                                <i class="icon-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-icon btn-outline-info" (click)="openModalArchivo(content1,'lg',proy_archivo.archivo.id_archivo)">
+                                <i class="icon-pencil"></i>
+                            </button>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-file text-success"></i>
+                        </div>
+                        <div class="file-name">
+                            <p class="m-b-5 text-muted">{{ proy_archivo.archivo.nombre }}</p>
+                            <small>PDF<span class="date text-muted">{{
+                  proy_archivo.createdAt | date: "medium"
+                }}</span></small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ titulo }}</h4>
+    </div>
+    <div class="modal-body">
+        <form class="container" #archivoForm="ngForm" (ngSubmit)="guardar()">
+            <div class="form-group" *ngIf="permisos">
+                <label for="tipoPermiso">Seleccione tipo de permiso </label>
+                <select class="form-control" id="tipoPermiso">
+                    <option value="1" selected>DGB</option>
+                    <option value="2">SERNAP</option>
+                    <option value="3">OTROS</option>
+                </select>
+            </div>
+
+            <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>
+            <ngfUploadStatus [(percent)]="progress" [httpEvent]="httpEvent"></ngfUploadStatus>
+            <div>
+                <div>
+                    <!-- (filesChange)="lastFileAt = getDate() && setName(files[files.length - 1])" -->
+                    <div class="my-drop-zone" ngfDrop multiple="1" selectable="1" [(validDrag)]="validComboDrag"
+                        [(files)]="files" accept="application/pdf" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids"
+                        [(dragFiles)]="dragFiles" [class.invalid-drag]="validComboDrag === false"
+                        [class.valid-drag]="validComboDrag" 
+                        (filesChange)="fileChange(files)"
+                        [fileDropDisabled]="fileDropDisabled">
+                        <span class="pt-3">
+                            Zona para subir archivos<br />
+                            <strong>Arrastre/Click</strong><br />
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <h6 class="py-2">{{ files.length }} Archivos en la cola</h6>
+            <div class="table-responsive">
+                <table class="table table-hover m-b-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th data-breakpoints="sm xs">Tamaño</th>
+                            <th data-breakpoints="sm xs md">Accion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of files; let i = index">
+                            <td nowrap>
+                                <div *ngIf="['application/pdf'].indexOf(item.type) >= 0">
+                                    <div class="previewIcon" [ngfBackground]="item"></div>
+                                </div>
+                                <strong style="font-size: 15px;">{{
+                  item.name.length > 30
+                    ? (item.name | slice: 0:30) + "..."
+                    : item.name
+                }}</strong>
+                                <div class="form-group">
+                                    <input [(ngModel)]="names[i].nombre" class="form-control" name="name{{ i }}"
+                                        #name="ngModel" placeholder="nombre del documento.." [ngClass]="{
+                      'parsley-error':
+                        !name.valid && (name.touched || archivoForm.submitted)
+                    }" required />
+                                    <ul class="parsley-errors-list filled" *ngIf="
+                      !name.valid && (name.touched || archivoForm.submitted)
+                    ">
+                                        <li class="parsley-required" *ngIf="name.hasError('required')">
+                                            Nombre del archivo requerido.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td nowrap>
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="2" cols="25" [(ngModel)]="names[i].descripcion"
+                                        name="descripcion{{ i }}" #descripcion="ngModel" required [ngClass]="{
+                      'parsley-error':
+                        !descripcion.valid &&
+                        (descripcion.touched || archivoForm.submitted)
+                    }" placeholder="descripcion del documento.."></textarea>
+                                    <ul class="parsley-errors-list filled" *ngIf="
+                      !descripcion.valid &&
+                      (descripcion.touched || archivoForm.submitted)
+                    ">
+                                        <li class="parsley-required" *ngIf="descripcion.hasError('required')">
+                                            Descripcion requerida.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td nowrap>{{ item.size / 1024 / 1024 | number: ".2" }} MB</td>
+                            <td nowrap>
+                                <button type="button" class="btn btn-danger btn-xs"
+                                    (click)="names.splice(i, 1) && files.splice(i, 1)">
+                                    <i class="icon-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <div>
+                    Proceso de la cola:
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" [ngStyle]="{ width: progress + '%' }"></div>
+                    </div>
+                </div>
+
+                <ng-container *ngIf="lastFileAt">
+                    <p>
+                        <strong>Ultimo documento(s) seleccionado:</strong>
+                        {{ lastFileAt | date: "longTime" }}
+                    </p>
+                </ng-container>
+
+                <ng-container *ngIf="progress == 100">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    &nbsp;Carga completa
+                </ng-container>
+
+                <button type="submit" class="btn btn-success btn-s"
+                    [disabled]="!files.length || !archivoForm.form.valid">
+                    <span class="glyphicon glyphicon-upload"></span> Cargar todo
+                </button>
+
+                <button type="button" class="btn btn-warning btn-s" (click)="cancel()"
+                    (click)="modal.dismiss('Close click')">
+                    <span class="glyphicon glyphicon-ban-circle"></span> Cancelar todo
+                </button>
+                <button type="button" class="btn btn-danger btn-s" (click)="files.length = 0 && (names.length = 0)"
+                    [disabled]="!files.length">
+                    <span class="glyphicon glyphicon-trash"></span> Remover todo
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<!-- MODAL ARCHIVO-->
+<ng-template #content1 let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Actualizar archivo</h4>
+    </div>
+    <div class="modal-body">
+        <form class="container" #archivoForm="ngForm" (ngSubmit)="editarArchivo()">
+            <div class="form-group row">
+                <label class="col-3" for="tipo">Nombre: </label>
+                <div class="col-9">
+                    <input [(ngModel)]="archivo.nombre" class="form-control" name="nombre" #nombre="ngModel" [ngClass]="{
+              'parsley-error':
+                !nombre.valid && (nombre.touched || archivoForm.submitted)
+            }" required />
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="!nombre.valid && (nombre.touched || archivoForm.submitted)">
+                        <li class="parsley-required" *ngIf="nombre.hasError('required')">
+                            Nombre del archivo requerido.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-3" for="tipo">Descripción: </label>
+                <div class="col-9">
+                    <textarea [(ngModel)]="archivo.descripcion" rows="3" cols="30" class="form-control"
+                        name="descripcion" #descripcion="ngModel" [ngClass]="{
+              'parsley-error':
+                !descripcion.valid &&
+                (descripcion.touched || archivoForm.submitted)
+            }" required></textarea>
+                    <ul class="parsley-errors-list filled" *ngIf="
+              !descripcion.valid &&
+              (descripcion.touched || archivoForm.submitted)
+            ">
+                        <li class="parsley-required" *ngIf="descripcion.hasError('required')">
+                            Descripcion del archivo requerido.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="estado" name="estado"
+                        [(ngModel)]="archivo.estado" />
+                    <label class="form-check-label" for="estado">Estado</label>
+                </div>
+            </div>
+            <button class="btn btn-success" [disabled]="!archivoForm.form.valid" type="submit">
+                Guardar Cambios
+            </button>
+            <button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">
+                Cancelar
+            </button>
+        </form>
+    </div>
+</ng-template>

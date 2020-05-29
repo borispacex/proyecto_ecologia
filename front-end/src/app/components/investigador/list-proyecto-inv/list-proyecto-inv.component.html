@@ -1,0 +1,82 @@
+<div class="container-fluid">
+
+	<div class="block-header">
+		<div class="row">
+			<div class="col-lg-5 col-md-8 col-sm-12">
+				<h2>
+					Lista de proyectos del investigador
+				</h2>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a [routerLink]="['../profile']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item">Dashboard</li>
+					<li class="breadcrumb-item active">Lista de proyectos del investigador</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div ngbDropdown class="d-inline-block" placement="bottom-left">
+		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic" ngbDropdownToggle>Listado</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic">
+			<button class="btn btn-default" [routerLink]="['../', 'proyecto']" ngbDropdownItem>Todos</button>
+			
+			<button class="btn btn-default" [routerLink]="['../', 'activo']" ngbDropdownItem>Activos</button>
+			<button class="btn btn-default" [routerLink]="['../', 'inactivo']" ngbDropdownItem>Inactivos</button>
+			<button class="btn btn-default" [routerLink]="['../', 'pendiente']" ngbDropdownItem>Pendientes</button>
+			<button class="btn btn-default" [routerLink]="['../', 'cerrado']" ngbDropdownItem>Cerrados</button>
+		</div>
+	</div>
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12">
+			<div class="card">
+				<div class="body project_report">
+					<div class="table-responsive">
+						<table class="table m-b-0 table-hover">
+							<thead class="thead-light">
+								<tr>
+									<th>Estado</th>
+									<th>Titulo</th>
+									<th>Proceso</th>
+									<th>Grupo</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let proyecto of proyectos">
+									<td>
+										<span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
+										<span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
+										<span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
+										<span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
+									</td>
+									<td class="project-title">
+										<h6><a href="javascript:void(0);">{{ proyecto.titulo }}</a>
+										</h6>
+										<small>{{proyecto.createdAt | date:'medium' }}</small>
+									</td>
+									<td>
+										<div class="progress progress-xs">
+											<div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: proyecto.proceso + '%'}"></div>
+										</div>
+										<small>Proceso: {{ proyecto.proceso }}%</small>
+									</td>
+									<td>
+										<ul class="list-unstyled team-info">
+											<li *ngFor="let foto of proyecto.fotos"><img src="{{url +'get-fotografia/'+ foto + '/true'}}" alt="Avatar"></li>
+										</ul>
+									</td>
+									<td class="project-actions">
+										<a *ngIf="id_investigador!==proyecto.id_coordinador" href="javascript:void(0);" [routerLink]="['../../view-proyecto/', proyecto.id_proyecto]" class="btn btn-outline-secondary mr-1"><i class="icon-eye"></i></a>
+										<a *ngIf="id_investigador===proyecto.id_coordinador" href="javascript:void(0);" [routerLink]="['../../edit-proyecto/', proyecto.id_proyecto]" class="btn btn-outline-secondary" ><i class="icon-pencil"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

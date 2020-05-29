@@ -1,0 +1,289 @@
+<div class="container-fluid">
+
+	<div class="block-header">
+		<div class="row">
+			<div class="col-lg-5 col-md-8 col-sm-12">
+				<h2>
+					Proyectos
+				</h2>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a [routerLink]="['../../index']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item">Dashboard</li>
+					<li class="breadcrumb-item active">Proyectos</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
+		(click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
+			Proyecto</span></button>
+
+	<div ngbDropdown class="d-inline-block" placement="bottom-left">
+		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
+		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+			<button class="btn btn-default" [routerLink]="['../', 'proyecto']" ngbDropdownItem>Todos</button>
+			
+			<button class="btn btn-default" [routerLink]="['../', 'activo']" ngbDropdownItem>Activos</button>
+			<button class="btn btn-default" [routerLink]="['../', 'inactivo']" ngbDropdownItem>Inactivos</button>
+			<button class="btn btn-default" [routerLink]="['../', 'pendiente']" ngbDropdownItem>Pendientes</button>
+			<button class="btn btn-default" [routerLink]="['../', 'cerrado']" ngbDropdownItem>Cerrados</button>
+		</div>
+	</div>
+
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12">
+			<div class="card">
+				<div class="header">
+					<h2>Listado de proyectos</h2>
+				</div>
+				<div class="body project_report">
+					<div class="table-responsive">
+						<table class="table m-b-0 table-hover">
+							<thead class="thead-light">
+								<tr>
+									<th>Estado</th>
+									<th>Titulo</th>
+									<th>Proceso</th>
+									<th>Grupo</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let proyecto of proyectos">
+									<td>
+										<span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
+										<span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
+										<span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
+										<span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
+									</td>
+									<td class="project-title">
+										<h6>
+											<a href="javascript:void(0);" [routerLink]="['../../detail-proyecto/', proyecto.id_proyecto]">{{proyecto.titulo}}</a>
+										</h6>
+										<small>{{proyecto.createdAt | date:'medium'}}</small>
+									</td>
+									<td>
+										<div class="progress progress-xs">
+											<div class="progress-bar" role="progressbar" aria-valuenow="{{proyecto.proceso}}" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{width: proyecto.proceso + '%'}"></div>
+										</div>
+										<small>Proceso: {{ proyecto.proceso }}%</small>
+									</td>
+									<td>
+										<ul class="list-unstyled team-info">
+											<li *ngFor="let foto of proyecto.fotos"><img src="{{url +'get-fotografia/'+ foto + '/true'}}" alt="Avatar"></li>
+										</ul>
+									</td>
+									<td class="project-actions">
+										<a href="javascript:void(0);" 
+											class="btn btn-outline-secondary mr-1" (click)="openModalEditar(content,'lg', proyecto.id_proyecto)"><i class="icon-eye"></i></a>
+										<a href="javascript:void(0);" class="btn btn-outline-secondary" [routerLink]="['../../detail-proyecto/', proyecto.id_proyecto]"><i
+												class="icon-pencil"></i></a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- MODAL -->
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">{{ !proyecto.id_proyecto ? 'Nuevo Proyecto' : 'Actualizar Proyecto' }}</h4>
+	</div>
+	<div class="modal-body">
+		<form class="container" #proyectoForm="ngForm" (ngSubmit)="tipo_form ? editar() : agregar()">
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="tipo">Titulo: </label>
+				<div class="col-12 col-md-9">
+					<input [(ngModel)]="proyecto.titulo" class="form-control" name="titulo" #titulo="ngModel"
+						[ngClass]="{'parsley-error':!titulo.valid && (titulo.touched || proyectoForm.submitted)}"
+						required>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!titulo.valid && (titulo.touched || proyectoForm.submitted)">
+						<li class="parsley-required" *ngIf="titulo.hasError('required')">Titulo del proyecto requerido.
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="fecha_inicio">Fecha Inicio: </label>
+				<div class="col-12 col-md-9">
+					<div class="input-group">
+						<input [(ngModel)]="fechainicio" class="form-control" placeholder="yyyy-mm-dd" name="fechaini"
+							#fechaini="ngModel" ngbDatepicker #dp1="ngbDatepicker"
+							[ngClass]="{'parsley-error':!fechaini.valid && (fechaini.touched || proyectoForm.submitted)}"
+							required>
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
+								(click)="dp1.toggle()" type="button"><i class="icon-calendar"></i></button>
+						</div>
+					</div>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!fechaini.valid && (fechaini.touched || proyectoForm.submitted)">
+						<li class="parsley-required" *ngIf="fechaini.hasError('required')">Fecha de Incio de proyecto
+							requerido.
+						</li>
+					</ul>
+				</div>
+
+			</div>
+
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="fecha_fin">Fecha Fin (estimado): </label>
+				<div class="col-12 col-md-9">
+					<div class="input-group">
+						<input [(ngModel)]="fechafinal" class="form-control" placeholder="yyyy-mm-dd" name="fechafin"
+							#fechafin="ngModel" ngbDatepicker #dp2="ngbDatepicker"
+							[ngClass]="{'parsley-error':!fechafin.valid && (fechafin.touched || proyectoForm.submitted)}"
+							required>
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
+								(click)="dp2.toggle()" type="button"><i class="icon-calendar"></i></button>
+						</div>
+					</div>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!fechafin.valid && (fechafin.touched || proyectoForm.submitted)">
+						<li class="parsley-required" *ngIf="fechafin.hasError('required')">Fecha de Fin de proyecto
+							(tentantivo).
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="tipo">Nombre del Coordinador: </label>
+				<div class="col-12 col-md-9">
+					<ng-multiselect-dropdown name="multiSelect1" #multiSelect1="ngModel" [placeholder]="'Seleccionar'"
+						[settings]="dropdownConfiguracion1" [data]="dropdownLista" [(ngModel)]="seleccionados1" [disabled]="disabled1">
+					</ng-multiselect-dropdown>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!multiSelect1.valid && (multiSelect1.touched || proyectoForm.submitted)">
+						<li class="parsley-required" *ngIf="multiSelect1.hasError('required')">Se requiere el nombre del
+							Usuario coordinador</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="tipo">Nombres de Investigadores: </label>
+				<div class="col-12 col-md-9">
+					<ng-multiselect-dropdown name="multiSelect2" #multiSelect2="ngModel" [placeholder]="'Seleccionar'" 
+						[settings]="dropdownConfiguracion2" [data]="dropdownLista" [(ngModel)]="seleccionados2" [disabled]="disabled2">
+					</ng-multiselect-dropdown>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!multiSelect2.valid && (multiSelect2.touched || proyectoForm.submitted)">
+						<li class="parsley-required" *ngIf="multiSelect2.hasError('required')">Se requiere nombre de los
+							usuarios investigadores del proyecto.</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="form-group row" *ngIf="!(this.proyecto.id_proyecto > 0)">
+				<label class="col-12 col-md-3" for="imagen">Resolucion C.C. : </label>
+				<div class="col-12 col-md-9">
+					<input #file1 type="file" accept="application/pdf" style="display: none;" (change)="fileChangeEvent($event, 0)">
+					<div class="text-left"> {{archivo_selected1}}
+						<button class="btn btn-warning mr-1 ml-4" type="button" (click)="file1.click()"><i
+								class="icon-paper-clip text-light"></i></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group row" *ngIf="!(this.proyecto.id_proyecto > 0)">
+				<label class="col-12 col-md-3" for="imagen">Formulario : </label>
+				<div class="col-12 col-md-9">
+					<input #file2 type="file" accept="application/pdf" style="display: none;" (change)="fileChangeEvent($event, 1)">
+					<div class="text-left"> {{archivo_selected2}}
+						<button class="btn btn-warning mr-1 ml-4" type="button" (click)="file2.click()"><i
+								class="icon-paper-clip text-light"></i></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group row" *ngIf="!(this.proyecto.id_proyecto > 0)">
+				<label class="col-12 col-md-3" for="imagen">Proyecto Extenso : </label>
+				<div class="col-12 col-md-9">
+					<input #file3 type="file" accept="application/pdf" style="display: none;" (change)="fileChangeEvent($event, 2)">
+					<div class="text-left"> {{archivo_selected3}}
+						<button class="btn btn-warning mr-1 ml-4" type="button" (click)="file3.click()"><i
+								class="icon-paper-clip text-light"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="estado">Estado: </label>
+				<div class="col-12 col-md-4">
+					<select class="form-control" name="estado" [(ngModel)]="proyecto.estado" #estado="ngModel" [ngClass]="{'parsley-error':!estado.valid && (estado.touched || proyectoForm.submitted)}"
+					required>
+						<option value="activo" selected>Activo</option>
+						<option value="inactivo">Inactivo</option>
+						<option value="pendiente">Pendiente</option>
+						<option value="cerrado">Cerrado</option>
+					</select>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!estado.valid && (estado.touched || proyectoForm.submitted)">
+						<li class="parsley-required" *ngIf="estado.hasError('required')">Estado requerido</li>
+					</ul>
+				</div>
+			</div>
+			<button class="btn btn-success" [disabled]="!proyectoForm.form.valid" type="submit">Guardar
+				Cambios</button>
+			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
+		</form>
+	</div>
+</ng-template>
+
+
+<!-- MODAL -->
+<!-- 
+<ng-template #content1 let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Actualizar archivo</h4>
+	</div>
+	<div class="modal-body">
+		<form class="container" #archivoForm="ngForm" (ngSubmit)="editar()">
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="tipo">Nombre: </label>
+				<div class="col-12 col-md-9">
+					<input [(ngModel)]="archivo.nombre" class="form-control" name="nombre" #nombre="ngModel"
+						[ngClass]="{'parsley-error':!nombre.valid && (nombre.touched || archivoForm.submitted)}"
+						required>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!nombre.valid && (nombre.touched || archivoForm.submitted)">
+						<li class="parsley-required" *ngIf="nombre.hasError('required')">Nombre del archivo requerido.
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-12 col-md-3" for="tipo">Descripción: </label>
+				<div class="col-12 col-md-9">
+					<textarea [(ngModel)]="archivo.descripcion" rows="3" cols="30" class="form-control" name="descripcion" #descripcion="ngModel"
+						[ngClass]="{'parsley-error':!descripcion.valid && (descripcion.touched || archivoForm.submitted)}"
+						required></textarea>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!descripcion.valid && (descripcion.touched || archivoForm.submitted)">
+						<li class="parsley-required" *ngIf="descripcion.hasError('required')">Descripcion del archivo requerido.
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="estado" name="estado"
+						[(ngModel)]="archivo.estado">
+					<label class="form-check-label" for="estado">Estado</label>
+				</div>
+			</div>
+			<button class="btn btn-success" [disabled]="!archivoForm.form.valid" type="submit">Guardar
+				Cambios</button>
+			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
+		</form>
+	</div>
+</ng-template> 
+-->

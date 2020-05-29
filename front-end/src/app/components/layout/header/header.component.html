@@ -1,0 +1,132 @@
+<nav class="navbar navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-btn">
+            <button type="button" class="btn-toggle-offcanvas" (click)="toggleSideMenu()"><i
+                    class="lnr lnr-menu fa fa-bars"></i></button>
+        </div>
+        <div class="navbar-brand">
+            <!-- <a *ngIf="!darkClass" [routerLink]="['/admin/dashboard/index']"><img src="assets/images/logo.svg" alt="Lucid Logo"
+                    class="img-responsive logo"></a>
+            <a *ngIf="darkClass" [routerLink]="['/admin/dashboard/index']"><img src="assets/images/logo-white.svg" alt="Lucid Logo"
+                    class="img-responsive logo"></a> -->
+            <a *ngIf="!darkClass" [ngStyle]="{'color': '#5A5A5A'}" [routerLink]="['./']"><b>I</b>nstituto<b>E</b>cologia</a>
+            <a *ngIf="darkClass" [ngStyle]="{'color': '#92929C'}" [routerLink]="['./']"><b>I</b>nstituto<b>E</b>cologia</a>
+        </div>
+        <div class="navbar-right">
+            <form id="navbar-search" class="navbar-form search-form">
+                <input value="" class="form-control" placeholder="Buscar ..." type="text">
+                <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+            </form>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a [routerLink]="['/admin/dashboard/index']"
+                            class="icon-menu d-none d-sm-block d-md-none d-lg-block"><i
+                                class="fa fa-folder-open-o"></i></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/admin/dashboard/index']"
+                            class="icon-menu d-none d-sm-block d-md-none d-lg-block"><i class="icon-calendar"></i></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/admin/dashboard/index']" class="icon-menu d-none d-sm-block"><i
+                                class="icon-bubbles"></i></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/admin/dashboard/index']" class="icon-menu d-none d-sm-block"><i
+                                class="icon-envelope"></i><span class="notification-dot"></span></a>
+                    </li>
+                    <li class="dropdown" ngbDropdown>
+                        <a class="dropdown-toggle icon-menu" ngbDropdownToggle>
+                            <i class="icon-bell"></i>
+                            <span class="notification-dot"></span>
+                        </a>
+                        <ul class="dropdown-menu notifications" ngbDropdownMenu>
+                            <li class="header"><strong>Tu tienes 4 notificaciones</strong></li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <i class="icon-info text-warning"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="text">Campaña <strong>Holiday Sale</strong> is nearly reach
+                                                budget limit.</p>
+                                            <span class="timestamp">10:00 AM Hoy</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <i class="icon-like text-success"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="text">Tu nueva campaña <strong>Venta de vacaciones</strong> esta aprobado.
+                                            </p>
+                                            <span class="timestamp">11:30 AM Hoy</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <i class="icon-pie-chart text-info"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="text">Website visits from Twitter is 27% higher than last week.
+                                            </p>
+                                            <span class="timestamp">04:00 PM Hoy</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <i class="icon-info text-danger"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="text">Error on website analytics configurations</p>
+                                            <span class="timestamp">Ayer</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="footer"><a href="javascript:void(0);" class="more">Ver todas las notificaciones</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" ngbDropdown>
+                        <a class="dropdown-toggle icon-menu" ngbDropdownToggle><i class="icon-equalizer"></i></a>
+                        <ul class="dropdown-menu user-menu menu-icon" ngbDropdownMenu>
+                            <li class="menu-heading">CONFIGURACION DE CUENTA</li>
+                            <li><a href="javascript:void(0);"><i class="icon-note"></i> <span>Basico</span></a></li>
+                            <li><a href="javascript:void(0);"><i class="icon-equalizer"></i>
+                                    <span>Preferencias</span></a></li>
+                            <li><a href="javascript:void(0);"><i class="icon-lock"></i> <span>Privacidad</span></a></li>
+                            <li><a href="javascript:void(0);"><i class="icon-bell"></i> <span>Notificaciones</span></a>
+                            </li>
+                            <li class="menu-heading">FACTURACION</li>
+                            <li><a href="javascript:void(0);"><i class="icon-credit-card"></i> <span>Pagos</span></a>
+                            </li>
+                            <li><a href="javascript:void(0);"><i class="icon-printer"></i> <span>Facturas</span></a>
+                            </li>
+                            <li><a href="javascript:void(0);"><i class="icon-refresh"></i> <span>Renovaciones</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0);" (click)="logout()" class="icon-menu d-none d-sm-block"><i
+                                class="icon-login"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>

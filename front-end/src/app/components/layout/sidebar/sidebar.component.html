@@ -1,0 +1,184 @@
+<div id="left-sidebar" class="sidebar" *ngIf="sidebarVisible" style="overflow-y:scroll;">
+    <div class="sidebar-scroll">
+        <div class="user-account">
+            <img src="{{url +'get-fotografia/'+ fotografia.imagen + '/true'}}" class="rounded-circle user-photo" alt="User Profile Picture">
+            <div class="dropdown" ngbDropdown>
+                <span>Bienvenido,</span>
+                <a href="javascript:void(0);" class="dropdown-toggle user-name" ngbDropdownToggle><strong>{{ rol | titlecase }}</strong></a>
+                <ul class="dropdown-menu dropdown-menu-right account" ngbDropdownMenu>
+                    <li><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i>Mi perfil</a></li>
+                    <li><a href="javascript:void(0);"><i class="icon-envelope-open"></i>Mensajes</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./settings/account']"><i class="icon-settings"></i>Configuraciones</a></li>
+                    <li class="divider"></li>
+                    <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power"></i>Salir</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link" [ngClass]="{'active':navTab == 'menu'}" (click)="changeNavTab('menu')">Menu</a></li>
+            <li class="nav-item"><a class="nav-link" [ngClass]="{'active':navTab == 'setting'}" (click)="changeNavTab('setting')"><i
+                        class="icon-settings"></i></a></li>
+            <li class="nav-item"><a class="nav-link" [ngClass]="{'active':navTab == 'question'}" (click)="changeNavTab('question')"><i
+                        class="icon-question"></i></a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content p-l-0 p-r-0">
+            <div class="tab-pane" id="menu" [ngClass]="{'active':navTab == 'menu' || !navTab}">
+                <nav id="left-sidebar-nav" class="sidebar-nav">
+                    <!-- MENU INVESTIGADOR -->
+                    <ul id="main-menu" class="metismenu" *ngIf="rol==='investigador'">
+                        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active':currentActiveMenu == 'perfil'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('perfil')"><i class="icon-home"></i>
+                                <span>Dashboard</span></a>
+                            <ul *ngIf="currentActiveMenu == 'perfil'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/profile']">Perfil</a></li>
+                            </ul>
+                        </li>
+                        <li [ngClass]="{'active':currentActiveMenu == 'proyectos-inv'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-inv')"><i class="icon-globe"></i>
+                                <span>Proyectos</span></a>
+                            <ul *ngIf="currentActiveMenu == 'proyectos-inv'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/list-proyectos-inv','proyecto']">Listar proyectos</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/list-proyectos-inv','activo']">Listar proyectos activos</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/list-proyectos-inv','inactivo']">Listar proyectos inactivos</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/list-proyectos-inv','pendiente']">Listar proyectos pendientes</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/list-proyectos-inv','cerrado']">Listar proyectos cerrados</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <!--  -->
+                    <!-- MENU ADMINISTRADOR -->
+                    <ul id="main-menu" class="metismenu" *ngIf="rol == 'administrador'">
+                        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active':currentActiveMenu == 'principal'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('principal')"><i class="icon-home"></i>
+                                <span>Dashboard</span></a>
+                            <ul *ngIf="currentActiveMenu == 'principal'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/index']">Principal</a></li>
+                            </ul>
+                        </li>
+                        <li [ngClass]="{'active':currentActiveMenu == 'fotografias'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('fotografias')"><i class="icon-grid"></i> <span>Fotografias</span></a>
+                            <ul *ngIf="currentActiveMenu == 'fotografias'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-fotografias']">Listar fotografias</a></li>
+                            </ul>
+                        </li>
+                        <li [ngClass]="{'active':currentActiveMenu == 'usuarios'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('usuarios')"><i class="icon-folder"></i>
+                                <span>Usuarios</span></a>
+                            <ul *ngIf="currentActiveMenu == 'usuarios'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'usuario']">Listar usuarios</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'administrador']">Listar administradores</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'director']">Listar directores</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'investigador']">Listar investigadores</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'inv-titular']">Listar investigadores titulares</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'inv-asociado-proyecto']">Listar investigadores asociados con proyecto</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'inv-asociado-invitacion']">Listar investigadores asociados con invitacion</a></li>
+                            </ul>
+                        </li>
+                        <li [ngClass]="{'active':currentActiveMenu == 'proyectos'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos')"><i class="icon-globe"></i>
+                                <span>Proyectos</span></a>
+                            <ul *ngIf="currentActiveMenu == 'proyectos'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-proyectos', 'proyecto']">Listar proyectos</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-proyectos', 'activo']">Listar proyectos activos</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-proyectos', 'inactivo']">Listar proyectos inactivos</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-proyectos', 'pendiente']">Listar proyectos pendientes</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-proyectos', 'cerrado']">Listar proyectos cerrados</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="tab-pane p-l-15 p-r-15" id="setting" [ngClass]="{'active':navTab == 'setting'}">
+                <h6>Elegir tema</h6>
+                <ul class="choose-skin list-unstyled">
+                    <li data-theme="white" [ngClass]="{'active':darkClass == ''}" (click)="changeDarkMode('')">
+                        <div class="white"></div>
+                        <span>Claro</span>
+                    </li>
+                    <li data-theme="black" [ngClass]="{'active':darkClass == 'full-dark'}" (click)="changeDarkMode('full-dark')">
+                        <div class="black"></div>
+                        <span>Oscuro</span>
+                    </li>
+                </ul>
+                <hr>
+                <h6>Elegir color</h6>
+                <ul class="choose-skin list-unstyled">
+                    <li data-theme="purple" [ngClass]="{'active':themeClass == 'theme-purple'}" (click)="changeTheme('theme-purple')">
+                        <div class="purple"></div>
+                        <span>Morado</span>
+                    </li>
+                    <li data-theme="blue" [ngClass]="{'active':themeClass == 'theme-blue'}" (click)="changeTheme('theme-blue')">
+                        <div class="blue"></div>
+                        <span>Azul</span>
+                    </li>
+                    <li data-theme="cyan" [ngClass]="{'active':themeClass == 'theme-cyan'}" (click)="changeTheme('theme-cyan')">
+                        <div class="cyan"></div>
+                        <span>Cyan</span>
+                    </li>
+                    <li data-theme="green" [ngClass]="{'active':themeClass == 'theme-green'}" (click)="changeTheme('theme-green')">
+                        <div class="green"></div>
+                        <span>Verde</span>
+                    </li>
+                    <li data-theme="orange" [ngClass]="{'active':themeClass == 'theme-orange'}" (click)="changeTheme('theme-orange')">
+                        <div class="orange"></div>
+                        <span>Naranja</span>
+                    </li>
+                    <li data-theme="blush" [ngClass]="{'active':themeClass == 'theme-blush'}" (click)="changeTheme('theme-blush')">
+                        <div class="blush"></div>
+                        <span>Rosado</span>
+                    </li>
+                </ul>
+                <hr>
+                <h6>Configuración general</h6>
+                <ul class="setting-list list-unstyled">
+                    <li>
+                        <label class="fancy-checkbox">
+                            <input type="checkbox" name="checkbox">
+                            <span>Reportar panel</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label class="fancy-checkbox">
+                            <input type="checkbox" name="checkbox" checked>
+                            <span>Correo electronico</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-pane p-l-15 p-r-15" id="question" [ngClass]="{'active':navTab == 'question'}">
+                <form>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="icon-magnifier"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Buscar...">
+                    </div>
+                </form>
+                <ul class="list-unstyled question">
+                    <li class="menu-heading">Cuenta</li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/cuenta/', '1']">Como crear una cuenta</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/cuenta/', '2']">Como dar de baja mi cuenta</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/cuenta/', '3']">Que hago si olvide mi contraseña</a></li>
+                    <li class="menu-heading">Administrador</li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/admin/', '1']">Como administrar cuentas</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/admin/', '2']">Como crear proyectos de investigacion</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/admin/', '3']">Sobre contratos</a></li>
+                    <li class="menu-heading">Director</li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/director/', '1']">Administra proyectos</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/director/', '2']">Hacer busquedas de proyectos</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/director/', '3']">Realizar informes</a></li>
+                    <li class="menu-heading">Investigador</li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '1']">Administrar proyecto</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '2']">Como dar de concluido el proyecto</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '3']">Como hacer una publicacion</a></li>
+                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '4']">Sobre difusion</a></li>
+                    <li class="menu-button m-t-30">
+                        <a href="javascript:void(0);" class="btn btn-primary"><i class="icon-question"></i> Necesita ayuda?</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+----- TRABAJAMOS EN BACKEND -------
+1. Crear carpeta pass, dentro los archivos para recuperar contraseña
+2. Instalamos paquetes, los demas paquetes ya lo tenemos
+    'npm install nodemailer --save'
+3. Instalamos paquetes
+    'npm install dotenv --save'
+4. Instalamos paquetes
+    'npm install crypto --save'
+4. Ahora intentare modificar el codigo
+
+---- EN TU CASO FALTA INSTALAR EL PAQUETE DEL TOKEN ----
+    'npm install njwt --save'

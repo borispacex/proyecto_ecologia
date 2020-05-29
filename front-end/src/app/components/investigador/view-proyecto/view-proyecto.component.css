@@ -1,0 +1,11 @@
+.my-drop-zone {
+  border: dotted 3px lightgray;
+  height: 100px;
+  text-align: center;
+  justify-content: center;
+}
+.my-drop-zone > span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+}

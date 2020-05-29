@@ -1,0 +1,10 @@
+/* TOASTR BUGFIX */
+@import '../../../../../node_modules/ngx-toastr/toastr.css';
+
+.toast-top-right{
+    top: 12px !important;
+    right: 12px !important;
+  }
+  #toast-container > div {
+    opacity:1 !important;
+}
