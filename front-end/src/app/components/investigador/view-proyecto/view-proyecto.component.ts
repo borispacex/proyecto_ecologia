@@ -10,6 +10,12 @@ import { HttpEvent } from '@angular/common/http';
 import { ProyectosService } from 'src/app/services/admin/proyectos.service';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { InvProyectosService } from 'src/app/services/admin/inv-proyectos.service';
+import { PermisoArchivosService } from 'src/app/services/proyecto/permiso-archivos.service';
+import { ConveniosService } from 'src/app/services/proyecto/convenios.service';
+import { ConvArchivosService } from 'src/app/services/proyecto/conv-archivos.service';
+import { ContratadosService } from 'src/app/services/proyecto/contratados.service';
+import { ContraArchivosService } from 'src/app/services/proyecto/contra-archivos.service';
 
 @Component({
   selector: 'app-view-proyecto',
@@ -24,7 +30,11 @@ export class ViewProyectoComponent implements OnInit {
   public url: string;
   public who: string;
   public proyectos: any[];
-  public proyecto: any = {};
+  public proyecto: any = {
+    investigadore: {
+      persona: {}
+    }
+  };
 
   // cambios de archivo
   public archivo_selected1: string;
@@ -62,10 +72,15 @@ export class ViewProyectoComponent implements OnInit {
   public proy_archivos: any[];
   public proy_archivo: any = {};
   public archivo: any = {};
+  public archivos: any[];
 
   // search
   search = new FormControl('');
   public valorBusqueda = '';
+
+  // tipo titulo archivos
+  public tituloArch = 'Documentos principales';
+
 
   constructor(
     private sidebarService: SidebarService,
@@ -75,8 +90,14 @@ export class ViewProyectoComponent implements OnInit {
     private _auth: AuthService,
     private modalService: NgbModal,
     private _serviceProyArch: ProyArchivosService,
-    private _serviceProyecto: ProyectosService
-  ) { 
+    private _serviceProyecto: ProyectosService,
+    private _serviceInvProyectos: InvProyectosService,
+    private _servicePermisoArchivos: PermisoArchivosService,
+    private _serviceConvenios: ConveniosService,
+    private _serviceConvArchivos: ConvArchivosService,
+    private _serviceContratados: ContratadosService,
+    private _serviceContraArchivos: ContraArchivosService
+  ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
     this.who = GLOBAL.who;
@@ -86,6 +107,7 @@ export class ViewProyectoComponent implements OnInit {
     this._route.params.forEach((params: Params) => {
       this.id = params.id;
     });
+    this.getArchivosByTipo(0);
     this.getProArchivosByIdProyecto(this.id);
     this.getProyecto(this.id);
     // buscador
@@ -94,8 +116,16 @@ export class ViewProyectoComponent implements OnInit {
   }
   getProyecto(id: number) {
     this._serviceProyecto.getProyecto(id, this.token)
-    .then(responseProyecto => { this.proyecto = responseProyecto.proyecto; })
-    .catch(error => { console.log('error al obtener proyecto', error); });
+    .then(responseProyecto => { 
+      this.proyecto = responseProyecto.proyecto;
+      console.log(this.proyecto);
+      this._serviceInvProyectos.getInv_proyectosByIdProyecto(this.proyecto.id_proyecto, this.token)
+      .then(responseInvProy => {
+        // console.log(responseInvProy.inv_proyectos);
+        this.proyecto.investigadores = responseInvProy.inv_proyectos;
+        // console.log(this.proyecto);
+      }).catch(error => { console.log('Error al obtener Inv Proyecto by Id Proyecto', error); });
+    }).catch(error => { console.log('error al obtener proyecto', error); });
   }
   getProArchivosByIdProyecto(id: number) {
     this._serviceProyArch.getProy_archivosByIdProyecto(id, this.token)
@@ -104,8 +134,94 @@ export class ViewProyectoComponent implements OnInit {
     })
     .catch(error => { console.log('error al obtener proy_archivos', error); });
   }
-  getArchivosByTipo(tipo: string){
-    console.log(tipo);
+
+  // Funcion para obtener los archivos de principales, permisos, convenios, contratos, proyecto final, otros
+  getArchivosByTipo(tipo: number){
+    this.archivos = [];
+    // this.tipoArch = tipo;
+    switch (tipo) {
+      case 0:
+        this.tituloArch = 'Documentos - Principales';
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 1, this.token)
+        .then(responseProyArch => {
+          this.archivos = responseProyArch.proy_archivos;
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      case 1:
+        this.tituloArch = 'Documentos - Permisos';
+        this._servicePermisoArchivos.getPermisoArchivosByIdProyecto(this.id, this.token)
+        .then(responsePermisoArch => {
+          this.archivos = responsePermisoArch.permiso_archivos;
+        }).catch(error => { console.log('error al obtener permiso archivos', error); });
+        break;
+      case 2:
+        this.tituloArch = 'Documentos - Suscripcion convenios';
+        this._serviceConvenios.getConveniosByIdProyecto(this.id, this.token)
+        .then(responseConv => {
+          responseConv.convenios.forEach(convenio => {
+            var convArch = {
+              id_convenio: convenio.id_convenio,
+              archivo:  convenio.archivo,
+              nombre: convenio.nombre_archivo,
+              descripcion: convenio.descripcion_archivo,
+              id_tipo: convenio.id_tipo,
+              createdAt: convenio.createdAt,
+              convArchivos: Array,
+              estado: convenio.estado
+            };
+            this._serviceConvArchivos.getConvArchivosByIdConvenio(convenio.id_convenio, this.token)
+            .then(responseConvArch => {
+              convArch.convArchivos = responseConvArch.conv_archivos;
+              this.archivos.push(convArch);
+            }).catch(error => { console.log('error al obtener convenio archivos', error); });
+          });
+          console.log(this.archivos);
+        }).catch(error => { console.log('error al obtener convenios', error); });
+        break;
+      case 3:
+        this.tituloArch = 'Documentos - Personal contratado';
+        this._serviceContratados.getContratadosByIdProyecto(this.id, this.token)
+        .then(responseContra => {
+          responseContra.contratados.forEach(contratado => {
+            var contraArch = {
+              id_contratado: contratado.id_contratado,
+              archivo:  contratado.archivo,
+              nombre: contratado.nombre_archivo,
+              descripcion: contratado.descripcion_archivo,
+              id_tipo: contratado.id_tipo,
+              createdAt: contratado.createdAt,
+              convArchivos: Array,
+              estado: contratado.estado
+            };
+            this._serviceContraArchivos.getContraArchivosByIdContratado(contratado.id_contratado, this.token)
+            .then(responseContraArch => {
+              contraArch.convArchivos = responseContraArch.contra_archivos;
+              this.archivos.push(contraArch);
+            }).catch(error => { console.log('error al obtener contratado archivo por id contratado', error); });
+          });
+          // console.log(this.archivos);
+        }).catch(error => { console.log('error al obtener contratados', error); });
+        break;
+      case 6:
+        this.tituloArch = 'Documentos - Proyecto final';
+        // console.log(this.tipoArch);
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
+        .then(responseProyArch => {
+          this.archivos = responseProyArch.proy_archivos;
+          // console.log(responseProyArch);
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      case 7:
+        this.tituloArch = 'Documentos -  Otros';
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
+        .then(responseProyArch => {
+          this.archivos = responseProyArch.proy_archivos;
+          // console.log(responseProyArch);
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      default:
+        break;
+    }
   }
   openArchivo(pdf: string) {
     window.open(this.who + pdf, '_blank');
@@ -147,6 +263,8 @@ export class ViewProyectoComponent implements OnInit {
     console.log(this.fileDropDisabled);
     console.log(this.maxSize);
     console.log(this.baseDropValid);
+    
+
   }
   editarArchivo() {
 

@@ -35,7 +35,7 @@
                         <li *ngFor="let inv of proyecto.investigadores"><a href="javascript:void(0)">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
                     </ul>
 
-                    <p><ngb-progressbar type="warning" [value]="34" height="5px"></ngb-progressbar></p>
+                    <p><ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100"></ngb-progressbar></p>
                     <div class="row">
                         <div class="col-7">
                             <small>Numero de archivos: 23</small>
@@ -62,6 +62,8 @@
                 (click)="openModal(content,'lg', 5)"><i class="fa fa-pencil"></i>&nbsp;<span class="h6"> Subir Proyecto final</span></button>
         </div>
     </div>
+
+    
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <h3 class="text-center">Lista de archivos</h3>

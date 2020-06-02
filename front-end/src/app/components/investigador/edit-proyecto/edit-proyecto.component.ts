@@ -69,7 +69,11 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   public url: string;
   public who: string;
   public proyectos: any[];
-  public proyecto: any = {};
+  public proyecto: any = {
+    investigadore: {
+      persona: {}
+    }
+  };
 
   // cambios de archivo
   public filesToUpload: Array<File> = [];

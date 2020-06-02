@@ -22,38 +22,23 @@
         <div class="col-lg-8 col-md-8">
             <div class="card">
                 <div class="header">
-                    <h2>{{proyecto.titulo}}</h2>
-                    <small>{{proyecto.createdAt}}</small>
+                    <h1>{{proyecto.titulo}}</h1>
                 </div>
                 <div class="body">
-                    <h6 class="m-b-15">Fechas</h6>
-                    <p> <strong>fecha inicio: </strong> {{proyecto.fechaini}}</p>
-                    <p> <strong>fecha fin: </strong> {{proyecto.fechafin}}</p>
-                    <ul class="list-unstyled team-info m-t-20">
-                        <li class="m-r-15"><small class="text-muted">Grupo</small></li>
-                        <li>
-                            <img class="avatar-coordinador" src="assets/images/xs/avatar1.jpg" title="Avatar"
-                                alt="Avatar" />
-                        </li>
-                        <li>
-                            <img class="avatar" src="assets/images/xs/avatar2.jpg" title="Avatar" alt="Avatar" />
-                        </li>
-                        <li>
-                            <img class="avatar" src="assets/images/xs/avatar3.jpg" title="Avatar" alt="Avatar" />
-                        </li>
-                        <li>
-                            <img class="avatar" src="assets/images/xs/avatar4.jpg" title="Avatar" alt="Avatar" />
-                        </li>
-                        <li>
-                            <img class="avatar" src="assets/images/xs/avatar5.jpg" title="Avatar" alt="Avatar" />
-                        </li>
-                        <li>
-                            <img class="avatar" src="assets/images/xs/avatar6.jpg" title="Avatar" alt="Avatar" />
-                        </li>
+                    <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
+                    <h4 class="mb-2"> ---------- Fechas ----------</h4>
+                    <p><strong>Fecha inicio del proyecto: </strong>{{proyecto.fechaini | date}}</p>
+                    <p><strong>fecha conclusion del proyecto: </strong>{{proyecto.fechafin | date}}</p>
+                    <h4 class="mb-2"> ---------- Grupo ---------- </h4>
+                    <h6>Investigador coordinador</h6>
+                    <ul>
+                        <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a></li>
                     </ul>
-                    <p>
-                        <ngb-progressbar type="warning" [value]="34" height="5px"></ngb-progressbar>
-                    </p>
+                    <h6>Investigadores</h6>
+                    <ul>
+                        <li *ngFor="let inv of proyecto.investigadores"><a href="javascript:void(0)">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
+                    </ul>
+                    <p><ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100"></ngb-progressbar></p>
                     <div class="row">
                         <div class="col-7">
                             <small>Numero de archivos: 23</small>
@@ -71,9 +56,12 @@
             </button>
         </div>
     </div>
+    
+
     <div class="row clearfix">
-        <div class="col-lg-5 col-md-8 col-sm-12">
-            <h3>Lista de archivos</h3>
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h3 class="text-center">Lista de archivos</h3>
+            <h5 class="text-center text-lg-left">{{tituloArch}}</h5>
         </div>
     </div>
 
@@ -81,62 +69,58 @@
         <div class="col-lg-5 col-md-8 col-sm-12">
             <form id="navbar-search" class="navbar-form search-form">
                 <input [formControl]="search" class="form-control" placeholder="Buscar documento ..." type="text" />
-                <button type="button" class="btn btn-default">
-                    <i class="icon-magnifier"></i>
-                </button>
+                <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
             </form>
         </div>
-        <div ngbDropdown class="d-inline-block col-lg-5 col-md-8 col-sm-12">
-            <button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>
-                Listado
-            </button>
+        <div ngbDropdown class="d-inline-block col-lg-5 col-md-8 col-sm-12" placement="bottom-left">
+            <button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1" right>
-                <button class="btn btn-default" (click)="getArchivosByTipo('1')" ngbDropdownItem>
-                    Permisos
-                </button>
-                <button class="btn btn-default" (click)="getArchivosByTipo('2')" ngbDropdownItem>
-                    Suscripción Convenios
-                </button>
-                <button class="btn btn-default" (click)="getArchivosByTipo('3')" ngbDropdownItem>
-                    Modificaciones
-                </button>
-                <button class="btn btn-default" (click)="getArchivosByTipo('4')" ngbDropdownItem>
-                    Cierre de proyecto
-                </button>
-                <button class="btn btn-default" (click)="getArchivosByTipo('5')" ngbDropdownItem>
-                    Otros
-                </button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(0)" ngbDropdownItem>Documentos Principales</button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(1)" ngbDropdownItem>Permisos</button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(2)" ngbDropdownItem>Suscripción Convenios</button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(3)" ngbDropdownItem>Personal Contratado</button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(6)" ngbDropdownItem>Proyecto final</button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(7)" ngbDropdownItem>Otros</button>
             </div>
         </div>
     </div>
     <div class="row clearfix">
-        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let proy_archivo of proy_archivos | searchArchivos:valorBusqueda">
+        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let archivo of archivos | searchArchivos: valorBusqueda">
             <div class="card">
                 <div class="file">
                     <a href="javascript:void(0);">
                         <div class="hover">
-                            <button type="button" class="btn btn-icon btn-outline-secondary mr-1"
-                                (click)="openArchivo(proy_archivo.archivo.archivo)">
+                            <button type="button" class="btn btn-icon btn-outline-secondary" (click)="openArchivo(archivo.archivo)">
                                 <i class="icon-eye"></i>
-                            </button>
-                            <button type="button" class="btn btn-icon btn-outline-info" (click)="openModalArchivo(content1,'lg',proy_archivo.archivo.id_archivo)">
-                                <i class="icon-pencil"></i>
                             </button>
                         </div>
                         <div class="icon">
                             <i class="fa fa-file text-success"></i>
                         </div>
                         <div class="file-name">
-                            <p class="m-b-5 text-muted">{{ proy_archivo.archivo.nombre }}</p>
-                            <small>PDF<span class="date text-muted">{{
-                  proy_archivo.createdAt | date: "medium"
-                }}</span></small>
+                            <p class="m-b-5 text-muted">{{ archivo.nombre }}</p>
+                            <small>PDF<span class="date text-muted">{{archivo.createdAt | date: 'medium'}}</span></small>
                         </div>
                     </a>
                 </div>
+                <ul class="list-unstyled feeds_widget">
+                    <li *ngFor="let archivoB of archivo.convArchivos">
+                        <div class="feeds-left">
+                            <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
+                                <i class="fa fa-file text-info"></i>
+                            </a>
+                        </div>
+                        <div class="feeds-body">
+                            <h4 class="title"><small class="float-right text-muted">{{archivoB.createdAt | date: 'mediumDate'}}</small></h4>
+                            <small>{{archivoB.descripcion}}</small>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
+
+
 </div>
 
 <!-- MODAL -->

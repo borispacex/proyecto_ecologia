@@ -22,22 +22,27 @@
         <div class="col-lg-8 col-md-8">
             <div class="card">
                 <div class="header">
-                    <span class="h5">{{proyecto.titulo}}</span>
+                    <h1>{{proyecto.titulo}}</h1>
                     <ul class="header-dropdown">
-                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg')"><span class="h6">Nueva publicación&nbsp;</span><i class="fa fa-plus-square"></i></button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="openModalNuevaPublicacion(content4, 'lg')"><span class="h6 d-none d-sm-none d-md-block">Nueva publicación <i class="fa fa-plus-square"></i></span><i class="fa fa-plus-square d-block d-sm-block d-md-none"></i></button>
                     </ul>
                 </div>
                 <div class="body">
-                    <small>{{proyecto.createdAt | date: 'medium'}}</small>
-                    <h5 class="m-b-15">Fechas</h5>
-                    <p><strong>Fecha del inicio: </strong>{{proyecto.fechaini | date}}</p>
-                    <p><strong>fecha del fin: </strong>{{proyecto.fechafin | date}}</p>
-                    <h4>Grupo: </h4>
+                    <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
+                    <h4 class="mb-2"> ---------- Fechas ----------</h4>
+                    <p><strong>Fecha inicio del proyecto: </strong>{{proyecto.fechaini | date}}</p>
+                    <p><strong>fecha conclusion del proyecto: </strong>{{proyecto.fechafin | date}}</p>
+                    <h4 class="mb-2"> ---------- Grupo ---------- </h4>
                     <h6>Investigador coordinador</h6>
-                    
+                    <ul>
+                        <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a></li>
+                    </ul>
                     <h6>Investigadores</h6>
+                    <ul>
+                        <li *ngFor="let inv of proyecto.investigadores"><a href="javascript:void(0)">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
+                    </ul>
 
-                    <p><ngb-progressbar type="warning" [value]="34" height="5px"></ngb-progressbar></p>
+                    <p><ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100"></ngb-progressbar></p>
                     <div class="row">
                         <div class="col-7">
                             <small>Numero de archivos: 23</small>
@@ -47,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-4">
+        <div class="col-lg-4 col-md-4 col-sm-6">
             <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
                 (click)="openModalBaseTecnica(content1,'lg')">
                 <i class="fa fa-plus-square"></i>&nbsp;<span class="h6">Basica tecnica</span>

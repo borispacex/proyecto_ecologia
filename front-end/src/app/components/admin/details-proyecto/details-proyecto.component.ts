@@ -170,6 +170,7 @@ export class DetailsProyectoComponent implements OnInit {
     this.search.valueChanges.pipe( debounceTime(300) )
     .subscribe(value => this.valorBusqueda = value );
   }
+
   // Funcion para obtener los archivos de principales, permisos, convenios, contratos, proyecto final, otros
   getArchivosByTipo(tipo: number){
     this.archivos = [];
@@ -815,8 +816,7 @@ export class DetailsProyectoComponent implements OnInit {
         this.proyecto.investigadores = responseInvProy.inv_proyectos;
         // console.log(this.proyecto);
       }).catch(error => { console.log('Error al obtener Inv Proyecto by Id Proyecto', error); });
-    })
-    .catch(error => { console.log('error al obtener proyecto', error); });
+    }).catch(error => { console.log('error al obtener proyecto', error); });
   }
 
   formatDate(d: NgbDate): string {
