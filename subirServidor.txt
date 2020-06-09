@@ -1,0 +1,38 @@
+
+
+*********************************** APUNTES DE INSTALACION AL SERVIDOR ***********************************
+
+1. Comprobar SERVIDOR
+    sudo apt-get upgrade
+    sudo apt-get update
+    sudo apt-get install -y git
+
+2. Instalamos NodeJS
+    sudo apt-get install -y nodejs
+    sudo apt-get install -y npm
+
+3. Verificamos la version de NodeJS y si esta en version 8 debemos cambiarla a version 10
+    cd ~
+    curl -sL https://deb.nodesource.com/setup_10.x -o setup_node.sh
+    sudo bash setup_node.sh
+    sudo apt-get install -y nodejs
+
+4. Instalamos Angular/cli
+    sudo npm install -g @angular/cli
+
+5. Instalamos NGINX
+    sudo apt-get install -y nginx
+
+6. Instalamos PM2
+    sudo npm install pm2@latest -g
+
+7. Instalamos PostgreSQL
+    sudo apt install postgresql postgresql-contrib
+
+8. Importamos la base de datos
+    
+
+7. Clonamos el repositorio
+    cd /var/www/
+    sudo git clone https://github.com/borisvargas/proyecto_ecologia.git
+    chmod -R 777 proyecto_ecologia

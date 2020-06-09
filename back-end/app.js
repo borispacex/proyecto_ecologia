@@ -53,6 +53,9 @@ require('./server/routes/proyecto/evento_archivos')(app);
 require('./server/routes/proyecto/nota_archivos')(app);
 require('./server/routes/proyecto/expo_archivos')(app);
 
+require('./server/routes/proyecto/expositores')(app);
+require('./server/routes/proyecto/unidades')(app);
+
 // mensajes
 require('./server/routes/messages/welcomeUser')(app);
 require('./server/routes/messages/createProject')(app);

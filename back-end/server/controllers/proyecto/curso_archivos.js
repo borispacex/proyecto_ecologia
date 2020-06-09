@@ -115,7 +115,7 @@ function getById(req, res) {
 function getAllByIdCurso(req, res) {
     var id = req.params.id_curso;
     curso_archivos.findAll({
-        where: { id_proyecto: id }
+        where: { id_curso: id }
     })
     .then(curso_archivos => {
         res.status(200).send({ curso_archivos });

@@ -807,7 +807,7 @@ export class DetailsProyectoComponent implements OnInit {
   }
   getProyecto(id: number) {
     this._serviceProyecto.getProyecto(id, this.token)
-    .then(responseProyecto => { 
+    .then(responseProyecto => {
       this.proyecto = responseProyecto.proyecto;
       // console.log(this.proyecto);
       this._serviceInvProyectos.getInv_proyectosByIdProyecto(this.proyecto.id_proyecto, this.token)

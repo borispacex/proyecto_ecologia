@@ -391,6 +391,27 @@ create table expo_archivos(
     FOREIGN KEY (id_exposicion) REFERENCES exposiciones(id_exposicion),
     FOREIGN KEY (id_tipo) REFERENCES tipos(id_tipo)
 );
+-- tabla unidades, n unidades puede tener una basica tecnica
+create table unidades(
+    id_unidad serial primary key,
+    id_basica_tecnica integer not null,
+    nombre varchar(100),
+    estado boolean not null default true,
+    createdAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 
+    updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    FOREIGN KEY (id_basica_tecnica) REFERENCES basica_tecnicas(id_basica_tecnica)
+);
+-- tabla expositores, n expositores puede tener un curso
+create table expositores(
+    id_expositor serial primary key,
+    id_curso integer not null,
+    nombres varchar(100),
+    apellidos varchar(100),
+    estado boolean not null default true,
+    createdAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 
+    updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
+);
 -----------------------###################### OPERACIONES ######################-----------------------
 
 -- EDITAR TABLAS

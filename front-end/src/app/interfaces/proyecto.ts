@@ -11,5 +11,6 @@ export interface Proyecto {
     updatedAt: Date;
     fotos: Array<string>;
     investigadore: any;
+    investigadores: Array<any>;
     persona: any;
 }

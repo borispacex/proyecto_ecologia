@@ -25,6 +25,8 @@ const convenios = require('./proyecto/convenios');
 const contratados = require('./proyecto/contratados');
 const conv_archivos = require('./proyecto/conv_archivos');
 const contra_archivos = require('./proyecto/contra_archivos');
+const expositores = require('./proyecto/expositores');
+const unidades = require('./proyecto/unidades');
 
 module.exports = {
     usuarios,
@@ -51,5 +53,7 @@ module.exports = {
     convenios,
     contratados,
     conv_archivos,
-    contra_archivos
+    contra_archivos,
+    expositores,
+    unidades
 }

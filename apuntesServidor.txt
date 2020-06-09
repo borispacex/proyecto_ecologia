@@ -19,11 +19,13 @@
 2. Instalamos NodeJS
     sudo apt-get install -y nodejs
     sudo apt-get install -y npm
+
 3. Verificamos la version de NodeJS y si esta en version 8 debemos cambiarla a version 10
     cd ~
     curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
     sudo bash nodesource_setup.sh
     sudo apt-get install -y nodejs
+    
 4. Instalamos Angular/cli
     sudo npm install -g @angular/cli
 5. Instalamos NGINX
