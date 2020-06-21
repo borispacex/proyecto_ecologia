@@ -176,7 +176,7 @@
                                 <ul class="list-unstyled feeds_widget">
                                     <li *ngFor="let archivoB of archivo.convArchivos">
                                         <div class="feeds-left">
-                                            <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
+                                            <a type="button" (click)="openArchivo(archivoB.archivo)">
                                                 <i class="fa fa-file text-info"></i>
                                             </a>
                                         </div>
@@ -221,11 +221,10 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" href="javascript:void(0);"
-                                            class="btn btn-outline-secondary mr-1"
+                                        <a type="button" class="btn btn-outline-secondary mr-1"
                                             (click)="openModalNuevaPublicacion(content4, 'lg', 1)"><i
                                                 class="icon-pencil"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+                                        <a type="button" class="btn btn-outline-secondary"><i
                                                 class="icon-trash"></i></a>
                                     </td>
                                 </tr>
@@ -235,7 +234,7 @@
                 </div>
 
                 <div class="tab-pane p-l-15 p-r-15" [ngClass]="{'active':fragment == 'tavBasica'}">
-                    <h3 class="align-center">Tecnica Basica</h3>
+                    <h3 class="align-center">Basica tecnicas</h3>
                     <div class="table-responsive">
                         <table class="table table-hover m-b-0 align-center">
                             <thead class="thead-dark">
@@ -268,10 +267,9 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" href="javascript:void(0);"
-                                            class="btn btn-outline-secondary mr-1"><i class="icon-pencil"
+                                        <a type="button" class="btn btn-outline-secondary mr-1"><i class="icon-pencil"
                                                 (click)="openModalBaseTecnica(content1,'lg', basica_tecnica.id_basica_tecnica)"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+                                        <a type="button" class="btn btn-outline-secondary"><i
                                                 class="icon-trash"></i></a>
                                     </td>
                                 </tr>
@@ -327,11 +325,10 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" href="javascript:void(0);"
-                                            class="btn btn-outline-secondary mr-1"
+                                        <a type="button" class="btn btn-outline-secondary mr-1"
                                             (click)="openModalLugarDesarrollo(content2, 'lg', lugar_desarrollo.id_lugar_desarrollo)"><i
                                                 class="icon-pencil"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+                                        <a type="button" class="btn btn-outline-secondary"><i
                                                 class="icon-trash"></i></a>
                                     </td>
                                 </tr>
@@ -395,7 +392,7 @@
                                     </td>
                                     <td>
                                         <div *ngFor="let archivoB of difusion.archivos">
-                                            <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
+                                            <a type="button" (click)="openArchivo(archivoB.archivo)">
                                                 <i class="fa fa-file text-info"></i>
                                             </a>
                                             <small> {{archivoB.nombre}}</small>
@@ -409,10 +406,10 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"
-                                            (click)="openModalDifusion(content3, 'lg', 1, difusion)"><i
+                                        <a type="button" class="btn btn-outline-secondary mr-1"
+                                            (click)="openModalDifusion(content3, 'lg', difusion)"><i
                                                 class="icon-pencil"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+                                        <a type="button" class="btn btn-outline-secondary"><i
                                                 class="icon-trash"></i></a>
                                     </td>
                                 </tr>
@@ -993,8 +990,7 @@
                     &nbsp;Carga completa
                 </ng-container>
 
-                <button type="submit" class="btn btn-success btn-s"
-                    [disabled]="!files.length || !formDifusion.form.valid">
+                <button type="submit" class="btn btn-success btn-s" [disabled]="!formDifusion.form.valid">
                     <span class="glyphicon glyphicon-upload"></span> Guardar todo
                 </button>
 

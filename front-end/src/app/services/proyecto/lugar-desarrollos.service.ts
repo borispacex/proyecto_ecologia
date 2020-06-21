@@ -25,12 +25,12 @@ export class LugarDesarrollosService {
       .then(res => res.json());
   }
   // actualizar lugar_desarrollo
-  update(id_lugar_desarrollo: number, token: string) {
+  update(id_lugar_desarrollo: number, lugar_desarrollo: any, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'lugar_desarrollo/' + id_lugar_desarrollo, options).toPromise()
+    return this._http.put(this.url + 'lugar_desarrollo/' + id_lugar_desarrollo, lugar_desarrollo, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los lugar_desarrollos

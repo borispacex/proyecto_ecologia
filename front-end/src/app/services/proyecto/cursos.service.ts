@@ -25,12 +25,12 @@ export class CursosService {
       .then(res => res.json());
   }
   // actualizar curso
-  update(id_curso: number, token: string) {
+  update(id_curso: number, curso: any, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'curso/' + id_curso, options).toPromise()
+    return this._http.put(this.url + 'curso/' + id_curso, curso, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los cursos

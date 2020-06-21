@@ -25,12 +25,12 @@ export class NotaPrensasService {
       .then(res => res.json());
   }
   // actualizar nota_prensa
-  update(id_nota_prensa: number, token: string) {
+  update(id_nota_prensa: number, nota_prensa: any, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'nota_prensa/' + id_nota_prensa, options).toPromise()
+    return this._http.put(this.url + 'nota_prensa/' + id_nota_prensa, nota_prensa, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los nota_prensas

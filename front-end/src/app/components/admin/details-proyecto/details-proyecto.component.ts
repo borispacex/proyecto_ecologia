@@ -320,9 +320,9 @@ export class DetailsProyectoComponent implements OnInit {
         // console.log(responseConv);
         this.convenio = responseConv.convenio;
         var date = new Date(this.convenio.fechaini);
-        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
         var date = new Date(this.convenio.fechafin);
-        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
       }).catch(error => { console.log('Error al obtener convenio por id', error); });
 
     } else if (archivo.id_tipo === 9) {
@@ -332,9 +332,9 @@ export class DetailsProyectoComponent implements OnInit {
         // console.log(responseContra);
         this.personal_rrhh = responseContra.contratado;
         var date = new Date(this.personal_rrhh.fechaini);
-        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
         var date = new Date(this.personal_rrhh.fechafin);
-        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
       }).catch(error => { console.log('Error al obtener contratado por id', error); });
     }
   }

@@ -108,6 +108,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     this._serviceUsuario
       .getUsuarioById(this.id_usuario, this.token)
       .then((responseUsuario) => {
+        // console.log(responseUsuario);
         this.usuario = responseUsuario.usuario;
         this.persona = responseUsuario.usuario.persona;
         this.fotografia = responseUsuario.usuario.persona.fotografia;
@@ -124,7 +125,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
           nombres: this.persona.nombres,
           ci: this.persona.ci,
           sexo: this.persona.sexo,
-          fec_nacimiento: {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate()},
+          fec_nacimiento: {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1},
           url: this.persona.url,
           direccion1: this.persona.direccion1,
           direccion2: this.persona.direccion2,

@@ -25,12 +25,12 @@ export class BasicaTecnicasService {
       .then(res => res.json());
   }
   // actualizar basica_tecnica
-  update(id_basica_tecnica: number, token: string) {
+  update(id_basica_tecnica: number, basica_tecnica, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'basica_tecnica/' + id_basica_tecnica, options).toPromise()
+    return this._http.put(this.url + 'basica_tecnica/' + id_basica_tecnica, basica_tecnica, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los basica_tecnicas

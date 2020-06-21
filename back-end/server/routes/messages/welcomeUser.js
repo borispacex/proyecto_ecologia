@@ -2,8 +2,8 @@
 const personas = require('../../models').personas;
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-const url = 'http://localhost:4200';
-// const url = 'http://umsa-ecologia.xyz';
+// const url = 'http://localhost:4200';
+const url = 'https://umsa-ecologia.xyz';
 
 module.exports = (app) => {
     app.get('/api/bienvenidoUser/:id_persona', (req, res) => {

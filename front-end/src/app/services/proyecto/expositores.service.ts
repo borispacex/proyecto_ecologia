@@ -24,12 +24,12 @@ export class ExpositoresService {
       .then(res => res.json());
   }
   // actualizar expositor
-  update(id_expositor: number, token: string) {
+  update(id_expositor: number, expositores: any, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'expositor/' + id_expositor, options).toPromise()
+    return this._http.put(this.url + 'expositor/' + id_expositor, expositores, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los expositores

@@ -431,6 +431,8 @@ update personas set tipo_sanguineo = 'ORH+';
 -- agregando dato a tabla fotografia dato --> tipo
 update fotografias set tipo = 'foto' where id_fotografia = 1;
 
+update adm_usuarios set password = '001' where id_adm_usuario = 28;
+
 ----------------------- CONSULTAS ---------------------
 -- CONSULTAS PERSONA
 insert into personas (id_fotografia, paterno, materno, nombres, sexo, estado_civil, fec_nacimiento, pais, provincia, direccion, correo, telefono, grado_academico) 

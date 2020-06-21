@@ -68,11 +68,24 @@ function getAllByIdBasicaTecnica(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un unidades por id_basica_tecnica', err });
     })
 }
+// funcion para eliminar la unidad
+function deleteBasicaTecnica(req, res) {
+    var id = req.params.id_unidad;
+    unidades.findByPk(id)
+    .then(unidad)
+    .then(unidad => {
+        res.sendStatus(200);
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar una unidad', err});
+    })
+}
 
 module.exports = {
     create,
     update,
     getById,
     getAll,
-    getAllByIdBasicaTecnica
+    getAllByIdBasicaTecnica,
+    deleteBasicaTecnica
 }

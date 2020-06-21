@@ -25,12 +25,12 @@ export class EventosService {
       .then(res => res.json());
   }
   // actualizar evento
-  update(id_evento: number, token: string) {
+  update(id_evento: number, evento: any, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'evento/' + id_evento, options).toPromise()
+    return this._http.put(this.url + 'evento/' + id_evento, evento, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los eventos

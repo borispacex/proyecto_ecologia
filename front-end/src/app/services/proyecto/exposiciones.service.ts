@@ -25,12 +25,12 @@ export class ExposicionesService {
       .then(res => res.json());
   }
   // actualizar exposicion
-  update(id_exposicion: number, token: string) {
+  update(id_exposicion: number, exposicion: any, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'exposicion/' + id_exposicion, options).toPromise()
+    return this._http.put(this.url + 'exposicion/' + id_exposicion, exposicion, options).toPromise()
       .then(res => res.json());
   }
   // obtenemos todos los exposiciones

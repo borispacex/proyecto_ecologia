@@ -1,4 +1,5 @@
 
+ssh -i mi-llave bvargas7@35.226.114.61
 
 *********************************** APUNTES DE INSTALACION AL SERVIDOR ***********************************
 
@@ -24,15 +25,74 @@
     sudo apt-get install -y nginx
 
 6. Instalamos PM2
-    sudo npm install pm2@latest -g
+    sudo npm install pm2 -g
 
 7. Instalamos PostgreSQL
     sudo apt install postgresql postgresql-contrib
-
-8. Importamos la base de datos
-    
 
 7. Clonamos el repositorio
     cd /var/www/
     sudo git clone https://github.com/borisvargas/proyecto_ecologia.git
     chmod -R 777 proyecto_ecologia
+
+8. Importamos la base de datos
+    sudo su - postgres              // ingresar al usuario postgres
+    psql -c "alter user postgres with password 'postgres'"
+    psql -U postgres -W             // ingresar a consola postgres
+    CREATE DATABASE bd_ecologia;    // crear la BD
+    \c bd_ecologia                  // ingresar a la BD
+    \dt                             // mostrar tablas
+    \q                              // salir consola
+    cd /var/www/proyecto_ecologia/
+    psql -U postgres bd_ecologia < bd_ecologia.sql
+        -- Verificamos la BD
+    psql -U postgres -W             // ingresar consola postgres
+    \c bd_ecologia                  // ingresar a la BD
+    \dt                             // mostrar tablas
+    SELECT * FROM adm_usuarios;     // mostrar data
+
+9. Preparamos Backend
+    cd /var/www/proyecto_ecologia/back-end/
+    npm install
+    sudo pm2 start bin/www.js --name web --watch
+    sudo pm2 startup systemd
+    sudo pm2 save
+        -- Reiniciar la maquina virtual (VPS)
+    sudo reboot
+    sudo systemctl start pm2-root
+    sudo systemctl status pm2-root
+    sudo systemctl restart pm2-root
+    sudo pm2 logs web
+
+10. Preparamos nginx
+    cd /etc/nginx/sites-available/
+    sudo nano default
+
+
+11. Preparamos Frontend
+        -- primero creamos dist
+    ng build --prod
+        -- Copiamos la carpeta dist al servidor
+    scp -rp -i "mi-llave" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargas7@35.226.114.61:/var/www/proyecto_ecologia/back-end
+    
+
+12. Instalar llaves SSL con Cerbot
+        -- paso 1
+    // sudo add-apt-repository ppa:certbot/certbot
+    // sudo apt update
+    // sudo apt install python-certbot-nginx
+    sudo apt install certbot python3-certbot-nginx
+        -- paso 2
+    sudo nano /etc/nginx/sites-available/default
+        -- paso 3
+    sudo ufw enable             // habilitar firewall
+    sudo ufw app list           // mostrar lista de app firewall
+    sudo ufw allow ssh          // permitir conexiones conexiones ssh
+    sudo ufw allow 'Nginx Full'
+    -- paso 4
+    sudo certbot --nginx -d umsa-ecologia.xyz -d www.umsa-ecologia.xyz
+    -- paso 5
+    sudo systemctl status certbot.timer
+
+13. Hacer cambios en el servidor
+    
