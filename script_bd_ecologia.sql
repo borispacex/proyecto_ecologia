@@ -412,6 +412,64 @@ create table expositores(
     updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
     FOREIGN KEY (id_curso) REFERENCES cursos(id_curso)
 );
+
+
+
+-- tabla publicaciones
+create table publicaciones(
+    id_publicacion serial primary key,
+    id_proyecto integer not null,
+    id_coordinador integer not null,
+    titulo varchar(200),
+    fecha timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    contenido varchar(1000),
+    estado boolean not null default true,
+    createdAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 
+    updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    FOREIGN KEY (id_proyecto) REFERENCES proyectos(id_proyecto),
+    FOREIGN KEY (id_coordinador) REFERENCES investigadores(id_investigador)
+);
+-- tabla comentarios
+create table comentarios(
+    id_comentario serial primary key,
+    id_persona integer not null,
+    id_publicacion integer not null,
+    comentario varchar(254),
+    estado boolean not null default true,
+    createdAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 
+    updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    FOREIGN KEY (id_persona) REFERENCES personas(id_persona),
+    FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion)
+);
+-- tabla autores
+create table autores(
+    id_autor serial primary key,
+    id_investigador integer not null,
+    id_publicacion integer not null,
+    estado boolean not null default true,
+    createdAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 
+    updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    FOREIGN KEY (id_investigador) REFERENCES investigadores(id_investigador),
+    FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion)
+);
+-- tabla publi_archivos, 1 publi_archivos puede tener n archivos
+create table publi_archivos(
+    id_publi_archivo serial primary key,
+    id_publicacion integer not null,
+    -- archivo
+    archivo varchar(50),
+    nombre varchar(100),
+    descripcion varchar(200),
+    id_tipo integer not null,
+    estado boolean not null default true,
+    createdAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 
+    updatedAt timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
+    FOREIGN KEY (id_publicacion) REFERENCES publicaciones(id_publicacion),
+    FOREIGN KEY (id_tipo) REFERENCES tipos(id_tipo)
+);
+
+
+
 -----------------------###################### OPERACIONES ######################-----------------------
 
 -- EDITAR TABLAS
@@ -455,6 +513,7 @@ insert into tipos (nombre, descripcion) values ('CITES', 'Archivo');
 insert into tipos (nombre, descripcion) values ('BIOETICA', 'Archivo');
 insert into tipos (nombre, descripcion) values ('Cierre de proyecto', 'Archivos necesarios para el cierre de proyecto');
 insert into tipos (nombre, descripcion) values ('Otros', 'Cualquier tipo de archivo');
+insert into tipos (nombre, descripcion) values ('publicacion', 'Archivo de publicaciones');
 
 -- CONSULTA ADM_USUARIO_ROL
 insert into adm_usuario_roles (id_usuario, id_rol) values (1, 1);   -- 1 admim

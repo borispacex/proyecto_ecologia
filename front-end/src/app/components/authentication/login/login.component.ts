@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
                   }
                 } else {
                   this.btnOpen.nativeElement.click();
+                  this.usuario = {};
                 }
               });
           })

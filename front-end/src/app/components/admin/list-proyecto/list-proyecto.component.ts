@@ -198,11 +198,11 @@ export class ListProyectoComponent implements OnInit {
       this.proyecto = responseProy.proyecto;
       var date = new Date(this.proyecto.fechaini);
       // console.log(date);
-      this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+      this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
       // console.log(this.fechainicio);
       var date = new Date(this.proyecto.fechafin);
       // console.log(date);
-      this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+      this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
       // console.log(this.fechafinal);
       this.disabled1 = true;
       this.disabled2 = true;

@@ -1,4 +1,5 @@
-const cursosController = require('../../controllers').cursos;  
+const cursosController = require('../../controllers').cursos;
+const md_auth = require('../../authenticated/authenticated');
 
 // configuracion el express
 module.exports = (app) => {

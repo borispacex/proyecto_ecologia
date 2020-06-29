@@ -60,6 +60,12 @@ require('./server/routes/proyecto/unidades')(app);
 require('./server/routes/messages/welcomeUser')(app);
 require('./server/routes/messages/createProject')(app);
 
+// publicaciones
+require('./server/routes/proyecto/publicaciones')(app);
+require('./server/routes/proyecto/comentarios')(app);
+require('./server/routes/proyecto/autores')(app);
+require('./server/routes/proyecto/publi_archivos')(app);
+
 app.get('*', (req, res) => {
     res.status(200).send({ message: 'Bienvenido al servidor NODEJS' });
 })

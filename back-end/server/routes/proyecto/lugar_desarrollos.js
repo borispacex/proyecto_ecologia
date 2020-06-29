@@ -1,4 +1,5 @@
-const lugar_desarrollosController = require('../../controllers').lugar_desarrollos;  
+const lugar_desarrollosController = require('../../controllers').lugar_desarrollos;
+const md_auth = require('../../authenticated/authenticated');
 
 // configuracion el express
 module.exports = (app) => {

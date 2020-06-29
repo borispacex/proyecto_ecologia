@@ -32,6 +32,9 @@ import { Proyecto } from 'src/app/interfaces/proyecto';
 import { ExpositoresService } from 'src/app/services/proyecto/expositores.service';
 import { UnidadesService } from 'src/app/services/proyecto/unidades.service';
 import { ToastrService } from 'ngx-toastr';
+import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.service';
+import { AutoresService } from 'src/app/services/proyecto/autores.service';
+import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -369,7 +372,10 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     private _serviceContraArchivos: ContraArchivosService,
     private _serviceExpositores: ExpositoresService,
     private _serviceUnidades: UnidadesService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _servicePublicaciones: PublicacionesService,
+    private _servicePubliArchivos: PubliArchivosService,
+    private _serviceAutores: AutoresService
   ) { 
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -405,6 +411,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this.getProArchivosByIdProyecto(this.id);
     this.getArchivosByTipo(0);
     this.getProyecto(this.id);
+
     // buscador archivos
     this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
     // buscador difusiones
@@ -415,7 +422,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this.obtenerLugarDesarrollos();
     this.obtenerDifusion(1);
     this.listado_difusion = 'Cursos, Seminarios y Talleres';
-
+    this.obtenerPublicaciones(this.id);
   }
   getInvestigadoresByProyecto() {
     this._serviceProyecto.getProyecto(this.id, this.token)
@@ -564,10 +571,6 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   openArchivo(pdf: string) {
     window.open(this.who + pdf, '_blank');
   }
-  openModalArchivosDifusion(content, size) {
-    this.modalService.open(content, { size: size });
-    console.log('Error');
-  }
 
   openModalBaseTecnica(content, size, id?) {
     if (id) {
@@ -579,6 +582,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         .then(responseUnis => {
           this.unidades = responseUnis.unidades;
         }).catch(error => { console.log('Error al obtener unidades', error); });
+
       }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
     } else {
       this.unidades = [{
@@ -633,9 +637,9 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         console.log(response);
         this.difusion = response.curso;
         var date = new Date(this.difusion.fechaini);
-        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
         date = new Date(this.difusion.fechafin);
-        this.fechafinal = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechafinal = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
         this._serviceExpositores.getExpositoresByIdCurso(this.difusion.id_curso, this.token)
         .then(responseExpos => {
           console.log(responseExpos);
@@ -651,9 +655,9 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         console.log(response);
         this.difusion = response.evento;
         var date = new Date(this.difusion.fechaini);
-        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1};
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
         date = new Date(this.difusion.fechafin);
-        this.fechafinal = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechafinal = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
       }).catch(error => { console.log('obtener el evento', error); });
     } else if (difusion.id_nota_prensa) {
       console.log('actulizar nota');
@@ -664,9 +668,8 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         console.log(response);
         this.difusion = response.nota_prensa;
         var date = new Date(this.difusion.fecha);
-        this.difusion.fecha = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
-        
-      }).catch(error => { console.log('Error al obtener nota de prensa', error); })
+        this.difusion.fecha = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+      }).catch(error => { console.log('Error al obtener nota de prensa', error); });
     } else if (difusion.id_exposicion) {
       console.log('actualizar exposicion');
       this.tituloFormulario = 'Exposiciones y conferencias - Actualizar';
@@ -675,6 +678,10 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       .then(response => {
         console.log(response);
         this.difusion = response.exposicion;
+        var date = new Date(this.difusion.fechaini);
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        date = new Date(this.difusion.fechafin);
+        this.fechafinal = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
       }).catch(error => { console.log('Error al obtener exposicion', error); });
     } else if (!isNaN(difusion)) {
       console.log('guardar');
@@ -706,15 +713,69 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   openModalNuevaPublicacion(content, size, id?) {
     this.datosArchivo.length = 0;
     this.antFileTam = 0;
-    this.seleccionados.length = 0;
+    this.seleccionados = [];
     this.files.length = 0;
     this.publicacion = {
-      tipo: ''
+      tipo: '',
+      autores: [],
+      archivos: []
     };
+    this.disabled = false;
     if (id) {
       console.log('actualizar');
+      this.disabled = true;
+      this._servicePublicaciones.getPublicacionById(id, this.token)
+      .then(response => {
+        console.log(response);
+        this.publicacion = response.publicacion;
+        var date = new Date(this.publicacion.fecha);
+        this.publicacion.fecha = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        this._serviceAutores.getAutoresByIdPublicacion(id, this.token)
+        .then(responseAutores => {
+          console.log(responseAutores);
+          this.seleccionados = [];
+          responseAutores.autores.forEach(autor => {
+            var selec = {
+              id_investigador: autor.id_investigador,
+              nombreCompleto: autor.investigadore.persona.nombres + ' ' +
+              autor.investigadore.persona.paterno + ' ' + autor.investigadore.persona.materno
+            };
+            this.seleccionados.push(selec);
+          });
+        }).catch(error => { console.log('Error al obtener autores por id_publicacion', error); });
+      }).catch(error => { console.log('Error al obtener publicacion', error); });
     }
     this.modalService.open(content, { size: size });
+  }
+
+  openModalArchivo(content, size, archivo: any) {
+    this.modalService.open(content, { size: size });
+    if (archivo.id_publi_archivo) {
+      this._servicePubliArchivos.getPubliArchivoById(this.token ,archivo.id_publi_archivo)
+      .then(response => {
+        this.archivo = response.publi_archivo;
+      }).catch(error => { console.log('Error al obtener publi archivo', error); });
+    } else if (archivo.id_curso_archivo) {
+      this._serviceCursoArchivos.getCursoArchivoById(this.token, archivo.id_curso_archivo)
+      .then(response => {
+        this.archivo = response.curso_archivo;
+      }).catch(error => { console.log('Error al obtener curso archivo', error); });
+    } else if (archivo.id_evento_archivo) {
+      this._serviceEventoArchivos.getEventoArchivoById(this.token, archivo.id_evento_archivo)
+      .then(response => {
+        this.archivo = response.evento_archivo;
+      }).catch(error => { console.log('Error al obtener evento archivo', error); });
+    } else if (archivo.id_nota_archivo) {
+      this._serviceNotaArchivos.getNotaArchivoById(this.token, archivo.id_nota_archivo)
+      .then(response => {
+        this.archivo = response.nota_archivo;
+      }).catch(error => { console.log('Error al obtener nota archivo', error); });
+    } else if (archivo.id_expo_archivo) {
+      this._serviceExpoArchivos.getExpoArchivoById(this.token, archivo.id_expo_archivo)
+      .then(response => {
+        this.archivo = response.expo_archivo;
+      }).catch(error => { console.log('Error al obtener expo archivo', error); });
+    }
   }
 
   guardarBasicaTecnica() {
@@ -726,9 +787,19 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       this._serviceBasicaTecnicas.update(this.basica_tecnica.id_basica_tecnica, this.basica_tecnica, this.token)
       .then(responseBT => {
         console.log(responseBT.basica_tecnica);
-        this.obtenerBasicaTecnicas();
-        // falta actualizar unidades
-        console.log('Falta actualizar unidades');
+        this._serviceUnidades.deleteUnidadByIdBasicaTecnica(responseBT.basica_tecnica.id_basica_tecnica, this.token)
+        .then(responseUnis => {
+          this.unidades.forEach(unidad => {
+            var uni = {
+              nombre: unidad.nombre,
+              id_basica_tecnica: responseBT.basica_tecnica.id_basica_tecnica
+            };
+            this._serviceUnidades.save(uni, this.token)
+            .then(response => { })
+            .catch(error => { console.log('Error al crear unidad', error); });
+          });
+          this.obtenerBasicaTecnicas();
+        }).catch(error => { console.log('Error al eliminar unidade por id_basica_tecnica', error); });
       }).catch(error => { console.log('Error al actualizar basica tecnica', error); });
     } else {
       console.log('guardar');
@@ -787,15 +858,58 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     console.log(this.files);
     console.log(this.datosArchivo);
 
+    console.log(this.expositores);
+
     if (this.difusion.id_curso) {
       // actualizar curso
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceCursos.update(this.difusion.id_curso, this.difusion, this.token)
       .then(response => {
-        console.log(response);
-        this.obtenerDifusion(1);
+        console.log(response.curso);
+        // actualizar expositores
+        this._serviceExpositores.deleteExpositorByIdCurso(response.curso.id_curso, this.token)
+        .then(responseCur => {
+          console.log(responseCur);
+          this.expositores.forEach(expositor => {
+            var expo = {
+              id_curso: response.curso.id_curso,
+              nombres: expositor.nombres
+            };
+            this._serviceExpositores.save(expo, this.token)
+            .then(responseE => {  })
+            .catch(error => { console.log('Error al crear expositor', error); });
+          });
+          // guardar archivos cursos
+          if (this.files) {
+            for (let i = 0; i < this.files.length; i++) {
+              const file = this.files[i];
+              var curso_archivo = {
+                id_curso: response.curso.id_curso,
+                archivo: '',
+                nombre: this.datosArchivo[i].nombre,
+                descripcion: this.datosArchivo[i].descripcion,
+                id_tipo: '10'
+              };
+              console.log(curso_archivo);
+              this._serviceCursoArchivos.save(curso_archivo, this.token)
+              .then(responseArchivo => {
+                console.log(responseArchivo);
+                // tslint:disable-next-line:max-line-length
+                this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
+                .then(responseFile => {
+                  // console.log(responseFile);
+                }).catch(error => { console.log('error al subir el archivo', error); });
+                this.obtenerDifusion(1);
+              })
+              .catch(error => { console.log('error al crear curso archivo', error); });
+            }
+          } else {
+            this.obtenerDifusion(1);
+          }
+        }).catch(error => { console.log('Error al eliminar expositores por id_curso', error); });
       }).catch(error => { console.log('Error al actualizar curso', error); });
+
     } else if (this.difusion.id_evento) {
       // actualizar evento
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
@@ -803,7 +917,33 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       this._serviceEventos.update(this.difusion.id_evento, this.difusion, this.token)
       .then(response => {
         console.log(response);
-        this.obtenerDifusion(2);
+
+        // guardar archivo eventos
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var evento_archivo = {
+              id_evento: response.evento.id_evento,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '11'
+            };
+            console.log(evento_archivo);
+            this._serviceEventoArchivos.save(evento_archivo, this.token)
+            .then(responseArchivo => {
+              console.log(responseArchivo);
+              // tslint:disable-next-line:max-line-length
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-evento-archivo/' + responseArchivo.evento_archivos.id_evento_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                console.log(responseFile);
+              }).catch(error => { console.log('error al subir el archivo', error); });
+              this.obtenerDifusion(2);
+            }).catch(error => { console.log('error al crear evento archivo', error); });
+          }
+        } else {
+          this.obtenerDifusion(2);
+        }
+
       }).catch(error => { console.log('Error al actualizar evento', error); });
     } else if (this.difusion.id_nota_prensa) {
       // actualizar nota prensa
@@ -811,7 +951,32 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       this._serviceNotaPrensas.update(this.difusion.id_nota_prensa, this.difusion, this.token)
       .then(response => {
         console.log(response);
-        this.obtenerDifusion(3);
+        // guardar archivos nota_prensas
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var nota_archivo = {
+              id_nota_prensa: response.nota_prensa.id_nota_prensa,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '12'
+            };
+            console.log(nota_archivo);
+            this._serviceNotaArchivos.save(nota_archivo, this.token)
+            .then(responseArchivo => {
+              console.log(responseArchivo);
+              // tslint:disable-next-line:max-line-length
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-nota-archivo/' + responseArchivo.nota_archivos.id_nota_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                console.log(responseFile);
+                this.obtenerDifusion(3);
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear nota archivo', error); });
+          }
+        } else {
+          this.obtenerDifusion(3);
+        }
+
       }).catch(error => { console.log('Error al actualizar nota de prensa', error); });
     } else if (this.difusion.id_exposicion) {
       // actualizar exposicion
@@ -820,7 +985,31 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       this._serviceExposiciones.update(this.difusion.id_exposicion, this.difusion, this.token)
       .then(response => {
         console.log(response);
-        this.obtenerDifusion(4);
+        // guardar exposicion_archivos
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var expo_archivo = {
+              id_exposicion: response.exposicion.id_exposicion,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '13'
+            };
+            console.log(expo_archivo);
+            this._serviceExpoArchivos.save(expo_archivo, this.token)
+            .then(responseArchivo => {
+              console.log(responseArchivo);
+              // tslint:disable-next-line:max-line-length
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-expo-archivo/' + responseArchivo.expo_archivos.id_expo_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                console.log(responseFile);
+                this.obtenerDifusion(4);
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear expo archivo', error); });
+          }
+        } else {
+          this.obtenerDifusion(4);
+        }
       }).catch(error => { console.log('Error al actualizar Exposicion', error); });
     } else {
       switch (this.tipoDifusion) {
@@ -846,7 +1035,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 .catch(error => { console.log('Error al guardar expositor', error); });
               });
             }
-            // guardar archivos
+            // guardar archivos cursos
             if (this.files) {
               for (let i = 0; i < this.files.length; i++) {
                 const file = this.files[i];
@@ -855,7 +1044,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   archivo: '',
                   nombre: this.datosArchivo[i].nombre,
                   descripcion: this.datosArchivo[i].descripcion,
-                  id_tipo: '7'
+                  id_tipo: '10'
                 };
                 console.log(curso_archivo);
                 this._serviceCursoArchivos.save(curso_archivo, this.token)
@@ -865,8 +1054,8 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
                   .then(responseFile => {
                     // console.log(responseFile);
-                    this.obtenerDifusion(1);
                   }).catch(error => { console.log('error al subir el archivo', error); });
+                  this.obtenerDifusion(1);
                 })
                 .catch(error => { console.log('error al crear curso archivo', error); });
               }
@@ -892,7 +1081,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   archivo: '',
                   nombre: this.datosArchivo[i].nombre,
                   descripcion: this.datosArchivo[i].descripcion,
-                  id_tipo: '7'
+                  id_tipo: '11'
                 };
                 console.log(evento_archivo);
                 this._serviceEventoArchivos.save(evento_archivo, this.token)
@@ -903,6 +1092,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   .then(responseFile => {
                     console.log(responseFile);
                   }).catch(error => { console.log('error al subir el archivo', error); });
+                  this.obtenerDifusion(2);
                 }).catch(error => { console.log('error al crear evento archivo', error); });
               }
             }
@@ -923,7 +1113,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   archivo: '',
                   nombre: this.datosArchivo[i].nombre,
                   descripcion: this.datosArchivo[i].descripcion,
-                  id_tipo: '7'
+                  id_tipo: '12'
                 };
                 console.log(nota_archivo);
                 this._serviceNotaArchivos.save(nota_archivo, this.token)
@@ -934,6 +1124,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   .then(responseFile => {
                     console.log(responseFile);
                   }).catch(error => { console.log('error al subir el archivo', error); });
+                  this.obtenerDifusion(3);
                 }).catch(error => { console.log('error al crear nota archivo', error); });
               }
             }
@@ -955,7 +1146,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   archivo: '',
                   nombre: this.datosArchivo[i].nombre,
                   descripcion: this.datosArchivo[i].descripcion,
-                  id_tipo: '7'
+                  id_tipo: '13'
                 };
                 console.log(expo_archivo);
                 this._serviceExpoArchivos.save(expo_archivo, this.token)
@@ -966,6 +1157,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   .then(responseFile => {
                     console.log(responseFile);
                   }).catch(error => { console.log('error al subir el archivo', error); });
+                  this.obtenerDifusion(4);
                 }).catch(error => { console.log('error al crear expo archivo', error); });
               }
             }
@@ -984,6 +1176,83 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     console.log(this.files);
     console.log(this.datosArchivo);
     console.log(this.seleccionados);
+
+    this.publicacion.fecha = this.formatDate(this.publicacion.fecha) + 'T00:00:00.000';
+    this.publicacion.id_proyecto = this.proyecto.id_proyecto;
+    this.publicacion.id_coordinador = this.proyecto.investigadore.id_investigador;
+    console.log(this.publicacion);
+
+    if (this.publicacion.id_publicacion) {
+      console.log('actualizar');
+      this._servicePublicaciones.update(this.publicacion.id_publicacion, this.publicacion, this.token)
+      .then(response => {
+        console.log(response.publicacion);
+        // añadir archivos
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var publi_archivo = {
+              id_publicacion: response.publicacion.id_publicacion,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '14'
+            };
+            console.log(publi_archivo);
+            this._servicePubliArchivos.save(publi_archivo, this.token)
+            .then(responseArchivo => {
+              console.log(responseArchivo);
+              // tslint:disable-next-line:max-line-length
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-publi-archivo/' + responseArchivo.publi_archivo.id_publi_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                console.log(responseFile);
+              }).catch(error => { console.log('error al subir el archivo', error); });
+              this.obtenerPublicaciones(this.id);
+            }).catch(error => { console.log('error al crear evento archivo', error); });
+          }
+        }
+        this.obtenerPublicaciones(this.id);
+        // actualizar autores
+
+      }).catch(error => { console.log('Error al actualizar publicacion', error); });
+    } else {
+      this._servicePublicaciones.save(this.publicacion, this.token)
+      .then(response => {
+        console.log(response);
+        // guardar publi_archivo
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var publi_archivo = {
+              id_publicacion: response.publicacion.id_publicacion,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '14'
+            };
+            console.log(publi_archivo);
+            this._servicePubliArchivos.save(publi_archivo, this.token)
+            .then(responseArchivo => {
+              console.log(responseArchivo);
+              // tslint:disable-next-line:max-line-length
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-publi-archivo/' + responseArchivo.publi_archivo.id_publi_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                console.log(responseFile);
+              }).catch(error => { console.log('error al subir el archivo', error); });
+              this.obtenerPublicaciones(this.id);
+            }).catch(error => { console.log('error al crear evento archivo', error); });
+          }
+        } else {
+          this.obtenerPublicaciones(this.id);
+        }
+        // guardar autores
+        this.seleccionados.forEach(autor => {
+          autor.id_publicacion = response.publicacion.id_publicacion;
+          this._serviceAutores.save(autor, this.token)
+          .then(responseA => {  })
+          .catch(error => { console.log('Error guardar autor', error); });
+        });
+      }).catch(error => { console.log('Error al crear publicacion', error); });
+    }
+    this.modalService.dismissAll();
   }
   borrarTodoDifusion() {
     this.difusion = {};
@@ -1186,6 +1455,133 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   }
   removeExpositor(i: number) {
     this.expositores.splice(i, 1);
+  }
+  eliminarPublicacion(id: number) {
+    console.log(id);
+    this._servicePublicaciones.update(id, { estado: false }, this.token)
+    .then(response => {
+      this.obtenerPublicaciones(this.id);
+      console.log(response);
+    }).catch(error => { console.log('Error al eliminar publicacion', error); });
+
+  }
+  eliminarBasicaTecnica(id: number) {
+    this._serviceBasicaTecnicas.update(id, { estado: false }, this.token )
+    .then(response => {
+      this.obtenerBasicaTecnicas();
+      this.toastr.success('Basica tecnica eliminada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    }).catch(error => {
+      console.log('Error al actualizar Basica tecnica', error);
+      this.toastr.error('Error al eliminar Basica tecnica', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    });
+  }
+  eliminarLugarDesarrollo(id: number) {
+    this._serviceLugarDesarrollos.update(id, { estado: false }, this.token )
+    .then(response => {
+      this.obtenerLugarDesarrollos();
+      this.toastr.success('Lugar de Desarrollo eliminada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    }).catch(error => {
+      console.log('Error al actualizar Lugar Desarollo', error);
+      this.toastr.error('Error al eliminar Lugar de Desarrollo', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    });
+  }
+  eliminarDifusion(difu: any) {
+    if (difu.id_curso) {
+      this._serviceCursos.update(difu.id_curso, { estado: false }, this.token )
+      .then(response => {
+        this.obtenerDifusion(1);
+        this.toastr.success('Curso, Seminario o Taller eliminado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      }).catch(error => {
+        console.log('Error al actualizar curso', error);
+        this.toastr.error('Error al eliminar Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
+    } else if (difu.id_evento) {
+      this._serviceEventos.update(difu.id_evento, { estado: false }, this.token)
+      .then(response => {
+        this.obtenerDifusion(2);
+        this.toastr.success('Evento Cientifico eliminado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      }).catch(error => {
+        console.log('Error al actualizar evento', error);
+        this.toastr.error('Error al eliminar Evento Cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
+    } else if (difu.id_nota_prensa) {
+      this._serviceNotaPrensas.update(difu.id_nota_prensa, { estado: false }, this.token)
+      .then(response => {
+        this.obtenerDifusion(3);
+        this.toastr.success('Nota de prensa eliminada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      }).catch(error => {
+        console.log('Error al actualizar nota prensa', error);
+        this.toastr.error('Error al eliminar Nota de Prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
+    } else if (difu.id_exposicion) {
+      this._serviceExposiciones.update(difu.id_exposicion, { estado: false}, this.token)
+      .then(response => {
+        this.obtenerDifusion(4);
+        this.toastr.success('Exposicion eliminada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      }).catch(error => {
+        console.log('Error al actualizar exposicion', error);
+        this.toastr.error('Error al eliminar Exposicion o Conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
+    } else {
+      console.log('Error');
+    }
+  }
+
+  obtenerPublicaciones(id_proyecto: number) {
+    this.publicaciones = [];
+    this._servicePublicaciones.getPublicacionesByIdProyecto(id_proyecto, this.token)
+    .then(response => {
+      console.log(response);
+      // this.publicaciones = response.publicaciones;
+      response.publicaciones.forEach(publicacion => {
+        this._serviceAutores.getAutoresByIdPublicacion(publicacion.id_publicacion, this.token)
+        .then(responseA => {
+          publicacion.autores = responseA.autores;
+          this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publicacion.id_publicacion, this.token)
+          .then(responseArchivo => {
+            publicacion.archivos = responseArchivo.publi_archivos;
+            this.publicaciones.push(publicacion);
+          }).catch(error => { console.log('Error al obtener archivos', error); });
+        }).catch(error => { console.log('Error al obtener autores por id_publicacion', error); });
+      });
+      console.log(this.publicaciones);
+    }).catch(error => { console.log('Error al obtener publicaciones por id_proyecto', error); });
+  }
+
+  editarArchivo() {
+    console.log(this.archivo);
+    if (this.archivo.id_publi_archivo) {
+      this._servicePubliArchivos.update(this.archivo.id_publi_archivo, this.archivo, this.token)
+      .then(response => {
+        this.archivo = response.publi_archivo;
+        this.obtenerPublicaciones(this.id);
+      }).catch(error => { console.log('Error al actualizar publi archivo', error); });
+    } else if (this.archivo.id_curso_archivo) {
+      this._serviceCursoArchivos.update(this.archivo.id_curso_archivo, this.archivo, this.token)
+      .then(response => {
+        this.archivo = response.curso_archivo;
+        this.obtenerDifusion(1);
+      }).catch(error => { console.log('Error al actualizar curso archivo', error); });
+    } else if (this.archivo.id_evento_archivo) {
+      this._serviceEventoArchivos.update(this.archivo.id_evento_archivo, this.archivo, this.token)
+      .then(response => {
+        this.archivo = response.evento_archivo;
+        this.obtenerDifusion(2);
+      }).catch(error => { console.log('Error al actualizar evento archivo', error); });
+    } else if (this.archivo.id_nota_archivo) {
+      this._serviceNotaArchivos.update(this.archivo.id_nota_archivo, this.archivo, this.token)
+      .then(response => {
+        this.archivo = response.nota_archivo;
+        this.obtenerDifusion(3);
+      }).catch(error => { console.log('Error al actualizar nota archivo', error); });
+    } else if (this.archivo.id_expo_archivo) {
+      this._serviceExpoArchivos.update(this.archivo.id_expo_archivo, this.archivo, this.token)
+      .then(response => {
+        this.archivo = response.expo_archivo;
+        this.obtenerDifusion(4);
+      }).catch(error => { console.log('Error al actualizar expo archivo', error); });
+    }
+    this.modalService.dismissAll();
   }
 
 }

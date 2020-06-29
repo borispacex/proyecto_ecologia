@@ -50,8 +50,7 @@
           </button>
         </div>
         <div class="modal-body" *ngFor="let rol of roles">
-          <button *ngIf="roles.length != null" class="btn btn-success"
-            (click)="ingresar(rol.id_rol)">{{rol.adm_role.rol}}</button>
+          <button *ngIf="roles.length != null" class="btn btn-success" (click)="ingresar(rol.id_rol)">{{rol.adm_role.rol}}</button>
         </div>
       </div>
     </div>

@@ -66,7 +66,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
 
 10. Preparamos nginx
     cd /etc/nginx/sites-available/
-    sudo nano default
+    sudo nano default  
 
 
 11. Preparamos Frontend

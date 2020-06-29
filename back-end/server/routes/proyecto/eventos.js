@@ -1,4 +1,5 @@
-const eventosController = require('../../controllers').eventos;  
+const eventosController = require('../../controllers').eventos;
+const md_auth = require('../../authenticated/authenticated');
 
 // configuracion el express
 module.exports = (app) => {

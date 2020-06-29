@@ -3,6 +3,9 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 import { UsuariosService } from 'src/app/services/admin/usuarios.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { GLOBAL } from 'src/app/services/global';
+import { AutoresService } from 'src/app/services/proyecto/autores.service';
+import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
+import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
 
 @Component({
   selector: 'app-profile',
@@ -22,20 +25,36 @@ export class ProfileComponent implements OnInit {
   private token: string;
   public url: string;
 
+  private id_persona;
+
+  public publicaciones: any = [];
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
     private _auth: AuthService,
-    private _serviceUsuario: UsuariosService
+    private _serviceUsuario: UsuariosService,
+    private _serviceAutores: AutoresService,
+    private _serviceInvestigadores: InvestigadoresService,
+    private _servicePubliArchivos: PubliArchivosService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
   }
 
+  public productImage: string = "assets/images/ecommerce/1.png";
+
   ngOnInit() {
     const id_usuario = JSON.parse(localStorage.getItem('identity_user')).id_usuario;
+    this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
     this.obtenerDatos(id_usuario);
+    this.obtenerPublicaciones();
   }
+
+  changeProductImage(image: string){
+	  this.productImage = image;
+  }
+  
   toggleFullWidth() {
     this.sidebarService.toggle();
     this.sidebarVisible = this.sidebarService.getStatus();
@@ -55,6 +74,27 @@ export class ProfileComponent implements OnInit {
       this.fotografia = responseUsuario.usuario.persona.fotografia;
     })
     .catch(error => { console.log('error al obtener usuario', error); });
+  }
+
+  obtenerPublicaciones() {
+    this._serviceInvestigadores.getInvestigadorByIdPersona(this.id_persona, this.token)
+    .then(response => {
+      console.log(response.investigador);
+      this._serviceAutores.getAutoresByIdInvestigador(response.investigador.id_investigador, this.token)
+      .then(responseA => {
+        console.log(responseA);
+        this.publicaciones = [];
+        responseA.autores.forEach(autor => {
+          var publi = autor.publicacione;
+          this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publi.id_publicacion, this.token)
+          .then(responsePubliA => {
+            publi.archivos = responsePubliA.publi_archivos;
+            this.publicaciones.push(publi);
+          }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
+        });
+        console.log(this.publicaciones);
+      }).catch(error => { console.log('Error al obtener Autores por id_investigador', error); });
+    }).catch(error => { console.log('Error al obtener investigador por id_persona', error); });
   }
 
 }

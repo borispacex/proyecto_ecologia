@@ -59,5 +59,23 @@ export class ExpositoresService {
     return this._http.get(this.url + 'expositores/' + id_curso, options).toPromise()
       .then(res => res.json());
   }
+  // borramos la expositor
+  deleteExpositorByIdCurso(id_curso: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.delete(this.url + 'expositores/' + id_curso, options).toPromise()
+      .then(res => res.json());
+  }
+  // borramos la expositor
+  deleteExpositor(id_expositor: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.delete(this.url + 'expositor/' + id_expositor, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

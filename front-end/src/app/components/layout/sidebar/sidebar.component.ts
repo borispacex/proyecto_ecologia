@@ -88,4 +88,5 @@ export class SidebarComponent implements OnDestroy, OnInit {
     this._auth.logOut();
     this._router.navigate(['/login']);
   }
+  
 }

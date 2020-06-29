@@ -1,9 +1,8 @@
 
-// const host = 'localhost:8012';
-// const host = '3.81.19.219:8012';
-const host = 'umsa-ecologia.xyz/v1';
+// const host = 'http://localhost:8012';
+const host = 'https://umsa-ecologia.xyz/v1';
 
 export var GLOBAL = {
-    url: `https://${host}/api/`, // http --> https
-    who: `https://${host}/`
+    url: `${host}/api/`, // http --> https
+    who: `${host}/`
 };

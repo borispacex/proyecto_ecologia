@@ -1,4 +1,5 @@
-const exposicionesController = require('../../controllers').exposiciones;  
+const exposicionesController = require('../../controllers').exposiciones;
+const md_auth = require('../../authenticated/authenticated');
 
 // configuracion el express
 module.exports = (app) => {

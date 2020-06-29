@@ -200,32 +200,46 @@
                         <table class="table table-hover m-b-0 align-center">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th data-breakpoints="sm xs">Tipo de publicación</th>
+                                    <th data-breakpoints="xs">Tipo de publicación</th>
                                     <th>Titulo</th>
                                     <th>Autores</th>
-                                    <th data-breakpoints="xs">Fecha</th>
+                                    <th data-breakpoints="md">Fecha</th>
+                                    <th data-breakpoints="md">Archivos</th>
                                     <th data-breakpoints="xs md">Estado</th>
                                     <th data-breakpoints="sm xs md">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let basica_tecnica of basica_tecnicas">
-                                    <td>{{basica_tecnica.tipo}}</td>
-                                    <td>{{basica_tecnica.area}}</td>
-                                    <td>{{basica_tecnica.tipo_p}}</td>
-                                    <td>{{basica_tecnica.carga_h}}</td>
+                                <tr *ngFor="let publicacion of publicaciones">
+                                    <td>{{publicacion.tipo}}</td>
+                                    <td>{{publicacion.titulo}}</td>
                                     <td>
-                                        <span *ngIf="basica_tecnica.estado===true"
+                                        <div *ngFor="let autor of publicacion.autores">
+                                            <small>{{autor.investigadore.persona.nombres}} {{autor.investigadore.persona.paterno}} {{autor.investigadore.persona.materno}}</small>
+                                        </div>
+                                    </td>
+                                    <td>{{publicacion.fecha | date }}</td>
+                                    <td>
+                                        <div *ngFor="let archivoB of publicacion.archivos">
+                                            <a type="button" (click)="openArchivo(archivoB.archivo)">
+                                                <i class="fa fa-file text-info"></i>
+                                            </a>
+                                            <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="publicacion.estado===true"
                                             class="badge badge-success bg-success text-white">True</span>
-                                        <span *ngIf="basica_tecnica.estado===false"
+                                        <span *ngIf="publicacion.estado===false"
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" class="btn btn-outline-secondary mr-1"
-                                            (click)="openModalNuevaPublicacion(content4, 'lg', 1)"><i
-                                                class="icon-pencil"></i></a>
-                                        <a type="button" class="btn btn-outline-secondary"><i
-                                                class="icon-trash"></i></a>
+                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', 1)">
+                                            <i class="icon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarPublicacion(publicacion.id_publicacion)">
+                                            <i class="icon-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -267,10 +281,12 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" class="btn btn-outline-secondary mr-1"><i class="icon-pencil"
-                                                (click)="openModalBaseTecnica(content1,'lg', basica_tecnica.id_basica_tecnica)"></i></a>
-                                        <a type="button" class="btn btn-outline-secondary"><i
-                                                class="icon-trash"></i></a>
+                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalBaseTecnica(content1,'lg', basica_tecnica.id_basica_tecnica)">
+                                            <i class="icon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarBasicaTecnica(basica_tecnica.id_basica_tecnica)">
+                                            <i class="icon-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -325,11 +341,12 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" class="btn btn-outline-secondary mr-1"
-                                            (click)="openModalLugarDesarrollo(content2, 'lg', lugar_desarrollo.id_lugar_desarrollo)"><i
-                                                class="icon-pencil"></i></a>
-                                        <a type="button" class="btn btn-outline-secondary"><i
-                                                class="icon-trash"></i></a>
+                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalLugarDesarrollo(content2, 'lg', lugar_desarrollo.id_lugar_desarrollo)">
+                                            <i class="icon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarLugarDesarrollo(lugar_desarrollo.id_lugar_desarrollo)">
+                                            <i class="icon-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -395,8 +412,7 @@
                                             <a type="button" (click)="openArchivo(archivoB.archivo)">
                                                 <i class="fa fa-file text-info"></i>
                                             </a>
-                                            <small> {{archivoB.nombre}}</small>
-                                            
+                                            <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small>
                                         </div>
                                     </td>
                                     <td>
@@ -406,11 +422,12 @@
                                             class="badge badge-danger bg-danger text-white">False</span>
                                     </td>
                                     <td>
-                                        <a type="button" class="btn btn-outline-secondary mr-1"
-                                            (click)="openModalDifusion(content3, 'lg', difusion)"><i
-                                                class="icon-pencil"></i></a>
-                                        <a type="button" class="btn btn-outline-secondary"><i
-                                                class="icon-trash"></i></a>
+                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalDifusion(content3, 'lg', difusion)">
+                                            <i class="icon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarDifusion(difusion)">
+                                            <i class="icon-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -990,6 +1007,14 @@
                     &nbsp;Carga completa
                 </ng-container>
 
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="estado" name="estado"
+                            [(ngModel)]="difusion.estado" />
+                        <label class="form-check-label" for="estado">Estado</label>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-success btn-s" [disabled]="!formDifusion.form.valid">
                     <span class="glyphicon glyphicon-upload"></span> Guardar todo
                 </button>
@@ -1022,25 +1047,25 @@
                             [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || formPublicacion.submitted)}"
                             required>
                             <option value=""> --Seleccionar el tipo de publicación-- </option>
-                            <option value="01">Artículo</option>
-                            <option value="02">Libro</option>
-                            <option value="03">Capítulo</option>
-                            <option value="04">Codigo</option>
-                            <option value="05">Documento de sesión</option>
-                            <option value="06">Portada</option>
-                            <option value="07">Datos</option>
-                            <option value="08">Hallazgo experimental</option>
-                            <option value="09">Método</option>
-                            <option value="10">Resultados negativos</option>
-                            <option value="11">Patentar</option>
-                            <option value="12">Póster</option>
-                            <option value="13">Preimpresión</option>
-                            <option value="14">Presentación</option>
-                            <option value="15">Datos en bruto</option>
-                            <option value="16">Propuesta de investigación</option>
-                            <option value="17">Reporte técnico</option>
-                            <option value="18">Tesis</option>
-                            <option value="19">Investigación</option>
+                            <option value="Artículo">Artículo</option>
+                            <option value="Libro">Libro</option>
+                            <option value="Capítulo">Capítulo</option>
+                            <option value="Codigo">Codigo</option>
+                            <option value="Documento de sesión">Documento de sesión</option>
+                            <option value="Portada">Portada</option>
+                            <option value="Datos">Datos</option>
+                            <option value="Hallazgo experimental">Hallazgo experimental</option>
+                            <option value="Método">Método</option>
+                            <option value="Resultados negativos">Resultados negativos</option>
+                            <option value="Patentar">Patentar</option>
+                            <option value="Póster">Póster</option>
+                            <option value="Preimpresión">Preimpresión</option>
+                            <option value="Presentación">Presentación</option>
+                            <option value="Datos en bruto">Datos en bruto</option>
+                            <option value="Propuesta de investigación">Propuesta de investigación</option>
+                            <option value="Reporte técnico">Reporte técnico</option>
+                            <option value="Tesis">Tesis</option>
+                            <option value="Investigación">Investigación</option>
                         </select>
                         <ul class="parsley-errors-list filled"
                             *ngIf="!tipo.valid && (tipo.touched || formPublicacion.submitted)">
@@ -1099,14 +1124,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-12 col-md-3">Descripción: </label>
+                    <label class="col-12 col-md-3">Contenido: </label>
                     <div class="col-12 col-md-9">
-                        <textarea class="form-control" rows="3" cols="30" [(ngModel)]="publicacion.descripcion"
-                            name="descripcion" #descripcion="ngModel" required
-                            [ngClass]="{'parsley-error':!descripcion.valid && (descripcion.touched || formPublicacion.submitted)}"></textarea>
+                        <textarea class="form-control" rows="3" cols="30" [(ngModel)]="publicacion.contenido"
+                            name="contenido" #contenido="ngModel" required
+                            [ngClass]="{'parsley-error':!contenido.valid && (contenido.touched || formPublicacion.submitted)}"></textarea>
                         <ul class="parsley-errors-list filled"
-                            *ngIf="!descripcion.valid && (descripcion.touched || formPublicacion.submitted)">
-                            <li class="parsley-required" *ngIf="descripcion.hasError('required')">La descripcion es
+                            *ngIf="!contenido.valid && (contenido.touched || formPublicacion.submitted)">
+                            <li class="parsley-required" *ngIf="contenido.hasError('required')">Contenido es
                                 requerida</li>
                         </ul>
                     </div>
@@ -1207,8 +1232,16 @@
                     &nbsp;Carga completa
                 </ng-container>
 
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="estado" name="estado"
+                            [(ngModel)]="publicacion.estado" />
+                        <label class="form-check-label" for="estado">Estado</label>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-success btn-s"
-                    [disabled]="!files.length || !formPublicacion.form.valid">
+                    [disabled]="!formPublicacion.form.valid">
                     <span class="glyphicon glyphicon-upload"></span> Guardar todo
                 </button>
 
@@ -1224,3 +1257,51 @@
         </form>
     </div>
 </ng-template>
+
+
+<!-- MODAL ARCHIVO-->
+<ng-template #content5 let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Actualizar archivo</h4>
+	</div>
+	<div class="modal-body">
+		<form class="container" #archivoForm="ngForm" (ngSubmit)="editarArchivo()">
+			<div class="form-group row">
+				<label class="col-sm-3 col-12" for="tipo">Nombre: </label>
+				<div class="col-sm-9 col-12">
+					<input [(ngModel)]="archivo.nombre" class="form-control" name="nombre" #nombre="ngModel"
+						[ngClass]="{'parsley-error':!nombre.valid && (nombre.touched || archivoForm.submitted)}"
+						required>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!nombre.valid && (nombre.touched || archivoForm.submitted)">
+						<li class="parsley-required" *ngIf="nombre.hasError('required')">Nombre del archivo requerido.
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-3 col-12" for="tipo">Descripción: </label>
+				<div class="col-sm-9 col-12">
+					<textarea [(ngModel)]="archivo.descripcion" rows="3" cols="30" class="form-control" name="descripcion" #descripcion="ngModel"
+						[ngClass]="{'parsley-error':!descripcion.valid && (descripcion.touched || archivoForm.submitted)}"
+						required></textarea>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!descripcion.valid && (descripcion.touched || archivoForm.submitted)">
+						<li class="parsley-required" *ngIf="descripcion.hasError('required')">Descripcion del archivo requerido.
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="estado" name="estado"
+						[(ngModel)]="archivo.estado">
+					<label class="form-check-label" for="estado">Estado</label>
+				</div>
+			</div>
+			<button class="btn btn-success" [disabled]="!archivoForm.form.valid" type="submit">Guardar
+				Cambios</button>
+			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
+		</form>
+	</div>
+</ng-template> 

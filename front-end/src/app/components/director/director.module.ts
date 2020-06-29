@@ -6,6 +6,10 @@ import { DirectorComponent } from './director/director.component';
 import { DataComponent } from './data/data.component';
 import { LayoutModule } from '../layout/layout.module';
 import { SettingsModule } from '../settings/settings.module';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { RouterModule } from '@angular/router';
+import * as echarts from 'echarts';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,7 +22,10 @@ import { SettingsModule } from '../settings/settings.module';
     DirectorRoutingModule,
 
     LayoutModule,
-    SettingsModule
+    SettingsModule,
+    RouterModule,
+    NgxEchartsModule.forRoot({ echarts }),
+    FormsModule
   ]
 })
 export class DirectorModule { }

@@ -68,11 +68,39 @@ function getAllByIdCurso(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un expositores por id_curso', err });
     })
 }
+// funcion para eliminar la expositor
+function deleteExpositor(req, res) {
+    var id = req.params.id_expositor;
+    expositores.destroy({
+        where: { id_expositor: id }
+    })
+    .then(expositor => {
+        res.status(200).send({ expositor });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar una expositor por id_expositor', err});
+    })
+}
+// funcion para eliminar los expositores por id_curso
+function deleteExpositoresByIdCurso(req, res) {
+    var id = req.params.id_curso;
+    expositores.destroy({
+        where: { id_curso: id }
+    })
+    .then(expositores => {
+        res.status(200).send({ expositores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar expositores por id_curso', err});
+    })
+}
 
 module.exports = {
     create,
     update,
     getById,
     getAll,
-    getAllByIdCurso
+    getAllByIdCurso,
+    deleteExpositor,
+    deleteExpositoresByIdCurso
 }

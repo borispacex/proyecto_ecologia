@@ -69,15 +69,29 @@ function getAllByIdBasicaTecnica(req, res) {
     })
 }
 // funcion para eliminar la unidad
-function deleteBasicaTecnica(req, res) {
+function deleteUnidad(req, res) {
     var id = req.params.id_unidad;
-    unidades.findByPk(id)
-    .then(unidad)
+    unidades.destroy({
+        where: { id_unidad: id }
+    })
     .then(unidad => {
-        res.sendStatus(200);
+        res.status(200).send({ unidad });
     })
     .catch(err => {
-        res.status(500).send({ message: 'Ocurrio un error al buscar una unidad', err});
+        res.status(500).send({ message: 'Ocurrio un error al buscar una unidad por id_unidad', err});
+    })
+}
+// funcion para eliminar la unidad por id_unidad_basica
+function deleteUnidadByIdBasicaTecnica(req, res) {
+    var id = req.params.id_basica_tecnica;
+    unidades.destroy({
+        where: { id_basica_tecnica: id }
+    })
+    .then(unidades => {
+        res.status(200).send({ unidades });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar una unidad por id_basica_tecnica', err});
     })
 }
 
@@ -87,5 +101,6 @@ module.exports = {
     getById,
     getAll,
     getAllByIdBasicaTecnica,
-    deleteBasicaTecnica
+    deleteUnidad,
+    deleteUnidadByIdBasicaTecnica
 }

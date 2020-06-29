@@ -28,6 +28,11 @@ const contra_archivos = require('./proyecto/contra_archivos');
 const expositores = require('./proyecto/expositores');
 const unidades = require('./proyecto/unidades');
 
+const publicaciones = require('./proyecto/publicaciones');
+const autores = require('./proyecto/autores');
+const publi_archivos = require('./proyecto/publi_archivos');
+const comentarios = require('./proyecto/comentarios');
+
 module.exports = {
     usuarios,
     fotografias,
@@ -55,5 +60,9 @@ module.exports = {
     conv_archivos,
     contra_archivos,
     expositores,
-    unidades
+    unidades,
+    publicaciones,
+    autores,
+    publi_archivos,
+    comentarios
 }

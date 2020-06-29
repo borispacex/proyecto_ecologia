@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         titulo: DataTypes.STRING,
         objetivo: DataTypes.STRING,
         lugar: DataTypes.STRING,
-        expositores: DataTypes.STRING,
+        resumen: DataTypes.STRING,
         asistentes: DataTypes.INTEGER,
         fechaini: DataTypes.DATE,
         fechafin: DataTypes.DATE,

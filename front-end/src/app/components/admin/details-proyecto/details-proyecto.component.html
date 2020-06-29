@@ -507,6 +507,7 @@
                     </ng-container>
                 </div>
             </section>
+
             <button type="submit" class="btn btn-success btn-s" [disabled]="!formDetail.form.valid">
                 <span class="glyphicon glyphicon-upload"></span> Guardar todo
             </button>
@@ -530,8 +531,8 @@
 	<div class="modal-body">
 		<form class="container" #archivoForm="ngForm" (ngSubmit)="editarArchivo()">
 			<div class="form-group row">
-				<label class="col-3" for="tipo">Nombre: </label>
-				<div class="col-9">
+				<label class="col-sm-3 col-12" for="tipo">Nombre: </label>
+				<div class="col-sm-9 col-12">
 					<input [(ngModel)]="archivo.nombre" class="form-control" name="nombre" #nombre="ngModel"
 						[ngClass]="{'parsley-error':!nombre.valid && (nombre.touched || archivoForm.submitted)}"
 						required>
@@ -543,8 +544,8 @@
 				</div>
 			</div>
 			<div class="form-group row">
-				<label class="" for="tipo">Descripción: </label>
-				<div class="col-9">
+				<label class="col-sm-3 col-12" for="tipo">Descripción: </label>
+				<div class="col-sm-9 col-12">
 					<textarea [(ngModel)]="archivo.descripcion" rows="3" cols="30" class="form-control" name="descripcion" #descripcion="ngModel"
 						[ngClass]="{'parsley-error':!descripcion.valid && (descripcion.touched || archivoForm.submitted)}"
 						required></textarea>

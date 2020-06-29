@@ -1,7 +1,5 @@
 const basica_tecnicasController = require('../../controllers').basica_tecnicas;  
 const md_auth = require('../../authenticated/authenticated');
-const cm = require('connect-multiparty');
-const md_upload = cm({ uploadDir: './server/uploads/archivos' }); // '../../../server/uploads/archivos'
 
 // configuracion el express
 module.exports = (app) => {

@@ -60,12 +60,21 @@ export class UnidadesService {
       .then(res => res.json());
   }
   // borramos la unidad
+  deleteUnidadByIdBasicaTecnica(id_basica_tecnica: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.delete(this.url + 'unidades/' + id_basica_tecnica, options).toPromise()
+      .then(res => res.json());
+  }
+  // borramos la unidad
   deleteUnidad(id_unidad: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'unidades/' + id_unidad, options).toPromise()
+    return this._http.delete(this.url + 'unidad/' + id_unidad, options).toPromise()
       .then(res => res.json());
   }
 

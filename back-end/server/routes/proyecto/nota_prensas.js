@@ -1,4 +1,6 @@
-const nota_prensasController = require('../../controllers').nota_prensas;  
+const nota_prensasController = require('../../controllers').nota_prensas;
+const md_auth = require('../../authenticated/authenticated');
+
 
 // configuracion el express
 module.exports = (app) => {

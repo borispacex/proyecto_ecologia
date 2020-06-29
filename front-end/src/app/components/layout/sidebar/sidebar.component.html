@@ -6,7 +6,7 @@
                 <span>Bienvenido,</span>
                 <a href="javascript:void(0);" class="dropdown-toggle user-name" ngbDropdownToggle><strong>{{ rol | titlecase }}</strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account" ngbDropdownMenu>
-                    <li><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i>Mi perfil</a></li>
+                    <li *ngIf="rol==='investigador'"><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i>Mi perfil</a></li>
                     <li><a href="javascript:void(0);"><i class="icon-envelope-open"></i>Mensajes</a></li>
                     <li><a href="javascript:void(0);" [routerLink]="['./settings/account']"><i class="icon-settings"></i>Configuraciones</a></li>
                     <li class="divider"></li>
@@ -47,7 +47,6 @@
                             </ul>
                         </li>
                     </ul>
-                    <!--  -->
                     <!-- MENU ADMINISTRADOR -->
                     <ul id="main-menu" class="metismenu" *ngIf="rol == 'administrador'">
                         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active':currentActiveMenu == 'principal'}">
@@ -88,6 +87,18 @@
                             </ul>
                         </li>
                     </ul>
+                    <!-- MENU DIRECTOR -->
+                    <ul id="main-menu" class="metismenu" *ngIf="rol==='director'">
+                        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active':currentActiveMenu == 'data'}">
+                            <a class="has-arrow" (click)="activeInactiveMenu('data')"><i class="icon-home"></i>
+                                <span>Dashboard</span></a>
+                            <ul *ngIf="currentActiveMenu == 'data'">
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/director/dashboard/data']">Principal</a></li>
+                            </ul>
+                        </li>
+                        
+                    </ul>
+
                 </nav>
             </div>
             <div class="tab-pane p-l-15 p-r-15" id="setting" [ngClass]="{'active':navTab == 'setting'}">

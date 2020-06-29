@@ -253,7 +253,7 @@ export class DetailsProyectoComponent implements OnInit {
         this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
         .then(responseProyArch => {
           this.archivos = responseProyArch.proy_archivos;
-          // console.log(responseProyArch);
+          console.log(responseProyArch);
         }).catch(error => { console.log('error al obtener proy_archivos', error); });
         break;
       default:
@@ -320,9 +320,9 @@ export class DetailsProyectoComponent implements OnInit {
         // console.log(responseConv);
         this.convenio = responseConv.convenio;
         var date = new Date(this.convenio.fechaini);
-        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
         var date = new Date(this.convenio.fechafin);
-        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
       }).catch(error => { console.log('Error al obtener convenio por id', error); });
 
     } else if (archivo.id_tipo === 9) {
@@ -332,9 +332,9 @@ export class DetailsProyectoComponent implements OnInit {
         // console.log(responseContra);
         this.personal_rrhh = responseContra.contratado;
         var date = new Date(this.personal_rrhh.fechaini);
-        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
         var date = new Date(this.personal_rrhh.fechafin);
-        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1 };
+        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
       }).catch(error => { console.log('Error al obtener contratado por id', error); });
     }
   }
@@ -399,7 +399,7 @@ export class DetailsProyectoComponent implements OnInit {
           .then(responseProyArch => {
             this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch.proy_archivo.id_proy_archivo, this.files[pos], this.token)
             .then((responseArchivo: any) => { 
-              if (sw) { this.toastr.success('Archivos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+              if (sw) { this.toastr.success('Archivos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; this.getArchivosByTipo(7); }
             }).catch(error => {
               console.log('Error al crear archivo del Inv_proyecto', error);
               this.toastr.error('Error al guardar archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -420,21 +420,23 @@ export class DetailsProyectoComponent implements OnInit {
         });
         // archivo
         if (this.files) {
-            this.permiso.nombre = this.datosArchivo[0].nombre;
-            this.permiso.descripcion = this.datosArchivo[0].descripcion;
+          for (let pos = 0; pos < this.files.length; pos++) {
+            this.permiso.nombre = this.datosArchivo[pos].nombre;
+            this.permiso.descripcion = this.datosArchivo[pos].descripcion;
             this._servicePermisoArchivos.save(this.permiso, this.token)
-              .then(response => {
-                this._uploadArchivo.uploadArchivo(this.url + 'upload-permiso-archivo/' + response.permiso_archivos.id_permiso_archivo, this.files[0], this.token)
-                  .then(responseArchivo => {
-                    if (sw) { this.toastr.success('Permisos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
-                  }).catch(error => {
-                    console.log('error al subir archivo', error);
-                    this.toastr.error('Error al guardar archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                  });
+            .then(response => {
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-permiso-archivo/' + response.permiso_archivos.id_permiso_archivo, this.files[0], this.token)
+              .then(responseArchivo => {
+                if (sw) { this.toastr.success('Permisos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; this.getArchivosByTipo(1); }
               }).catch(error => {
-                console.log('error al crear archivo', error);
-                this.toastr.error('Error al guardar proyecto ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                console.log('error al subir archivo', error);
+                this.toastr.error('Error al guardar archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               });
+            }).catch(error => {
+              console.log('error al crear archivo', error);
+              this.toastr.error('Error al guardar proyecto ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            });
+          }
         }
         this.getArchivosByTipo(1); // mostrar permisos
         this.modalService.dismissAll();
@@ -477,7 +479,7 @@ export class DetailsProyectoComponent implements OnInit {
                           // console.log(responseArchivo);
                           this._uploadArchivo.uploadArchivo(this.url + 'upload-conv-archivo/' + responseArchivo.conv_archivos.id_conv_archivo, this.files[i], this.token)
                           .then(responseFile => {
-                            if (sw) { this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+                            if (sw) { this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; this.getArchivosByTipo(2); }
                           }).catch(error => {
                             console.log('error al subir el archivo', error);
                             this.toastr.error('Error al subir archivo', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -549,8 +551,8 @@ export class DetailsProyectoComponent implements OnInit {
                         .then(responseArchivo => {
                           // console.log(responseArchivo);
                           this._uploadArchivo.uploadArchivo(this.url + 'upload-contra-archivo/' + responseArchivo.contra_archivos.id_contra_archivo, this.files[i], this.token)
-                          .then(responseFile => { 
-                            if (sw) { this.toastr.success('Personal contratado guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+                          .then(responseFile => {
+                            if (sw) { this.toastr.success('Personal contratado guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; this.getArchivosByTipo(3); }
                           }).catch(error => {
                             console.log('error al subir el archivo', error);
                             this.toastr.error('Error al subir archivos ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -586,7 +588,7 @@ export class DetailsProyectoComponent implements OnInit {
         this.modalService.dismissAll();
         break;
       case 5:
-        // Cierre de proyecto
+        // Cierre de proyecto, Proyecto final
         for (let pos = 0; pos < this.files.length; pos++) {
           this.datosArchivo[pos].id_proyecto = this.id;
           this.datosArchivo[pos].id_tipo = 6;  // Final proyecto
@@ -595,7 +597,7 @@ export class DetailsProyectoComponent implements OnInit {
             // console.log(responseProyArch);
             this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch.proy_archivo.id_proy_archivo, this.files[pos], this.token)
             .then((responseArchivo: any) => { 
-              if (sw) { this.toastr.success('Proyecto final guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+              if (sw) { this.toastr.success('Proyecto final guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; this.getArchivosByTipo(6); }
             }).catch(error => {
               console.log('Error al crear archivo del Inv_proyecto', error);
               this.toastr.error('Error al subir archivo de proyecto final', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
