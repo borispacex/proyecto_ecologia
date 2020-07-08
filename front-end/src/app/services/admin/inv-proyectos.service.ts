@@ -15,7 +15,7 @@ export class InvProyectosService {
 
   // guardar inv_proyecto
   saveInv_proyecto(inv_proyecto: any, token: string) {
-    console.log('hola desde el servicio', inv_proyecto);
+    // console.log('hola desde el servicio', inv_proyecto);
     let headers = new Headers({
       'Authorization': token
     });

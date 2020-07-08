@@ -5,6 +5,9 @@ const personas = require('../../models').personas;    // --> aqui esta email: co
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
+const url = 'http://localhost:4200';
+// const url = 'https://umsa-ecologia.xyz';
+
 module.exports = (app) => {
   app.post('/api/forgotPassword', (req, res) => {
     if (req.body.correo === '') {
@@ -43,12 +46,12 @@ module.exports = (app) => {
             text:
               'Está recibiendo esto porque usted (u otra persona) ha solicitado restablecer la contraseña de su cuenta.\n\n'
               + 'Haga clic en el siguiente enlace o péguelo en su navegador para completar el proceso dentro de una hora de haberlo recibido.:\n\n'
-              + `http://localhost:4200/update-password/${token}\n\n`
+              + `${url}/authentication/update-password/${token}\n\n`
               + 'Si no solicitó esto, ignore este correo electrónico y su contraseña permanecerá sin cambios.\n'
           };
-          console.log('correo enviado');
-          console.log('....', mailOptions);
-          console.log('transssssss', transporter);
+          // console.log('correo enviado');
+          // console.log('....', mailOptions);
+          // console.log('transssssss', transporter);
 
           transporter.sendMail(mailOptions, (err, response) => {
             if (err) {

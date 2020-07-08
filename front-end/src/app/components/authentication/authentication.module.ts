@@ -14,6 +14,7 @@ import { UpdatePasswordByEmailComponent } from './update-password-by-email/updat
 
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { RouterModule } from '@angular/router';
     AuthenticationRoutingModule,
 
     FormsModule,
-    RouterModule
+    RouterModule,
+    ToastrModule.forRoot(),
   ]
 })
 export class AuthenticationModule { }

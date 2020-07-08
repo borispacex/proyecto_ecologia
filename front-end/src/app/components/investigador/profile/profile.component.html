@@ -23,10 +23,10 @@
 						<h4 class="m-b-0"><strong>{{persona.nombres}}</strong> {{persona.paterno}} {{persona.materno}}</h4>
 						<span>{{persona.ciudad}}, {{persona.pais}}</span>
 					</div>
-					<div class="m-t-15">
+					<!-- <div class="m-t-15">
 						<button class="btn btn-primary mr-1">Seguir</button>
 						<button class="btn btn-outline-secondary">Mensaje</button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 
@@ -107,34 +107,19 @@
 
 		<div class="col-lg-8 col-md-12">
 			<div class="tab-content padding-0">
-				<!-- <div class="card">
-					<div class="body">
-						<div class="new_post">
-							<div class="form-group">
-								<textarea rows="4" class="form-control no-resize"
-									placeholder="Por favor escribe.."></textarea>
-							</div>
-							<div class="post-toolbar-b">
-								<button class="btn btn-warning mr-1"><i class="icon-link"></i></button>
-								<button class="btn btn-warning mr-1"><i class="icon-camera"></i></button>
-								<button class="btn btn-primary">Publicar</button>
-							</div>
-						</div>
-					</div>
-				</div> -->
 				<div *ngFor="let publicacion of publicaciones" class="card single_post">
 					<div class="body">
 						<div class="img-post">
 							<img class="d-block img-fluid" src="{{url +'get-fotografia/'+ 'logo-pdf.jpg' + '/false'}}" alt="publicacion">
 						</div>
-						<h3><a href="blog-details.html">{{publicacion.titulo}}</a></h3>
+						<h3><a [routerLink]="['../profile-post/', publicacion.id_publicacion]">{{publicacion.titulo}}</a></h3>
 						<small>{{publicacion.fecha | date}}</small>
 						<p>{{publicacion.contenido}}</p>
 						<a *ngFor="let archivo of publicacion.archivos" href="{{url +'get-archivo/'+archivo.archivo}}" target="_blank">{{url +'get-archivo/'+archivo.archivo}}</a>
 					</div>
 					<div class="footer">
 						<div class="actions">
-							<a href="javascript:void(0);" class="btn btn-outline-secondary">Continuar leyendo</a>
+							<a type="button" class="btn btn-outline-secondary" [routerLink]="['../profile-post/', publicacion.id_publicacion]">Continuar leyendo</a>
 						</div>
 						<ul class="stats">
 							<li><a href="javascript:void(0);">Comentarios</a></li>

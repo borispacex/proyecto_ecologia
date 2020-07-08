@@ -5,97 +5,28 @@
                     class="lnr lnr-menu fa fa-bars"></i></button>
         </div>
         <div class="navbar-brand">
-            <!-- <a *ngIf="!darkClass" [routerLink]="['/admin/dashboard/index']"><img src="assets/images/logo.svg" alt="Lucid Logo"
-                    class="img-responsive logo"></a>
-            <a *ngIf="darkClass" [routerLink]="['/admin/dashboard/index']"><img src="assets/images/logo-white.svg" alt="Lucid Logo"
-                    class="img-responsive logo"></a> -->
             <a *ngIf="!darkClass" [ngStyle]="{'color': '#5A5A5A'}" [routerLink]="['./']"><b>I</b>nstituto<b>E</b>cologia</a>
             <a *ngIf="darkClass" [ngStyle]="{'color': '#92929C'}" [routerLink]="['./']"><b>I</b>nstituto<b>E</b>cologia</a>
         </div>
         <div class="navbar-right">
-            <form id="navbar-search" class="navbar-form search-form">
-                <input value="" class="form-control" placeholder="Buscar ..." type="text">
-                <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
-            </form>
-
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">
-                    <li>
-                        <a [routerLink]="['./']" class="icon-menu d-none d-sm-block"><i
-                                class="icon-bubbles"></i></a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['./']" class="icon-menu d-none d-sm-block"><i
-                                class="icon-envelope"></i><span class="notification-dot"></span></a>
-                    </li>
                     <li class="dropdown" ngbDropdown>
-                        <a class="dropdown-toggle icon-menu" ngbDropdownToggle>
-                            <i class="icon-bell"></i>
-                            <span class="notification-dot"></span>
+                        <a type="button" class="dropdown-toggle icon-menu d-none d-sm-block" ngbDropdownToggle>
+                            <div class="icons-list">
+                                <i class="icon-user"></i> <strong> {{persona.grado_academico}}</strong> {{persona.nombres}} {{persona.paterno}} {{persona.materno}}
+                            </div>
                         </a>
-                        <ul class="dropdown-menu notifications" ngbDropdownMenu>
-                            <li class="header"><strong>Tu tienes 4 notificaciones</strong></li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <i class="icon-info text-warning"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="text">Campaña <strong>Holiday Sale</strong> is nearly reach
-                                                budget limit.</p>
-                                            <span class="timestamp">10:00 AM Hoy</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <i class="icon-like text-success"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="text">Tu nueva campaña <strong>Venta de vacaciones</strong> esta aprobado.
-                                            </p>
-                                            <span class="timestamp">11:30 AM Hoy</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <i class="icon-pie-chart text-info"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="text">Website visits from Twitter is 27% higher than last week.
-                                            </p>
-                                            <span class="timestamp">04:00 PM Hoy</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">
-                                    <div class="media">
-                                        <div class="media-left">
-                                            <i class="icon-info text-danger"></i>
-                                        </div>
-                                        <div class="media-body">
-                                            <p class="text">Error on website analytics configurations</p>
-                                            <span class="timestamp">Ayer</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="footer"><a href="javascript:void(0);" class="more">Ver todas las notificaciones</a></li>
+                        <ul class="dropdown-menu user-menu menu-icon" ngbDropdownMenu>
+                            <li class="menu-heading">CUENTA</li>
+                            <li *ngIf="rol==='investigador'"><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i> <span>Mi perfil</span></a></li>
+                            <li><a href="javascript:void(0);" [routerLink]="['./settings/account']"><i class="icon-settings"></i> <span>Configuraciones</span></a></li>
+                            <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power"></i> <span>Salir</span></a></li>
                         </ul>
                     </li>
+
                     <li>
-                        <a class="icon-menu" href="javascript:void(0);" (click)="logout()"><i
-                                class="icon-login"></i></a>
+                        <a type="button" class="icon-menu" (click)="logout()"><i class="icon-login"></i></a>
                     </li>
                 </ul>
             </div>

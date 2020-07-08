@@ -14,26 +14,33 @@
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
-		(click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
+	<div class="container row">
+		<form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1">
+			<input [formControl]="search" class="form-control" placeholder="Buscar usuarios ..."
+				type="text" />
+			<button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+		</form>
+	
+		<button type="button" class="btn btn-default mr-1 mb-3" (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
 			Usuario</span></button>
 
-	<div ngbDropdown class="d-inline-block" placement="bottom-left">
-		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
-		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-			<button class="btn btn-default" [routerLink]="['../', 'usuario']" ngbDropdownItem>Listar Todos</button>
-			<button class="btn btn-default" [routerLink]="['../', 'administrador']" ngbDropdownItem>Listar Administradores</button>
-			<button class="btn btn-default" [routerLink]="['../', 'director']" ngbDropdownItem>Listar Directores</button>
-			<button class="btn btn-default" [routerLink]="['../', 'investigador']" ngbDropdownItem>Listar Investigadores</button>
+		<div ngbDropdown class="d-inline-block" placement="bottom-left">
+			<button class="btn btn-default mr-1" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				<button class="btn btn-default" [routerLink]="['../', 'usuario']" ngbDropdownItem>Listar Todos</button>
+				<button class="btn btn-default" [routerLink]="['../', 'administrador']" ngbDropdownItem>Listar Administradores</button>
+				<button class="btn btn-default" [routerLink]="['../', 'director']" ngbDropdownItem>Listar Directores</button>
+				<button class="btn btn-default" [routerLink]="['../', 'investigador']" ngbDropdownItem>Listar Investigadores</button>
+			</div>
 		</div>
-	</div>
 
-	<div ngbDropdown class="d-inline-block" *ngIf="punteroListado > 3" placement="bottom-left">
-		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic2" ngbDropdownToggle>Investigadores</button>
-		<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-			<button class="btn btn-default" [routerLink]="['../', 'inv-titular']" ngbDropdownItem>Titular</button>
-			<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-proyecto']" ngbDropdownItem>Asociado con proyecto</button>
-			<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-invitacion']" ngbDropdownItem>Asociado por invitacion</button>
+		<div ngbDropdown class="d-inline-block" *ngIf="punteroListado > 3" placement="bottom-left">
+			<button class="btn btn-default mr-1 mb-3" id="dropdownBasic2" ngbDropdownToggle>Investigadores</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+				<button class="btn btn-default" [routerLink]="['../', 'inv-titular']" ngbDropdownItem>Titular</button>
+				<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-proyecto']" ngbDropdownItem>Asociado con proyecto</button>
+				<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-invitacion']" ngbDropdownItem>Asociado por invitacion</button>
+			</div>
 		</div>
 	</div>
 
@@ -60,7 +67,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let usuario_rol of adm_usuario_roles">
+								<tr *ngFor="let usuario_rol of adm_usuario_roles | searchAdmUsuarioRol: valorBusqueda">
 									<td>{{usuario_rol.adm_usuario.persona.nombres}}
 										{{usuario_rol.adm_usuario.persona.paterno}}
 										{{usuario_rol.adm_usuario.persona.materno}}</td>
@@ -82,7 +89,7 @@
 										<a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"
 											(click)="openModalEditar(content,'lg', usuario_rol.adm_usuario.id_usuario, usuario_rol.estado)"><i
 												class="icon-pencil"></i></a>
-										<a href="javascript:void(0);" class="btn btn-outline-secondary"><i
+										<a href="javascript:void(0);" class="btn btn-outline-secondary" (click)="eliminarUsuario(usuario_rol.id_adm_usuario_rol)"><i
 												class="icon-trash"></i></a>
 									</td>
 								</tr>

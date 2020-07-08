@@ -50,6 +50,15 @@ export class ListFotografiaComponent implements OnInit {
         console.log(error);
       });
   }
+  getFotografias() {
+    this._serviceFotografias.getFotografias()
+      .then(response => {
+        this.fotografias = response.fotografias;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   openModalAgregar(content, size) {
     this.modalService.open(content, { size: size });
@@ -146,5 +155,12 @@ export class ListFotografiaComponent implements OnInit {
       numero: '',
       estado: false
     };
+  }
+  eliminarFotografia(id: number) {
+    this._serviceFotografias.update(id, { estado: false }, this.token)
+    .then(response => {
+      // console.log(response);
+      this.getFotografiasAdmin();
+    }).catch(error => { console.log('Error al eliminar la foto', error); });
   }
 }

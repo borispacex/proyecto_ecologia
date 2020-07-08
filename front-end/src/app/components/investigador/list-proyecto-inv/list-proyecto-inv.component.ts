@@ -7,6 +7,8 @@ import { InvestigadoresService } from 'src/app/services/admin/investigadores.ser
 import { Params, ActivatedRoute } from '@angular/router';
 import { Proyecto } from 'src/app/interfaces/proyecto';
 import { InvProyectosService } from 'src/app/services/admin/inv-proyectos.service';
+import { debounceTime } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-list-proyecto-inv',
@@ -21,6 +23,10 @@ export class ListProyectoInvComponent implements OnInit {
   public token: string;
   public proyectos: Array<Proyecto> = [];
   public url: string;
+
+  // search proyectos
+  search = new FormControl('');
+  public valorBusqueda = '';
 
   constructor(
     private sidebarService: SidebarService,
@@ -38,6 +44,8 @@ export class ListProyectoInvComponent implements OnInit {
   ngOnInit() {
     const id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
     this.obtenerTipoProyecto(id_persona);
+    // buscador proyectos
+    this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
   }
   obtenerProyectos() {
     var fotos: any[] = [];

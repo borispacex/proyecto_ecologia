@@ -11,6 +11,7 @@ import { CuentaHelpComponent } from '../help/cuenta-help/cuenta-help.component';
 import { AdminHelpComponent } from '../help/admin-help/admin-help.component';
 import { DirectorHelpComponent } from '../help/director-help/director-help.component';
 import { InvestigadorHelpComponent } from '../help/investigador-help/investigador-help.component';
+import { ProfilePostComponent } from './profile-post/profile-post.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
               children: [
                 { path: '', redirectTo: 'profile', pathMatch: 'full' },
                 { path: 'profile', component: ProfileComponent, data: { title: 'Perfil' } },
+                { path: 'profile-post/:id_publicacion', component: ProfilePostComponent, data: { title: 'Detalles publicacion' } },
                 { path: 'list-proyectos-inv/:tipo', component: ListProyectoInvComponent, data: { title: 'Lista proyectos de Investigador' } },
                 { path: 'edit-proyecto/:id', component: EditProyectoComponent, data: { title: 'Editar el Proyecto' } },
                 { path: 'view-proyecto/:id', component: ViewProyectoComponent, data: { title: 'Visualizar el Proyecto' } }

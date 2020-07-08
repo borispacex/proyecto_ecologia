@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ForgotPasswordService } from 'src/app/services/auth/forgot-password.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { GLOBAL } from 'src/app/services/global';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-update-password-by-email',
@@ -28,7 +30,12 @@ export class UpdatePasswordByEmailComponent implements OnInit {
 
   public url: string;
 
-  constructor(private _serviceForgotPassword: ForgotPasswordService, private _router: Router, private _rote: ActivatedRoute) { }
+  constructor(
+    private _serviceForgotPassword: ForgotPasswordService,
+    private _router: Router,
+    private _rote: ActivatedRoute,
+    private toastr: ToastrService
+    ) { }
 
   ngOnInit() {
     this.getTokenByEmail();
@@ -41,12 +48,15 @@ export class UpdatePasswordByEmailComponent implements OnInit {
       this._serviceForgotPassword.updatePasswordByEmail(this.usuario)
         .then(response => {
           console.log('contraseña actualizada', response);
+          this.toastr.success('Contraseña actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           this._router.navigate(['/authentication/login']);
         }).catch(error => {
           console.log('error', error);
+          this.toastr.error('Error al actualizar contraseña', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
     } else {
       console.log('contraseñas no coinciden');
+      this.toastr.error('Las contraseñas no coinciden', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
     }
   }
 
@@ -60,6 +70,7 @@ export class UpdatePasswordByEmailComponent implements OnInit {
         .catch(error => {
           console.log('Fallo el token es incorrecto', error);
           this._router.navigate(['/authentication/page-401']);
+          this.toastr.error('Error con el token es incorrecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
     });
   }

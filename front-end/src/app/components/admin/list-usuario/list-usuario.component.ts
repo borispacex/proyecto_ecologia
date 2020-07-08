@@ -8,6 +8,8 @@ import { InvestigadoresService } from 'src/app/services/admin/investigadores.ser
 import { ActivatedRoute, Params } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-usuario',
@@ -41,6 +43,10 @@ export class ListUsuarioComponent implements OnInit {
   public punteroListado = 1;
   public punteroMostrar = 'Lista de Usuarios';
   public punteroMostrarInvestigador = '';
+
+  // search usuarios
+  search = new FormControl('');
+  public valorBusqueda = '';
 
   constructor(
     private _serviceUsuarios: UsuariosService,
@@ -78,6 +84,8 @@ export class ListUsuarioComponent implements OnInit {
   ngOnInit() {
     this.vaciarUsuario();
     this.comprobarTipoUsuario();
+    // buscador usuarios
+    this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
   }
   openModalAgregar(content, size) {
     this.modalService.open(content, { size: size });
@@ -362,7 +370,11 @@ export class ListUsuarioComponent implements OnInit {
     this.punteroMostrarInvestigador = '';
     this._serviceUsuarios.getUsuarios(this.token)
       .then(response => {
-        this.adm_usuario_roles = response.usuarios;
+        this.adm_usuario_roles = [];
+        response.usuarios.forEach(usuario => {
+          usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+          this.adm_usuario_roles.push(usuario);
+        });
       })
       .catch(error => {
         console.log(error);
@@ -374,7 +386,11 @@ export class ListUsuarioComponent implements OnInit {
     this.punteroMostrarInvestigador = '';
     this._serviceUsuarios.getUsuariosAdministradores(this.token)
       .then(response => {
-        this.adm_usuario_roles = response.usuarios;
+        this.adm_usuario_roles = [];
+        response.usuarios.forEach(usuario => {
+          usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+          this.adm_usuario_roles.push(usuario);
+        });
       })
       .catch(error => {
         console.log(error);
@@ -386,7 +402,11 @@ export class ListUsuarioComponent implements OnInit {
     this.punteroMostrarInvestigador = '';
     this._serviceUsuarios.getUsuariosDirectores(this.token)
       .then(response => {
-        this.adm_usuario_roles = response.usuarios;
+        this.adm_usuario_roles = [];
+        response.usuarios.forEach(usuario => {
+          usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+          this.adm_usuario_roles.push(usuario);
+        });
       })
       .catch(error => {
         console.log(error);
@@ -398,7 +418,11 @@ export class ListUsuarioComponent implements OnInit {
     this.punteroMostrarInvestigador = '';
     this._serviceUsuarios.getUsuariosInvestigadores(this.token)
       .then(response => {
-        this.adm_usuario_roles = response.usuarios;
+        this.adm_usuario_roles = [];
+        response.usuarios.forEach(usuario => {
+          usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+          this.adm_usuario_roles.push(usuario);
+        });
       })
       .catch(error => {
         console.log(error);
@@ -415,6 +439,7 @@ export class ListUsuarioComponent implements OnInit {
           this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
             .then(responseInvestigador => {
               if (responseInvestigador.investigador.id_inv_tipo === 1) {
+                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
                 this.adm_usuario_roles.push(adm_usuario_role);
               }
             })
@@ -436,6 +461,7 @@ export class ListUsuarioComponent implements OnInit {
           this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
             .then(responseInvestigador => {
               if (responseInvestigador.investigador.id_inv_tipo === 2) {
+                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
                 this.adm_usuario_roles.push(adm_usuario_role);
               }
             })
@@ -457,6 +483,7 @@ export class ListUsuarioComponent implements OnInit {
           this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
             .then(responseInvestigador => {
               if (responseInvestigador.investigador.id_inv_tipo === 3) {
+                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
                 this.adm_usuario_roles.push(adm_usuario_role);
               }
             })
@@ -466,5 +493,12 @@ export class ListUsuarioComponent implements OnInit {
       .catch(error => {
         console.log(error);
       });
+  }
+
+  eliminarUsuario(id: number) {
+    this._serviceUsuarios.updateAdmUsuarioRol(id, { estado: false }, this.token)
+    .then(response => {
+      this.comprobarTipoUsuario();
+    }).catch(error => { console.log('Error al eliminar usuario', error); });
   }
 }

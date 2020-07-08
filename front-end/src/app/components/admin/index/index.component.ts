@@ -15,9 +15,9 @@ export class IndexComponent implements OnInit {
   constructor(private sidebarService: SidebarService, private cdr: ChangeDetectorRef, private toastr: ToastrService) { }
 
   ngOnInit() {
-    setTimeout( () => {
-      this.showToastr();
-    }, 1000);
+    // setTimeout( () => {
+    //   this.showToastr();
+    // }, 1000);
   }
 
   showToastr() {

@@ -13,7 +13,7 @@ import { takeUntil, filter, map, mergeMap } from 'rxjs/operators';
 })
 export class AdminComponent implements AfterViewInit, OnInit, OnDestroy {
 
-  public title = 'lucid';
+  public title = 'Instituto Ecologia';
   public isStopLoading: boolean = false;
   public showNotifMenu: boolean = false;
   public showToggleMenu: boolean = false;

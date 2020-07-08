@@ -15,19 +15,27 @@
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
+	<div class="container row">
+		<form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1">
+			<input [formControl]="search" class="form-control" placeholder="Buscar proyecto ..."
+				type="text" />
+			<button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+		</form>
+	
+		<button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
 		(click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
 			Proyecto</span></button>
 
-	<div ngbDropdown class="d-inline-block" placement="bottom-left">
-		<button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
-		<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-			<button class="btn btn-default" [routerLink]="['../', 'proyecto']" ngbDropdownItem>Todos</button>
-			
-			<button class="btn btn-default" [routerLink]="['../', 'activo']" ngbDropdownItem>Activos</button>
-			<button class="btn btn-default" [routerLink]="['../', 'inactivo']" ngbDropdownItem>Inactivos</button>
-			<button class="btn btn-default" [routerLink]="['../', 'pendiente']" ngbDropdownItem>Pendientes</button>
-			<button class="btn btn-default" [routerLink]="['../', 'cerrado']" ngbDropdownItem>Cerrados</button>
+		<div ngbDropdown class="d-inline-block" placement="bottom-left">
+			<button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				<button class="btn btn-default" [routerLink]="['../', 'proyecto']" ngbDropdownItem>Todos</button>
+				
+				<button class="btn btn-default" [routerLink]="['../', 'activo']" ngbDropdownItem>Activos</button>
+				<button class="btn btn-default" [routerLink]="['../', 'inactivo']" ngbDropdownItem>Inactivos</button>
+				<button class="btn btn-default" [routerLink]="['../', 'pendiente']" ngbDropdownItem>Pendientes</button>
+				<button class="btn btn-default" [routerLink]="['../', 'cerrado']" ngbDropdownItem>Cerrados</button>
+			</div>
 		</div>
 	</div>
 
@@ -50,7 +58,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let proyecto of proyectos">
+								<tr *ngFor="let proyecto of proyectos | searchProyectos: valorBusqueda">
 									<td>
 										<span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
 										<span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>

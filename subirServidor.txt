@@ -33,13 +33,15 @@ ssh -i mi-llave bvargas7@35.226.114.61
 7. Clonamos el repositorio
     cd /var/www/
     sudo git clone https://github.com/borisvargas/proyecto_ecologia.git
-    chmod -R 777 proyecto_ecologia
+    sudo chmod -R 777 proyecto_ecologia
+    cd proyecto_ecologia/back-end
+    npm install
 
 8. Importamos la base de datos
     sudo su - postgres              // ingresar al usuario postgres
     psql -c "alter user postgres with password 'postgres'"
     psql -U postgres -W             // ingresar a consola postgres
-    CREATE DATABASE bd_ecologia;    // crear la BD
+    CREATE DATABASE bd_ecologia;    // crear la BD  // eliminar la DB: DROP DATABASE bd_ecologia; 
     \c bd_ecologia                  // ingresar a la BD
     \dt                             // mostrar tablas
     \q                              // salir consola

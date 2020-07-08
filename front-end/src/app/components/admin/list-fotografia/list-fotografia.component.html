@@ -46,13 +46,18 @@
                                     </td>
                                     <td><span class="text-muted">{{ fotografia.descripcion }}</span></td>
                                     <td>{{ fotografia.numero }}</td>
-                                    <td><span class="col-green">{{ fotografia.estado }}</span></td>
+
+                                    <td>
+                                        <span *ngIf="fotografia.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
+										<span *ngIf="!fotografia.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminada</span>
+                                    </td>
+
                                     <td>
                                         <a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"
                                             (click)="openModalEditar(content,'lg',fotografia.id_fotografia)"><i
                                                 class="icon-pencil"></i></a>
                                         <a href="javascript:void(0);" class="btn btn-outline-danger"><i
-                                                class="icon-trash"></i></a>
+                                                class="icon-trash" (click)="eliminarFotografia(fotografia.id_fotografia)"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

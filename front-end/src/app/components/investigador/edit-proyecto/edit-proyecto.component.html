@@ -33,10 +33,12 @@
                 </div>
                 <div class="body">
                     <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
-                    <h4 class="mb-2"> ---------- Fechas ----------</h4>
+                    <hr>
+                    <h4>Fechas</h4>
                     <p><strong>Fecha inicio del proyecto: </strong>{{proyecto.fechaini | date}}</p>
                     <p><strong>fecha conclusion del proyecto: </strong>{{proyecto.fechafin | date}}</p>
-                    <h4 class="mb-2"> ---------- Grupo ---------- </h4>
+                    <hr>
+                    <h4>Grupo</h4>
                     <h6>Investigador coordinador</h6>
                     <ul>
                         <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}}

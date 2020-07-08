@@ -22,24 +22,33 @@
                 </div>
                 <div class="body">
                     <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
-                    <h4 class="mb-2"> ---------- Fechas ----------</h4>
+                    <hr>
+                    <h4>Fechas</h4>
                     <p><strong>Fecha inicio del proyecto: </strong>{{proyecto.fechaini | date}}</p>
                     <p><strong>fecha conclusion del proyecto: </strong>{{proyecto.fechafin | date}}</p>
-                    <h4 class="mb-2"> ---------- Grupo ---------- </h4>
+                    <hr>
+                    <h4>Grupo</h4>
                     <h6>Investigador coordinador</h6>
                     <ul>
-                        <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a></li>
+                        <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}}
+                                {{proyecto.investigadore.persona.paterno}}
+                                {{proyecto.investigadore.persona.materno}}</a></li>
                     </ul>
                     <h6>Investigadores</h6>
                     <ul>
-                        <li *ngFor="let inv of proyecto.investigadores"><a href="javascript:void(0)">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
+                        <li *ngFor="let inv of proyecto.investigadores"><a
+                                href="javascript:void(0)">{{inv.investigadore.persona.nombres}}
+                                {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
                     </ul>
 
-                    <p><ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100"></ngb-progressbar></p>
+                    <p>
+                        <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">
+                        </ngb-progressbar>
+                    </p>
                     <div class="row">
                         <div class="col-7">
                             <small>Numero de archivos: 23</small>
-                            <h6><strong>estado: </strong>{{proyecto.estado}}</h6>
+                            <p><strong>estado: </strong>{{proyecto.estado}}</p>
                         </div>
                     </div>
                 </div>

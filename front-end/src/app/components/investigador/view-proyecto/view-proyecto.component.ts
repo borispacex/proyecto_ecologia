@@ -263,8 +263,8 @@ export class ViewProyectoComponent implements OnInit {
     console.log(this.fileDropDisabled);
     console.log(this.maxSize);
     console.log(this.baseDropValid);
-    
 
+    this.modalService.dismissAll();
   }
   editarArchivo() {
 

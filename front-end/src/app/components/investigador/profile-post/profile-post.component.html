@@ -1,0 +1,114 @@
+<div class="container-fluid">
+	<div class="block-header">
+		<div class="row">
+			<div class="col-lg-5 col-md-8 col-sm-12">
+				<h2>Publicación</h2>
+				<ul class="breadcrumb">
+					<li class="breadcrumb-item"><a [routerLink]="['/investigador/dashboard/profile']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item">Dashboard</li>
+                    <li class="breadcrumb-item active"><a [routerLink]="['/investigador/dashboard/profile']">Perfil de Investigador</a></li>
+                    <li class="breadcrumb-item active">{{id_publicacion}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="row clearfix">
+        
+		<div class="col-lg-12 col-md-12">
+			<div class="card right-box single_post2">
+				<!-- <img class="img-fluid" src="{{url +'get-fotografia/'+ 'logo-pdf.jpg' + '/false'}}" alt="img"> -->
+				<div class="widget body">
+					<ul class="list-unstyled instagram-plugin m-b-0">
+						<li *ngFor="let archivo of archivos">
+							<a href="{{url +'get-archivo/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
+								<img class="img-fluid" src="{{url +'get-fotografia/'+ 'logo-pdf.jpg' + '/true'}}" alt="image description">
+							</a>
+							<a href="{{url +'get-archivo/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
+								<img class="img-fluid" src="{{url +'get-archivo/'+archivo.archivo}}" width="500px" alt="image description">
+							</a>
+						</li>
+						
+					</ul>
+				</div>
+				<div class="body">
+					<div class="content">
+						<div class="actions_sidebar">
+							<!-- <a href="javascript:void(0)"><i class="icon-share"></i></a> -->
+							<a href="javascript:void(0)"><i class="icon-bubble"></i><span>2</span></a>
+						</div>
+						<h4 class="title">{{publicacion.titulo}}</h4>
+						<p class="date">
+							<small>{{publicacion.fecha | date}}</small>
+                        </p>
+                        
+					</div>
+					<small>{{publicacion.tipo}}</small>
+						<p class="text">{{publicacion.contenido}}</p>
+				</div>
+	
+			</div>
+		</div>
+	</div>
+	
+	<div class="row clearfix">
+		<div class="col-lg-12 col-md-12">
+			<div class="card">
+				<div class="header">
+					<h2>Comentarios</h2>
+				</div>
+				<div class="body">
+					<ul class="comment-reply list-unstyled">
+						<li class="row clearfix">
+							<div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail"
+									src="assets/images/sm/avatar2.jpg" alt="Awesome Image"></div>
+							<div class="text-box col-md-10 col-8 p-l-0 p-r0">
+								<h5 class="m-b-0">Gigi Hadid </h5>
+								<p>Why are there so many tutorials on how to decouple WordPress? how fast and easy it is to
+									get it running (and keep it running!) and its massive ecosystem. </p>
+								<ul class="list-inline">
+									<li><a href="javascript:void(0);">Mar 09 2018</a></li>
+								</ul>
+							</div>
+						</li>
+						<li class="row clearfix">
+							<div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail"
+									src="assets/images/sm/avatar3.jpg" alt="Awesome Image"></div>
+							<div class="text-box col-md-10 col-8 p-l-0 p-r0">
+								<h5 class="m-b-0">Christian Louboutin</h5>
+								<p>Great tutorial but few issues with it? If i try open post i get following errors. Please
+									can you help me?</p>
+								<ul class="list-inline">
+									<li><a href="javascript:void(0);">Mar 12 2018</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+	<div class="row clearfix">
+		<div class="col-lg-4 col-md-12">
+			<div class="card">
+				<div class="header">
+					<h2>Sobre mí</h2>
+				</div>
+				<div class="body text-center">
+					<div class="profile-image m-b-15"> 
+						<img src="{{url +'get-fotografia/'+ persona.fotografia.imagen + '/true'}}" class="rounded-circle" alt="">
+					</div>
+					<div>
+						<h4 class="m-b-0"><strong>{{persona.nombres}}</strong> {{persona.paterno}} {{persona.materno}}</h4>
+						<span>{{persona.ciudad}}, {{persona.pais}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+
+</div>

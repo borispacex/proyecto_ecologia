@@ -376,7 +376,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     private _servicePublicaciones: PublicacionesService,
     private _servicePubliArchivos: PubliArchivosService,
     private _serviceAutores: AutoresService
-  ) { 
+  ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
     this.who = GLOBAL.who;
@@ -854,11 +854,11 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   }
   guardarDifusion() {
     this.difusion.id_proyecto = this.id;
-    console.log(this.difusion);
-    console.log(this.files);
-    console.log(this.datosArchivo);
-
-    console.log(this.expositores);
+    // console.log(this.difusion);
+    // console.log(this.files);
+    // console.log(this.datosArchivo);
+    var sw = true;
+    // console.log(this.expositores);
 
     if (this.difusion.id_curso) {
       // actualizar curso
@@ -866,11 +866,12 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceCursos.update(this.difusion.id_curso, this.difusion, this.token)
       .then(response => {
-        console.log(response.curso);
+        // console.log(response.curso);
+        sw = true;
         // actualizar expositores
         this._serviceExpositores.deleteExpositorByIdCurso(response.curso.id_curso, this.token)
         .then(responseCur => {
-          console.log(responseCur);
+          // console.log(responseCur);
           this.expositores.forEach(expositor => {
             var expo = {
               id_curso: response.curso.id_curso,
@@ -878,7 +879,10 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
             };
             this._serviceExpositores.save(expo, this.token)
             .then(responseE => {  })
-            .catch(error => { console.log('Error al crear expositor', error); });
+            .catch(error => { 
+              console.log('Error al crear expositor', error);
+              // this.toastr.error('Error al guardar expositor', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            });
           });
           // guardar archivos cursos
           if (this.files) {
@@ -891,33 +895,53 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 descripcion: this.datosArchivo[i].descripcion,
                 id_tipo: '10'
               };
-              console.log(curso_archivo);
+              // console.log(curso_archivo);
               this._serviceCursoArchivos.save(curso_archivo, this.token)
               .then(responseArchivo => {
                 console.log(responseArchivo);
-                // tslint:disable-next-line:max-line-length
+                sw = true;
                 this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
                 .then(responseFile => {
                   // console.log(responseFile);
-                }).catch(error => { console.log('error al subir el archivo', error); });
+                  sw = true;
+                }).catch(error => { 
+                  console.log('error al subir el archivo', error);
+                  sw = false;
+                  // this.toastr.error('Error al subir archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                });
                 this.obtenerDifusion(1);
               })
-              .catch(error => { console.log('error al crear curso archivo', error); });
+              .catch(error => {
+                console.log('error al crear curso archivo', error);
+                sw = false;
+                // this.toastr.error('Error al guardar archicos de curso ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              });
+              
+
             }
-          } else {
-            this.obtenerDifusion(1);
           }
+          if (sw) {
+            this.obtenerDifusion(1);
+            this.toastr.success('Curso, Seminario o Taller actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          } else {
+            this.toastr.error('Error al subir archivos de Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          }
+
         }).catch(error => { console.log('Error al eliminar expositores por id_curso', error); });
-      }).catch(error => { console.log('Error al actualizar curso', error); });
+      }).catch(error => { 
+        console.log('Error al actualizar curso', error);
+        this.toastr.error('Error al actualizar curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
 
     } else if (this.difusion.id_evento) {
+      sw = false;
       // actualizar evento
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceEventos.update(this.difusion.id_evento, this.difusion, this.token)
       .then(response => {
-        console.log(response);
-
+        // console.log(response);
+        sw = true;
         // guardar archivo eventos
         if (this.files) {
           for (let i = 0; i < this.files.length; i++) {
@@ -928,29 +952,39 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
               descripcion: this.datosArchivo[i].descripcion,
               id_tipo: '11'
             };
-            console.log(evento_archivo);
+            // console.log(evento_archivo);
             this._serviceEventoArchivos.save(evento_archivo, this.token)
             .then(responseArchivo => {
-              console.log(responseArchivo);
-              // tslint:disable-next-line:max-line-length
+              // console.log(responseArchivo);
+              sw = false;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-evento-archivo/' + responseArchivo.evento_archivos.id_evento_archivo, this.files[i], this.token)
               .then(responseFile => {
-                console.log(responseFile);
-              }).catch(error => { console.log('error al subir el archivo', error); });
+                // console.log(responseFile);
+                sw = true;
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
               this.obtenerDifusion(2);
-            }).catch(error => { console.log('error al crear evento archivo', error); });
+            }).catch(error => { console.log('error al crear evento archivo', error); sw = false ; });
           }
-        } else {
+        }
+        if (sw) {
           this.obtenerDifusion(2);
+          this.toastr.success('Evento cientifico actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        } else {
+          this.toastr.error('Error al subir archivos de evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
 
-      }).catch(error => { console.log('Error al actualizar evento', error); });
+      }).catch(error => {
+        console.log('Error al actualizar evento', error);
+        this.toastr.error('Error al actualizar Evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
     } else if (this.difusion.id_nota_prensa) {
+      sw = false;
       // actualizar nota prensa
       this.difusion.fecha = this.formatDate(this.difusion.fecha) + 'T00:00:00.000';
       this._serviceNotaPrensas.update(this.difusion.id_nota_prensa, this.difusion, this.token)
       .then(response => {
-        console.log(response);
+        sw = true;
+        // console.log(response);
         // guardar archivos nota_prensas
         if (this.files) {
           for (let i = 0; i < this.files.length; i++) {
@@ -961,30 +995,40 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
               descripcion: this.datosArchivo[i].descripcion,
               id_tipo: '12'
             };
-            console.log(nota_archivo);
+            // console.log(nota_archivo);
             this._serviceNotaArchivos.save(nota_archivo, this.token)
             .then(responseArchivo => {
-              console.log(responseArchivo);
-              // tslint:disable-next-line:max-line-length
+              // console.log(responseArchivo);
+              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-nota-archivo/' + responseArchivo.nota_archivos.id_nota_archivo, this.files[i], this.token)
               .then(responseFile => {
-                console.log(responseFile);
+                // console.log(responseFile);
+                sw = true;
                 this.obtenerDifusion(3);
-              }).catch(error => { console.log('error al subir el archivo', error); });
-            }).catch(error => { console.log('error al crear nota archivo', error); });
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
+            }).catch(error => { console.log('error al crear nota archivo', error); sw = false; });
           }
-        } else {
+        }
+        if (sw) {
           this.obtenerDifusion(3);
+          this.toastr.success('Nota de prensa actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        } else {
+          this.toastr.error('Error al subir archivos de Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
 
-      }).catch(error => { console.log('Error al actualizar nota de prensa', error); });
+      }).catch(error => {
+        console.log('Error al actualizar nota de prensa', error);
+        this.toastr.error('Error al actualizar Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
     } else if (this.difusion.id_exposicion) {
       // actualizar exposicion
+      sw = false;
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceExposiciones.update(this.difusion.id_exposicion, this.difusion, this.token)
       .then(response => {
-        console.log(response);
+        // console.log(response);
+        sw = true;
         // guardar exposicion_archivos
         if (this.files) {
           for (let i = 0; i < this.files.length; i++) {
@@ -995,33 +1039,41 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
               descripcion: this.datosArchivo[i].descripcion,
               id_tipo: '13'
             };
-            console.log(expo_archivo);
+            // console.log(expo_archivo);
             this._serviceExpoArchivos.save(expo_archivo, this.token)
             .then(responseArchivo => {
-              console.log(responseArchivo);
-              // tslint:disable-next-line:max-line-length
+              // console.log(responseArchivo);
+              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-expo-archivo/' + responseArchivo.expo_archivos.id_expo_archivo, this.files[i], this.token)
               .then(responseFile => {
-                console.log(responseFile);
+                // console.log(responseFile);
+                sw = true;
                 this.obtenerDifusion(4);
-              }).catch(error => { console.log('error al subir el archivo', error); });
-            }).catch(error => { console.log('error al crear expo archivo', error); });
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
+            }).catch(error => { console.log('error al crear expo archivo', error); sw = false; });
           }
-        } else {
-          this.obtenerDifusion(4);
         }
-      }).catch(error => { console.log('Error al actualizar Exposicion', error); });
+        if (sw) {
+          this.obtenerDifusion(4);
+          this.toastr.success('Exposición o Conferencia actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        } else {
+          this.toastr.error('Error al subir archivos de Exposición o Conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }
+      }).catch(error => { 
+        console.log('Error al actualizar Exposicion', error);
+        this.toastr.error('Error al actualizar de Exposición o Conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
     } else {
       switch (this.tipoDifusion) {
         case 1:
           // cursos
+          sw = false;
           this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
           this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
           this._serviceCursos.save(this.difusion, this.token)
           .then(response => {
+            sw = true;
             // console.log(response.cursos);
-            this.obtenerDifusion(1);
-            this.toastr.success('Curso, Seminario o Taller guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             // guardar expositores
             if (this.expositores) {
               this.expositores.forEach(expositor => {
@@ -1030,9 +1082,10 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 this._serviceExpositores.save(expositor, this.token)
                 .then(responseExposi => { 
                   // console.log(responseExposi);
-                  this.obtenerDifusion(1);
+                  // this.obtenerDifusion(1);
+                  sw = true;
                 })
-                .catch(error => { console.log('Error al guardar expositor', error); });
+                .catch(error => { console.log('Error al guardar expositor', error); sw = false; });
               });
             }
             // guardar archivos cursos
@@ -1046,34 +1099,44 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   descripcion: this.datosArchivo[i].descripcion,
                   id_tipo: '10'
                 };
-                console.log(curso_archivo);
+                // console.log(curso_archivo);
                 this._serviceCursoArchivos.save(curso_archivo, this.token)
                 .then(responseArchivo => {
-                  console.log(responseArchivo);
+                  sw = true;
+                  // console.log(responseArchivo);
                   // tslint:disable-next-line:max-line-length
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
                   .then(responseFile => {
                     // console.log(responseFile);
-                  }).catch(error => { console.log('error al subir el archivo', error); });
+                    sw = true;
+                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
                   this.obtenerDifusion(1);
                 })
-                .catch(error => { console.log('error al crear curso archivo', error); });
+                .catch(error => { console.log('error al crear curso archivo', error); sw = false; });
               }
+            }
+            if (sw) {
+              this.obtenerDifusion(1);
+              this.toastr.success('Curso, Seminario o Taller guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            } else {
+              this.toastr.error('Error al subir archivos de Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             }
           }).catch(error => { 
             console.log('error al crear difusion curso', error);
-            this.toastr.error('Error al guardar archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            this.toastr.error('Error al guardar Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
           this.modalService.dismissAll();
           break;
         case 2:
           // evento
+          sw = false;
           this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
           this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
-          console.log(this.difusion);
+          // console.log(this.difusion);
           this._serviceEventos.save(this.difusion, this.token)
           .then(response => {
-            console.log(response.eventos);
+            // console.log(response.eventos);
+            sw = true;
             if (this.files) {
               for (let i = 0; i < this.files.length; i++) {
                 var evento_archivo = {
@@ -1083,29 +1146,41 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   descripcion: this.datosArchivo[i].descripcion,
                   id_tipo: '11'
                 };
-                console.log(evento_archivo);
+                // console.log(evento_archivo);
                 this._serviceEventoArchivos.save(evento_archivo, this.token)
                 .then(responseArchivo => {
-                  console.log(responseArchivo);
-                  // tslint:disable-next-line:max-line-length
+                  // console.log(responseArchivo);
+                  sw = true;
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-evento-archivo/' + responseArchivo.evento_archivos.id_evento_archivo, this.files[i], this.token)
                   .then(responseFile => {
-                    console.log(responseFile);
-                  }).catch(error => { console.log('error al subir el archivo', error); });
+                    // console.log(responseFile);
+                    sw = true;
+                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
                   this.obtenerDifusion(2);
-                }).catch(error => { console.log('error al crear evento archivo', error); });
+                }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
               }
             }
-          }).catch(error => { console.log('error al crear evento', error); });
+            if (sw) {
+              this.obtenerDifusion(2);
+              this.toastr.success('Evento cientifico guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            } else {
+              this.toastr.error('Error al subir archivos de Evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            }
+          }).catch(error => {
+            console.log('error al crear evento', error);
+            this.toastr.error('Error al guardar Evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          });
           this.modalService.dismissAll();
           break;
         case 3:
           // nota_prensas
+          sw = false;
           this.difusion.fecha = this.formatDate(this.difusion.fecha) + 'T00:00:00.000';
-          console.log(this.difusion);
+          // console.log(this.difusion);
           this._serviceNotaPrensas.save(this.difusion, this.token)
           .then(response => {
-            console.log(response.nota_archivos);
+            // console.log(response.nota_archivos);
+            sw = true;
             if (this.files) {
               for (let i = 0; i < this.files.length; i++) {
                 var nota_archivo = {
@@ -1115,30 +1190,42 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   descripcion: this.datosArchivo[i].descripcion,
                   id_tipo: '12'
                 };
-                console.log(nota_archivo);
+                // console.log(nota_archivo);
                 this._serviceNotaArchivos.save(nota_archivo, this.token)
                 .then(responseArchivo => {
-                  console.log(responseArchivo);
-                  // tslint:disable-next-line:max-line-length
+                  // console.log(responseArchivo);
+                  sw = true;
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-nota-archivo/' + responseArchivo.nota_archivos.id_nota_archivo, this.files[i], this.token)
                   .then(responseFile => {
-                    console.log(responseFile);
-                  }).catch(error => { console.log('error al subir el archivo', error); });
+                    // console.log(responseFile);
+                    sw = true;
+                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
                   this.obtenerDifusion(3);
-                }).catch(error => { console.log('error al crear nota archivo', error); });
+                }).catch(error => { console.log('error al crear nota archivo', error); sw = false; });
               }
             }
-          }).catch(error => { console.log('error al crear nota de presa', error); });
+            if (sw) {
+              this.obtenerDifusion(3);
+              this.toastr.success('Nota de prensa guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            } else {
+              this.toastr.error('Error al subir archivos de Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            }
+          }).catch(error => {
+            console.log('error al crear nota de presa', error);
+            this.toastr.error('Error al guardar Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          });
           this.modalService.dismissAll();
           break;
         case 4:
           // exposiciones
+          sw = false;
           this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
           this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
-          console.log(this.difusion);
+          // console.log(this.difusion);
           this._serviceExposiciones.save(this.difusion, this.token)
           .then(response => {
-            console.log(response.exposiciones);
+            // console.log(response.exposiciones);
+            sw = true;
             if (this.files) {
               for (let i = 0; i < this.files.length; i++) {
                 var expo_archivo = {
@@ -1148,20 +1235,30 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   descripcion: this.datosArchivo[i].descripcion,
                   id_tipo: '13'
                 };
-                console.log(expo_archivo);
+                // console.log(expo_archivo);
                 this._serviceExpoArchivos.save(expo_archivo, this.token)
                 .then(responseArchivo => {
-                  console.log(responseArchivo);
-                  // tslint:disable-next-line:max-line-length
+                  // console.log(responseArchivo);
+                  sw = true;
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-expo-archivo/' + responseArchivo.expo_archivos.id_expo_archivo, this.files[i], this.token)
                   .then(responseFile => {
-                    console.log(responseFile);
-                  }).catch(error => { console.log('error al subir el archivo', error); });
+                    // console.log(responseFile);
+                    sw = true;
+                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
                   this.obtenerDifusion(4);
-                }).catch(error => { console.log('error al crear expo archivo', error); });
+                }).catch(error => { console.log('error al crear expo archivo', error); sw = false; });
               }
             }
-          }).catch(error => { console.log('error al crear exposicion', error); });
+            if (sw) {
+              this.obtenerDifusion(4);
+              this.toastr.success('Exposicion y conferencia guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            } else {
+              this.toastr.error('Error al subir archivos de Exposicion y conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            }
+          }).catch(error => {
+            console.log('error al crear exposicion', error);
+            this.toastr.error('Error al guardar Exposicion o Conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          });
           this.modalService.dismissAll();
           break;
         default:
@@ -1172,21 +1269,24 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this.modalService.dismissAll();
   }
   guardarPublicacion() {
-    console.log(this.publicacion);
-    console.log(this.files);
-    console.log(this.datosArchivo);
-    console.log(this.seleccionados);
+    // console.log(this.publicacion);
+    // console.log(this.files);
+    // console.log(this.datosArchivo);
+    // console.log(this.seleccionados);
+    var sw = false;
 
     this.publicacion.fecha = this.formatDate(this.publicacion.fecha) + 'T00:00:00.000';
     this.publicacion.id_proyecto = this.proyecto.id_proyecto;
     this.publicacion.id_coordinador = this.proyecto.investigadore.id_investigador;
-    console.log(this.publicacion);
+    // console.log(this.publicacion);
 
     if (this.publicacion.id_publicacion) {
-      console.log('actualizar');
+      // console.log('actualizar');
+      sw = false;
       this._servicePublicaciones.update(this.publicacion.id_publicacion, this.publicacion, this.token)
       .then(response => {
-        console.log(response.publicacion);
+        // console.log(response.publicacion);
+        sw = true;
         // añadir archivos
         if (this.files) {
           for (let i = 0; i < this.files.length; i++) {
@@ -1197,27 +1297,37 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
               descripcion: this.datosArchivo[i].descripcion,
               id_tipo: '14'
             };
-            console.log(publi_archivo);
+            // console.log(publi_archivo);
             this._servicePubliArchivos.save(publi_archivo, this.token)
             .then(responseArchivo => {
-              console.log(responseArchivo);
-              // tslint:disable-next-line:max-line-length
+              // console.log(responseArchivo);
+              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-publi-archivo/' + responseArchivo.publi_archivo.id_publi_archivo, this.files[i], this.token)
               .then(responseFile => {
-                console.log(responseFile);
-              }).catch(error => { console.log('error al subir el archivo', error); });
-              this.obtenerPublicaciones(this.id);
-            }).catch(error => { console.log('error al crear evento archivo', error); });
+                // console.log(responseFile);
+                sw = true;
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
+              // this.obtenerPublicaciones(this.id);
+            }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
           }
         }
-        this.obtenerPublicaciones(this.id);
+        if (sw) {
+          this.toastr.success('Publicación actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+          this.obtenerPublicaciones(this.id);
+        } else {
+          this.toastr.error('Error al subir archivos de publicacion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+        }
         // actualizar autores
-
-      }).catch(error => { console.log('Error al actualizar publicacion', error); });
+      }).catch(error => {
+        console.log('Error al actualizar publicacion', error);
+        this.toastr.error('Error al actualizar publicación', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+      });
     } else {
+      sw = false;
       this._servicePublicaciones.save(this.publicacion, this.token)
       .then(response => {
-        console.log(response);
+        // console.log(response);
+        sw = true;
         // guardar publi_archivo
         if (this.files) {
           for (let i = 0; i < this.files.length; i++) {
@@ -1228,29 +1338,38 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
               descripcion: this.datosArchivo[i].descripcion,
               id_tipo: '14'
             };
-            console.log(publi_archivo);
+            // console.log(publi_archivo);
             this._servicePubliArchivos.save(publi_archivo, this.token)
             .then(responseArchivo => {
-              console.log(responseArchivo);
-              // tslint:disable-next-line:max-line-length
+              // console.log(responseArchivo);
+              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-publi-archivo/' + responseArchivo.publi_archivo.id_publi_archivo, this.files[i], this.token)
               .then(responseFile => {
-                console.log(responseFile);
-              }).catch(error => { console.log('error al subir el archivo', error); });
+                // console.log(responseFile);
+                sw = true;
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
               this.obtenerPublicaciones(this.id);
-            }).catch(error => { console.log('error al crear evento archivo', error); });
+            }).catch(error => { console.log('error al crear publi archivo', error); sw = false; });
           }
-        } else {
+        }
+        if (sw) {
           this.obtenerPublicaciones(this.id);
+          this.toastr.success('Publicación guardada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        } else {
+          this.toastr.error('Error al subir archivos de publicacion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
         // guardar autores
         this.seleccionados.forEach(autor => {
           autor.id_publicacion = response.publicacion.id_publicacion;
           this._serviceAutores.save(autor, this.token)
-          .then(responseA => {  })
-          .catch(error => { console.log('Error guardar autor', error); });
+          .then(responseA => { sw = true; })
+          .catch(error => { console.log('Error guardar autor', error); sw = false; });
         });
-      }).catch(error => { console.log('Error al crear publicacion', error); });
+
+      }).catch(error => { 
+        console.log('Error al crear publicacion', error); sw = false;
+        this.toastr.error('Error al guardar publicación', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
     }
     this.modalService.dismissAll();
   }

@@ -7,12 +7,13 @@
                 </h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['/admin/dashboard/index']"><i class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item active">Dashboard</li>
+                    <li class="breadcrumb-item">Dashboard</li>
+                    <li class="breadcrumb-item active">Menu principal</li>
                 </ul>
             </div>
         </div>
     </div>
-    <button type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/admin/dashboard/list-fotografias']"><i class="fa fa-plus-square"></i>&nbsp;<span>Listar Fotografias</span></button>
-    <button type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/admin/dashboard/list-usuarios/usuario']"><i class="fa fa-info-circle"></i>&nbsp;<span>Listar Usuarios</span></button>
-    <button type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/admin/dashboard/list-proyectos/proyecto']"><i class="fa fa-info-circle"></i>&nbsp;<span>Listar Proyectos</span></button>
+    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/admin/dashboard/list-fotografias']"><i class="fa fa-plus-square"></i>&nbsp;<span>Listar Fotografias</span></a>
+    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/admin/dashboard/list-usuarios', 'usuario']"><i class="fa fa-info-circle"></i>&nbsp;<span>Listar Usuarios</span></a>
+    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/admin/dashboard/list-proyectos', 'proyecto']"><i class="fa fa-info-circle"></i>&nbsp;<span>Listar Proyectos</span></a>
 </div>
