@@ -83,7 +83,7 @@
     <div class="row clearfix">
         <div class="col-lg-5 col-md-8 col-sm-12">
             <form id="navbar-search" class="navbar-form search-form">
-                <input [formControl]="search" class="form-control" placeholder="Buscar documento ..." type="text" />
+                <input [formControl]="search" class="form-control" placeholder="Buscar archivo ..." type="text" />
                 <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
             </form>
         </div>
@@ -99,16 +99,19 @@
             </div>
         </div>
     </div>
-    
-    <div class="row clearfix">
-        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let archivo of archivos | searchArchivos: valorBusqueda">
+    <div class="row clearfix" *ngIf="(archivos | searchArchivos: valorBusqueda) as result">
+        <div class="card" *ngIf="result.length === 0 || archivos.length === 0">
+            <div class="body text-center">
+                <div class="not_found">
+                        <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let archivo of result">
             <div class="card">
                 <div class="file">
                     <a href="javascript:void(0);">
                         <div class="hover">
-                            <button type="button" class="btn btn-icon btn-outline-secondary" (click)="openArchivo(archivo.archivo)">
-                                <i class="icon-eye"></i>
-                            </button>
                             <button type="button" class="btn btn-icon btn-outline-info" (click)="openModalArchivo(content1,'lg', archivo)">
                                 <i class="icon-pencil"></i>
                             </button>
@@ -117,7 +120,7 @@
                             </button>
                         </div>
                         <div class="icon">
-                            <i class="fa fa-file text-success"></i>
+                            <i class="fa fa-file text-success" (click)="openArchivo(archivo.archivo)"></i>
                         </div>
                         <div class="file-name">
                             <p class="m-b-5 text-muted">{{ archivo.nombre }}</p>

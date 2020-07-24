@@ -41,8 +41,14 @@
 				<div class="header">
 					<h2>Listado de proyectos</h2>
 				</div>
-				<div class="body project_report">
-					<div class="table-responsive">
+				<div class="body project_report" *ngIf="(proyectos | searchProyectos: valorBusqueda) as result">
+					<div class="text-center" *ngIf="result.length === 0 || proyectos.length === 0">
+						<div class="not_found">
+							<h4 class="m-b-0">Lo sentimos, No se encontraron proyectos.</h4>
+						</div>
+					</div>
+
+					<div class="table-responsive" *ngIf="result.length > 0">
 						<table class="table m-b-0 table-hover">
 							<thead class="thead-light">
 								<tr>
@@ -54,7 +60,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let proyecto of proyectos | searchProyectos: valorBusqueda">
+								<tr *ngFor="let proyecto of result">
 									<td>
 										<span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
 										<span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>

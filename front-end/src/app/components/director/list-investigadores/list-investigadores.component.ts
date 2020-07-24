@@ -24,7 +24,7 @@ export class ListInvestigadoresComponent implements OnInit {
   public investigador: any = {};
   public investigadores: any = [];
 
-  public punteroMostrarInvestigador = '';
+  public punteroMostrarInvestigador = 'Lista de investigadores';
 
   // search archivos
   search = new FormControl('');
@@ -54,7 +54,7 @@ export class ListInvestigadoresComponent implements OnInit {
     this._route.params.forEach((params: Params) => {
       switch (params.tipo) {
         case 'investigador':
-          this.punteroMostrarInvestigador = '';
+          this.punteroMostrarInvestigador = 'Lista de investigadores';
           this.getUsuariosInvestigadores();
           break;
         case 'inv-titular':

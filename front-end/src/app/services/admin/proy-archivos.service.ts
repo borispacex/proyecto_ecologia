@@ -59,7 +59,7 @@ export class ProyArchivosService {
     .then(res => res.json());
   }
   // se obtiene el proy_archivo, mediante el id_proy_archivo
-  getProy_archivo(id: number, token: string) {
+  getProyArchivoById(id: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });

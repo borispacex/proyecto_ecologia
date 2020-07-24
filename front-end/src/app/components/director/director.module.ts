@@ -16,7 +16,15 @@ import { GenerateReportesComponent } from './generate-reportes/generate-reportes
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
+import { MatTableExporterModule } from 'mat-table-exporter';
+
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -39,7 +47,15 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     RouterModule,
     NgxEchartsModule.forRoot({ echarts }),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
+
+    // Material Modules
+    MatTableExporterModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatInputModule
   ]
 })
 export class DirectorModule { }

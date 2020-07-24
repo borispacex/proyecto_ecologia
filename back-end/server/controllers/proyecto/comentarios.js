@@ -77,7 +77,20 @@ function getById(req, res) {
 function getAllByIdPublicacion(req, res) {
     var id = req.params.id_publicacion;
     comentarios.findAll({
-        where: { id_publicacion: id }
+        where: { id_publicacion: id },
+        include: [
+            { model: personas,
+                include: [
+                    { 
+                        model: fotografias,
+                            attributes: [
+                                "imagen"
+                            ] 
+                    }
+                ]
+            },
+            { model: publicaciones }
+        ]
     })
     .then(comentarios => {
         res.status(200).send({ comentarios });

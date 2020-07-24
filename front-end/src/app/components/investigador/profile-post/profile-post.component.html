@@ -53,36 +53,31 @@
 	
 	<div class="row clearfix">
 		<div class="col-lg-12 col-md-12">
-			<div class="card">
+			<div class="card" *ngIf="comentarios.length === 0">
+				<div class="body text-center">
+					<div class="not_found">
+							<h4 class="m-b-0">Lo sentimos, No tiene comentarios.</h4>
+					</div>
+				</div>
+			</div>
+			<div class="card" *ngIf="comentarios.length > 0">
 				<div class="header">
 					<h2>Comentarios</h2>
 				</div>
 				<div class="body">
-					<ul class="comment-reply list-unstyled">
+					<ul class="comment-reply list-unstyled" *ngFor="let comentario of comentarios">
 						<li class="row clearfix">
-							<div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail"
-									src="assets/images/sm/avatar2.jpg" alt="Awesome Image"></div>
+							<div class="icon-box col-md-2 col-4">
+								<img class="img-fluid img-thumbnail" src="{{url +'get-fotografia/'+ comentario.persona.fotografia.imagen + '/true'}}" alt="Awesome Image"></div>
 							<div class="text-box col-md-10 col-8 p-l-0 p-r0">
-								<h5 class="m-b-0">Gigi Hadid </h5>
-								<p>Why are there so many tutorials on how to decouple WordPress? how fast and easy it is to
-									get it running (and keep it running!) and its massive ecosystem. </p>
+								<h5 class="m-b-0">{{comentario.persona.nombres}} {{comentario.persona.paterno}} {{comentario.persona.materno}}</h5>
+								<p>{{comentario.comentario}}</p>
 								<ul class="list-inline">
-									<li><a href="javascript:void(0);">Mar 09 2018</a></li>
+									<li><a href="javascript:void(0);">{{comentario.updatedAt | date}}</a></li>
 								</ul>
 							</div>
 						</li>
-						<li class="row clearfix">
-							<div class="icon-box col-md-2 col-4"><img class="img-fluid img-thumbnail"
-									src="assets/images/sm/avatar3.jpg" alt="Awesome Image"></div>
-							<div class="text-box col-md-10 col-8 p-l-0 p-r0">
-								<h5 class="m-b-0">Christian Louboutin</h5>
-								<p>Great tutorial but few issues with it? If i try open post i get following errors. Please
-									can you help me?</p>
-								<ul class="list-inline">
-									<li><a href="javascript:void(0);">Mar 12 2018</a></li>
-								</ul>
-							</div>
-						</li>
+						
 					</ul>
 				</div>
 			</div>

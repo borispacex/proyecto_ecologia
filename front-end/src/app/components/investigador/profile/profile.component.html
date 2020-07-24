@@ -23,10 +23,6 @@
 						<h4 class="m-b-0"><strong>{{persona.nombres}}</strong> {{persona.paterno}} {{persona.materno}}</h4>
 						<span>{{persona.ciudad}}, {{persona.pais}}</span>
 					</div>
-					<!-- <div class="m-t-15">
-						<button class="btn btn-primary mr-1">Seguir</button>
-						<button class="btn btn-outline-secondary">Mensaje</button>
-					</div> -->
 				</div>
 			</div>
 
@@ -107,6 +103,13 @@
 
 		<div class="col-lg-8 col-md-12">
 			<div class="tab-content padding-0">
+				<div class="card" *ngIf="publicaciones.length === 0">
+					<div class="body text-center">
+						<div class="not_found">
+								<h4 class="m-b-0">Lo sentimos, No se encontraron publicaciones.</h4>
+						</div>
+					</div>
+				</div>
 				<div *ngFor="let publicacion of publicaciones" class="card single_post">
 					<div class="body">
 						<div class="img-post">

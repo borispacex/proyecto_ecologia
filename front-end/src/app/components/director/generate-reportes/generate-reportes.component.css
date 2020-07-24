@@ -1,0 +1,41 @@
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td, th {
+  width: 25%;
+}
+
+.example-second-header-row {
+  font-style: italic;
+}
+
+.example-first-footer-row {
+  font-weight: bold;
+}
+
+.example-second-footer-row td {
+  color: #900000;
+}
+
+.mat-column-action {
+  flex: 0 0 100px;
+}
+
+.no-border {
+  padding: 0px !important;
+  margin-bottom: 0px !important;
+  border-right: 1px solid black !important;
+  border-top: 0px !important;
+  border-left: 0px !important;
+  border-bottom: 1px solid black !important;
+}
+.no-space {
+  border-collapse: collapse !important;
+}

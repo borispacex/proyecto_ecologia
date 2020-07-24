@@ -81,6 +81,7 @@ export class ProfilePostComponent implements OnInit {
     this._serviceComentarios.getcomentariosByIdPublicacion(this.id_publicacion, this.token)
     .then(response => {
       this.comentarios = response.comentarios;
+      console.log(this.comentarios);
     }).catch(error => { console.log('Error al obtener comentarios por id publicacion', error); });
   }
   obtenerInvestigador() {

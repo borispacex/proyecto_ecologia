@@ -167,8 +167,7 @@ export class DetailsProyectoComponent implements OnInit {
     this.getArchivosByTipo(0);
     this.getProyecto(this.id);
     // buscador
-    this.search.valueChanges.pipe( debounceTime(300) )
-    .subscribe(value => this.valorBusqueda = value );
+    this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
   }
 
   // Funcion para obtener los archivos de principales, permisos, convenios, contratos, proyecto final, otros

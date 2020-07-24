@@ -304,16 +304,16 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   public antFileTam = 0;
 
   // investigadores del proyecto
-  public investigadores: Array<any>= [];
+  public investigadores: Array<any> = [];
   
   // listado
-  public basica_tecnicas: any[];
-  public lugar_desarrollos: any[];
-  public difusiones: any[];
+  public basica_tecnicas: any[] = [];
+  public lugar_desarrollos: any[] = [];
+  public difusiones: any[] = [];
   public listado_difusion: string;
 
     // manejo de archivos
-  public archivos: any[];
+  public archivos: any[] = [];
   public archivo: any = {};
 
   // search archivos
@@ -453,7 +453,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       });
     })
     .catch(error => { console.log('error al obtener inv_proyectos by id_proyecto', error); });
-    console.log(this.investigadores);
+    // console.log(this.investigadores);
   }
   ngOnDestroy() {
     this.ngUnsubscribe.next();
@@ -1458,7 +1458,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this.basica_tecnicas = [];
     this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(this.id, this.token)
     .then(response => {
-      console.log(response);
+      // console.log(response);
       // this.basica_tecnicas = response.basica_tecnicas;
       response.basica_tecnicas.forEach(basica_tecnica => {
         basica_tecnica.unidades = [];
@@ -1468,13 +1468,13 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
           this.basica_tecnicas.push(basica_tecnica);
         }).catch(error => { console.log('Error obtener unidad', error); });
       });
-      console.log(this.basica_tecnicas);
+      // console.log(this.basica_tecnicas);
     }).catch(error => { console.log('error al obtener Basica tecnicas', error); });
   }
   obtenerLugarDesarrollos() {
     this._serviceLugarDesarrollos.getLugarDesarrollosByIdProyecto(this.id, this.token)
     .then(response => {
-      console.log(response);
+      // console.log(response);
       this.lugar_desarrollos = response.lugar_desarrollos;
     }).catch(error => { console.log('error al obtener Lugar de desarrollos', error); });
   }
@@ -1486,7 +1486,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         this._serviceCursos.getCursosByIdProyecto(this.id, this.token)
         .then(response => {
           // this.difusiones = response.cursos;
-          console.log(response.cursos);
+          // console.log(response.cursos);
           response.cursos.forEach(difusion => {
             var difu = difusion;
             // obtener cursos_archivos
@@ -1650,7 +1650,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this.publicaciones = [];
     this._servicePublicaciones.getPublicacionesByIdProyecto(id_proyecto, this.token)
     .then(response => {
-      console.log(response);
+      // console.log(response);
       // this.publicaciones = response.publicaciones;
       response.publicaciones.forEach(publicacion => {
         this._serviceAutores.getAutoresByIdPublicacion(publicacion.id_publicacion, this.token)
@@ -1663,7 +1663,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
           }).catch(error => { console.log('Error al obtener archivos', error); });
         }).catch(error => { console.log('Error al obtener autores por id_publicacion', error); });
       });
-      console.log(this.publicaciones);
+      // console.log(this.publicaciones);
     }).catch(error => { console.log('Error al obtener publicaciones por id_proyecto', error); });
   }
 

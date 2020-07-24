@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class ListFotografiaComponent implements OnInit {
 
   public token: string;
-  public fotografias: any[];
+  public fotografias: any[] = [];
   public url: string;
   public fotografia: any = {};
   public image_selected: string;
