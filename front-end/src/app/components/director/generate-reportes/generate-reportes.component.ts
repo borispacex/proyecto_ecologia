@@ -6,10 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-// jsPDF
-import * as jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-
+// imprimir
+import * as printJS from 'print-js';
 
 
 export interface EmployeeData {
@@ -94,12 +92,10 @@ export class GenerateReportesComponent implements OnInit, CdkTableExporterModule
   columnsToDisplay: string[] = this.displayedColumns.slice();
   dataSource: MatTableDataSource<PeriodicElement>;
 
-  @ViewChild('htmlData') htmlData: ElementRef;
-
   //var init declaration
-  length = 100;
+  length = 0;
   pageSize = 5;
-  pageSizeOptions: number[] = [5, 25, 50, 100];
+  pageSizeOptions: number[] = [ 5 ];
 
   constructor(
     private sidebarService: SidebarService,
@@ -112,6 +108,16 @@ export class GenerateReportesComponent implements OnInit, CdkTableExporterModule
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.length = this.dataSource.data.length;
+    let ini = Math.ceil(this.length / 3);
+    for (let i = ini; i < this.length + ini; i = i + ini) {
+      if (i >= this.length) {
+        this.pageSizeOptions.push(this.length);
+      } else {
+        this.pageSizeOptions.push(i);
+      }
+    }
   }
 
   toggleFullWidth() {
@@ -130,7 +136,10 @@ export class GenerateReportesComponent implements OnInit, CdkTableExporterModule
 
   addColumn() {
     const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
+    console.log(randomColumn);
+    console.log(this.displayedColumns);
     this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
+    console.log(this.columnsToDisplay);
   }
 
   removeColumn() {
@@ -152,53 +161,22 @@ export class GenerateReportesComponent implements OnInit, CdkTableExporterModule
     }
   }
 
-  public openPDF(): void {
-    let DATA = this.htmlData.nativeElement;
-    let doc = new jsPDF('p', 'pt', 'a4');
-    doc.fromHTML(DATA.innerHTML, 15, 15);
-    doc.output('dataurlnewwindow');
-  }
-
-
-  public downloadPDF(): void {
-    let DATA = this.htmlData.nativeElement;
-    let doc = new jsPDF('p', 'pt', 'a4');
-
-    let handleElement = {
-      '#editor': function (element, renderer) {
-        return true;
-      }
-    };
-    doc.fromHTML(DATA.innerHTML, 15, 15, {
-      'width': 200,
-      'elementHandlers': handleElement
-    });
-
-    doc.save('angular-demo.pdf');
-  }
-
   openModal(content, size) {
     this.modalService.open(content, { size: size });
-    this.dataSource.paginator._changePageSize(this.length);
   }
 
-  generatePDF() {
-    var data = document.getElementById('contentToConvert');
-    html2canvas(data).then(canvas => {
-      var imgWidth = 208;
-      var imgHeight = canvas.height * imgWidth / canvas.width;
-      const contentDataURL = canvas.toDataURL('image/png');
-      let pdf = new jsPDF('p', 'mm', 'a4');
-      var position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('newPDF.pdf');
-    });
-  }
-  abrirPDF() {
-    let DATA = this.htmlData.nativeElement;
-    let doc = new jsPDF('p', 'pt', 'a4');
-    doc.fromHTML(DATA.innerHTML, 15, 15);
-    doc.output('dataurlnewwindow');
+  imprimir(exporter) {
+    const pageAnt = this.dataSource.paginator.pageSize;
+    this.dataSource.paginator._changePageSize(this.length);
+
+    // console.log('exporter', exporter._cdkTable._data);
+    // console.log('dataSource', this.dataSource.data);
+    let data: any = exporter._cdkTable._data;
+    let propiedades: any = this.columnsToDisplay;
+
+    printJS({ printable: data, properties: propiedades, type: 'json' });
+
+    this.dataSource.paginator._changePageSize(pageAnt);
   }
 
 }

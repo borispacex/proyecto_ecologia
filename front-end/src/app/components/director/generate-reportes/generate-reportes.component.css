@@ -8,10 +8,6 @@ table {
   width: 100%;
 }
 
-td, th {
-  width: 25%;
-}
-
 .example-second-header-row {
   font-style: italic;
 }
