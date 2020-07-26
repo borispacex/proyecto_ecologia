@@ -94,5 +94,23 @@ export class ProyectosService {
     return this._http.get(this.url + 'proyectoByIdAndStatus/' + id + '/' + status, options).toPromise()
     .then(res => res.json());
   }
+  // se obtiene los proyectos entre fechas
+  getProyectosBetweenDates(fechaini: string, fechafin: string, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'getAllBetweenDates/' + fechaini + '/' + fechafin, options).toPromise()
+    .then(res => res.json());
+  }
+  // se obtiene los proyectos entre fechas
+  getProyectosBetweenDatesAndStatus(fechaini: string, fechafin: string, estado: string, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'getAllBetweenDatesAndStatus/' + fechaini + '/' + fechafin + '/' + estado, options).toPromise()
+    .then(res => res.json());
+  }
 
 }

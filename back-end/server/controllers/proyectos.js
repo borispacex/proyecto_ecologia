@@ -6,6 +6,9 @@ const fotografias = require('../models').fotografias;
 proyectos.belongsTo(personas, { foreignKey: 'id_adm' });
 proyectos.belongsTo(investigadores, { foreignKey: 'id_coordinador' });
 
+var Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 // ---------------- METODOS ---------------
 // crear nuevo proyecto
 function create(req, res) {
@@ -255,6 +258,112 @@ function getByIdAndStatus(req, res) {
             res.status(500).send({ message: 'Ocurrio un error al buscar un proyecto', err });
         })
 }
+// Listar todos los proyectos entre dos fechas
+function getAllBetweenDates(req, res) {
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    proyectos.findAll({
+        where: {
+            createdAt: {
+                [Op.between]: [startDate, endDate]
+            }
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
+// Listar todos los proyectos entre dos fechas
+function getAllBetweenDatesAndStatus(req, res) {
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    var status = req.params.estado;
+    proyectos.findAll({
+        where: {
+            createdAt: {
+                [Op.between]: [startDate, endDate]
+            },
+            estado: status
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
+// Listar todos los proyectos entre dos fechas
+function getAllBetweenProccess(req, res) {
+    var startProccess = req.params.procesoini;
+    var endProccess = req.params.procesofin;
+    proyectos.findAll({
+        where: {
+            proceso: {
+                [Op.between]: [startProccess, endProccess]
+            }
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
 
 // EXPORTAMOS
 module.exports = {
@@ -266,5 +375,8 @@ module.exports = {
     getAllByIdCoordinador,
     getById,
     getAllByIdCoordinadorAndStatus,
-    getByIdAndStatus
+    getByIdAndStatus,
+    getAllBetweenDates,
+    getAllBetweenDatesAndStatus,
+    getAllBetweenProccess
 }

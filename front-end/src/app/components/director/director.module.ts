@@ -56,6 +56,7 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     MatSortModule,
     MatInputModule
+
   ]
 })
 export class DirectorModule { }

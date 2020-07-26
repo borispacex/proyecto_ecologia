@@ -13,4 +13,8 @@ module.exports = (app) => {
 
     app.get('/api/proyectosByIdCoordinadorAndStatus/:id_coordinador/:estado', md_auth.auth, proyectosController.getAllByIdCoordinadorAndStatus);
     app.get('/api/proyectoByIdAndStatus/:id_proyecto/:estado', md_auth.auth, proyectosController.getByIdAndStatus);
+    app.get('/api/getAllBetweenDates/:fechaini/:fechafin', proyectosController.getAllBetweenDates);
+    app.get('/api/getAllBetweenDatesAndStatus/:fechaini/:fechafin/:estado', proyectosController.getAllBetweenDatesAndStatus);
+    app.get('/api/getAllBetweenProccess/:procesoini/:procesofin', proyectosController.getAllBetweenProccess);
+
 }

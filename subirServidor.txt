@@ -98,3 +98,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
 
 13. Hacer cambios en el servidor
     
+14. Estoy usando docker
+    docker run -p 5432:5432  --name postgres12 -e POSTGRES_PASSWORD=postgres -d -v /Users/boris/Documents/data-docker/postgres12:/data postgres
+    docker exec -it postgres12 bash
+    
