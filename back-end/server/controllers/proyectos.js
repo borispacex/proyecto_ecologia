@@ -258,13 +258,47 @@ function getByIdAndStatus(req, res) {
             res.status(500).send({ message: 'Ocurrio un error al buscar un proyecto', err });
         })
 }
-// Listar todos los proyectos entre dos fechas
-function getAllBetweenDates(req, res) {
+// Listar todos los proyectos entre dos fechas, fechaini
+function getAllBetweenDatesIni(req, res) {
     var startDate = req.params.fechaini;
     var endDate = req.params.fechafin;
     proyectos.findAll({
         where: {
-            createdAt: {
+            fechaini: {
+                [Op.between]: [startDate, endDate]
+            }
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+// Listar todos los proyectos entre dos fechas, fechaini
+function getAllBetweenDatesFin(req, res) {
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    proyectos.findAll({
+        where: {
+            fechafin: {
                 [Op.between]: [startDate, endDate]
             }
          },
@@ -293,14 +327,51 @@ function getAllBetweenDates(req, res) {
     });
 }
 
-// Listar todos los proyectos entre dos fechas
-function getAllBetweenDatesAndStatus(req, res) {
+// Listar todos los proyectos entre dos fechas, fechaini, estado
+function getAllBetweenDatesIniAndStatus(req, res) {
     var startDate = req.params.fechaini;
     var endDate = req.params.fechafin;
     var status = req.params.estado;
     proyectos.findAll({
         where: {
-            createdAt: {
+            fechaini: {
+                [Op.between]: [startDate, endDate]
+            },
+            estado: status
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
+// Listar todos los proyectos entre dos fechas, fechafin, estado.
+function getAllBetweenDatesFinAndStatus(req, res) {
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    var status = req.params.estado;
+    proyectos.findAll({
+        where: {
+            fechafin: {
                 [Op.between]: [startDate, endDate]
             },
             estado: status
@@ -364,6 +435,206 @@ function getAllBetweenProccess(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
     });
 }
+// Listar todos los proyectos entre dos fechas
+function getAllBetweenProccessAndStatus(req, res) {
+    var startProccess = req.params.procesoini;
+    var endProccess = req.params.procesofin;
+    var status = req.params.estado;
+    proyectos.findAll({
+        where: {
+            proceso: {
+                [Op.between]: [startProccess, endProccess]
+            },
+            estado: status
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+// Listar todos los proyectos entre dos fechas, fechaini, y procesos
+function getAllBetweenProccessAndBetweenDatesIni(req, res) {
+    var startProccess = req.params.procesoini;
+    var endProccess = req.params.procesofin;
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    proyectos.findAll({
+        where: {
+            proceso: {
+                [Op.between]: [startProccess, endProccess]
+            },
+            fechaini: {
+                [Op.between]: [startDate, endDate]
+            }
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
+// Listar todos los proyectos entre dos fechas, fechaini, y procesos
+function getAllBetweenProccessAndBetweenDatesFin(req, res) {
+    var startProccess = req.params.procesoini;
+    var endProccess = req.params.procesofin;
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    proyectos.findAll({
+        where: {
+            proceso: {
+                [Op.between]: [startProccess, endProccess]
+            },
+            fechafin: {
+                [Op.between]: [startDate, endDate]
+            }
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
+
+function getAllBetweenProccessBetweenDatesIniAndStatus(req, res) {
+    var startProccess = req.params.procesoini;
+    var endProccess = req.params.procesofin;
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    var status = req.params.estado;
+    proyectos.findAll({
+        where: {
+            proceso: {
+                [Op.between]: [startProccess, endProccess]
+            },
+            fechaini: {
+                [Op.between]: [startDate, endDate]
+            },
+            estado: status
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
+// Listar todos los proyectos entre dos fechas, fechafin, y procesos, estado
+function getAllBetweenProccessBetweenDatesFinAndStatus(req, res) {
+    var startProccess = req.params.procesoini;
+    var endProccess = req.params.procesofin;
+    var startDate = req.params.fechaini;
+    var endDate = req.params.fechafin;
+    var status = req.params.estado;
+    proyectos.findAll({
+        where: {
+            proceso: {
+                [Op.between]: [startProccess, endProccess]
+            },
+            fechafin: {
+                [Op.between]: [startDate, endDate]
+            },
+            estado: status
+         },
+        include: [
+            { model: personas },
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }).then(proyectos => {
+        res.status(200).send({ proyectos });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los proyectos' }, err);
+    });
+}
+
 
 // EXPORTAMOS
 module.exports = {
@@ -376,7 +647,14 @@ module.exports = {
     getById,
     getAllByIdCoordinadorAndStatus,
     getByIdAndStatus,
-    getAllBetweenDates,
-    getAllBetweenDatesAndStatus,
-    getAllBetweenProccess
+    getAllBetweenDatesIni,
+    getAllBetweenDatesFin,
+    getAllBetweenDatesIniAndStatus,
+    getAllBetweenDatesFinAndStatus,
+    getAllBetweenProccess,
+    getAllBetweenProccessAndStatus,
+    getAllBetweenProccessAndBetweenDatesIni,
+    getAllBetweenProccessAndBetweenDatesFin,
+    getAllBetweenProccessBetweenDatesIniAndStatus,
+    getAllBetweenProccessBetweenDatesFinAndStatus
 }

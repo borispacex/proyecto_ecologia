@@ -68,11 +68,57 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un lugar_desarrollos por id_proyecto', err });
     })
 }
+// funcion para mostrar todos lugar_desarrollos, cuando sea departamento y provincia
+function getAllByIdProyectoDepartamentoAndProvincia(req, res) {
+    var id = req.params.id_proyecto;
+    var department = req.params.departamento;
+    var province = req.params.provincia;
+    lugar_desarrollos.findAll({
+        where: { id_proyecto: id, departamento: department, provincia: province }
+    })
+    .then(lugar_desarrollos => {
+        res.status(200).send({ lugar_desarrollos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
+    })
+}
+// funcion para mostrar todos lugar_desarrollos, cuando sea departamento
+function getAllByIdProyectoAndDepartamento(req, res) {
+    var id = req.params.id_proyecto;
+    var department = req.params.departamento;
+    lugar_desarrollos.findAll({
+        where: { id_proyecto: id, departamento: department }
+    })
+    .then(lugar_desarrollos => {
+        res.status(200).send({ lugar_desarrollos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
+    })
+}
+// funcion para mostrar todos lugar_desarrollos, cuando sea provincia
+function getAllByIdProyectoAndProvincia(req, res) {
+    var id = req.params.id_proyecto;
+    var province = req.params.provincia;
+    lugar_desarrollos.findAll({
+        where: { id_proyecto: id, provincia: province }
+    })
+    .then(lugar_desarrollos => {
+        res.status(200).send({ lugar_desarrollos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
+    })
+}
 
 module.exports = {
     create,
     update,
     getById,
     getAll,
-    getAllByIdProyecto
+    getAllByIdProyecto,
+    getAllByIdProyectoDepartamentoAndProvincia,
+    getAllByIdProyectoAndDepartamento,
+    getAllByIdProyectoAndProvincia
 }

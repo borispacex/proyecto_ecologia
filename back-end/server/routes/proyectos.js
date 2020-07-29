@@ -13,8 +13,15 @@ module.exports = (app) => {
 
     app.get('/api/proyectosByIdCoordinadorAndStatus/:id_coordinador/:estado', md_auth.auth, proyectosController.getAllByIdCoordinadorAndStatus);
     app.get('/api/proyectoByIdAndStatus/:id_proyecto/:estado', md_auth.auth, proyectosController.getByIdAndStatus);
-    app.get('/api/getAllBetweenDates/:fechaini/:fechafin', proyectosController.getAllBetweenDates);
-    app.get('/api/getAllBetweenDatesAndStatus/:fechaini/:fechafin/:estado', proyectosController.getAllBetweenDatesAndStatus);
-    app.get('/api/getAllBetweenProccess/:procesoini/:procesofin', proyectosController.getAllBetweenProccess);
+    app.get('/api/getAllBetweenDatesIni/:fechaini/:fechafin', md_auth.auth, proyectosController.getAllBetweenDatesIni);
+    app.get('/api/getAllBetweenDatesFin/:fechaini/:fechafin', md_auth.auth, proyectosController.getAllBetweenDatesFin);
+    app.get('/api/getAllBetweenDatesIniAndStatus/:fechaini/:fechafin/:estado', md_auth.auth, proyectosController.getAllBetweenDatesIniAndStatus);
+    app.get('/api/getAllBetweenDatesFinAndStatus/:fechaini/:fechafin/:estado', md_auth.auth, proyectosController.getAllBetweenDatesFinAndStatus);
+    app.get('/api/getAllBetweenProccess/:procesoini/:procesofin', md_auth.auth, proyectosController.getAllBetweenProccess);
+    app.get('/api/getAllBetweenProccessAndStatus/:procesoini/:procesofin/:estado', md_auth.auth, proyectosController.getAllBetweenProccessAndStatus);
+    app.get('/api/getAllBetweenProccessAndBetweenDatesIni/:procesoini/:procesofin/:fechaini/:fechafin', md_auth.auth, proyectosController.getAllBetweenProccessAndBetweenDatesIni);
+    app.get('/api/getAllBetweenProccessAndBetweenDatesFin/:procesoini/:procesofin/:fechaini/:fechafin', md_auth.auth, proyectosController.getAllBetweenProccessAndBetweenDatesFin);
+    app.get('/api/getAllBetweenProccessBetweenDatesIniAndStatus/:procesoini/:procesofin/:fechaini/:fechafin/:estado', md_auth.auth, proyectosController.getAllBetweenProccessBetweenDatesIniAndStatus);
+    app.get('/api/getAllBetweenProccessBetweenDatesFinAndStatus/:procesoini/:procesofin/:fechaini/:fechafin/:estado', md_auth.auth, proyectosController.getAllBetweenProccessBetweenDatesFinAndStatus);
 
 }

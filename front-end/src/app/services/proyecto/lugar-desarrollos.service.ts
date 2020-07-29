@@ -60,5 +60,32 @@ export class LugarDesarrollosService {
     return this._http.get(this.url + 'lugar_desarrollos/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // obtenemos todos los lugar_desarrollos by departamento y provincia
+  getLugarDesarrollosByIdProyectoDepartamentoAndProvincia(id_proyecto: number, departamento: string, provincia: string, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'lugar_desarrollosByIdProyectoDepartamentAndProvince/'+ id_proyecto + '/' + departamento + '/' + provincia, options).toPromise()
+      .then(res => res.json());
+  }
+  // obtenemos todos los lugar_desarrollos by departamento y provincia
+  getLugarDesarrollosByIdProyectoAndDepartamento(id_proyecto: number, departamento: string, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'lugar_desarrollosByIdProyectoAndDepartament/' + id_proyecto + '/' + departamento, options).toPromise()
+      .then(res => res.json());
+  }
+  // obtenemos todos los lugar_desarrollos by departamento y provincia
+  getLugarDesarrollosByIdProyectoAndProvincia(id_proyecto: number, provincia: string, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'lugar_desarrollosByIdProyectoAndProvince/' + id_proyecto + '/' + provincia, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

@@ -45,6 +45,7 @@ import { ExpositoresService } from 'src/app/services/proyecto/expositores.servic
 import { GLOBAL } from 'src/app/services/global';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DatePipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -332,7 +333,8 @@ export class GenerateReportesComponent
     private _serviceContratados: ContratadosService,
     private _serviceContraArchivos: ContraArchivosService,
     private _serviceUnidades: UnidadesService,
-    private _serviceExpositores: ExpositoresService
+    private _serviceExpositores: ExpositoresService,
+    private toastr: ToastrService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -357,13 +359,15 @@ export class GenerateReportesComponent
     }
   }
 
-  addColumn() {
-    const randomColumn = Math.floor(
-      Math.random() * this.displayedColumns.length
-    );
+  addColumn(columna: string) {
+    // const randomColumn = Math.floor(
+    //   Math.random() * this.displayedColumns.length
+    // );
     // console.log(randomColumn);
     // console.log(this.displayedColumns);
-    this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
+    // console.log(this.displayedColumns[randomColumn]);
+    // this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
+    this.columnsToDisplay.push(columna);
     // console.log(this.columnsToDisplay);
   }
 
@@ -404,7 +408,7 @@ export class GenerateReportesComponent
     this.dataSource.paginator._changePageSize(pageAnt);
   }
 
-  obtenerProyectos() {}
+  obtenerProyectos() { }
 
   filtroInicial() {
     this._serviceProyectos
@@ -420,10 +424,10 @@ export class GenerateReportesComponent
 
         this.displayedColumns = [
           'titulo',
-          'fechafin',
           'fechaini',
+          'fechafin',
           'proceso',
-          'estado',
+          'estado'
         ];
         this.columnsToDisplay = this.displayedColumns.slice();
 
@@ -471,47 +475,194 @@ export class GenerateReportesComponent
 
   realizarFiltro() {
     console.log(this.filtro);
-    let sw = false;
-    if (this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin) {
+    this.filtroInicial();
+    if ((this.filtro.tipoFecha === 'inicio' || this.filtro.tipoFecha === 'final') && !this.filtro.fechaini && !this.filtro.fechafin) {
+      this.toastr.error('Seleccionó fechas, debe llenar los campos', undefined, { closeButton: true, positionClass: 'toast-top-right' }); //bottom
+    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenDatesAndStatus(fechaini, fechafin, this.filtro.estado, this.token)
-      .then(response => {
-        console.log(response);
+      this._serviceProyectos.getProyectosBetweenProccessBetweenDatesIniAndStatus(
+        this.filtro.procesoini,
+        this.filtro.procesofin,
+        fechaini,
+        fechafin,
+        this.filtro.estado,
+        this.token
+      ).then(response => {
         this.proyectos = response.proyectos;
-        sw = true;
-      }).catch(error => { console.log('Error al obtener proyectos entre fechas y estado', error); });
-    } else if (this.filtro.fechaini && this.filtro.fechafin){
+        this.filtroRecorrido();
+      }).catch(error => { console.log('Error al obtener proyectos', error); });
+    } else if (this.filtro.tipoFecha === 'final' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenDates(fechaini, fechafin, this.token)
-      .then(response => {
-        console.log(response);
+      this._serviceProyectos.getProyectosBetweenProccessBetweenDatesFinAndStatus(
+        this.filtro.procesoini,
+        this.filtro.procesofin,
+        fechaini,
+        fechafin,
+        this.filtro.estado,
+        this.token
+      ).then(response => {
         this.proyectos = response.proyectos;
-        sw = true;
-      }).catch(error => { console.log('Error al obtener proyectos entre fechas', error); });
+        this.filtroRecorrido();
+      }).catch(error => { console.log('Error al obtener proyectos', error); });
+    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
+      let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
+      let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
+      this._serviceProyectos.getProyectosBetweenProccessAndBetweenDatesIni(
+        this.filtro.procesoini,
+        this.filtro.procesofin,
+        fechaini,
+        fechafin,
+        this.token
+      ).then(response => {
+        this.proyectos = response.proyectos;
+        this.filtroRecorrido();
+      }).catch(error => { console.log('Error al obtener proyectos', error); });
+    } else if (this.filtro.tipoFecha === 'final' && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
+      let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
+      let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
+      this._serviceProyectos.getProyectosBetweenProccessAndBetweenDatesFin(
+        this.filtro.procesoini,
+        this.filtro.procesofin,
+        fechaini,
+        fechafin,
+        this.token
+      ).then(response => {
+        this.proyectos = response.proyectos;
+        this.filtroRecorrido();
+      }).catch(error => { console.log('Error al obtener proyectos', error); });
+    } else if (this.filtro.estado && this.filtro.procesoini && this.filtro.procesofin) {
+      this._serviceProyectos.getProyectosBetweenProccessAndStatus(this.filtro.procesoini, this.filtro.procesofin, this.filtro.estado, this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos', error); });
+    } else if (this.filtro.procesoini && this.filtro.procesofin) {
+      this._serviceProyectos.getProyectosBetweenProccess(this.filtro.procesoini, this.filtro.procesofin, this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos', error); });
+    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin) {
+      let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
+      let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
+      this._serviceProyectos.getProyectosBetweenDatesIniAndStatus(fechaini, fechafin, this.filtro.estado, this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos entre fechas y estado', error); });
+    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.fechaini && this.filtro.fechafin) {
+      let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
+      let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
+      this._serviceProyectos.getProyectosBetweenDatesIni(fechaini, fechafin, this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos entre fechas', error); });
+    } else if (this.filtro.tipoFecha === 'final' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin) {
+      let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
+      let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
+      this._serviceProyectos.getProyectosBetweenDatesFinAndStatus(fechaini, fechafin, this.filtro.estado, this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos entre fechas y estado', error); });
+    } else if (this.filtro.tipoFecha === 'final' && this.filtro.fechaini && this.filtro.fechafin) {
+      let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
+      let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
+      this._serviceProyectos.getProyectosBetweenDatesFin(fechaini, fechafin, this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos entre fechas', error); });
     } else if (this.filtro.estado) {
       this._serviceProyectos.getProyectosByEstado(this.filtro.estado, this.token)
-      .then(response => {
-        console.log(response);
-        this.proyectos = response.proyectos;
-        sw = true;
-      }).catch(error => { console.log('Error al obtener proyectos por estado', error); });
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Error al obtener proyectos por estado', error); });
     } else {
-      sw = true;
+      this._serviceProyectos.getProyectos(this.token)
+        .then(response => {
+          this.proyectos = response.proyectos
+          this.filtroRecorrido();
+        }).catch(error => { console.log('Erro al obtener proyectos', error); });
     }
 
-    if (sw) { console.log(this.proyectos); }
-    
     // this.columnsToDisplay = this.displayedColumns.slice();
 
     // this.dataSource = new MatTableDataSource(this.proyectos);
     // this.dataSource.paginator = this.paginator;
     // this.dataSource.sort = this.sort;
+  }
+  filtroRecorrido() {
+    console.log(this.proyectos);
+    let proys: any = [];
+    this.proyectos.forEach(proyecto => {
+      if (this.filtro.departamento && this.filtro.provincia) {
+        // tslint:disable-next-line:max-line-length
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoAndProvincia(proyecto.id_proyecto, this.filtro.departamento, this.filtro.provincia, this.token)
+        .then(response => {
+          console.log(response);
+          let depa = '';
+          response.lugar_desarrollos.forEach(lugar_desarrollo => {
+            depa = depa + '' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia + '<br />';
+          });
+          proyecto.departamento = depa;
+        }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+      } else if (this.filtro.departamento) {
+        // tslint:disable-next-line:max-line-length
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoAndDepartamento(proyecto.id_proyecto, this.filtro.departamento, this.token)
+        .then(response => {
+          console.log(response);
+          let depa = '';
+          response.lugar_desarrollos.forEach(lugar_desarrollo => {
+            depa = depa + '' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia + '<br />';
+          });
+          proyecto.departamento = depa;
+        }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+      } else if (this.filtro.provincia) {
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoAndProvincia(proyecto.id_proyecto, this.filtro.provincia, this.token)
+        .then(response => {
+          console.log(response);
+          let depa = '';
+          response.lugar_desarrollos.forEach(lugar_desarrollo => {
+            depa = depa + '' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia + '<br />';
+          });
+          proyecto.departamento = depa;
+        }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+      }
 
+      proys.push(proyecto);
+    });
+    console.log(proys);
+    this.proyectos = proys;
+    let dataS = new MatTableDataSource(this.proyectos);
+    this.dataSource = dataS;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
+    // this.columnsToDisplay.push('departamento');
+    this.displayedColumns.push('departamento');
+    this.columnsToDisplay = this.displayedColumns.slice();
+
+    console.log(this.columnsToDisplay);
+
+    this.length = this.dataSource.data.length;
+    let ini = Math.ceil(this.length / 3);
+    for (let i = ini; i < this.length + ini; i = i + ini) {
+      if (i >= this.length) {
+        this.pageSizeOptions.push(this.length);
+      } else {
+        this.pageSizeOptions.push(i);
+      }
+    }
+    console.log(this.proyectos);
   }
 
   obtenerProvincias() {
+    this.filtro.provincia = '';
     this.departamentos.forEach((departamento) => {
       if (departamento.value === this.filtro.departamento) {
         this.provincias = departamento.provincias;
@@ -538,8 +689,48 @@ export class GenerateReportesComponent
       mostrarEvento: false,
       mostrarNotaPrensa: false,
       mostrarExposicion: false,
-      procesoini: -1,
-      procesofin: -1
+      procesoini: '',
+      procesofin: '',
+      tipoFecha: 'ninguna'
     };
+  }
+  comprobarDepartamento(depart: string) {
+    let depa = '';
+    switch (depart) {
+      case 'CH':
+        depa = 'Chuquisaca';
+        break;
+      case 'LP':
+        depa = 'La Paz';
+        break;
+      case 'CB':
+        depa = 'Cochabamba';
+        break;
+      case 'OR':
+        depa = 'Oruro';
+        break;
+      case 'PT':
+        depa = 'Potosí';
+        break;
+      case 'TJ':
+        depa = 'Tarija';
+        break;
+      case 'SC':
+        depa = 'Santa Cruz';
+        break;
+      case 'CH':
+        depa = 'Chuquisaca';
+        break;
+      case 'BE':
+        depa = 'Beni';
+        break;
+      case 'PD':
+        depa = 'Pando';
+        break;
+      default:
+        depa = 'error';
+        break;
+    }
+    return depa;
   }
 }
