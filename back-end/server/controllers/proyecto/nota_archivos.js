@@ -124,6 +124,19 @@ function getAllByIdNotaPrensa(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un nota_archivos por id_nota_prensa', err });
     })
 }
+// contar nota_archivos por id_nota_prensa
+function countByIdNotaPrensa(req, res) {
+    var id = req.params.id_nota_prensa;
+    nota_archivos.count({
+        where: { id_nota_prensa: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar nota_archivos por id_nota_prensa', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +145,6 @@ module.exports = {
     getArchivo,
     getById,
     getAll,
-    getAllByIdNotaPrensa
+    getAllByIdNotaPrensa,
+    countByIdNotaPrensa
 }

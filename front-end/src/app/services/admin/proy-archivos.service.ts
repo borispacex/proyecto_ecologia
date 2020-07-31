@@ -67,4 +67,13 @@ export class ProyArchivosService {
     return this._http.get(this.url + 'proy_archivo/' + id, options).toPromise()
     .then(res => res.json());
   }
+  // contar todos las proy_archivos. mediante el id_proyecto
+  countProy_archivosByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countProyArchivosByIdProyecto/' + id_proyecto, options).toPromise()
+    .then(res => res.json());
+  }
 }

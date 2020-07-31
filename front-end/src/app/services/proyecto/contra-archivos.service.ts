@@ -60,5 +60,14 @@ export class ContraArchivosService {
     return this._http.get(this.url + 'contra_archivos/' + id_contratado, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los contra_archivos by id_contratado
+  countContraArchivosByIdContratado(id_contratado: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countContraArchivosByIdContratado/' + id_contratado, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

@@ -60,5 +60,14 @@ export class PubliArchivosService {
     return this._http.get(this.url + 'publi_archivos/' + id_publicacion, options).toPromise()
       .then(res => res.json());
   }
+  // contador todos los publi_archivos by id_publicacion
+  countPubliArchivosByIdPublicacion(id_publicacion: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countPubliArchivosByIdPublicacion/' + id_publicacion, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

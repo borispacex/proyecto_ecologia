@@ -16,4 +16,6 @@ module.exports = (app) => {
     app.get('/api/get-archivo/:archivo', proy_archivosController.getArchivo);
     app.get('/:archivo', proy_archivosController.getArchivo);
     app.get('/api/proy_archivo/:id_proy_archivo', md_auth.auth, proy_archivosController.getById);
+    app.get('/api/countProyArchivosByIdProyecto/:id_proyecto', md_auth.auth, proy_archivosController.countByIdProyecto);
+
 }

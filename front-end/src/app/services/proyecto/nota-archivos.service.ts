@@ -60,5 +60,14 @@ export class NotaArchivosService {
     return this._http.get(this.url + 'nota_archivos/' + id_nota_prensa, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los nota_archivos by id_nota_prensa
+  countNotaArchivosByIdNotaPrensa(id_nota_prensa: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countNotaArchivosByIdNotaPrensa/' + id_nota_prensa, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

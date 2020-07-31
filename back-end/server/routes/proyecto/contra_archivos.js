@@ -14,4 +14,6 @@ module.exports = (app) => {
     app.get('/api/get-archivo/:archivo', contra_archivosController.getArchivo);
     app.get('/:archivo', contra_archivosController.getArchivo);
     app.get('/api/contra_archivo/:id_contra_archivo', contra_archivosController.getById);
+    app.get('/api/countContraArchivosByIdContratado/:id_contratado', contra_archivosController.countByIdContratado);
+
 }

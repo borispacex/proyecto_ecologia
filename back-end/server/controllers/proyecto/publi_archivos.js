@@ -124,6 +124,19 @@ function getAllByIdPublicacion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un publi_archivos por id_publicacion', err });
     })
 }
+// contar publi_archivos por id_publicacion
+function countByIdPublicacion(req, res) {
+    var id = req.params.id_publicacion;
+    publi_archivos.count({
+        where: { id_publicacion: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar publi_archivos por id_publicacion', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +145,6 @@ module.exports = {
     getArchivo,
     getById,
     getAll,
-    getAllByIdPublicacion
+    getAllByIdPublicacion,
+    countByIdPublicacion
 }

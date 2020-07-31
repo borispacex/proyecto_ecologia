@@ -14,4 +14,6 @@ module.exports = (app) => {
     app.get('/api/get-archivo/:archivo', expo_archivosController.getArchivo);
     app.get('/:archivo', expo_archivosController.getArchivo);
     app.get('/api/expo_archivo/:id_expo_archivo', expo_archivosController.getById);
+    app.get('/api/countExpoArchivosByIdExposicion/:id_exposicion', expo_archivosController.countByIdExposicion);
+
 }

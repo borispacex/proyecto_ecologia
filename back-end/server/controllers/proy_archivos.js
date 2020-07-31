@@ -157,6 +157,21 @@ function getProy_archivosByIdTipo(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un proy_archivos por id_proyecto', err });
     })
 }
+// contar proy_archivos por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    proy_archivos.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar proy_archivos por id_proyecto', err });
+    })
+}
+
+
 // EXPORTAMOS
 module.exports = {
     create,
@@ -166,5 +181,6 @@ module.exports = {
     getProy_archivosByIdTipo,
     getById,
     uploadArchivo,
-    getArchivo
+    getArchivo,
+    countByIdProyecto
 }

@@ -60,5 +60,14 @@ export class EventoArchivosService {
     return this._http.get(this.url + 'evento_archivos/' + id_evento, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los evento_archivos by id_evento
+  countEventoArchivosByIdEvento(id_evento: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countEventoArchivosByIdEvento/' + id_evento, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

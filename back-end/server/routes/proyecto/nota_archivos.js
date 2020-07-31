@@ -14,4 +14,6 @@ module.exports = (app) => {
     app.get('/api/get-archivo/:archivo', nota_archivosController.getArchivo);
     app.get('/:archivo', nota_archivosController.getArchivo);
     app.get('/api/nota_archivo/:id_nota_archivo', nota_archivosController.getById);
+    app.get('/api/countNotaArchivosByIdNotaPrensa/:id_nota_prensa', nota_archivosController.countByIdNotaPrensa);
+
 }

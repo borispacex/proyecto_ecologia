@@ -60,5 +60,14 @@ export class ExpoArchivosService {
     return this._http.get(this.url + 'expo_archivos/' + id_exposicion, options).toPromise()
       .then(res => res.json());
   }
-
+  // obtenemos todos los expo_archivos by id_exposicion
+  countExpoArchivosByIdExposicion(id_exposicion: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countExpoArchivosByIdExposicion/' + id_exposicion, options).toPromise()
+      .then(res => res.json());
+  }
+  
 }

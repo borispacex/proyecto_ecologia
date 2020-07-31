@@ -124,6 +124,19 @@ function getAllByIdCurso(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un curso_archivos por id_curso', err });
     })
 }
+// contar curso_archivos por id_proyecto
+function countByIdCurso(req, res) {
+    var id = req.params.id_curso;
+    curso_archivos.count({
+        where: { id_curso: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar curso_archivos por id_curso', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +145,6 @@ module.exports = {
     getArchivo,
     getById,
     getAll,
-    getAllByIdCurso
+    getAllByIdCurso,
+    countByIdCurso
 }

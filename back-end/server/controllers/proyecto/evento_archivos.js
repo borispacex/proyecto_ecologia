@@ -124,6 +124,19 @@ function getAllByIdEvento(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un evento_archivos por id_evento', err });
     })
 }
+// contar evento_archivos por id_evento
+function countByIdEvento(req, res) {
+    var id = req.params.id_evento;
+    evento_archivos.count({
+        where: { id_evento: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar evento_archivos por id_evento', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +145,6 @@ module.exports = {
     getArchivo,
     getById,
     getAll,
-    getAllByIdEvento
+    getAllByIdEvento,
+    countByIdEvento
 }

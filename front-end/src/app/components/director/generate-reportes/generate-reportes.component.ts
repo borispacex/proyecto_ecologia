@@ -46,6 +46,7 @@ import { GLOBAL } from 'src/app/services/global';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { InvProyectosService } from 'src/app/services/admin/inv-proyectos.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -334,6 +335,7 @@ export class GenerateReportesComponent
     private _serviceContraArchivos: ContraArchivosService,
     private _serviceUnidades: UnidadesService,
     private _serviceExpositores: ExpositoresService,
+    private _serviceInvProyectos: InvProyectosService,
     private toastr: ToastrService
   ) {
     this.token = this._auth.getToken();
@@ -360,15 +362,7 @@ export class GenerateReportesComponent
   }
 
   addColumn(columna: string) {
-    // const randomColumn = Math.floor(
-    //   Math.random() * this.displayedColumns.length
-    // );
-    // console.log(randomColumn);
-    // console.log(this.displayedColumns);
-    // console.log(this.displayedColumns[randomColumn]);
-    // this.columnsToDisplay.push(this.displayedColumns[randomColumn]);
     this.columnsToDisplay.push(columna);
-    // console.log(this.columnsToDisplay);
   }
 
   removeColumn() {
@@ -411,8 +405,7 @@ export class GenerateReportesComponent
   obtenerProyectos() { }
 
   filtroInicial() {
-    this._serviceProyectos
-      .getProyectos(this.token)
+    this._serviceProyectos.getProyectos(this.token)
       .then((response) => {
         this.proyectos = [];
         response.proyectos.forEach((proyecto) => {
@@ -475,7 +468,7 @@ export class GenerateReportesComponent
 
   realizarFiltro() {
     console.log(this.filtro);
-    this.filtroInicial();
+    this.columnaInicial();
     if ((this.filtro.tipoFecha === 'inicio' || this.filtro.tipoFecha === 'final') && !this.filtro.fechaini && !this.filtro.fechafin) {
       this.toastr.error('Seleccionó fechas, debe llenar los campos', undefined, { closeButton: true, positionClass: 'toast-top-right' }); //bottom
     } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
@@ -584,30 +577,25 @@ export class GenerateReportesComponent
         }).catch(error => { console.log('Error al obtener proyectos por estado', error); });
     } else {
       this._serviceProyectos.getProyectos(this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Erro al obtener proyectos', error); });
+      .then(response => {
+        this.proyectos = response.proyectos;
+        this.filtroRecorrido();
+      }).catch(error => { console.log('Error al obtener proyectos', error); });
     }
-
-    // this.columnsToDisplay = this.displayedColumns.slice();
-
-    // this.dataSource = new MatTableDataSource(this.proyectos);
-    // this.dataSource.paginator = this.paginator;
-    // this.dataSource.sort = this.sort;
   }
   filtroRecorrido() {
     console.log(this.proyectos);
     let proys: any = [];
     this.proyectos.forEach(proyecto => {
+      // buscando departamento o provincia
       if (this.filtro.departamento && this.filtro.provincia) {
         // tslint:disable-next-line:max-line-length
         this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoAndProvincia(proyecto.id_proyecto, this.filtro.departamento, this.filtro.provincia, this.token)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           let depa = '';
           response.lugar_desarrollos.forEach(lugar_desarrollo => {
-            depa = depa + '' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia + '<br />';
+            depa = depa + ' - ' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia;
           });
           proyecto.departamento = depa;
         }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
@@ -615,24 +603,152 @@ export class GenerateReportesComponent
         // tslint:disable-next-line:max-line-length
         this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoAndDepartamento(proyecto.id_proyecto, this.filtro.departamento, this.token)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           let depa = '';
           response.lugar_desarrollos.forEach(lugar_desarrollo => {
-            depa = depa + '' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia + '<br />';
+            depa = depa + ' - ' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia;
           });
           proyecto.departamento = depa;
         }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
       } else if (this.filtro.provincia) {
         this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoAndProvincia(proyecto.id_proyecto, this.filtro.provincia, this.token)
         .then(response => {
-          console.log(response);
+          // console.log(response);
           let depa = '';
           response.lugar_desarrollos.forEach(lugar_desarrollo => {
-            depa = depa + '' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia + '<br />';
+            depa = depa + ' - ' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia;
           });
           proyecto.departamento = depa;
         }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
       }
+      // buscando coordinador
+      if (this.filtro.mostrarCoordinador) {
+        proyecto.coordinador = `${proyecto.investigadore.persona.grado_academico} ${proyecto.investigadore.persona.nombres} ${proyecto.investigadore.persona.paterno} ${proyecto.investigadore.persona.materno}`;
+      }
+      // buscando investigadores
+      if (this.filtro.mostrarInvestigador) {
+        console.log(proyecto);
+        proyecto.investigadores = '';
+        this._serviceInvProyectos.getInv_proyectosByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response.inv_proyectos);
+          response.inv_proyectos.forEach(inv_proyecto => {
+            proyecto.investigadores = proyecto.investigadores + ' - ' + `${inv_proyecto.investigadore.persona.grado_academico} ${inv_proyecto.investigadore.persona.nombres} ${inv_proyecto.investigadore.persona.paterno} ${inv_proyecto.investigadore.persona.materno}`;
+          });
+        }).catch(error => { console.log('Error al obtener inv proyectos', error); });
+      }
+      // buscando basica tecnicas
+      if (this.filtro.mostrarBasicaTecnica) {
+        proyecto.basica_tecnicas = '';
+        this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          response.basica_tecnicas.forEach(basica_tecnica => {
+            proyecto.basica_tecnicas = proyecto.basica_tecnicas + ' - ' + `${basica_tecnica.tipo}, ${basica_tecnica.area}`;
+          });
+        }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
+      }
+      // buscando lugar_desarrollo
+      if (this.filtro.mostrarLugarDesarrollo) {
+        proyecto.lugar_desarrollos = '';
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.lugar_desarrollos.forEach(lugar_desarrollo => {
+            proyecto.lugar_desarrollos = proyecto.lugar_desarrollos + ' - ' + `${lugar_desarrollo.departamento}, ${lugar_desarrollo.provincia}`;
+          });
+        }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+      }
+      //  buscando publicacines
+      if (this.filtro.mostrarPublicacion) {
+        proyecto.publicaciones = '';
+        this._servicePublicaciones.getPublicacionesByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.publicaciones.forEach(publicacion => {
+            proyecto.publicaciones = proyecto.publicaciones + ' - ' + publicacion.titulo;
+          });
+        }).catch(error => { console.log('Error al obtener publicaciones', error); });
+      }
+      // buscando convenios
+      if (this.filtro.mostrarConvenio) {
+        proyecto.convenios = '';
+        this._serviceConvenios.getConveniosByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.convenios.forEach(convenio => {
+            proyecto.convenios = proyecto.convenios + ' - ' + convenio.titulo;
+          });
+        }).catch(error => { console.log('Error al obtener convenios', error); });
+      }
+      // buscando contratados
+      if (this.filtro.mostrarContratado) {
+        proyecto.contratados = '';
+        this._serviceContratados.getContratadosByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.contratados.forEach(contratado => {
+            proyecto.contratados = proyecto.contratados + ' - ' + contratado.nombrecompleto;
+          });
+        }).catch(error => { console.log('Error al obtener contratados', error); });
+      }
+      // buscando cursos
+      if (this.filtro.mostrarCurso) {
+        proyecto.cursos = '';
+        this._serviceCursos.getCursosByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.cursos.forEach(curso => {
+            proyecto.cursos = proyecto.cursos + ' - ' + curso.titulo;
+          });
+        }).catch(error => { console.log('Error al obtener cursos', error); });
+      }
+      // buscando eventos
+      if (this.filtro.mostrarEvento) {
+        proyecto.eventos = '';
+        this._serviceEventos.getEventosByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.eventos.forEach(evento => {
+            proyecto.eventos = proyecto.eventos + ' - ' + evento.titulo;
+          });
+        }).catch(error => { console.log('Error al obtener eventos', error); });
+      }
+      // buscando notas de prensa
+      if (this.filtro.mostrarNotaPrensa) {
+        proyecto.nota_prensas = '';
+        this._serviceNotaPrensas.getNotaPrensasByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.nota_prensas.forEach(nota_prensa => {
+            proyecto.nota_prensas = proyecto.nota_prensas + ' - ' + nota_prensa.titulo;
+          });
+        }).catch(error => { console.log('Error al obtener notas de prensas', error); });
+      }
+      // buscando exposiciones
+      if (this.filtro.mostrarExposicion) {
+        proyecto.exposiciones = '';
+        this._serviceExposiciones.getExposicionesByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          // console.log(response);
+          response.exposiciones.forEach(exposicion => {
+            proyecto.exposiciones = proyecto.exposiciones + ' - ' + exposicion.titulo;
+          });
+        }).catch(error => { console.log('Error al obtener exposiciones', error); });
+      }
+      // buscando nro publicaciones
+      if (this.filtro.mostrarNumeroPublicacion) {
+        proyecto.nro_publicaciones = 0;
+        this._servicePublicaciones.getPublicacionesByIdProyecto(proyecto.id_proyecto, this.token)
+        .then(response => {
+          response.publicaciones.forEach(publicacion => {
+            this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publicacion.id_publicacion, this.token)
+            .then(response => {
+              
+            }).catch(error => { console.log('Error al obtener ') })
+          });
+        }).catch(error => { console.log('Error al obtener publicaciones', error); });
+      }
+
 
       proys.push(proyecto);
     });
@@ -643,11 +759,58 @@ export class GenerateReportesComponent
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
-    // this.columnsToDisplay.push('departamento');
-    this.displayedColumns.push('departamento');
-    this.columnsToDisplay = this.displayedColumns.slice();
-
-    console.log(this.columnsToDisplay);
+    if (this.filtro.departamento || this.filtro.provincia) {
+      this.displayedColumns.push('departamento');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarCoordinador) {
+      this.displayedColumns.push('coordinador');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarInvestigador) {
+      this.displayedColumns.push('investigadores');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarBasicaTecnica) {
+      this.displayedColumns.push('basica_tecnicas');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarLugarDesarrollo) {
+      this.displayedColumns.push('lugar_desarrollos');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarPublicacion) {
+      this.displayedColumns.push('publicaciones');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarConvenio) {
+      this.displayedColumns.push('convenios');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarContratado) {
+      this.displayedColumns.push('contratados');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarCurso) {
+      this.displayedColumns.push('cursos');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarEvento) {
+      this.displayedColumns.push('eventos');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarNotaPrensa) {
+      this.displayedColumns.push('nota_prensas');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarExposicion) {
+      this.displayedColumns.push('exposiciones');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
+    if (this.filtro.mostrarNumeroPublicacion) {
+      this.displayedColumns.push('nro_publicaciones');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    }
 
     this.length = this.dataSource.data.length;
     let ini = Math.ceil(this.length / 3);
@@ -659,6 +822,17 @@ export class GenerateReportesComponent
       }
     }
     console.log(this.proyectos);
+  }
+
+  columnaInicial() {
+    this.displayedColumns = [
+      'titulo',
+      'fechaini',
+      'fechafin',
+      'proceso',
+      'estado'
+    ];
+    this.columnsToDisplay = this.displayedColumns.slice();
   }
 
   obtenerProvincias() {

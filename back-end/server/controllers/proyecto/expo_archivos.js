@@ -124,6 +124,19 @@ function getAllByIdExposicion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un expo_archivos por id_exposicion', err });
     })
 }
+// contar expo_archivos por id_exposicion
+function countByIdExposicion(req, res) {
+    var id = req.params.id_exposicion;
+    expo_archivos.count({
+        where: { id_exposicion: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar expo_archivos por id_exposicion', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +145,6 @@ module.exports = {
     getArchivo,
     getById,
     getAll,
-    getAllByIdExposicion
+    getAllByIdExposicion,
+    countByIdExposicion
 }

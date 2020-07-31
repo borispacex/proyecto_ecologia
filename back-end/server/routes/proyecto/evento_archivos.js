@@ -14,4 +14,6 @@ module.exports = (app) => {
     app.get('/api/get-archivo/:archivo', evento_archivosController.getArchivo);
     app.get('/:archivo', evento_archivosController.getArchivo);
     app.get('/api/evento_archivo/:id_evento_archivo', evento_archivosController.getById);
+    app.get('/api/countEventoArchivosByIdEvento/:id_evento', evento_archivosController.countByIdEvento);
+
 }

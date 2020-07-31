@@ -60,6 +60,15 @@ export class CursoArchivosService {
     return this._http.get(this.url + 'curso_archivos/' + id_curso, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los curso_archivos by id_curso
+  countCursoArchivosByIdCurso(id_curso: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countCursoArchivosByIdCurso/' + id_curso, options).toPromise()
+      .then(res => res.json());
+  }
 
 
 }

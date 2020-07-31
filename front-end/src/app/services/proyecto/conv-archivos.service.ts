@@ -60,5 +60,14 @@ export class ConvArchivosService {
     return this._http.get(this.url + 'conv_archivos/' + id_convenio, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los conv_archivos by id_convenio
+  countConvArchivosByIdConvenio(id_convenio: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countConvArchivosByIdConvenio/' + id_convenio, options).toPromise()
+      .then(res => res.json());
+  }
 
 }
