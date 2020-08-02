@@ -87,5 +87,14 @@ export class LugarDesarrollosService {
     return this._http.get(this.url + 'lugar_desarrollosByIdProyectoAndProvince/' + id_proyecto + '/' + provincia, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los lugar_desarrollos by id_proyecto
+  countLugarDesarrollosByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countLugarDesarrollosByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

@@ -7,6 +7,7 @@ module.exports = (app) => {
     app.put('/api/basica_tecnica/:id_basica_tecnica', basica_tecnicasController.update);
     app.get('/api/basica_tecnicas', basica_tecnicasController.getAll);
     app.get('/api/basica_tecnicas/:id_proyecto', basica_tecnicasController.getAllByIdProyecto);
-
+    
     app.get('/api/basica_tecnica/:id_basica_tecnica', basica_tecnicasController.getById);
+    app.get('/api/countBasicaTecnicasByIdProyecto/:id_proyecto', basica_tecnicasController.countByIdProyecto);
 }

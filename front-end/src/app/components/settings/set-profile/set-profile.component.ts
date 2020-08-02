@@ -40,6 +40,13 @@ const I18N_VALUES = {
   }
 }
 
+interface IUploadResponse {
+  success: boolean;
+  key: string;
+  link: string;
+  expiry: string;
+}
+
 @Component({
   selector: 'app-set-profile',
   templateUrl: './set-profile.component.html',
@@ -79,6 +86,12 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   public image_selected: string;
   public filesToUpload: Array<File>;
 
+  // process bar
+  isUploadStarted = false;
+  uploadedFile: IUploadResponse;
+  progress = 10;
+
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -86,7 +99,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     private activatedRoute: ActivatedRoute,
     private _serviceUsuario: UsuariosService,
     private toastr: ToastrService,
-    private _upload: UploadService,
+    public _upload: UploadService,
     private _serviceFotografias: FotografiasService
   ) {
     this.token = this._auth.getToken();
@@ -279,6 +292,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   }
 
   fileChangeEvent(fileInput: any) {
+    
     this.filesToUpload =
       fileInput.target.files.length > 0
         ? <Array<File>>fileInput.target.files
@@ -295,17 +309,23 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     };
     this._serviceFotografias.save(foto, this.token)
       .then(responseFoto => {
-        console.log(responseFoto);
         if (this.filesToUpload) {
           this._upload.upload(this.url + 'upload-fotografia/' + responseFoto.fotografias.id_fotografia, this.filesToUpload, this.token)
             .then( (responseFotografia: any) => {
-              this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               // AQUI SE TIENE QUE ACTUALIZAR LA FOTO DE SIDEBAR
               this.fotografia = responseFotografia.fotografia;
               this.image_selected = this.fotografia.imagen;
               this._serviceUsuario.updatePersona(this.persona.id_persona, {id_fotografia: this.fotografia.id_fotografia}, this.token)
-              .then(responsePersona => { console.log(responsePersona); })
-              .catch(error => { console.log('Error al actualizar persona', error); });
+              .then(responsePersona => {
+                console.log(responsePersona);
+                this._upload.progress.subscribe(value => {
+                  if (value === 100) {
+                    this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    this.filesToUpload = null;
+                    this.ngOnInit();
+                  }
+                });
+               }).catch(error => { console.log('Error al actualizar persona', error); });
             }).catch(error => {
               console.log('Error al subir fotografia actualizada', error);
               this.toastr.error('Error al subir fotografia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });

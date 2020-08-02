@@ -68,11 +68,25 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un basica_tecnicas por id_proyecto', err });
     })
 }
+// funcion para contar basica_tecnicas por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    basica_tecnicas.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar un basica_tecnicas por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
     update,
     getById,
     getAll,
-    getAllByIdProyecto
+    getAllByIdProyecto,
+    countByIdProyecto
 }

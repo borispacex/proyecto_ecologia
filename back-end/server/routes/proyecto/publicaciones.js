@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.get('/api/publicaciones', publicacionesController.getAll);
     app.get('/api/publicaciones-proy/:id_proyecto', publicacionesController.getAllByIdProyecto);
     app.get('/api/publicaciones-inv/:id_coordinador', publicacionesController.getAllByIdCoordinador);
-
+    
     app.get('/api/publicacion/:id_publicacion', publicacionesController.getById);
+    app.get('/api/countPublicacionesByIdProyecto/:id_proyecto', publicacionesController.countByIdProyecto);
 }

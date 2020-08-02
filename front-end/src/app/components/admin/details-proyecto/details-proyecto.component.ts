@@ -424,7 +424,7 @@ export class DetailsProyectoComponent implements OnInit {
             this.permiso.descripcion = this.datosArchivo[pos].descripcion;
             this._servicePermisoArchivos.save(this.permiso, this.token)
             .then(response => {
-              this._uploadArchivo.uploadArchivo(this.url + 'upload-permiso-archivo/' + response.permiso_archivos.id_permiso_archivo, this.files[0], this.token)
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-permiso-archivo/' + response.permiso_archivos.id_permiso_archivo, this.files[pos], this.token)
               .then(responseArchivo => {
                 if (sw) { this.toastr.success('Permisos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; this.getArchivosByTipo(1); }
               }).catch(error => {

@@ -7,6 +7,7 @@ module.exports = (app) => {
     app.put('/api/curso/:id_curso', cursosController.update);
     app.get('/api/cursos', cursosController.getAll);
     app.get('/api/cursos/:id_proyecto', cursosController.getAllByIdProyecto);
-
+    
     app.get('/api/curso/:id_curso', cursosController.getById);
+    app.get('/api/countCursosByIdProyecto/:id_proyecto', cursosController.countByIdProyecto);
 }

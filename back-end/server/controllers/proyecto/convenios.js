@@ -124,6 +124,19 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un convenios por id_proyecto', err });
     })
 }
+// contar convenios por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    convenios.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar convenios por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +145,6 @@ module.exports = {
     getArchivo,
     getById,
     getAll,
-    getAllByIdProyecto
+    getAllByIdProyecto,
+    countByIdProyecto
 }

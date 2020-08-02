@@ -60,5 +60,14 @@ export class ConveniosService {
     return this._http.get(this.url + 'convenios/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los convenios by id_proyecto
+  countConveniosByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countConveniosByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

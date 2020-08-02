@@ -60,5 +60,14 @@ export class EventosService {
     return this._http.get(this.url + 'eventos/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los eventos by id_proyecto
+  countEventosByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countEventosByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

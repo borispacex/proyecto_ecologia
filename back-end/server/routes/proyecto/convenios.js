@@ -9,9 +9,10 @@ module.exports = (app) => {
     app.put('/api/convenio/:id_convenio', conveniosController.update);
     app.get('/api/convenios', conveniosController.getAll);
     app.get('/api/convenios/:id_proyecto', conveniosController.getAllByIdProyecto);
-
+    
     app.post('/api/upload-convenio/:id_convenio', md_upload, conveniosController.uploadArchivo);
     app.get('/api/get-archivo/:archivo', conveniosController.getArchivo);
     app.get('/:archivo', conveniosController.getArchivo);
     app.get('/api/convenio/:id_convenio', conveniosController.getById);
+    app.get('/api/countConveniosByIdProyecto/:id_proyecto', conveniosController.countByIdProyecto);
 }

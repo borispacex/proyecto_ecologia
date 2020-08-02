@@ -60,5 +60,14 @@ export class CursosService {
     return this._http.get(this.url + 'cursos/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // contar los cursos by id_proyecto
+  countCursosByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countCursosByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

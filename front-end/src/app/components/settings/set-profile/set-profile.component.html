@@ -35,14 +35,17 @@
 								<div class="media-body">
 									<p>Sube tu foto.
 									<br> <em>La imagen debe tener al menos 140 px x 140 px</em></p>
-									<input #file type="file" style="display: none;" (change)="fileChangeEvent($event)" accept="image/*">
-									<div class="text-left"> 
-										<button class="btn btn-warning mr-1" type="button" (click)="file.click()"><i class="icon-paper-clip text-light"></i></button>
-										{{image_selected}}
-									</div>
-									<button class="btn btn-primary mt-1" type="submit">Subir Fotografia</button>
 								</div>
 							</div>
+							<input #file type="file" style="display: none;" (change)="fileChangeEvent($event)" accept="image/*">
+							<div class="text-left"> 
+								<button class="btn btn-warning mr-1" type="button" (click)="file.click()"><i class="icon-paper-clip text-light"></i></button>
+								{{image_selected}}
+							</div>
+							<p>
+								<ngb-progressbar [showValue]="true" type="warning" [value]="_upload.progress | async" [max]="100"></ngb-progressbar>
+							</p>
+							<button class="btn btn-primary mt-1" type="submit">Subir Fotografia</button>
 						</form>
 
 						<form class="body" #formInfBasica="ngForm" (ngSubmit)="editarInfBasica()">

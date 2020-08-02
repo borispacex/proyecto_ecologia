@@ -70,5 +70,14 @@ export class PublicacionesService {
     return this._http.get(this.url + 'publicaciones-inv/' + id_coordinador, options).toPromise()
       .then(res => res.json());
   }
+  // contamos todos los publicaciones by id_proyecto
+  countPublicacionesByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countPublicacionesByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

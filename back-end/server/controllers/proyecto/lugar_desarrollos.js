@@ -111,6 +111,19 @@ function getAllByIdProyectoAndProvincia(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
     })
 }
+// funcion para contar lugar_desarrollos por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    lugar_desarrollos.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar lugar_desarrollos por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
@@ -120,5 +133,6 @@ module.exports = {
     getAllByIdProyecto,
     getAllByIdProyectoDepartamentoAndProvincia,
     getAllByIdProyectoAndDepartamento,
-    getAllByIdProyectoAndProvincia
+    getAllByIdProyectoAndProvincia,
+    countByIdProyecto
 }

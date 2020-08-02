@@ -60,5 +60,14 @@ export class NotaPrensasService {
     return this._http.get(this.url + 'nota_prensas/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los nota_prensas by id_proyecto
+  countNotaPrensasByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countNotaPrensasByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

@@ -68,11 +68,25 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un exposiciones por id_proyecto', err });
     })
 }
+// funcion para contar exposiciones por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    exposiciones.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar exposiciones por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
     update,
     getById,
     getAll,
-    getAllByIdProyecto
+    getAllByIdProyecto,
+    countByIdProyecto
 }

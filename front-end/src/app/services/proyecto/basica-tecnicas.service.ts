@@ -60,4 +60,13 @@ export class BasicaTecnicasService {
     return this._http.get(this.url + 'basica_tecnicas/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // obtenemos todos los basica_tecnicas by id_proyecto
+  countBasicaTecnicasByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countBasicaTecnicasByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
 }

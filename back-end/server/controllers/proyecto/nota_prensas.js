@@ -68,11 +68,25 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un nota_prensas por id_proyecto', err });
     })
 }
+// funcion para contar nota_prensas por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    nota_prensas.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contador nota_prensas por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
     update,
     getById,
     getAll,
-    getAllByIdProyecto
+    getAllByIdProyecto,
+    countByIdProyecto
 }

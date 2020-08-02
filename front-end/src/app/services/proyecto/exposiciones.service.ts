@@ -60,5 +60,15 @@ export class ExposicionesService {
     return this._http.get(this.url + 'exposiciones/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los exposiciones by id_proyecto
+  countExposicionesByIdProyecto(id_proyecto: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countExposicionesByIdProyecto/' + id_proyecto, options).toPromise()
+      .then(res => res.json());
+  }
+
 
 }

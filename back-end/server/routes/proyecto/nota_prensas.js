@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.put('/api/nota_prensa/:id_nota_prensa', nota_prensasController.update);
     app.get('/api/nota_prensas', nota_prensasController.getAll);
     app.get('/api/nota_prensas/:id_proyecto', nota_prensasController.getAllByIdProyecto);
-
+    
     app.get('/api/nota_prensa/:id_nota_prensa', nota_prensasController.getById);
+    app.get('/api/countNotaPrensasByIdProyecto/:id_proyecto', nota_prensasController.countByIdProyecto);
 }

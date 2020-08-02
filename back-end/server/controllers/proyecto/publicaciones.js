@@ -81,6 +81,19 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por id_proyecto', err });
     })
 }
+// funcion contar publicaciones por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    publicaciones.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar publicaciones por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
@@ -88,5 +101,6 @@ module.exports = {
     getById,
     getAll,
     getAllByIdCoordinador,
-    getAllByIdProyecto
+    getAllByIdProyecto,
+    countByIdProyecto
 }

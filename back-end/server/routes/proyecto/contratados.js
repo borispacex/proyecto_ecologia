@@ -9,9 +9,10 @@ module.exports = (app) => {
     app.put('/api/contratado/:id_contratado', contratadosController.update);
     app.get('/api/contratados', contratadosController.getAll);
     app.get('/api/contratados/:id_proyecto', contratadosController.getAllByIdProyecto);
-
+    
     app.post('/api/upload-contratado/:id_contratado', md_upload, contratadosController.uploadArchivo);
     app.get('/api/get-archivo/:archivo', contratadosController.getArchivo);
     app.get('/:archivo', contratadosController.getArchivo);
     app.get('/api/contratado/:id_contratado', contratadosController.getById);
+    app.get('/api/countContratadosByIdProyecto/:id_proyecto', contratadosController.countByIdProyecto);
 }
