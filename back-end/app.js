@@ -6,6 +6,7 @@ const app = express();
 
 // middlewares
 app.use(bodyParser.json());
+app.use(cors({origin: '*'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());

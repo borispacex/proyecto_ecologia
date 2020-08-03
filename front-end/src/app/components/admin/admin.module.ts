@@ -18,6 +18,13 @@ import { ngfModule } from 'angular-file';
 import { ToastrModule } from 'ngx-toastr';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SettingsModule } from '../settings/settings.module';
+import { HttpClientModule } from '@angular/common/http';
+
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -41,7 +48,14 @@ import { SettingsModule } from '../settings/settings.module';
     ngfModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatButtonModule,
+    MatProgressBarModule,
+    MatIconModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

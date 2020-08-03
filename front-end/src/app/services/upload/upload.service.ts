@@ -12,11 +12,6 @@ export class UploadService {
     constructor() {
     }
 
-    // seteamos
-    // set progress(valor: number): void {
-    //     this._progress.next(valor);
-    // }
-
     // Devuelve el estado de progreso como observable
     get progress(): Observable<number> {
         return this._progress.asObservable();
