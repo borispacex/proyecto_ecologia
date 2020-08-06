@@ -5,9 +5,9 @@ const cors = require("cors");
 const app = express();
 
 // middlewares
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '100mb' }));
 app.use(cors({origin: '*'}));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
 app.use(cors());
 // app.use(express.static(__dirname + '/dist/front-end'));
@@ -15,6 +15,7 @@ app.use(cors());
 // cabeceras
 app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'Content-Type');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');

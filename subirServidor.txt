@@ -64,6 +64,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
     sudo systemctl start pm2-root
     sudo systemctl status pm2-root
     sudo systemctl restart pm2-root
+    sudo pm2 restart web
     sudo pm2 logs web
 
 10. Preparamos nginx
