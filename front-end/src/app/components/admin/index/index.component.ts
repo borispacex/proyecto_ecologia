@@ -16,10 +16,9 @@ export class IndexComponent implements OnInit {
   // public isResizing: boolean = false;
 
   // variable para subir archivos
-  images;
-  multipleImages = [];
   private url: string;
   progress = 0;
+  selectedFiles = [];
 
   constructor(
     private sidebarService: SidebarService,
@@ -34,7 +33,6 @@ export class IndexComponent implements OnInit {
     // setTimeout( () => {
     //   this.showToastr();
     // }, 1000);
-
   }
 
   showToastr() {
@@ -52,79 +50,148 @@ export class IndexComponent implements OnInit {
     }, 400);
   }
 
+  // funciones para subir los archivos
+  selectFile(event) {
+    this.selectedFiles = [];
+    if (event.target.files.length > 0) {
+      let file = event.target.files[0];
+      let obj = {
+        fileName: file.name,
+        selectedFile: file,
+        fileId: `${file.name}-${file.lastModified}`,
+        uploadCompleted: false
+      };
+      this.selectedFiles[0] = obj;
+      console.log('... file[' + 0 + '].name = ' + file.name);
+      this.selectedFiles.forEach(f => this.getFileUploadStatus(f));
+    }
+  }
+
+  selectMultipleFile(event){
+    this.selectedFiles = [];
+    if (event.target.files.length > 0) {
+      for (var i = 0; i < event.target.files.length; i++) {
+        let file = event.target.files[i];
+        let obj = {
+          fileName: file.name,
+          selectedFile: file,
+          fileId: `${file.name}-${file.lastModified}`,
+          uploadCompleted: false
+        };
+        this.selectedFiles.push(obj);
+        console.log('... file[' + i + '].name = ' + file.name);
+      }
+      this.selectedFiles.forEach(f => this.getFileUploadStatus(f));
+    }
+  }
 
   // funciones para subir los archivos
-  selectImage(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.images = file;
+  dropHandler(ev) {
+    ev.preventDefault();
+
+    if (ev.dataTransfer.items) {
+      // Use DataTransferItemList interface to access the file(s)
+      for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+        // If dropped items aren't files, reject them
+        if (ev.dataTransfer.items[i].kind === 'file') {
+          let file = ev.dataTransfer.items[i].getAsFile();
+          let obj = {
+            fileName: file.name,
+            selectedFile: file,
+            fileId: `${file.name}-${file.lastModified}`,
+            uploadCompleted: false
+          };
+          this.selectedFiles.push(obj);
+          console.log('... file[' + i + '].name = ' + file.name);
+        }
+      }
+      this.selectedFiles.forEach(file => this.getFileUploadStatus(file));
+    } else {
+      for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+        console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+      }
     }
   }
 
-  selectMultipleImage(event){
-    if (event.target.files.length > 0) {
-      this.multipleImages = event.target.files;
-      console.log(this.multipleImages);
-    }
+  dragOverHandler(ev) {
+    console.log('File(s) in drop zone');
+
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+    ev.stopPropagation();
   }
 
-  onSubmit(){
-    const formData = new FormData();
-    formData.append('file', this.images);
 
-    this.http.post<any>(this.url + 'file', formData, { reportProgress: true, observe: 'events' })
-    .subscribe(
-      (event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Solicitud ha sido hecha!');
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Se ha recibido el encabezado de respuesta!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round(event.loaded / event.total * 100);
-            console.log(`Uploaded! ${this.progress}%`);
-            break;
-          case HttpEventType.Response:
-            console.log('Usuario creado con éxito!', event.body);
-            setTimeout(() => {
-              this.progress = 0;
-            }, 1500);
+
+  getFileUploadStatus(file) {
+    // fetch the file status on upload
+    let headers = new HttpHeaders({
+      'size': file.selectedFile.size.toString(),
+      'x-file-id': file.fileId,
+      'name': file.fileName
+    });
+
+    this.http
+      .get('http://localhost:8012/api/status', { headers: headers }).subscribe(
+        (res: any) => {
+          file.uploadedBytes = res.uploaded;
+          file.uploadedPercent = Math.round(100 * file.uploadedBytes / file.selectedFile.size);
+          if (file.uploadedPercent >= 100) {
+            file.uploadCompleted = true;
+          }
+        }, err => {
+          console.log(err);
+        }
+      );
+  }
+
+  uploadFiles() {
+    this.selectedFiles.forEach(file => {
+      if (file.uploadedPercent < 100) {
+        this.resumeUpload(file);
+      }
+    });
+  }
+
+  resumeUpload(file) {
+    //make upload call and update the file percentage
+    const headers2 = new HttpHeaders({
+      'size': file.selectedFile.size.toString(),
+      'x-file-id': file.fileId,
+      'x-start-byte': file.uploadedBytes.toString(),
+      'name': file.fileName
+    });
+    console.log(file.uploadedBytes, file.selectedFile.size, file.selectedFile.slice(file.uploadedBytes).size);
+
+    // tslint:disable-next-line:max-line-length
+    const req = new HttpRequest('POST', 'http://localhost:8012/api/upload', file.selectedFile.slice(file.uploadedBytes, file.selectedFile.size + 1), {
+      headers: headers2,
+      reportProgress: true
+    });
+
+    this.http.request(req).subscribe(
+      (res: any) => {
+        if (res.type === HttpEventType.UploadProgress) {
+          file.uploadedPercent = Math.round(100 * (file.uploadedBytes + res.loaded) / res.total);
+          console.log(file.uploadedPercent);
+          if (file.uploadedPercent >= 100) {
+            file.uploadCompleted = true;
+          }
+        } else {
+          if (file.uploadedPercent >= 100) {
+            file.uploadCompleted = true;
+          }
         }
       },
-      (err) => console.log('Error al subir archivo', err)
+      err => {
+        console.log(err);
+      }
     );
   }
 
-  onMultipleSubmit(){
-    const formData = new FormData();
-    for(let img of this.multipleImages){
-      formData.append('files', img);
-    }
-
-    this.http.post<any>(this.url + 'multipleFiles', formData, { reportProgress: true, observe: 'events' }).subscribe(
-      (event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Solicitud ha sido hecha!');
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Se ha recibido el encabezado de respuesta!');
-            break;
-          case HttpEventType.UploadProgress:
-            this.progress = Math.round(event.loaded / event.total * 100);
-            console.log(`Uploaded! ${this.progress}%`);
-            break;
-          case HttpEventType.Response:
-            console.log('Usuario creado con éxito!', event.body);
-            setTimeout(() => {
-              this.progress = 0;
-            }, 1500);
-        }
-      },
-      (err) => console.log('Error al subir los archivos', err)
-    );
+  deleteFile(file) {
+    this.selectedFiles.splice(this.selectedFiles.indexOf(file), 1);
   }
+
 
 }

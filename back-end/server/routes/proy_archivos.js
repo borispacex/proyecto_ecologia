@@ -1,12 +1,10 @@
 const proy_archivosController = require('../controllers').proy_archivos;
 const md_auth = require('../authenticated/authenticated');
 const cm = require('connect-multiparty');
-const md_upload = cm({
-    uploadDir: './server/uploads/archivos'
-});
-// pruebas subida de archivos
-const multer = require('multer');
+const md_upload = cm({ uploadDir: './server/uploads/archivos' });
 
+// pruebas subida de archivos
+const fs = require('fs');
 
 // configuracion el express
 module.exports = (app) => {
@@ -24,45 +22,125 @@ module.exports = (app) => {
     app.get('/api/countProyArchivosByIdProyecto/:id_proyecto', md_auth.auth, proy_archivosController.countByIdProyecto);
 
     // pruebas para subir archivos
-    const storage = multer.diskStorage({
-        destination: (req, file, callBack) => {
-            callBack(null, 'server/uploads/files')
-        },
-        filename: (req, file, callBack) => {
-            callBack(null, `${Date.now()}${file.originalname}`) // nombre archivo
+    let uploads = {};
+    app.post('/api/upload', (req, res, next) => {
+        let fileId = req.headers['x-file-id'];
+        let startByte = parseInt(req.headers['x-start-byte'], 10);
+        let name = req.headers['name'];
+        let fileSize = parseInt(req.headers['size'], 10);
+        console.log('file Size', fileSize, fileId, startByte);
+        if (uploads[fileId] && fileSize == uploads[fileId].bytesReceived) {
+            res.end();
+            return;
         }
-    })
-    const upload = multer({
-        storage: storage,
-        limits: {
-            fileSize: 21048576
-        }
-    })
 
-    //let upload = multer({ dest: 'uploads/' })
-    app.post('/api/file', upload.single('file'), (req, res, next) => {
-        const file = req.file;
-        console.log(file.filename);
-        if (!file) {
-            const error = new Error('No File')
-            error.httpStatusCode = 400
-            return next(error)
-        }
-        res.send(file);
-    })
+        console.log(fileSize);
 
-    app.post('/api/multipleFiles', upload.array('files'), (req, res, next) => {
-        const files = req.files;
-        console.log(files);
-        if (!files) {
-            const error = new Error('No File')
-            error.httpStatusCode = 400
-            return next(error)
+        if (!fileId) {
+            res.writeHead(400, "No file id");
+            res.end(400);
         }
-        res.send({
-            sttus: 'ok'
+        console.log(uploads[fileId]);
+        if (!uploads[fileId])
+            uploads[fileId] = {};
+
+        let upload = uploads[fileId];
+
+        let fileStream;
+
+        if (!startByte) {
+            upload.bytesReceived = 0;
+            let name = req.headers['name'];
+            fileStream = fs.createWriteStream(`./server/uploads/files/${name}`, {
+                flags: 'w'
+            });
+        } else {
+            if (upload.bytesReceived != startByte) {
+                res.writeHead(400, "Wrong start byte");
+                res.end(upload.bytesReceived);
+                return;
+            }
+            // append to existing file
+            fileStream = fs.createWriteStream(`./server/uploads/files/${name}`, {
+                flags: 'a'
+            });
+        }
+
+        req.on('data', function (data) {
+            console.log("bytes received", upload.bytesReceived);
+            upload.bytesReceived += data.length;
         });
-    })
 
+        req.pipe(fileStream);
+
+        // when the request is finished, and all its data is written
+        fileStream.on('close', function () {
+            console.log(upload.bytesReceived, fileSize);
+            if (upload.bytesReceived == fileSize) {
+                console.log("Upload finished");
+                delete uploads[fileId];
+
+                // can do something else with the uploaded file here
+                res.send({
+                    'status': 'uploaded'
+                });
+                res.end();
+            } else {
+                // connection lost, we leave the unfinished file around
+                console.log("File unfinished, stopped at " + upload.bytesReceived);
+                res.writeHead(500, "Server Error");
+                res.end();
+            }
+        });
+
+        // in case of I/O error - finish the request
+        fileStream.on('error', function (err) {
+            console.log("fileStream error", err);
+            res.writeHead(500, "File error");
+            res.end();
+        });
+
+    });
+
+    app.get('/api/status', (req, res) => {
+        //console.log('came');
+        let fileId = req.headers['x-file-id'];
+        let name = req.headers['name'];
+        let fileSize = parseInt(req.headers['size'], 10);
+        console.log(name);
+        if (name) {
+            try {
+                let stats = fs.statSync('./server/uploads/files/' + name);
+                if (stats.isFile()) {
+                    console.log(`fileSize is ${fileSize} and already uploaded file size ${stats.size}`);
+                    if (fileSize == stats.size) {
+                        res.send({
+                            'status': 'file is present',
+                            "uploaded": stats.size
+                        })
+                        return;
+                    }
+                    if (!uploads[fileId])
+                        uploads[fileId] = {}
+                    console.log(uploads[fileId]);
+                    uploads[fileId]['bytesReceived'] = stats.size;
+                    console.log(uploads[fileId], stats.size);
+                }
+            } catch (er) {
+                // cuando no encuentra el archivo para ver el estado
+            }
+
+        }
+        let upload = uploads[fileId];
+        if (upload)
+            res.send({
+                "uploaded": upload.bytesReceived
+            });
+        else
+            res.send({
+                "uploaded": 0
+            });
+
+    });
 
 }
