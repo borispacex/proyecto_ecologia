@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+//CREATE EXPRESS APP
 const app = express();
 
 // middlewares
@@ -9,6 +10,7 @@ app.use(bodyParser.json({ limit: '100mb' }));
 app.use(cors({origin: '*'}));
 app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
 
+// cors permite el uso de servidores de diferentes orígenes solo para desarrollo
 app.use(cors());
 // app.use(express.static(__dirname + '/dist/front-end'));
 

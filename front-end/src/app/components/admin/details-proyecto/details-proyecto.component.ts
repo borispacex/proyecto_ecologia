@@ -394,6 +394,8 @@ export class DetailsProyectoComponent implements OnInit {
         for (let pos = 0; pos < this.files.length; pos++) {
           this.datosArchivo[pos].id_proyecto = this.id;
           this.datosArchivo[pos].id_tipo = 7;  // otros
+          console.log(this.datosArchivo[pos]);
+          console.log(this.files[pos]);
           this._serviceProyArch.saveProy_archivo(this.datosArchivo[pos], this.token)
           .then(responseProyArch => {
             this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch.proy_archivo.id_proy_archivo, this.files[pos], this.token)
