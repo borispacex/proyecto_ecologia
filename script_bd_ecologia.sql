@@ -535,3 +535,18 @@ alter table personas add conclusion TEXT;
 
 -- agregando proceso a proyectos
 alter table proyectos add proceso integer default 0;
+
+-- agregando color y tema en personas
+-- TEMA
+-- '': blanco
+-- 'full-dark': oscuro
+-- COLOR 
+-- 'theme-purple'
+-- 'theme-blue'
+-- 'theme-cyan'
+-- 'theme-green'
+-- 'theme-orange'
+-- 'theme-blush'
+alter table personas add tema varchar(25) default '';
+alter table personas add color varchar(25) default 'theme-cyan';
+

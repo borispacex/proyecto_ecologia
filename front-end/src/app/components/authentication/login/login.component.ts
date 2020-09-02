@@ -19,8 +19,10 @@ export class LoginComponent implements OnInit {
   @ViewChild('btnClose') btnClose: ElementRef;
   @ViewChild('btnOpen') btnOpen: ElementRef;
 
+  public showPassword: boolean = false;
+
   constructor(
-    private _serviceLogin: LoginService, 
+    private _serviceLogin: LoginService,
     private _router: Router,
     private toastr: ToastrService
     ) { }
@@ -29,8 +31,15 @@ export class LoginComponent implements OnInit {
     this.roles = null;
   }
 
-  login() {
-    this._serviceLogin.login(this.usuario)
+  login() {    
+    if (!this.usuario.usuario && !this.usuario.password) {
+      this.toastr.error('Debe llenar los campos.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    } else if (this.usuario.usuario && !this.usuario.password) {
+      this.toastr.error('Debe llenar el campo de contraseña.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    } else if (!this.usuario.usuario && this.usuario.password) {
+      this.toastr.error('Debe llenar el campo de usuario.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    } else {
+      this._serviceLogin.login(this.usuario)
       .then(response => {
         this._serviceLogin.login(this.usuario, true)
           .then(responseToken => {
@@ -73,6 +82,7 @@ export class LoginComponent implements OnInit {
         console.log(error); // error usuario incorrecto
         this.toastr.error('Error usuario incorrecto.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
+    }
   }
   ingresar(id: number) {
     switch (id) {
@@ -100,6 +110,9 @@ export class LoginComponent implements OnInit {
       .then(response => {
         console.log(response);
       });
+  }
+  public onPasswordToggle(): void {
+    this.showPassword = !this.showPassword;
   }
 
 }

@@ -2555,29 +2555,67 @@ html.fullscreen-bg #wrapper {
 .user-account .user-name:focus {
   text-decoration: none;
 }
-.user-account .dropdown .dropdown-menu {
+/* cambir */
+.dropdown ul.dropdown-menu-right > li.menu-heading {
+  padding: 5px 0px 1px 10px;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff; 
+}
+.theme-cyan .user-account .dropdown .dropdown-menu {
   transform: none !important;
   border: none;
-  box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.5);
-  padding: 15px;
-  background: #17191c;
+  /* box-shadow: 0px 2px 20px 0px rgba(0, 0, 0, 0.5); */
+  background: #49c5b6;
   border-radius: 0.55rem;
 }
+.theme-purple .user-account .dropdown .dropdown-menu {
+  transform: none !important;
+  border: none;
+  background: #a27ce6;
+  border-radius: 0.55rem;
+}
+.theme-blue .user-account .dropdown .dropdown-menu {
+  transform: none !important;
+  border: none;
+  background: #3eacff;
+  border-radius: 0.55rem;
+}
+.theme-green .user-account .dropdown .dropdown-menu {
+  transform: none !important;
+  border: none;
+  background: #50d38a;
+  border-radius: 0.55rem;
+}
+.theme-orange .user-account .dropdown .dropdown-menu {
+  transform: none !important;
+  border: none;
+  background: #ffce4b;
+  border-radius: 0.55rem;
+}
+.theme-blush .user-account .dropdown .dropdown-menu {
+  transform: none !important;
+  border: none;
+  background: #e47297;
+  border-radius: 0.55rem;
+}
+/* fin cambiar */
+
 .user-account .dropdown .dropdown-menu li.divider {
   border-bottom: 1px solid #444;
   margin: 10px 0;
 }
 .user-account .dropdown .dropdown-menu a {
-  padding: 10px;
+  padding: 5px 0px 5px 10px;
   font-size: 14px;
+  color: #fff; 
+}
+/* .user-account .dropdown .dropdown-menu a:hover {
   color: #999;
 }
-.user-account .dropdown .dropdown-menu a:hover {
-  color: #fff;
-}
 .user-account .dropdown .dropdown-menu a:hover i {
-  color: #fff;
-}
+  color: #999;
+} */
 .user-account .dropdown .dropdown-menu a i {
   font-size: 14px;
 }
@@ -3094,7 +3132,7 @@ select.form-control:not([size]):not([multiple]) {
   height: 100%;
   z-index: -1;
   /* background: #191f28; fondoLogin*/
-  background: #f0f0f0;
+  background: #F2F5F4;
 }
 @media screen and (max-width: 640px) {
   .auth-main::before {
@@ -3109,7 +3147,13 @@ select.form-control:not([size]):not([multiple]) {
   width: 100%;
   height: 100%;
   z-index: -2;
-  background: url(../../assets/images/auth_bg.jpg) no-repeat top left fixed;
+  background: url(../../assets/images/fondo.jpg) no-repeat center center;
+  /* background: url(../../assets/images/fondo_ie.jpg) no-repeat center center; */
+  /* background: url(../../assets/images/fondo_ie2.jpg) no-repeat center center; */
+  /* background: #FFFFFF;
+  min-height: 100%; */
+  background-size: cover;
+  opacity: 0.2;
 }
 .auth-main .card {
   padding: 10px;
@@ -6541,7 +6585,7 @@ ul.choose-skin li span,
   height: 430px;
   width: 100%;
   overflow: hidden;
-  background: url("../img/weather_img.jpg") no-repeat;
+  /* background: url("../img/weather_img.jpg") no-repeat; */
   background-size: cover;
   background-position: center center;
 }

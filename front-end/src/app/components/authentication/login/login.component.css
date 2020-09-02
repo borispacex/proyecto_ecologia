@@ -1,6 +1,50 @@
 .content-login {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* suppress IE >= 10 native functionality that can show password */
+input[type="password"]::-ms-reveal {
+  display: none;
+}
+#eyeIcon {
+  color: rgb(76, 76, 77);
+}
+.input-group {
+  position: relative;
+  width: 100%;
+}
+.toggle {
+  background: none;
+  border: none;
+  font-weight: 600;
+  position: absolute;
+  right: 0.75em;
+  top: 5px;
+  z-index: 9;
+}
+.fa-eye, .fa-eye-slash {
+  font-size: 20px;
+}
+.icons-list span {
+  line-height: 40px;
+  white-space: nowrap;
+  cursor: default;
+  position: relative;
+  z-index: 1;
+}
+.icons-list span i {
+  display: inline-block;
+  width: 40px;
+  margin: 0;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-transition: font-size 0.2s;
+  -moz-transition: font-size 0.2s;
+  transition: font-size 0.2s;
+}
+.icons-list span:hover i {
+  font-size: 26px;
 }

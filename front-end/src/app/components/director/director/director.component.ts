@@ -5,6 +5,8 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
 import { Title } from '@angular/platform-browser';
 import { takeUntil, filter, map, mergeMap } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UsuariosService } from 'src/app/services/admin/usuarios.service';
 
 @Component({
   selector: 'app-director',
@@ -25,29 +27,43 @@ export class DirectorComponent implements AfterViewInit, OnInit, OnDestroy {
   public darkClass: string = '';
   private ngUnsubscribe = new Subject();
 
+  private id_persona;
+  private token;
+
   constructor(
     public sidebarService: SidebarService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private themeService: ThemeService,
-    private titleService: Title
+    private titleService: Title,
+    private _auth: AuthService,
+    private _serviceUsuario: UsuariosService
   ) {
     this.activatedRoute.url.pipe(takeUntil(this.ngUnsubscribe)).subscribe(url => {
       this.isStopLoading = false;
       this.getActiveRoutes();
     });
 
-    this.themeService.themeClassChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(themeClass => {
-      this.themeClass = themeClass;
-    });
+    this.token = this._auth.getToken();
+    this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
+    this._serviceUsuario.getPersonaById(this.id_persona, this.token)
+    .then(response => {
+      this.themeClass = response.persona.color;
+      this.darkClass = response.persona.tema;
 
-    this.themeService.smallScreenMenuShow.pipe(takeUntil(this.ngUnsubscribe)).subscribe(showMenuClass => {
-      this.smallScreenMenu = showMenuClass;
-    });
+      this.themeService.themeClassChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(themeClass => {
+        this.themeClass = themeClass;
+      });
 
-    this.themeService.darkClassChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(darkClass => {
-      this.darkClass = darkClass;
-    });
+      this.themeService.smallScreenMenuShow.pipe(takeUntil(this.ngUnsubscribe)).subscribe(showMenuClass => {
+        this.smallScreenMenu = showMenuClass;
+      });
+
+      this.themeService.darkClassChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(darkClass => {
+        this.darkClass = darkClass;
+      });
+
+    }).catch(error => { console.log('Error al obtener persona por id', error); });
   }
 
   ngOnInit() {

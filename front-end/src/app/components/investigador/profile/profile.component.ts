@@ -26,7 +26,6 @@ export class ProfileComponent implements OnInit {
   public url: string;
 
   private id_persona;
-
   public publicaciones: any = [];
 
   constructor(
@@ -42,8 +41,6 @@ export class ProfileComponent implements OnInit {
     this.url = GLOBAL.url;
   }
 
-  public productImage: string = "assets/images/ecommerce/1.png";
-
   ngOnInit() {
     const id_usuario = JSON.parse(localStorage.getItem('identity_user')).id_usuario;
     this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
@@ -51,10 +48,6 @@ export class ProfileComponent implements OnInit {
     this.obtenerPublicaciones();
   }
 
-  changeProductImage(image: string){
-	  this.productImage = image;
-  }
-  
   toggleFullWidth() {
     this.sidebarService.toggle();
     this.sidebarVisible = this.sidebarService.getStatus();
@@ -79,10 +72,10 @@ export class ProfileComponent implements OnInit {
   obtenerPublicaciones() {
     this._serviceInvestigadores.getInvestigadorByIdPersona(this.id_persona, this.token)
     .then(response => {
-      console.log(response.investigador);
+      // console.log(response.investigador);
       this._serviceAutores.getAutoresByIdInvestigador(response.investigador.id_investigador, this.token)
       .then(responseA => {
-        console.log(responseA);
+        // console.log(responseA);
         this.publicaciones = [];
         responseA.autores.forEach(autor => {
           var publi = autor.publicacione;
@@ -92,7 +85,7 @@ export class ProfileComponent implements OnInit {
             this.publicaciones.push(publi);
           }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
         });
-        console.log(this.publicaciones);
+        // console.log(this.publicaciones);
       }).catch(error => { console.log('Error al obtener Autores por id_investigador', error); });
     }).catch(error => { console.log('Error al obtener investigador por id_persona', error); });
   }

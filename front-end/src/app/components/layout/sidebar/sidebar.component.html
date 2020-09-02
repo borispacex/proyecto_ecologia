@@ -6,10 +6,9 @@
                 <span>Bienvenido,</span>
                 <a href="javascript:void(0);" class="dropdown-toggle user-name" ngbDropdownToggle><strong>{{ rol | titlecase }}</strong></a>
                 <ul class="dropdown-menu dropdown-menu-right account" ngbDropdownMenu>
+                    <li class="menu-heading">CUENTA</li>
                     <li *ngIf="rol==='investigador'"><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i>Mi perfil</a></li>
-                    <!-- <li><a href="javascript:void(0);"><i class="icon-envelope-open"></i>Mensajes</a></li> -->
                     <li><a href="javascript:void(0);" [routerLink]="['./settings/account']"><i class="icon-settings"></i>Configuraciones</a></li>
-                    <li class="divider"></li>
                     <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power"></i>Salir</a></li>
                 </ul>
             </div>

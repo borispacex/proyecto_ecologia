@@ -40,13 +40,6 @@ const I18N_VALUES = {
   }
 }
 
-interface IUploadResponse {
-  success: boolean;
-  key: string;
-  link: string;
-  expiry: string;
-}
-
 @Component({
   selector: 'app-set-profile',
   templateUrl: './set-profile.component.html',
@@ -82,14 +75,11 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   public conclusion: any = '';
 
   // fotografia
-  public fotografia: any = {};
+  public fotografia: any = {
+    imagen: 'photo_default.png'
+  };
   public image_selected: string;
   public filesToUpload: Array<File>;
-
-  // process bar
-  isUploadStarted = false;
-  uploadedFile: IUploadResponse;
-  progress = 10;
 
 
   constructor(
@@ -292,7 +282,6 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   }
 
   fileChangeEvent(fileInput: any) {
-    
     this.filesToUpload =
       fileInput.target.files.length > 0
         ? <Array<File>>fileInput.target.files
@@ -307,33 +296,32 @@ export class SetProfileComponent implements OnInit, OnDestroy {
       numero: 1,
       tipo: 'foto'
     };
-    this._serviceFotografias.save(foto, this.token)
+    if (this.filesToUpload) {
+      this._serviceFotografias.save(foto, this.token)
       .then(responseFoto => {
-        if (this.filesToUpload) {
-          this._upload.upload(this.url + 'upload-fotografia/' + responseFoto.fotografias.id_fotografia, this.filesToUpload, this.token)
-            .then( (responseFotografia: any) => {
+        this._upload.upload(this.url + 'upload-fotografia/' + responseFoto.fotografias.id_fotografia, this.filesToUpload, this.token)
+        .then( (responseFotografia: any) => {
+          // actualizamos fotografia y pasamos a falso
+          this._serviceFotografias.update(this.persona.id_fotografia, {estado: false}, this.token)
+          .then(responseF => {
+            // actualizamos persona, con el nuevo id de fotografia
+            this._serviceUsuario.updatePersona(this.persona.id_persona, {id_fotografia: responseFotografia.fotografia.id_fotografia}, this.token)
+            .then(responsePersona => {
+              // console.log(responsePersona);
+              this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              this.filesToUpload = null;
+              this.obtenerDatos();
               // AQUI SE TIENE QUE ACTUALIZAR LA FOTO DE SIDEBAR
-              this.fotografia = responseFotografia.fotografia;
-              this.image_selected = this.fotografia.imagen;
-              this._serviceUsuario.updatePersona(this.persona.id_persona, {id_fotografia: this.fotografia.id_fotografia}, this.token)
-              .then(responsePersona => {
-                console.log(responsePersona);
-                this._upload.progress.subscribe(value => {
-                  if (value === 100) {
-                    this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                    this.filesToUpload = null;
-                    this.ngOnInit();
-                  }
-                });
-               }).catch(error => { console.log('Error al actualizar persona', error); });
-            }).catch(error => {
-              console.log('Error al subir fotografia actualizada', error);
-              this.toastr.error('Error al subir fotografia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-            });
-        } else {
-            this.toastr.error('Error no hay imagen seleccionada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        }
+            }).catch(error => { console.log('Error al actualizar persona', error); });
+          }).catch(error => { console.log('Error al eliminar fotografia, pasarlo a falso', error); });
+        }).catch(error => {
+          console.log('Error al subir fotografia actualizada', error);
+          this.toastr.error('Error al subir fotografia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
       }).catch(error => { console.log('Error al crear nueva fotografia ', error); });
+    } else {
+        this.toastr.error('Error no hay imagen seleccionada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    }
   }
 
   changeProfile() {

@@ -42,9 +42,6 @@
 								<button class="btn btn-warning mr-1" type="button" (click)="file.click()"><i class="icon-paper-clip text-light"></i></button>
 								{{image_selected}}
 							</div>
-							<p>
-								<ngb-progressbar [showValue]="true" type="warning" [value]="_upload.progress | async" [max]="100"></ngb-progressbar>
-							</p>
 							<button class="btn btn-primary mt-1" type="submit">Subir Fotografia</button>
 						</form>
 

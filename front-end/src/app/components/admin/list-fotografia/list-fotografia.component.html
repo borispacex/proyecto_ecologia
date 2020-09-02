@@ -38,6 +38,7 @@
                                     <th>Tipo de imagen</th>
                                     <th data-breakpoints="sm xs">Descripcion</th>
                                     <th data-breakpoints="xs">Numero</th>
+                                    <th data-breakpoints="md">Fecha de creación</th>
                                     <th data-breakpoints="xs md">Estado</th>
                                     <th data-breakpoints="sm xs md">Accion</th>
                                 </tr>
@@ -51,7 +52,9 @@
                                     </td>
                                     <td><span class="text-muted">{{ fotografia.descripcion }}</span></td>
                                     <td>{{ fotografia.numero }}</td>
-
+                                    <td>
+                                        {{fotografia.createdAt | date: 'dd/MM/yyyy'}}
+                                    </td>
                                     <td>
                                         <span *ngIf="fotografia.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
 										<span *ngIf="!fotografia.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminada</span>

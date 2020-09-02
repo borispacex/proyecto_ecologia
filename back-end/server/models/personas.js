@@ -28,6 +28,8 @@ module.exports = (sequelize, DataTypes) => {
         formacion_adi: DataTypes.TEXT,
         habilidades: DataTypes.TEXT,
         conclusion: DataTypes.TEXT,
+        tema: DataTypes.STRING,
+        color: DataTypes.STRING,
         estado: DataTypes.BOOLEAN
     });
     return personas;
