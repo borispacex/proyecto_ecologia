@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { of, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +38,8 @@ export class AuthService {
   // salir
   logOut() {
     localStorage.removeItem('identity_user');
+    localStorage.removeItem('admRoles');
+    localStorage.removeItem('token');
     localStorage.clear();
   }
 }

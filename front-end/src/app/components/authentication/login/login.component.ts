@@ -3,6 +3,9 @@ import { LoginService } from 'src/app/services/auth/login.service';
 import { Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
+import { ThemeService } from 'src/app/services/theme.service';
+import { UsuariosService } from 'src/app/services/admin/usuarios.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
 
   public usuario: any = {};
-  public roles: any = {};
+  public roles: any = [];
   public cadRoles: any = {};
 
   // modal
@@ -28,10 +31,10 @@ export class LoginComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.roles = null;
+    this.roles = [];
   }
 
-  login() {    
+  login() {
     if (!this.usuario.usuario && !this.usuario.password) {
       this.toastr.error('Debe llenar los campos.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
     } else if (this.usuario.usuario && !this.usuario.password) {

@@ -143,6 +143,32 @@ function getByIdPersona(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un investigador', err });
     })
 }
+// funcion para buscar un investigador por id_persona y id_inv_tipo
+function getByIdPersonaAndIdInvTipo(req, res) {
+    var idPersona = req.params.id_persona;
+    var idInvTipo = req.params.id_inv_tipo
+    investigadores.findOne({
+        where: { 
+            id_persona: idPersona,
+            id_inv_tipo: idInvTipo
+        },
+        include: [
+            {
+                model: personas,
+                include: [
+                    { model: fotografias }
+                ]
+            },
+            { model: inv_tipos }
+        ]
+    })
+    .then(investigador => {
+        res.status(200).send({ investigador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un investigador', err });
+    })
+}
 // EXPORTAMOS
 module.exports = {
     create,
@@ -151,5 +177,6 @@ module.exports = {
     getAllActivos,
     getAllByIdInvTipo,
     getById,
-    getByIdPersona
+    getByIdPersona,
+    getByIdPersonaAndIdInvTipo
 }

@@ -6,6 +6,7 @@ import { GLOBAL } from 'src/app/services/global';
 import { AutoresService } from 'src/app/services/proyecto/autores.service';
 import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
+import { FotografiasService } from 'src/app/services/upload/fotografias.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit {
   public usuario: any = {};
   public persona: any = {};
   public fotografia: any = {};
+  public imagen: string = 'photo_default.png';
 
   private token: string;
   public url: string;
@@ -35,7 +37,8 @@ export class ProfileComponent implements OnInit {
     private _serviceUsuario: UsuariosService,
     private _serviceAutores: AutoresService,
     private _serviceInvestigadores: InvestigadoresService,
-    private _servicePubliArchivos: PubliArchivosService
+    private _servicePubliArchivos: PubliArchivosService,
+    private _serviceFotografia: FotografiasService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -65,6 +68,9 @@ export class ProfileComponent implements OnInit {
       this.usuario = responseUsuario.usuario;
       this.persona = responseUsuario.usuario.persona;
       this.fotografia = responseUsuario.usuario.persona.fotografia;
+      this._serviceFotografia.getImagen().subscribe((value: string) => {
+        this.imagen = value;
+      });
     })
     .catch(error => { console.log('error al obtener usuario', error); });
   }

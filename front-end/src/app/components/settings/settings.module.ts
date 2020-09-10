@@ -9,7 +9,6 @@ import { LayoutModule } from '../layout/layout.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 
-
 @NgModule({
   declarations: [
     SetProfileComponent

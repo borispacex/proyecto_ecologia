@@ -4,6 +4,7 @@ import { SearchDifusionesPipe } from './search-difusiones.pipe';
 import { SearchProyectosPipe } from './search-proyectos.pipe';
 import { SearchInvestigadoresPipe } from './search-investigadores.pipe';
 import { SearchAdmUsuarioRolPipe } from './search-adm-usuario-rol.pipe';
+import { SearchFotografiasPipe } from './search-fotografias.pipe';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SearchAdmUsuarioRolPipe } from './search-adm-usuario-rol.pipe';
         SearchDifusionesPipe,
         SearchProyectosPipe,
         SearchInvestigadoresPipe,
-        SearchAdmUsuarioRolPipe
+        SearchAdmUsuarioRolPipe,
+        SearchFotografiasPipe
     ],
     imports: [],
     exports: [
@@ -20,7 +22,8 @@ import { SearchAdmUsuarioRolPipe } from './search-adm-usuario-rol.pipe';
         SearchDifusionesPipe,
         SearchProyectosPipe,
         SearchInvestigadoresPipe,
-        SearchAdmUsuarioRolPipe
+        SearchAdmUsuarioRolPipe,
+        SearchFotografiasPipe
     ]
 })
 export class PipesModule { }

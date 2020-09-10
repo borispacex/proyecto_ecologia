@@ -3131,9 +3131,12 @@ select.form-control:not([size]):not([multiple]) {
   width: 400px;
   height: 100%;
   z-index: -1;
-  /* background: #191f28; fondoLogin*/
-  background: #F2F5F4;
+  background: #2b2b35;
+  /* background: #2B2C35; */
+  /* background: #191f28; */
+  /* background: #F2F5F4; */
 }
+
 @media screen and (max-width: 640px) {
   .auth-main::before {
     width: 100%;

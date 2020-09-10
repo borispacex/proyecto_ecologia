@@ -10,6 +10,7 @@ import { NgbDatepickerI18n, NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-boot
 import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/services/upload/upload.service';
 import { FotografiasService } from 'src/app/services/upload/fotografias.service';
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -75,9 +76,8 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   public conclusion: any = '';
 
   // fotografia
-  public fotografia: any = {
-    imagen: 'photo_default.png'
-  };
+  public fotografia: any = {};
+  public imagen: string = 'photo_default.png';
   public image_selected: string;
   public filesToUpload: Array<File>;
 
@@ -90,7 +90,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     private _serviceUsuario: UsuariosService,
     private toastr: ToastrService,
     public _upload: UploadService,
-    private _serviceFotografias: FotografiasService
+    private _serviceFotografias: FotografiasService,
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -115,6 +115,10 @@ export class SetProfileComponent implements OnInit, OnDestroy {
         this.usuario = responseUsuario.usuario;
         this.persona = responseUsuario.usuario.persona;
         this.fotografia = responseUsuario.usuario.persona.fotografia;
+        this._serviceFotografias.setImagen(responseUsuario.usuario.persona.fotografia.imagen);
+        this._serviceFotografias.getImagen().subscribe((value: string) => {
+          this.imagen = value;
+        });
         var date = new Date(this.persona.fec_nacimiento);
         this.id_persona = this.persona.id_persona;
         this.formacion_pro = this.persona.formacion_pro;
@@ -291,12 +295,12 @@ export class SetProfileComponent implements OnInit, OnDestroy {
       : '';
   }
   editarFotografia() {
-    const foto = {
-      descripcion: `Fotografia de ${this.persona.nombres} ${this.persona.paterno}`,
-      numero: 1,
-      tipo: 'foto'
-    };
     if (this.filesToUpload) {
+      const foto = {
+        descripcion: `Fotografia de ${this.persona.nombres} ${this.persona.paterno}`,
+        numero: this.fotografia.numero + 1,
+        tipo: 'foto'
+      };
       this._serviceFotografias.save(foto, this.token)
       .then(responseFoto => {
         this._upload.upload(this.url + 'upload-fotografia/' + responseFoto.fotografias.id_fotografia, this.filesToUpload, this.token)
@@ -304,6 +308,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
           // actualizamos fotografia y pasamos a falso
           this._serviceFotografias.update(this.persona.id_fotografia, {estado: false}, this.token)
           .then(responseF => {
+            this._serviceFotografias.setImagen(responseFotografia.fotografia.imagen); // actualizamos imagen en el servicio
             // actualizamos persona, con el nuevo id de fotografia
             this._serviceUsuario.updatePersona(this.persona.id_persona, {id_fotografia: responseFotografia.fotografia.id_fotografia}, this.token)
             .then(responsePersona => {
@@ -311,7 +316,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
               this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               this.filesToUpload = null;
               this.obtenerDatos();
-              // AQUI SE TIENE QUE ACTUALIZAR LA FOTO DE SIDEBAR
+              // AQUI SE TIENE QUE ACTUALIZAR LA FOTO DE SIDEBAR, esta en obtenerDatos()
             }).catch(error => { console.log('Error al actualizar persona', error); });
           }).catch(error => { console.log('Error al eliminar fotografia, pasarlo a falso', error); });
         }).catch(error => {

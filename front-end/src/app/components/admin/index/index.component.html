@@ -1,32 +1,59 @@
 <div class="container-fluid">
-    <div class="block-header">
-        <div class="row">
-            <div class="col-lg-5 col-md-8 col-sm-12">
-                <h2>
-                    Dashboard
-                </h2>
-                <ul class="breadcrumb">
-                    <li class="breadcrumb-item"><a [routerLink]="['/admin/dashboard/index']"><i
-                                class="icon-home"></i></a></li>
-                    <li class="breadcrumb-item">Dashboard</li>
-                    <li class="breadcrumb-item active">Menu principal</li>
-                </ul>
-            </div>
-        </div>
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-5 col-md-8 col-sm-12">
+        <h2>
+          Dashboard
+        </h2>
+        <ul class="breadcrumb">
+          <li class="breadcrumb-item"><a [routerLink]="['/admin/dashboard/index']"><i class="icon-home"></i></a></li>
+          <li class="breadcrumb-item">Dashboard</li>
+          <li class="breadcrumb-item active">Menu principal</li>
+        </ul>
+      </div>
     </div>
-    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1"
-        [routerLink]="['/admin/dashboard/list-fotografias']"><i class="fa fa-plus-square"></i>&nbsp;<span>Listar
-            Fotografias</span></a>
-    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1"
-        [routerLink]="['/admin/dashboard/list-usuarios', 'usuario']"><i class="fa fa-info-circle"></i>&nbsp;<span>Listar
-            Usuarios</span></a>
-    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1"
-        [routerLink]="['/admin/dashboard/list-proyectos', 'proyecto']"><i
-            class="fa fa-info-circle"></i>&nbsp;<span>Listar Proyectos</span></a>
-</div>
-    <br>
 
-      <!-- <div style="text-align: center">
+    <div class="row clearfix mt-3">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/admin/dashboard/list-fotografias']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/foto.png" alt="imagen_fotografias"></div>
+            <div class="content">
+              <h6>Lista Fotografias</h6>
+              <p>Fotografias de usuarios.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/admin/dashboard/list-usuarios', 'usuario']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/grupo.png" alt="imagen_usuarios"></div>
+            <div class="content">
+              <h6>Lista Usuarios</h6>
+              <p>Administrador, Director e Investigador (Titular, Asociado con proyecto, Asociado por invitacion).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/admin/dashboard/list-proyectos', 'proyecto']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/proyecto.png" alt="imagen_fotografias"></div>
+            <div class="content">
+              <h6>Listar Proyectos</h6>
+              <p>Proyectos de investigación (Activo, Inactivo, Pendiente, Cerrado).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<br>
+
+<!-- <div style="text-align: center">
         <form>      
           <div>
             <input type="file" name="image" (change)="selectImage($event)" />
@@ -55,4 +82,3 @@
     <div>
         <mat-progress-bar style="margin-top: 30px" mode="determinate" [value]="progress"></mat-progress-bar>
     </div> -->
-

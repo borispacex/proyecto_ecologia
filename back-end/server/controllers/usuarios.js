@@ -5,6 +5,8 @@ const fotografias = require("../models").fotografias;
 const adm_usuario_roles = require('../models').adm_usuario_roles;
 const adm_roles = require("../models").adm_roles;
 
+const investigadores = require('../models').investigaodres;
+
 const jwt = require('../services/jwt');
 // const bcrypt = require("bcrypt");
 
@@ -17,8 +19,7 @@ function create(req, res) {
     usuarios.create(body)
         .then(usuario => {
             res.status(200).send({ usuario });
-        })
-        .catch(err => {
+        }).catch(err => {
             res.status(500).send({ err })
         });
 }
@@ -35,8 +36,7 @@ function update(req, res) {
                 .catch(err => {
                     res.status(500).send({ message: 'Ocurrio un error al actualizar el usuario' });
                 });
-        })
-        .catch(err => {
+        }).catch(err => {
             res.status(500).send({ message: 'Ocurrio un error al buscar el usuario' });
         });
 }
@@ -54,8 +54,7 @@ function login(req, res) {
                 ]
             }
         ]
-    })
-        .then(usuario => {
+    }).then(usuario => {
             if (usuario) {
                 if (req.body.token) {
                     res.status(200).send({ token: jwt.createToken(usuario) });
@@ -71,8 +70,7 @@ function login(req, res) {
             } else {
                 res.status(401).send({ message: 'Usuario no existe' });
             }
-        })
-        .catch(err => {
+        }).catch(err => {
             res.status(500).send({ message: 'Ocurrio un error al buscar el usuario', err });
         });
 }
@@ -93,13 +91,11 @@ function getAll(req, res) {
                 ]
             }
         ],
-    })
-        .then(usuarios => {
-            res.status(200).send({ usuarios });
-        })
-        .catch(err => {
-            res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
-        });
+    }).then(usuarios => {
+        res.status(200).send({ usuarios });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
+    });
 }
 // Listar usuarios administradores
 function getAllAdministradores(req, res) {
@@ -233,14 +229,12 @@ function getAllInvestigadoresTitular(req, res) {
                     }
                 ]
             }
-        ],
-    })
-        .then(usuarios => {
-            res.status(200).send({ usuarios });
-        })
-        .catch(err => {
-            res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
-        });
+        ]
+    }).then(usuarios => {
+        res.status(200).send({ usuarios });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
+    });
 }
 // Listar usuarios investigadores asociado con proyecto
 function getAllInvestigadoresAsociadoProyecto(req, res) {
@@ -262,13 +256,11 @@ function getAllInvestigadoresAsociadoProyecto(req, res) {
                 ]
             }
         ],
-    })
-        .then(usuarios => {
-            res.status(200).send({ usuarios });
-        })
-        .catch(err => {
-            res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
-        });
+    }).then(usuarios => {
+        res.status(200).send({ usuarios });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
+    });
 }
 // Listar usuarios investigadores
 function getAllInvestigadoresAsociadoInvitacion(req, res) {
@@ -290,13 +282,70 @@ function getAllInvestigadoresAsociadoInvitacion(req, res) {
                 ]
             }
         ],
-    })
-        .then(usuarios => {
-            res.status(200).send({ usuarios });
-        })
-        .catch(err => {
-            res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
-        });
+    }).then(usuarios => {
+        res.status(200).send({ usuarios });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios' }, err);
+    });
+}
+// Listar usuarios by id_rol and estado
+// id_rol: 1-Administrador, 2-Director, 3-Investigador
+// estado: true, false
+function getAllAdmUsuarioRolesByIdRolAndByEstado(req, res) {
+    var idRol = req.params.id_rol;
+    var status = req.params.estado;
+    adm_usuario_roles.findAll({
+        where: {
+            id_rol: idRol,
+            estado: status
+        },
+        include: [
+            { model: adm_roles },
+            {
+                model: usuarios,
+                include: [
+                    {
+                        model: personas,
+                        include: [
+                            { model: fotografias }
+                        ]
+                    }
+                ]
+            }
+        ],
+    }).then(usuarios => {
+        res.status(200).send({ usuarios });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios por id_rol y estado' }, err);
+    });
+}
+// Listar usuarios by id_rol and estado
+// estado: true, false
+function getAllAdmUsuarioRolesByEstado(req, res) {
+    var status = req.params.estado;
+    adm_usuario_roles.findAll({
+        where: {
+            estado: status
+        },
+        include: [
+            { model: adm_roles },
+            {
+                model: usuarios,
+                include: [
+                    {
+                        model: personas,
+                        include: [
+                            { model: fotografias }
+                        ]
+                    }
+                ]
+            }
+        ],
+    }).then(usuarios => {
+        res.status(200).send({ usuarios });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios por id_rol y estado' }, err);
+    });
 }
 
 // funcion para usuario por id
@@ -311,13 +360,11 @@ function getById(req, res) {
                 ]
             }
         ]
+    }).then(usuario => {
+        res.status(200).send({ usuario });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un usuario', err });
     })
-        .then(usuario => {
-            res.status(200).send({ usuario });
-        })
-        .catch(err => {
-            res.status(500).send({ message: 'Ocurrio un error al buscar un usuario', err });
-        })
 }
 
 // verificar
@@ -326,8 +373,7 @@ function verificar(req, res) {
         where: {
             usuario: req.body.usuario
         }
-    })
-    .then(usuario => {
+    }).then(usuario => {
         if (usuario) {
             usuario.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
@@ -339,8 +385,7 @@ function verificar(req, res) {
         } else {
             res.status(401).send({ message: 'Usuario no existe' });
         }
-    })
-    .catch(err => {
+    }).catch(err => {
         res.status(500).send({ message: 'Ocurrio un error al buscar el usuario', err });
     });
 }
@@ -359,5 +404,7 @@ module.exports = {
     getAllInvestigadoresAsociadoProyecto,
     getAllInvestigadoresAsociadoInvitacion,
     getById,
-    verificar
+    verificar,
+    getAllAdmUsuarioRolesByEstado,
+    getAllAdmUsuarioRolesByIdRolAndByEstado
 }

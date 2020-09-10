@@ -95,6 +95,9 @@ export class ListProyectoComponent implements OnInit {
   search = new FormControl('');
   public valorBusqueda = '';
 
+  // tipo proyecto
+  private tipo = '';
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -138,9 +141,13 @@ export class ListProyectoComponent implements OnInit {
   ngOnInit() {
     this.vaciarProyecto();
     this.getUsuariosInvestigadoresActivos();
-    this.comprobarTipoProyecto();
+    this._route.paramMap.subscribe(params => {
+      // console.log('repite', params.get('tipo'));
+      this.tipo = params.get('tipo');
+      this.comprobarTipoProyecto();
+    });
     // buscador proyectos
-    this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
+    this.search.valueChanges.pipe(debounceTime(300)).subscribe(value => this.valorBusqueda = value);
   }
   getProyectosAdmin() {
     var fotos: any[] = [];
@@ -436,28 +443,26 @@ export class ListProyectoComponent implements OnInit {
     }
   }
   comprobarTipoProyecto() {
-    this._route.params.forEach((params: Params) => {
-      switch (params.tipo) {
-        case 'proyecto':
-          this.getProyectosAdmin();
-          break;
-        case 'activo':
-          this.getProyectosByEstado('activo');
-          break;
-        case 'inactivo':
-          this.getProyectosByEstado('inactivo');
-          break;
-        case 'pendiente':
-          this.getProyectosByEstado('pendiente');
-          break;
-        case 'cerrado':
-          this.getProyectosByEstado('cerrado');
-          break;
-        default:
-          console.log('ERROR al comprobar');
-          break;
-      }
-    });
+    switch (this.tipo) {
+      case 'proyecto':
+        this.getProyectosAdmin();
+        break;
+      case 'activo':
+        this.getProyectosByEstado('activo');
+        break;
+      case 'inactivo':
+        this.getProyectosByEstado('inactivo');
+        break;
+      case 'pendiente':
+        this.getProyectosByEstado('pendiente');
+        break;
+      case 'cerrado':
+        this.getProyectosByEstado('cerrado');
+        break;
+      default:
+        console.log('ERROR al comprobar');
+        break;
+    }
   }
 
   tipoFormulario(tipo_form) {

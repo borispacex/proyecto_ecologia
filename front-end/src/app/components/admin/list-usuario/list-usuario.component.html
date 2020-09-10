@@ -14,15 +14,15 @@
 		</div>
 	</div>
 
-	<div class="container row">
-		<form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1">
+	<button type="button" class="btn btn-default mr-1 mb-2" (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
+		Usuario</span></button>
+
+	<div class="container row mb-2">
+		<form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1 mb-2">
 			<input [formControl]="search" class="form-control" placeholder="Buscar usuarios ..."
 				type="text" />
 			<button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
 		</form>
-	
-		<button type="button" class="btn btn-default mr-1 mb-3" (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
-			Usuario</span></button>
 
 		<div ngbDropdown class="d-inline-block" placement="bottom-left">
 			<button class="btn btn-default mr-1" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
@@ -35,13 +35,20 @@
 		</div>
 
 		<div ngbDropdown class="d-inline-block" *ngIf="punteroListado > 3" placement="bottom-left">
-			<button class="btn btn-default mr-1 mb-3" id="dropdownBasic2" ngbDropdownToggle>Investigadores</button>
+			<button class="btn btn-default mr-1 mb-2" id="dropdownBasic2" ngbDropdownToggle>Investigadores</button>
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
 				<button class="btn btn-default" [routerLink]="['../', 'inv-titular']" ngbDropdownItem>Titular</button>
 				<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-proyecto']" ngbDropdownItem>Asociado con proyecto</button>
 				<button class="btn btn-default" [routerLink]="['../', 'inv-asociado-invitacion']" ngbDropdownItem>Asociado por invitacion</button>
 			</div>
 		</div>
+
+		<div class="ml-2 mt-lg-2">
+            <label class="fancy-radio"><input name="estado" value="ambos" type="radio" checked (click)="getUsuariosAll()"><span><i></i>Ambos</span></label>
+            <label class="fancy-radio"><input name="estado" value="activos" type="radio" (click)="getUsuariosActivos()"><span><i></i>Activo</span></label>
+            <label class="fancy-radio"><input name="estado" value="inactivos" type="radio" (click)="getUsuariosInactivos()"><span><i></i>Inactivo</span></label>
+		</div>
+		
 	</div>
 
 	<div class="row clearfix">
@@ -83,12 +90,12 @@
 										<span>{{usuario_rol.adm_usuario.persona.correo}}</span>
 									</td>
 									<td>
-										<span>{{usuario_rol.adm_role.rol}}</span>
+										{{usuario_rol.adm_role.rol}} <small>{{usuario_rol.inv_tipo}}</small>
 									</td>
 									<td>{{usuario_rol.adm_usuario.persona.grado_academico}}</td>
 									<td>
 										<span *ngIf="usuario_rol.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
-										<span *ngIf="!usuario_rol.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">cerrada</span>
+										<span *ngIf="!usuario_rol.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">inactivo</span>
 									</td>
 									<td>
 										<a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"

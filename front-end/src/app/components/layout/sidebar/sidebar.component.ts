@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/admin/usuarios.service';
 import { GLOBAL } from 'src/app/services/global';
+import { FotografiasService } from 'src/app/services/upload/fotografias.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,9 +26,8 @@ export class SidebarComponent implements OnDestroy, OnInit {
   private ngUnsubscribe = new Subject();
   public rol: string;
 
-  public fotografia: any = {
-    imagen: 'photo_default.png'
-  };
+  public fotografia: any = {};
+  public imagen: string = 'photo_default.png';
 
   private token: string;
   public url: string;
@@ -38,7 +38,8 @@ export class SidebarComponent implements OnDestroy, OnInit {
     private themeService: ThemeService,
     private _auth: AuthService,
     private _router: Router,
-    private _serviceUsuario: UsuariosService
+    private _serviceUsuario: UsuariosService,
+    private _serviceFotografia: FotografiasService
     ) {
     this.rol = localStorage.getItem('rol');
     this.token = this._auth.getToken();
@@ -64,6 +65,10 @@ export class SidebarComponent implements OnDestroy, OnInit {
     this._serviceUsuario.getPersonaById(this.id_persona, this.token)
     .then(response => {
       this.fotografia = response.persona.fotografia;
+      this._serviceFotografia.setImagen(response.persona.fotografia.imagen);
+      this._serviceFotografia.getImagen().subscribe((value: string) => {
+        this.imagen = value;
+      });
       this.themeClass = response.persona.color;
       this.darkClass = response.persona.tema;
       this.themeService.themeClassChange.pipe(takeUntil(this.ngUnsubscribe)).subscribe(themeClass => {
@@ -104,5 +109,5 @@ export class SidebarComponent implements OnDestroy, OnInit {
   logout() {
     this._auth.logOut();
     this._router.navigate(['/authentication/login']);
-  }  
+  }
 }

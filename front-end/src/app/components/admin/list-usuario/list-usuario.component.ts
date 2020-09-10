@@ -21,7 +21,7 @@ export class ListUsuarioComponent implements OnInit {
   public token: string;
   public url: string;
 
-  public adm_usuario_roles = [];    // donde se guarda todo lo llegado en getUsuarios --> para el listado
+  public adm_usuario_roles: any = [];    // donde se guarda todo lo llegado en getUsuarios --> para el listado
   public adm_usuario_rol: any = {};
 
   public usuario: any = {};
@@ -47,6 +47,10 @@ export class ListUsuarioComponent implements OnInit {
   // search usuarios
   search = new FormControl('');
   public valorBusqueda = '';
+
+  // estado de usuario
+  estadoUsuario = 'ambos';
+  tipo = '';
 
   constructor(
     private _serviceUsuarios: UsuariosService,
@@ -82,10 +86,13 @@ export class ListUsuarioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.vaciarUsuario();
-    this.comprobarTipoUsuario();
+    this._route.paramMap.subscribe(params => {
+      // console.log('repite', params.get('tipo'));
+      this.tipo = params.get('tipo');
+      this.comprobarTipoUsuario(this.tipo, this.estadoUsuario); // siempre inicia en ambos
+    });
     // buscador usuarios
-    this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
+    this.search.valueChanges.pipe(debounceTime(300)).subscribe(value => this.valorBusqueda = value);
   }
   openModalAgregar(content, size) {
     this.modalService.open(content, { size: size });
@@ -134,7 +141,7 @@ export class ListUsuarioComponent implements OnInit {
       // actualizamos usuario
       this._serviceUsuarios.updateUsuario(this.usuario.id_usuario, this.usuario, this.token)
         .then(responseUsuario => {
-         }).catch(error => {
+        }).catch(error => {
           console.log('error al actualizar usuario');
           this.toastr.error('Error al actualizar datos de usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
@@ -143,7 +150,7 @@ export class ListUsuarioComponent implements OnInit {
       // actualizamos investigadores
       this._serviceInvestigadores.updateInvestigador(this.investigador.id_investigador, this.investigador, this.token)
         .then(responseInvestigador => {
-         }).catch(error => {
+        }).catch(error => {
           console.log('error al actualizar investigador', error);
           this.toastr.error('Error al actualizar datos investigador', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
@@ -171,7 +178,7 @@ export class ListUsuarioComponent implements OnInit {
               .then(responseAdmUser => {
                 this.modalService.dismissAll();
                 this.vaciarUsuario();
-                this.comprobar();
+                this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
                 if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
               }).catch(error => {
                 console.log('error al crear adm_usuario_rol', error);
@@ -183,7 +190,7 @@ export class ListUsuarioComponent implements OnInit {
                 .then(responseInvestigador => {
                   this.modalService.dismissAll();
                   this.vaciarUsuario();
-                  this.comprobar();
+                  this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
                   if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
                 }).catch(error => {
                   console.log('error al crear investigador', error);
@@ -200,7 +207,7 @@ export class ListUsuarioComponent implements OnInit {
                     .then(responseRol => {
                       this.modalService.dismissAll();
                       this.vaciarUsuario();
-                      this.comprobar();
+                      this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
                       if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
                     }).catch(error => {
                       console.log('error al actualizar amd_usuario_rol', error);
@@ -217,7 +224,7 @@ export class ListUsuarioComponent implements OnInit {
                       .then(responseRol => {
                         this.modalService.dismissAll();
                         this.vaciarUsuario();
-                        this.comprobar();
+                        this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
                         if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
                       }).catch(error => {
                         console.log('Error al actualizar rol', error);
@@ -257,14 +264,14 @@ export class ListUsuarioComponent implements OnInit {
                   if (i === this.seleccionados.length - 1) {  // para cerrar modal en la ultima creacion
                     this.modalService.dismissAll();
                     this.vaciarUsuario();
-                    this.comprobar();
+                    this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
                     if (sw) { this.toastr.success('Usuario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
                   }
                 }).catch(error => {
                   console.log('error adm usuario rol', error);
                   this.modalService.dismissAll();
                   this.vaciarUsuario();
-                  this.comprobar();
+                  this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
                   this.toastr.error('Error al guardar rol de usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                 });
             }
@@ -299,42 +306,16 @@ export class ListUsuarioComponent implements OnInit {
       grado_academico: '',
       correo: ''
     };
+    this.adm_usuario_roles = [];
     this.adm_usuario_rol = {};
     this.investigador = {
       id_inv_tipo: ''
     };
   }
-  public comprobar() {
-    switch (this.punteroListado) {
-      case 1:
-        this.getUsuarios();
-        break;
-      case 2:
-        this.getUsuariosAdministradores();
-        break;
-      case 3:
-        this.getUsuariosDirectores();
-        break;
-      case 4:
-        this.getUsuariosInvestigadores();
-        break;
-      case 5:
-        this.getUsuariosInvestigadoresTitular();
-        break;
-      case 6:
-        this.getUsuariosInvestigadoresAsociadoProyecto();
-        break;
-      case 7:
-        this.getUsuariosInvestigadoresAsociadoInvitacion();
-        break;
-      default:
-        console.log('ERROR al comprobar');
-        break;
-    }
-  }
-  public comprobarTipoUsuario() {
-    this._route.params.forEach((params: Params) => {
-      switch (params.tipo) {
+  public comprobarTipoUsuario(tipo: string, estadoU: string) {
+    if (estadoU === 'ambos') {
+      // var tipo = this._route.snapshot.params.tipo;
+      switch (tipo) {     
         case 'usuario':
           this.getUsuarios();
           break;
@@ -360,8 +341,15 @@ export class ListUsuarioComponent implements OnInit {
           console.log('ERROR al comprobar');
           break;
       }
-
-    });
+    } else if (estadoU === 'activo') {
+      console.log('activo');
+      this.comprobarTipoUsuarioByEstado(true, tipo);
+    } else if (estadoU === 'inactivo') {
+      console.log('inactivo');
+      this.comprobarTipoUsuarioByEstado(false, tipo);
+    } else {
+      this.vaciarUsuario();
+    }
   }
   // ------- LISTADO -------
   getUsuarios() {
@@ -372,13 +360,19 @@ export class ListUsuarioComponent implements OnInit {
       .then(response => {
         this.adm_usuario_roles = [];
         response.usuarios.forEach(usuario => {
-          usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
-          this.adm_usuario_roles.push(usuario);
+          if (usuario.id_rol === 3) {
+            this._serviceInvestigadores.getInvestigadorByIdPersona(usuario.adm_usuario.id_persona, this.token)
+            .then(responseInvestigador => {
+              usuario.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+              usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+              this.adm_usuario_roles.push(usuario);
+            }).catch(error => { console.log('Error al obtener el investigador por id_persona', error); });
+          } else {
+            usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+            this.adm_usuario_roles.push(usuario);
+          }
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      }).catch(error => { console.log('Error al obtener usuarios', error); });
   }
   getUsuariosAdministradores() {
     this.punteroListado = 2;
@@ -392,9 +386,7 @@ export class ListUsuarioComponent implements OnInit {
           this.adm_usuario_roles.push(usuario);
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => { console.log('Error al obtener usuarios administradores', error); });
   }
   getUsuariosDirectores() {
     this.punteroListado = 3;
@@ -408,9 +400,7 @@ export class ListUsuarioComponent implements OnInit {
           this.adm_usuario_roles.push(usuario);
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => { console.log('Error al obtener usuarios directores', error); });
   }
   getUsuariosInvestigadores() {
     this.punteroListado = 4;
@@ -419,86 +409,229 @@ export class ListUsuarioComponent implements OnInit {
     this._serviceUsuarios.getUsuariosInvestigadores(this.token)
       .then(response => {
         this.adm_usuario_roles = [];
-        response.usuarios.forEach(usuario => {
-          usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
-          this.adm_usuario_roles.push(usuario);
+        response.usuarios.forEach(adm_usuario_role => {
+          this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
+            .then(responseInvestigador => {
+              if (responseInvestigador.investigador) {
+                adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                this.adm_usuario_roles.push(adm_usuario_role);
+              }
+            })
+            .catch(error => { console.log('error obtener investigador', error); });
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => { console.log('Error al obtener usuarios investigadores', error); });
   }
   getUsuariosInvestigadoresTitular() {
     this.punteroListado = 5;
     this.punteroMostrar = 'Lista de Usuarios Investigadores';
     this.punteroMostrarInvestigador = 'Titulares';
-    this.adm_usuario_roles = [];
+
     this._serviceUsuarios.getUsuariosInvestigadoresTitular(this.token)
       .then(response => {
+        // console.log(response);
+        this.adm_usuario_roles = [];
         response.usuarios.forEach(adm_usuario_role => {
-          this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
+          this._serviceInvestigadores.getInvestigadorByIdPersonaAndIdInvTipo(adm_usuario_role.adm_usuario.id_persona, 1, this.token)
             .then(responseInvestigador => {
-              if (responseInvestigador.investigador.id_inv_tipo === 1) {
-                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
-                this.adm_usuario_roles.push(adm_usuario_role);
+              if (responseInvestigador.investigador) {
+                if (adm_usuario_role.id_rol === 3) {
+                  adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                  adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                  this.adm_usuario_roles.push(adm_usuario_role);
+                }
               }
-            })
-            .catch(error => { console.log('error obtener investigador', error); });
+            }).catch(error => { console.log('error obtener investigador', error); });
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => { console.log('Error al obtener investigadores titulares', error); });
   }
   getUsuariosInvestigadoresAsociadoProyecto() {
     this.punteroListado = 6;
     this.punteroMostrar = 'Lista de Usuarios Investigadores';
     this.punteroMostrarInvestigador = 'Asociados con proyecto';
-    this.adm_usuario_roles = [];
+
     this._serviceUsuarios.getUsuariosInvestigadoresAsociadoProyecto(this.token)
       .then(response => {
+        this.adm_usuario_roles = [];
         response.usuarios.forEach(adm_usuario_role => {
-          this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
+          this._serviceInvestigadores.getInvestigadorByIdPersonaAndIdInvTipo(adm_usuario_role.adm_usuario.id_persona, 2, this.token)
             .then(responseInvestigador => {
-              if (responseInvestigador.investigador.id_inv_tipo === 2) {
-                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
-                this.adm_usuario_roles.push(adm_usuario_role);
+              if (responseInvestigador.investigador) {
+                if (adm_usuario_role.id_rol === 3) {
+                  adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                  adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                  this.adm_usuario_roles.push(adm_usuario_role);
+                }
               }
             })
             .catch(error => { console.log('error obtener investigador', error); });
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(error => { console.log('Error al obtener investigador asociado con proyecto', error); });
   }
   getUsuariosInvestigadoresAsociadoInvitacion() {
     this.punteroListado = 7;
     this.punteroMostrar = 'Lista de Usuarios Investigadores';
     this.punteroMostrarInvestigador = 'Asociados por invitacion';
-    this.adm_usuario_roles = [];
     this._serviceUsuarios.getUsuariosInvestigadoresAsociadoInvitacion(this.token)
       .then(response => {
+        // console.log(response);
+        this.adm_usuario_roles = [];
         response.usuarios.forEach(adm_usuario_role => {
-          this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
+          this._serviceInvestigadores.getInvestigadorByIdPersonaAndIdInvTipo(adm_usuario_role.adm_usuario.id_persona, 3, this.token)
             .then(responseInvestigador => {
-              if (responseInvestigador.investigador.id_inv_tipo === 3) {
-                adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
-                this.adm_usuario_roles.push(adm_usuario_role);
+              if (responseInvestigador.investigador) {
+                if (adm_usuario_role.id_rol === 3) {
+                  adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                  adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                  this.adm_usuario_roles.push(adm_usuario_role);
+                }
               }
             })
             .catch(error => { console.log('error obtener investigador', error); });
         });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      }).catch(error => { console.log('error al obtener usuarios investigador asociados invitacion', error); });
   }
 
   eliminarUsuario(id: number) {
     this._serviceUsuarios.updateAdmUsuarioRol(id, { estado: false }, this.token)
-    .then(response => {
-      this.comprobarTipoUsuario();
-    }).catch(error => { console.log('Error al eliminar usuario', error); });
+      .then(response => {
+        this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
+      }).catch(error => { console.log('Error al eliminar usuario', error); });
+  }
+  getUsuariosActivos() {
+    this.estadoUsuario = 'activo';
+    this.comprobarTipoUsuarioByEstado(true, this.tipo);
+  }
+  getUsuariosInactivos() {
+    this.estadoUsuario = 'inactivo';
+    this.comprobarTipoUsuarioByEstado(false, this.tipo);
+  }
+  getUsuariosAll() {
+    this.estadoUsuario = 'ambos';
+    this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
+  }
+
+  public comprobarTipoUsuarioByEstado(estado: boolean, tipo: string) {
+    switch (tipo) {
+      case 'usuario':
+        this._serviceUsuarios.getUsuariosByEstado(estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(usuario => {
+              if (usuario.id_rol === 3) {
+                this._serviceInvestigadores.getInvestigadorByIdPersona(usuario.adm_usuario.id_persona, this.token)
+                .then(responseInvestigador => {
+                  usuario.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                  usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+                  this.adm_usuario_roles.push(usuario);
+                }).catch(error => { console.log('Error al obtener el investigador por id_persona', error); });
+              } else {
+                usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+                this.adm_usuario_roles.push(usuario);
+              }
+            });
+          }).catch(error => { console.log('Error al obtener usuarios por estado', error); });
+        break;
+      case 'administrador':
+        this._serviceUsuarios.getUsuariosIdRolAndEstado(1, estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(usuario => {
+              usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+              this.adm_usuario_roles.push(usuario);
+            });
+          }).catch(error => { console.log('Error al obtener usuario por id_rol y estado', error); });
+        break;
+      case 'director':
+        this._serviceUsuarios.getUsuariosIdRolAndEstado(2, estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(usuario => {
+              usuario.nombreCompleto = `${usuario.adm_usuario.persona.nombres} ${usuario.adm_usuario.persona.paterno} ${usuario.adm_usuario.persona.materno}`;
+              this.adm_usuario_roles.push(usuario);
+            });
+          }).catch(error => { console.log('Error al obtener usuario por id_rol y estado', error); });
+        break;
+      case 'investigador':
+        this._serviceUsuarios.getUsuariosIdRolAndEstado(3, estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(adm_usuario_role => {
+              this._serviceInvestigadores.getInvestigadorByIdPersona(adm_usuario_role.adm_usuario.id_persona, this.token)
+              .then(responseInvestigador => {
+                if (responseInvestigador.investigador) {
+                  adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                  adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                  this.adm_usuario_roles.push(adm_usuario_role);
+                }
+              })
+              .catch(error => { console.log('error obtener investigador', error); });
+            });
+          }).catch(error => { console.log('Error al obtener usuario por id_rol y estado', error); });
+        break;
+      case 'inv-titular':
+        this._serviceUsuarios.getUsuariosIdRolAndEstado(3, estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(adm_usuario_role => {
+              this._serviceInvestigadores.getInvestigadorByIdPersonaAndIdInvTipo(adm_usuario_role.adm_usuario.id_persona, 1, this.token)
+                .then(responseInvestigador => {
+                  if (responseInvestigador.investigador) {
+                    if (adm_usuario_role.id_rol === 3 && responseInvestigador.investigador.id_inv_tipo === 1) {
+                      adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                      adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                      this.adm_usuario_roles.push(adm_usuario_role);
+                    }
+                  }
+                })
+                .catch(error => { console.log('error obtener investigador', error); });
+            });
+          }).catch(error => { console.log('Error al obtener usuario por id_rol y estado', error); });
+        break;
+      case 'inv-asociado-proyecto':
+        this._serviceUsuarios.getUsuariosIdRolAndEstado(3, estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(adm_usuario_role => {
+              this._serviceInvestigadores.getInvestigadorByIdPersonaAndIdInvTipo(adm_usuario_role.adm_usuario.id_persona, 2, this.token)
+                .then(responseInvestigador => {
+                  if (responseInvestigador.investigador) {
+                    if (adm_usuario_role.id_rol === 3 && responseInvestigador.investigador.id_inv_tipo === 2) {
+                      adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                      adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                      this.adm_usuario_roles.push(adm_usuario_role);
+                    }
+                  }
+                })
+                .catch(error => { console.log('error obtener investigador', error); });
+            });
+          }).catch(error => { console.log('Error al obtener usuario por id_rol y estado', error); });
+        break;
+      case 'inv-asociado-invitacion':
+        this._serviceUsuarios.getUsuariosIdRolAndEstado(3, estado, this.token)
+          .then(response => {
+            this.adm_usuario_roles = [];
+            response.usuarios.forEach(adm_usuario_role => {
+              this._serviceInvestigadores.getInvestigadorByIdPersonaAndIdInvTipo(adm_usuario_role.adm_usuario.id_persona, 3, this.token)
+                .then(responseInvestigador => {
+                  if (responseInvestigador.investigador) {
+                    if (adm_usuario_role.id_rol === 3 && responseInvestigador.investigador.id_inv_tipo === 3) {
+                      adm_usuario_role.inv_tipo = responseInvestigador.investigador.inv_tipo.tipo;
+                      adm_usuario_role.nombreCompleto = `${adm_usuario_role.adm_usuario.persona.nombres} ${adm_usuario_role.adm_usuario.persona.paterno} ${adm_usuario_role.adm_usuario.persona.materno}`;
+                      this.adm_usuario_roles.push(adm_usuario_role);
+                    }
+                  }
+                })
+                .catch(error => { console.log('error obtener investigador', error); });
+            });
+          }).catch(error => { console.log('Error al obtener usuario por id_rol y estado', error); });
+        break;
+      default:
+        console.log('ERROR al comprobar');
+        break;
+    }
   }
 }

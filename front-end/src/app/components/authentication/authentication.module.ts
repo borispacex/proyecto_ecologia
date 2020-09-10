@@ -15,6 +15,7 @@ import { UpdatePasswordByEmailComponent } from './update-password-by-email/updat
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { ToastrModule } from 'ngx-toastr';
   ],
   imports: [
     CommonModule,
+    NgbModule,
     AuthenticationRoutingModule,
 
     FormsModule,

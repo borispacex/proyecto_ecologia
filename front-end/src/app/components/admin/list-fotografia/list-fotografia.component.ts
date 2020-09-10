@@ -6,6 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarService } from 'src/app/services/sidebar.service';
 import { UploadService } from 'src/app/services/upload/upload.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-fotografia',
@@ -24,6 +26,11 @@ export class ListFotografiaComponent implements OnInit {
 
   public sidebarVisible: boolean = true;
 
+  // buscador
+  // search proyectos
+  search = new FormControl('');
+  public valorBusqueda = '';
+
   constructor(
     private _serviceFotografias: FotografiasService,
     private _auth: AuthService,
@@ -40,6 +47,8 @@ export class ListFotografiaComponent implements OnInit {
   ngOnInit() {
     this.getFotografiasAdmin();
     this.vaciarFotografia();
+    // buscador proyectos
+    this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
   }
   getFotografiasAdmin() {
     this._serviceFotografias.getFotografiasAdmin(this.token)
@@ -50,8 +59,17 @@ export class ListFotografiaComponent implements OnInit {
         console.log(error);
       });
   }
-  getFotografias() {
-    this._serviceFotografias.getFotografias()
+  getFotografiasTrue() {
+    this._serviceFotografias.getFotografiasTrue(this.token)
+      .then(response => {
+        this.fotografias = response.fotografias;
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+  getFotografiasFalse() {
+    this._serviceFotografias.getFotografiasFalse(this.token)
       .then(response => {
         this.fotografias = response.fotografias;
       })
@@ -69,7 +87,7 @@ export class ListFotografiaComponent implements OnInit {
     this.fotografia.id_fotografia = id;
     this.modalService.open(content, { size: size });
     this.tipo_form = true;  // editar
-    this._serviceFotografias.getFotografiasById(id)
+    this._serviceFotografias.getFotografiasById(id, this.token)
       .then(response => {
         this.image_selected = response.fotografia.imagen;
         this.fotografia = response.fotografia;

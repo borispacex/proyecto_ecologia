@@ -131,6 +131,23 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las fotografias', err });
     })
 }
+// funcion para mostrar todos los usuarios
+function getAllFalse(req, res) {
+    fotografias.findAll({
+        where: {
+            estado: false
+        },
+        order: [
+            ['numero', 'ASC']
+        ]
+    })
+    .then(fotografias => {
+        res.status(200).send({ fotografias });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las fotografias', err });
+    })
+}
 // funcion para fotografia por id
 function getById(req, res) {
     var id = req.params.id_fotografia;
@@ -142,6 +159,7 @@ function getById(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar una fotografia', err});
     })
 }
+// funcion 
 
 module.exports = {
     create,
@@ -150,5 +168,6 @@ module.exports = {
     getFotografia,
     getById,
     getAllAdmin,
-    getAll
+    getAll,
+    getAllFalse
 }

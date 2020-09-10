@@ -10,4 +10,5 @@ module.exports = (app) => {
     app.get('/api/investigadoresByIdInvTipo/:id_inv_tipo', md_auth.auth, investigadoresController.getAllByIdInvTipo);
     app.get('/api/investigador/:id_investigador', md_auth.auth, investigadoresController.getById);
     app.get('/api/investigadorByIdPersona/:id_persona', md_auth.auth, investigadoresController.getByIdPersona);
+    app.get('/api/investigadorByIdPersonaAndidInvTipo/:id_persona/:id_inv_tipo', md_auth.auth, investigadoresController.getByIdPersonaAndIdInvTipo);
 }

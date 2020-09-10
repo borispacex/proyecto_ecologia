@@ -14,22 +14,36 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
-        (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
-            Fotografia</span></button>
+    <button type="button" class="btn btn-default ml-1 mr-1 mb-2" href="javascript:void(0)"
+        (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar Fotografia</span></button>
+
+    <div class="row ml-1 mr-1 mb-3">
+        
+        <form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1">
+			<input [formControl]="search" class="form-control" placeholder="Buscar fotografia ..."
+				type="text" />
+			<button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+		</form>
+
+        <div class="ml-2 mt-2">
+            <label class="fancy-radio"><input name="estado" value="todos" type="radio" checked (click)="getFotografiasAdmin()"><span><i></i>Todos</span></label>
+            <label class="fancy-radio"><input name="estado" value="true" type="radio" (click)="getFotografiasTrue()"><span><i></i>Activo</span></label>
+            <label class="fancy-radio"><input name="estado" value="false" type="radio" (click)="getFotografiasFalse()"><span><i></i>Eliminado</span></label>
+        </div>
+    </div>
 
     <div class="row clearfix">
         <div class="col-lg-12">
-            <div class="card product_item_list">
+            <div class="card product_item_list" *ngIf="(fotografias | searchFotografias: valorBusqueda) as result">
                 <div class="header">
                     <h2>Lista de fotografias</h2>
                 </div>
-                <div class="body text-center" *ngIf="fotografias.length === 0">
+                <div class="body text-center" *ngIf="fotografias.length === 0 || result.length === 0">
                     <div class="not_found">
                             <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
                     </div>
                 </div>
-                <div class="body" *ngIf="fotografias.length > 0" >
+                <div class="body" *ngIf="result.length > 0" >
                     <div class="table-responsive">
                         <table class="table table-hover m-b-0">
                             <thead class="thead-dark">
@@ -43,7 +57,7 @@
                                     <th data-breakpoints="sm xs md">Accion</th>
                                 </tr>
                             </thead>
-                            <tbody *ngFor="let fotografia of fotografias">
+                            <tbody *ngFor="let fotografia of result">
                                 <tr>
                                     <td><img src="{{url +'get-fotografia/'+ fotografia.imagen + '/true'}}" width="48"
                                             alt="Product img"></td>
@@ -57,7 +71,7 @@
                                     </td>
                                     <td>
                                         <span *ngIf="fotografia.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
-										<span *ngIf="!fotografia.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminada</span>
+										<span *ngIf="!fotografia.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminado</span>
                                     </td>
 
                                     <td>

@@ -16,6 +16,9 @@ module.exports = (app) => {
     app.get('/api/usuariosInvestigadoresAsociadoProyecto', md_auth.auth, usuariosController.getAllInvestigadoresAsociadoProyecto);
     app.get('/api/usuariosInvestigadoresAsociadoInvitacion', md_auth.auth, usuariosController.getAllInvestigadoresAsociadoInvitacion);
 
+    app.get('/api/usuariosAdmUsuarioRolesByEstado/:estado', md_auth.auth, usuariosController.getAllAdmUsuarioRolesByEstado);
+    app.get('/api/usuariosAdmUsuarioRolesByIdRolAndByEstado/:id_rol/:estado', md_auth.auth, usuariosController.getAllAdmUsuarioRolesByIdRolAndByEstado);
+
     // app.get('/api/usuarios', usuariosController.getAll);
     app.get('/api/usuario/:id_usuario', md_auth.auth, usuariosController.getById);
 

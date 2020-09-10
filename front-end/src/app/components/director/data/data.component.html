@@ -13,7 +13,41 @@
             </div>
         </div>
     </div>
-    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/director/dashboard/list-proyectos', 'proyecto']"><i class="fa fa-plus-square"></i>&nbsp;<span>Listar proyectos</span></a>
-    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/director/dashboard/list-investigadores', 'investigador']"><i class="fa fa-info-circle"></i>&nbsp;<span>Listar investigadores</span></a>
-    <a type="button" class="btn btn-default mr-lg-3 mr-md-2 mr-1" [routerLink]="['/director/dashboard/generate-reportes']"><i class="fa fa-info-circle"></i>&nbsp;<span>Generar reportes</span></a>
+    
+    <div class="row clearfix mt-3">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/director/dashboard/list-proyectos', 'proyecto']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/proyecto.png" alt="imagen_fotografias"></div>
+            <div class="content">
+              <h6>Listar Proyectos</h6>
+              <p>Proyectos de investigación (Activo, Inactivo, Pendiente, Cerrado).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/director/dashboard/list-investigadores', 'investigador']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/profesor.png" alt="imagen_usuarios"></div>
+            <div class="content">
+              <h6>Lista Investigadores</h6>
+              <p>Investigadores(Titular, Asociado con proyecto, Asociado por invitacion).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/director/dashboard/generate-reportes']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/reporte.png" alt="imagen_fotografias"></div>
+            <div class="content">
+              <h6>Generar Reportes</h6>
+              <p>Hacer estadisticas de reportes en PDF, EXCEL.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 </div>

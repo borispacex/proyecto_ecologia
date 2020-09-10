@@ -179,6 +179,22 @@ export class UsuariosService {
     return this._http.get(this.url + 'getRolByIdUsuarioIdRol/' + idUsuario + '/' + idRol, options).toPromise()
     .then(res => res.json());
   }
+  getUsuariosIdRolAndEstado(idRol: number, estado: boolean, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'usuariosAdmUsuarioRolesByIdRolAndByEstado/' + idRol + '/' + estado, options).toPromise()
+    .then(res => res.json());
+  }
+  getUsuariosByEstado(estado: boolean, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'usuariosAdmUsuarioRolesByEstado/' + estado, options).toPromise()
+    .then(res => res.json());
+  }
   verificarPassword(usuario: any, token: string) {
     let headers = new Headers({
       'Authorization': token,

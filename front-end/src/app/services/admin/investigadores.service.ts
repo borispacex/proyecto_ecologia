@@ -49,12 +49,12 @@ export class InvestigadoresService {
     .then(res => res.json());
   }
   // se obtiene todos las investigaores. mediante el id_inv_tipo
-  getInvestigadoresByIdInvTipo(id: number, token: string) {
+  getInvestigadoresByIdInvTipo(id_inv_tipo: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'investigadoresByIdInvTipo/' + id, options).toPromise()
+    return this._http.get(this.url + 'investigadoresByIdInvTipo/' + id_inv_tipo, options).toPromise()
     .then(res => res.json());
   }
   // se obtiene el investigaor, mediante el id_persona
@@ -64,6 +64,15 @@ export class InvestigadoresService {
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.get(this.url + 'investigadorByIdPersona/' + id, options).toPromise()
+    .then(res => res.json());
+  }
+  // se obtiene el investigaor, mediante el id_persona y id_inv_tipo
+  getInvestigadorByIdPersonaAndIdInvTipo(id_persona: number, id_inv_tipo: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'investigadorByIdPersonaAndidInvTipo/' + id_persona + '/' + id_inv_tipo, options).toPromise()
     .then(res => res.json());
   }
   // se obtiene el investigador, mediante el id_investigador

@@ -93,14 +93,13 @@ function getRolByIdUsuarioIdRol(req, res) {
                 ]
             }
         ]
-    })
-        .then(adm_usuario_role => {
-            res.status(200).send({ adm_usuario_role });
-        })
-        .catch(err => {
-            res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios', err });
-        });
+    }).then(adm_usuario_role => {
+        res.status(200).send({ adm_usuario_role });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios', err });
+    });
 }
+
 module.exports = {
     create,
     update,
