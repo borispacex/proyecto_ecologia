@@ -14,8 +14,9 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-default ml-1 mr-1 mb-2" href="javascript:void(0)"
-        (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar Fotografia</span></button>
+    <button type="button" class="btn btn-default ml-1 mr-1 mb-2" (click)="openModalAgregar(content,'lg')">
+        <i class="fa fa-plus-square"></i>&nbsp;<span> Agregar Fotografia</span>
+    </button>
 
     <div class="row ml-1 mr-1 mb-3">
         
@@ -75,11 +76,12 @@
                                     </td>
 
                                     <td>
-                                        <a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"
-                                            (click)="openModalEditar(content,'lg',fotografia.id_fotografia)"><i
-                                                class="icon-pencil"></i></a>
-                                        <a href="javascript:void(0);" class="btn btn-outline-danger"><i
-                                                class="icon-trash" (click)="eliminarFotografia(fotografia.id_fotografia)"></i></a>
+                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalEditar(content,'lg',fotografia.id_fotografia)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                            <i class="icon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger" (click)="openModal(content1,'sm', fotografia.id_fotografia)" data-toggle="tooltip" data-placement="right" title="Eliminar">
+                                            <i class="icon-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -150,5 +152,18 @@
             <button class="btn btn-success" [disabled]="!fotoForm.form.valid" type="submit">Guardar Cambios</button>
             <button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
         </form>
+    </div>
+</ng-template> 
+
+<ng-template #content1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">¿Estas seguro de borrar la fotografia?</h4>
+    </div>
+    <!-- <div class="modal-body">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales orci ante, sed ornare eros vestibulum ut. Ut accumsan vitae eros sit amet Integer dapibus, mi ac tempor varius, purus nibh mattis erat, vitae porta nunc nisi non tellus. Vivamus mollis ante non massa egestas fringilla. Vestibulum egestas consectetur nunc at ultricies. Morbi quis consectetur nunc.</p>
+    </div> -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="eliminarFotografia(id_fotografia); modal.close('Ok click')">Si</button>
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss('Close click')">No</button>
     </div>
 </ng-template>

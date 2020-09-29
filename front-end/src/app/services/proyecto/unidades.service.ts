@@ -60,7 +60,7 @@ export class UnidadesService {
       .then(res => res.json());
   }
   // borramos la unidad
-  deleteUnidadByIdBasicaTecnica(id_basica_tecnica: number, token: string) {
+  deleteUnidadesByIdBasicaTecnica(id_basica_tecnica: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });

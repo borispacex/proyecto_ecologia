@@ -164,7 +164,7 @@ export class DetailsProyectoComponent implements OnInit {
     this._route.params.forEach((params: Params) => {
       this.id = params.id;
     });
-    this.getArchivosByTipo(0);
+    this.getArchivosByTipo(8);
     this.getProyecto(this.id);
     // buscador
     this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
@@ -211,7 +211,7 @@ export class DetailsProyectoComponent implements OnInit {
               this.archivos.push(convArch);
             }).catch(error => { console.log('error al obtener convenio archivos', error); });
           });
-          console.log(this.archivos);
+          // console.log(this.archivos);
         }).catch(error => { console.log('error al obtener convenios', error); });
         break;
       case 3:
@@ -239,7 +239,7 @@ export class DetailsProyectoComponent implements OnInit {
         }).catch(error => { console.log('error al obtener contratados', error); });
         break;
       case 6:
-        this.tituloArch = 'Documentos - Proyecto final';
+        this.tituloArch = 'Documentos - Cierre Proyecto';
         // console.log(this.tipoArch);
         this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
         .then(responseProyArch => {
@@ -253,6 +253,69 @@ export class DetailsProyectoComponent implements OnInit {
         .then(responseProyArch => {
           this.archivos = responseProyArch.proy_archivos;
           console.log(responseProyArch);
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      case 8:
+        this.tituloArch = 'Todos los documentos';
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 1, this.token)
+        .then(responseProyArch => {
+          this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+          this._servicePermisoArchivos.getPermisoArchivosByIdProyecto(this.id, this.token)
+          .then(responsePermisoArch => {
+            this.archivos = this.archivos.concat(responsePermisoArch.permiso_archivos);
+            this._serviceConvenios.getConveniosByIdProyecto(this.id, this.token)
+            .then(responseConv => {
+              responseConv.convenios.forEach(convenio => {
+                var convArch = {
+                  id_convenio: convenio.id_convenio,
+                  archivo:  convenio.archivo,
+                  nombre: convenio.nombre_archivo,
+                  descripcion: convenio.descripcion_archivo,
+                  id_tipo: convenio.id_tipo,
+                  createdAt: convenio.createdAt,
+                  convArchivos: Array,
+                  estado: convenio.estado
+                };
+                this._serviceConvArchivos.getConvArchivosByIdConvenio(convenio.id_convenio, this.token)
+                .then(responseConvArch => {
+                  convArch.convArchivos = responseConvArch.conv_archivos;
+                  this.archivos.push(convArch);
+                }).catch(error => { console.log('error al obtener convenio archivos', error); });
+              });
+              // console.log(this.archivos);
+              this._serviceContratados.getContratadosByIdProyecto(this.id, this.token)
+              .then(responseContra => {
+                responseContra.contratados.forEach(contratado => {
+                  var contraArch = {
+                    id_contratado: contratado.id_contratado,
+                    archivo:  contratado.archivo,
+                    nombre: contratado.nombre_archivo,
+                    descripcion: contratado.descripcion_archivo,
+                    id_tipo: contratado.id_tipo,
+                    createdAt: contratado.createdAt,
+                    convArchivos: Array,
+                    estado: contratado.estado
+                  };
+                  this._serviceContraArchivos.getContraArchivosByIdContratado(contratado.id_contratado, this.token)
+                  .then(responseContraArch => {
+                    contraArch.convArchivos = responseContraArch.contra_archivos;
+                    this.archivos.push(contraArch);
+                  }).catch(error => { console.log('error al obtener contratado archivo por id contratado', error); });
+                });
+                // console.log(this.archivos);
+                this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
+                .then(responseProyArch => {
+                  this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                  // console.log(responseProyArch);
+                  this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
+                  .then(responseProyArch => {
+                    this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                    console.log(responseProyArch);
+                  }).catch(error => { console.log('error al obtener proy_archivos', error); });
+                }).catch(error => { console.log('error al obtener proy_archivos', error); });
+              }).catch(error => { console.log('error al obtener contratados', error); });
+            }).catch(error => { console.log('error al obtener convenios', error); });
+          }).catch(error => { console.log('error al obtener permiso archivos', error); });
         }).catch(error => { console.log('error al obtener proy_archivos', error); });
         break;
       default:
@@ -778,6 +841,8 @@ export class DetailsProyectoComponent implements OnInit {
   }
   vaciar() {
     this.datosArchivo = [];
+    this.fechafinal = null;
+    this.fechainicio = null;
     this.personal_rrhh = {
       tipo: '',
       nombreCompleto: '',
@@ -841,5 +906,107 @@ export class DetailsProyectoComponent implements OnInit {
     this.files.length = 0;
     this.datosArchivo.length = 0;
     this.antFileTam = 0;
+  }
+  eliminarArchivo(archivo) {
+    console.log(archivo);
+    if (archivo.id_proy_archivo && archivo.id_tipo === 1) {
+      this._serviceProyArch.updateProy_archivo(archivo.id_proy_archivo, { estado: false }, this.token)
+      .then(response => {
+        this.getArchivosByTipo(0);
+      }).catch(error => { console.log('Error al eliminar archivo', error); });
+    } else if (archivo.id_permiso_archivo) {
+      this._servicePermisoArchivos.update(archivo.id_permiso_archivo, { estado: false }, this.token)
+      .then(response => {
+        this.getArchivosByTipo(1);
+      }).catch(error => { console.log('Error al eliminar archivo', error); });
+    } else if (archivo.id_convenio) {
+      this._serviceConvenios.update(archivo.id_convenio, { estado: false }, this.token)
+      .then(response => {
+        this.getArchivosByTipo(2);
+      }).catch(error => { console.log('Error al eliminar archivo', error); });
+    } else if (archivo.id_contratado) {
+      this._serviceContratados.update(archivo.id_contratado, { estado: false }, this.token)
+      .then(response => {
+        this.getArchivosByTipo(3);
+      }).catch(error => { console.log('Error al eliminar archivo', error); });
+    } else if (archivo.id_proy_archivo && archivo.id_tipo === 6) {
+      this._serviceProyArch.updateProy_archivo(archivo.id_proy_archivo, { estado: false }, this.token)
+      .then(response => {
+        this.getArchivosByTipo(6);
+      }).catch(error => { console.log('Error al eliminar archivo', error); });
+    } else if (archivo.id_proy_archivo && archivo.id_tipo === 7) {
+      this._serviceProyArch.updateProy_archivo(archivo.id_proy_archivo, { estado: false }, this.token)
+      .then(response => {
+        this.getArchivosByTipo(7);
+      }).catch(error => { console.log('Error al eliminar archivo', error); });
+    }
+  }
+  openModalEliminarArchivo(content, size, archivo?: any) {
+    this.modalService.open(content, { size: size });
+    if (archivo) {
+      this.archivo = archivo;
+    } else {
+      this.archivo = {};
+    }
+  }
+  tipoArchivo(idTipo: number): string{
+    let tipo = '';
+    switch (idTipo) {
+      case 1:
+        tipo = 'Principal';
+        break;
+      case 2:
+        tipo = 'DGB';
+        break;
+      case 3:
+        tipo = 'SERNAP';
+        break;
+      case 4:
+        tipo = 'CITES';
+        break;
+      case 5:
+        tipo = 'BIOETICA';
+        break;
+      case 6:
+        tipo = 'Cierre de proyecto';
+        break;
+      case 7:
+        tipo = 'Otros';
+        break;
+      case 8:
+        tipo = 'Convenios';
+        break;
+      case 9:
+        tipo = 'Contratados';
+        break;
+      case 10:
+        tipo = 'Cursos';
+        break;
+      case 11:
+        tipo = 'Eventos';
+        break;
+      case 12:
+        tipo = 'Notas de prensa';
+        break;
+      case 13:
+        tipo = 'Exposiciones';
+        break;
+      case 14:
+        tipo = 'Publicaciones';
+        break;
+      case 15:
+        tipo = 'Seguimientos';
+        break;
+      case 16:
+        tipo = 'Peticiones';
+        break;
+      case 17:
+        tipo = 'Final';
+        break;
+      default:
+        tipo = '';
+        break;
+    }
+    return tipo;
   }
 }

@@ -14,8 +14,9 @@
 		</div>
 	</div>
 
-	<button type="button" class="btn btn-default mr-1 mb-2" (click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
-		Usuario</span></button>
+	<button type="button" class="btn btn-default mr-1 mb-2" (click)="openModalAgregar(content,'lg')">
+		<i class="fa fa-plus-square"></i>&nbsp;<span> Agregar Usuario</span>
+	</button>
 
 	<div class="container row mb-2">
 		<form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1 mb-2">
@@ -98,11 +99,12 @@
 										<span *ngIf="!usuario_rol.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">inactivo</span>
 									</td>
 									<td>
-										<a href="javascript:void(0);" class="btn btn-outline-secondary mr-1"
-											(click)="openModalEditar(content,'lg', usuario_rol.adm_usuario.id_usuario, usuario_rol.estado)"><i
-												class="icon-pencil"></i></a>
-										<a href="javascript:void(0);" class="btn btn-outline-secondary" (click)="eliminarUsuario(usuario_rol.id_adm_usuario_rol)"><i
-												class="icon-trash"></i></a>
+										<button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalEditar(content,'lg', usuario_rol.adm_usuario.id_usuario, usuario_rol.estado)" data-toggle="tooltip" data-placement="right" title="Editar">
+											<i class="icon-pencil"></i>
+										</button>
+										<button type="button" class="btn btn-outline-secondary" (click)="openModal(content1,'sm', usuario_rol.id_adm_usuario_rol)" data-toggle="tooltip" data-placement="right" title="Eliminar">
+											<i class="icon-trash"></i>
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -252,4 +254,17 @@
 			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
 		</form>
 	</div>
+</ng-template>
+
+<ng-template #content1 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">¿Estas seguro de borrar al usuario?</h4>
+    </div>
+    <!-- <div class="modal-body">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales orci ante, sed ornare eros vestibulum ut. Ut accumsan vitae eros sit amet Integer dapibus, mi ac tempor varius, purus nibh mattis erat, vitae porta nunc nisi non tellus. Vivamus mollis ante non massa egestas fringilla. Vestibulum egestas consectetur nunc at ultricies. Morbi quis consectetur nunc.</p>
+    </div> -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="eliminarUsuario(id_adm_usuario_rol); modal.close('Ok click')">Si</button>
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss('Close click')">No</button>
+    </div>
 </ng-template>

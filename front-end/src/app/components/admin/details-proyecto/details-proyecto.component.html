@@ -1,4 +1,4 @@
-<div class="container-fluid file_manager">
+<div class="container-fluid">
     <div class="block-header">
         <div class="row">
             <div class="col-lg-5 col-md-8 col-sm-12">
@@ -48,7 +48,13 @@
                     <div class="row">
                         <div class="col-7">
                             <small>Numero de archivos: 23</small>
-                            <p><strong>estado: </strong>{{proyecto.estado}}</p>
+                            <h5>
+                                <strong>estado: </strong>
+                                <span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
+                                <span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
+                                <span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
+                                <span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -68,19 +74,23 @@
                 (click)="openModal(content,'lg', 4)"><i class="fa fa-tags"></i>&nbsp;<span class="h6">
                     Personal contratado</span></button>
             <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
-                (click)="openModal(content,'lg', 5)"><i class="fa fa-pencil"></i>&nbsp;<span class="h6"> Subir Proyecto final</span></button>
+                (click)="openModal(content,'lg', 5)"><i class="fa fa-pencil"></i>&nbsp;<span class="h6"> Cierre Proyecto</span></button>
         </div>
     </div>
 
     
     <div class="row clearfix">
+        
+    </div>
+
+    <div class="row clearfix">
+        
+    </div>
+    <div class="row clearfix" *ngIf="(archivos | searchArchivos: valorBusqueda) as result">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <h3 class="text-center">Lista de archivos</h3>
             <h5 class="text-center text-lg-left">{{tituloArch}}</h5>
         </div>
-    </div>
-
-    <div class="row clearfix">
         <div class="col-lg-5 col-md-8 col-sm-12">
             <form id="navbar-search" class="navbar-form search-form">
                 <input [formControl]="search" class="form-control" placeholder="Buscar archivo ..." type="text" />
@@ -90,59 +100,84 @@
         <div ngbDropdown class="d-inline-block col-lg-5 col-md-8 col-sm-12" placement="bottom-left">
             <button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1" right>
+                <button class="btn btn-default" (click)="getArchivosByTipo(8)" ngbDropdownItem>Todos</button>
                 <button class="btn btn-default" (click)="getArchivosByTipo(0)" ngbDropdownItem>Documentos Principales</button>
                 <button class="btn btn-default" (click)="getArchivosByTipo(1)" ngbDropdownItem>Permisos</button>
                 <button class="btn btn-default" (click)="getArchivosByTipo(2)" ngbDropdownItem>Suscripción Convenios</button>
                 <button class="btn btn-default" (click)="getArchivosByTipo(3)" ngbDropdownItem>Personal Contratado</button>
-                <button class="btn btn-default" (click)="getArchivosByTipo(6)" ngbDropdownItem>Proyecto final</button>
+                <button class="btn btn-default" (click)="getArchivosByTipo(6)" ngbDropdownItem>Cierre Proyecto</button>
                 <button class="btn btn-default" (click)="getArchivosByTipo(7)" ngbDropdownItem>Otros</button>
             </div>
         </div>
-    </div>
-    <div class="row clearfix" *ngIf="(archivos | searchArchivos: valorBusqueda) as result">
-        <div class="card" *ngIf="result.length === 0 || archivos.length === 0">
-            <div class="body text-center">
-                <div class="not_found">
-                        <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
+        
+        <div class="col-lg-12">
+            <div class="card" *ngIf="result.length === 0 || archivos.length === 0">
+                <div class="body text-center">
+                    <div class="not_found">
+                            <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="card product_item_list" *ngIf="result.length > 0">
+                <div class="body">
+                    <div class="table-responsive">
+                        <table class="table table-hover m-b-0">
+                            <thead class="thead-dark align-center">
+                                <tr>
+                                    <th>Nombre archivo</th>
+                                    <th data-breakpoints="sm xs">Descripción</th>
+                                    <th data-breakpoints="xs">Tipo</th>
+                                    <th>Archivos extras</th>
+                                    <th data-breakpoints="md">Ultima modificación</th>
+                                    <th data-breakpoints="xs md">Estado</th>
+                                    <th data-breakpoints="sm xs md">Accion</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let archivo of result">
+                                <tr>
+                                    <td>
+                                        <a href="javascript:void(0)" (click)="openArchivo(archivo.archivo)">
+                                            <i class="fa fa-file text-success"></i>
+                                        </a> &nbsp;
+                                        <span class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content1,'lg', archivo)">{{archivo.nombre}}</a></span>
+                                    </td>
+                                        
+                                    <td>{{ archivo.descripcion }}</td>
+                                    <td>{{ tipoArchivo(archivo.id_tipo) }}</td>
+                                    <td>
+                                        <small *ngIf="!archivo.convArchivos">Ninguna</small>
+                                        <div *ngFor="let archivoB of archivo.convArchivos">
+                                            <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
+                                                <i class="fa fa-file text-info"></i>
+                                            </a> &nbsp;
+                                            <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content1,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {{archivo.createdAt | date: 'dd/MM/yyyy'}}
+                                    </td>
+                                    <td>
+                                        <span *ngIf="archivo.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
+                                        <span *ngIf="!archivo.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminado</span>
+                                    </td>
+        
+                                    <td>
+                                        <button *ngIf="archivo.id_tipo==8 || archivo.id_tipo==9" type="button" class="btn btn-icon btn-outline-primary" (click)="openModalArchivoVarios(content,'lg', archivo)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                            <i class="icon-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger" (click)="openModalEliminarArchivo(content2,'sm', archivo)" data-toggle="tooltip" data-placement="right" title="Eliminar">
+                                            <i class="icon-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let archivo of result">
-            <div class="card">
-                <div class="file">
-                    <a href="javascript:void(0);">
-                        <div class="hover">
-                            <button type="button" class="btn btn-icon btn-outline-info" (click)="openModalArchivo(content1,'lg', archivo)">
-                                <i class="icon-pencil"></i>
-                            </button>
-                            <button *ngIf="archivo.id_tipo==8 || archivo.id_tipo==9" type="button" class="btn btn-icon btn-outline-primary" (click)="openModalArchivoVarios(content,'lg', archivo)">
-                                <i class="icon-settings"></i>
-                            </button>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-file text-success" (click)="openArchivo(archivo.archivo)"></i>
-                        </div>
-                        <div class="file-name">
-                            <p class="m-b-5 text-muted">{{ archivo.nombre }}</p>
-                            <small>PDF<span class="date text-muted">{{archivo.createdAt | date: 'medium'}}</span></small>
-                        </div>
-                    </a>
-                </div>
-                <ul class="list-unstyled feeds_widget">
-                    <li *ngFor="let archivoB of archivo.convArchivos">
-                        <div class="feeds-left">
-                            <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
-                                <i class="fa fa-file text-info"></i>
-                            </a>
-                        </div>
-                        <div class="feeds-body">
-                            <h4 class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content1,'lg', archivoB)">{{archivoB.nombre}}</a><small class="float-right text-muted">{{archivoB.createdAt | date: 'mediumDate'}}</small></h4>
-                            <small>{{archivoB.descripcion}}</small>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
     </div>
 </div>
 
@@ -575,9 +610,22 @@
 					<label class="form-check-label" for="estado">Estado</label>
 				</div>
 			</div>
-			<button class="btn btn-success" [disabled]="!archivoForm.form.valid" type="submit">Guardar
-				Cambios</button>
+			<button class="btn btn-success" [disabled]="!archivoForm.form.valid" type="submit">Guardar Cambios</button>
 			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
 		</form>
 	</div>
 </ng-template> 
+
+
+<ng-template #content2 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">¿Estas seguro de borrar el archivo?</h4>
+    </div>
+    <!-- <div class="modal-body">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales orci ante, sed ornare eros vestibulum ut. Ut accumsan vitae eros sit amet Integer dapibus, mi ac tempor varius, purus nibh mattis erat, vitae porta nunc nisi non tellus. Vivamus mollis ante non massa egestas fringilla. Vestibulum egestas consectetur nunc at ultricies. Morbi quis consectetur nunc.</p>
+    </div> -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="eliminarArchivo(archivo); modal.close('Ok click')">Si</button>
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss('Close click')">No</button>
+    </div>
+</ng-template>

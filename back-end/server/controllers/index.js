@@ -33,6 +33,11 @@ const autores = require('./proyecto/autores');
 const publi_archivos = require('./proyecto/publi_archivos');
 const comentarios = require('./proyecto/comentarios');
 
+const seguimientos = require('./proyecto/seguimientos');
+const segui_archivos = require('./proyecto/segui_archivos');
+const peticiones = require('./proyecto/peticiones');
+const peti_archivos = require('./proyecto/peti_archivos');
+
 module.exports = {
     usuarios,
     fotografias,
@@ -64,5 +69,9 @@ module.exports = {
     publicaciones,
     autores,
     publi_archivos,
-    comentarios
+    comentarios,
+    seguimientos,
+    segui_archivos,
+    peticiones,
+    peti_archivos
 }

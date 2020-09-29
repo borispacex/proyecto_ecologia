@@ -52,6 +52,8 @@ export class ListUsuarioComponent implements OnInit {
   estadoUsuario = 'ambos';
   tipo = '';
 
+  public id_adm_usuario_rol = 0;
+
   constructor(
     private _serviceUsuarios: UsuariosService,
     private sidebarService: SidebarService,
@@ -101,7 +103,7 @@ export class ListUsuarioComponent implements OnInit {
   }
   openModalEditar(content, size, id: number, status: boolean) {
     this.modalService.open(content, { size: size });
-    this.vaciarUsuario();
+    // this.vaciarUsuario();
     this.tipo_form = true;  // editar
     this._serviceUsuarios.getUsuarioById(id, this.token)
       .then(response => {
@@ -133,7 +135,7 @@ export class ListUsuarioComponent implements OnInit {
       this._serviceUsuarios.updatePersona(this.persona.id_persona, this.persona, this.token)
         .then(responsePersona => {
         }).catch(error => {
-          console.log('error al actualizar persona', error);
+          // console.log('error al actualizar persona', error);
           this.toastr.error('Error al actualizar datos personales', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
     }
@@ -142,7 +144,7 @@ export class ListUsuarioComponent implements OnInit {
       this._serviceUsuarios.updateUsuario(this.usuario.id_usuario, this.usuario, this.token)
         .then(responseUsuario => {
         }).catch(error => {
-          console.log('error al actualizar usuario');
+          // console.log('error al actualizar usuario');
           this.toastr.error('Error al actualizar datos de usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
     }
@@ -151,7 +153,7 @@ export class ListUsuarioComponent implements OnInit {
       this._serviceInvestigadores.updateInvestigador(this.investigador.id_investigador, this.investigador, this.token)
         .then(responseInvestigador => {
         }).catch(error => {
-          console.log('error al actualizar investigador', error);
+          // console.log('error al actualizar investigador', error);
           this.toastr.error('Error al actualizar datos investigador', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
     }
@@ -188,10 +190,13 @@ export class ListUsuarioComponent implements OnInit {
               this.investigador.id_persona = this.persona.id_persona;
               this._serviceInvestigadores.saveInvestigador(this.investigador, this.token)
                 .then(responseInvestigador => {
-                  this.modalService.dismissAll();
-                  this.vaciarUsuario();
-                  this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
-                  if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+                  if (sw) { 
+                    this.modalService.dismissAll();
+                    this.vaciarUsuario();
+                    this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
+                    this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+                    sw = false;
+                  }
                 }).catch(error => {
                   console.log('error al crear investigador', error);
                   this.toastr.error('Error al guardar investigador', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -205,10 +210,13 @@ export class ListUsuarioComponent implements OnInit {
                   const id_adm_usuario_rol = responseRol.adm_usuario_role.id_adm_usuario_rol;
                   this._serviceUsuarios.updateAdmUsuarioRol(id_adm_usuario_rol, { estado: true }, this.token)
                     .then(responseRol => {
-                      this.modalService.dismissAll();
-                      this.vaciarUsuario();
-                      this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
-                      if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+                      if (sw) {
+                        this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                        sw = false;
+                        this.modalService.dismissAll();
+                        this.vaciarUsuario();
+                        this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
+                      }
                     }).catch(error => {
                       console.log('error al actualizar amd_usuario_rol', error);
                       this.toastr.error('Error al actualizar el rol del usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -222,10 +230,13 @@ export class ListUsuarioComponent implements OnInit {
                     const id_adm_usuario_rol = responseRol.adm_usuario_role.id_adm_usuario_rol;
                     this._serviceUsuarios.updateAdmUsuarioRol(id_adm_usuario_rol, { estado: false }, this.token)
                       .then(responseRol => {
-                        this.modalService.dismissAll();
-                        this.vaciarUsuario();
-                        this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
-                        if (sw) { this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+                        if (sw) {
+                          this.toastr.success('Usuario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                          sw = false;
+                          this.modalService.dismissAll();
+                          this.vaciarUsuario();
+                          this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
+                        }
                       }).catch(error => {
                         console.log('Error al actualizar rol', error);
                         this.toastr.error('Error al actualizar el rol del usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -252,7 +263,6 @@ export class ListUsuarioComponent implements OnInit {
                 this.investigador.id_persona = response.persona.id_persona;
                 this._serviceInvestigadores.saveInvestigador(this.investigador, this.token)
                   .then(responseInvestigador => {
-                    console.log('');
                   }).catch(error => {
                     console.log('error al crear investigador', error);
                     this.toastr.error('Error al guardar investigador', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -262,10 +272,13 @@ export class ListUsuarioComponent implements OnInit {
               this._serviceUsuarios.saveAdmUsuarioRol(this.adm_usuario_rol, this.token) // adm_usuario_rol
                 .then(responseAdmUsuarioRol => {
                   if (i === this.seleccionados.length - 1) {  // para cerrar modal en la ultima creacion
-                    this.modalService.dismissAll();
-                    this.vaciarUsuario();
-                    this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
-                    if (sw) { this.toastr.success('Usuario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); sw = false; }
+                    if (sw) {
+                      this.toastr.success('Usuario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                      sw = false;
+                      this.modalService.dismissAll();
+                      this.vaciarUsuario();
+                      this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
+                    }
                   }
                 }).catch(error => {
                   console.log('error adm usuario rol', error);
@@ -313,9 +326,10 @@ export class ListUsuarioComponent implements OnInit {
     };
   }
   public comprobarTipoUsuario(tipo: string, estadoU: string) {
+    this.vaciarUsuario();
     if (estadoU === 'ambos') {
       // var tipo = this._route.snapshot.params.tipo;
-      switch (tipo) {     
+      switch (tipo) {
         case 'usuario':
           this.getUsuarios();
           break;
@@ -633,5 +647,9 @@ export class ListUsuarioComponent implements OnInit {
         console.log('ERROR al comprobar');
         break;
     }
+  }
+  openModal(content, size, idAdmUsuarioRol: number) {
+    this.modalService.open(content, { size: size });
+    this.id_adm_usuario_rol = idAdmUsuarioRol;
   }
 }

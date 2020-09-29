@@ -23,13 +23,6 @@
             <div class="card">
                 <div class="header">
                     <h1>{{proyecto.titulo}}</h1>
-                    <ul class="header-dropdown">
-                        <button type="button" class="btn btn-outline-secondary"
-                            (click)="openModalNuevaPublicacion(content4, 'lg')"><span
-                                class="h6 d-none d-sm-none d-md-block">Nueva publicación <i
-                                    class="fa fa-plus-square"></i></span><i
-                                class="fa fa-plus-square d-block d-sm-block d-md-none"></i></button>
-                    </ul>
                 </div>
                 <div class="body">
                     <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
@@ -59,18 +52,28 @@
                     <div class="row">
                         <div class="col-7">
                             <small>Numero de archivos: 23</small>
-                            <h6><strong>estado: </strong>{{proyecto.estado}}</h6>
+                            <h5>
+                                <strong>estado: </strong>
+                                <span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
+                                <span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
+                                <span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
+                                <span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
+                            </h5>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6">
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" (click)="openModalNuevaPublicacion(content4, 'lg')">
+                <i class="fa fa-plus-square"></i>&nbsp;<span class="h6">Realizar publicación</span>
+            </button>
+
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
                 (click)="openModalBaseTecnica(content1,'lg')">
                 <i class="fa fa-plus-square"></i>&nbsp;<span class="h6">Basica tecnica</span>
             </button>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
                 (click)="openModalLugarDesarrollo(content2, 'lg')">
                 <i class="fa fa-flag"></i>&nbsp;<span class="h6"> Lugar de desarrollo</span>
             </button>
@@ -78,19 +81,15 @@
                 <button class="btn btn-default mr-1 mb-3 card align-items-center" id="dropdownBasic1" ngbDropdownToggle>
                     <i class="fa fa-folder-open-o"></i>&nbsp;<span class="h6">Difusión</span></button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 1)"
-                        ngbDropdownItem>Cursos, Seminarios y Talleres</button>
-                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 2)"
-                        ngbDropdownItem>Eventos cientificos</button>
-                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 3)" ngbDropdownItem>Notas
-                        de prensa</button>
-                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 4)"
-                        ngbDropdownItem>Exposiciones y conferencias</button>
+                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 1)" ngbDropdownItem>Cursos, Seminarios y Talleres</button>
+                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 2)" ngbDropdownItem>Eventos cientificos</button>
+                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 3)" ngbDropdownItem>Notas de prensa</button>
+                    <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 4)" ngbDropdownItem>Exposiciones y conferencias</button>
                 </div>
             </div>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)">
+            <!-- <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)">
                 <i class="fa fa-flag"></i>&nbsp;<span class="h6"> Solicitud de cierre de proyecto</span>
-            </button>
+            </button> -->
         </div>
     </div>
 
@@ -100,20 +99,19 @@
         <div class="sidebar-scroll col-lg-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavArchivos" [ngClass]="{'active':fragment == 'tavArchivos'}">Archivos</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavPublicaciones" [ngClass]="{'active':fragment == 'tavPublicaciones'}"><i
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavArchivos" [ngClass]="{'active':fragment == 'tavArchivos'}">Archivos</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"fragment="tavPublicaciones" [ngClass]="{'active':fragment == 'tavPublicaciones'}"><i
                             class="fa fa-plus-square"></i>&nbsp;Publicaciones</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavBasica" [ngClass]="{'active':fragment == 'tavBasica'}"><i
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavBasica" [ngClass]="{'active':fragment == 'tavBasica'}"><i
                             class="fa fa-plus-square"></i>&nbsp;Basica tecnica</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavLugar"
-                        [ngClass]="{'active':fragment == 'tavLugar'}"><i class="fa fa-flag"></i>&nbsp;Lugar de
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavLugar" [ngClass]="{'active':fragment == 'tavLugar'}"><i class="fa fa-flag"></i>&nbsp;Lugar de
                         desarrollo</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}"><i
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}"><i
                             class="fa fa-folder-open-o"></i>&nbsp;Difusion</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavSeguimiento" [ngClass]="{'active':fragment == 'tavSeguimiento'}"><i
+                                    class="fa fa-folder-open-o"></i>&nbsp;Seguimiento</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavPeticion" [ngClass]="{'active':fragment == 'tavPeticion'}"><i
+                                    class="fa fa-folder-open-o"></i>&nbsp;Petición</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content p-l-0 p-r-0">
@@ -136,18 +134,13 @@
                             <button class="btn btn-default mr-1 mb-3" id="dropdownBasic1"
                                 ngbDropdownToggle>Listado</button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic1" right>
-                                <button class="btn btn-default" (click)="getArchivosByTipo(0)"
-                                    ngbDropdownItem>Documentos Principales</button>
-                                <button class="btn btn-default" (click)="getArchivosByTipo(1)"
-                                    ngbDropdownItem>Permisos</button>
-                                <button class="btn btn-default" (click)="getArchivosByTipo(2)"
-                                    ngbDropdownItem>Suscripción Convenios</button>
-                                <button class="btn btn-default" (click)="getArchivosByTipo(3)" ngbDropdownItem>Personal
-                                    Contratado</button>
-                                <button class="btn btn-default" (click)="getArchivosByTipo(6)" ngbDropdownItem>Proyecto
-                                    final</button>
-                                <button class="btn btn-default" (click)="getArchivosByTipo(7)"
-                                    ngbDropdownItem>Otros</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(8)" ngbDropdownItem>Todos</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(0)" ngbDropdownItem>Documentos Principales</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(1)" ngbDropdownItem>Permisos</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(2)" ngbDropdownItem>Suscripción Convenios</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(3)" ngbDropdownItem>Personal Contratado</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(6)" ngbDropdownItem>Proyecto final</button>
+                                <button class="btn btn-default" (click)="getArchivosByTipo(7)" ngbDropdownItem>Otros</button>
                             </div>
                         </div>
                     </div>
@@ -161,42 +154,60 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-12" *ngFor="let archivo of result">
-                            <div class="card">
-                                <div class="file">
-                                    <a href="javascript:void(0);">
-                                        <div class="icon">
-                                            <i class="fa fa-file text-success" (click)="openArchivo(archivo.archivo)"></i>
-                                        </div>
-                                        <div class="file-name">
-                                            <p class="m-b-5 text-muted">{{ archivo.nombre }}</p>
-                                            <small>PDF<span
-                                                    class="date text-muted">{{archivo.createdAt | date: 'medium'}}</span></small>
-                                        </div>
-                                    </a>
+
+                        <div class="card product_item_list" *ngIf="result.length > 0">
+                            <div class="body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover m-b-0">
+                                        <thead class="thead-dark align-center">
+                                            <tr>
+                                                <th>Nombre archivo</th>
+                                                <th data-breakpoints="sm xs">Descripcion</th>
+                                                <th data-breakpoints="xs">Tipo</th>
+                                                <th>Archicos extras</th>
+                                                <th data-breakpoints="md">Ultima modificación</th>
+                                                <th data-breakpoints="xs md">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let archivo of result">
+                                            <tr>
+                                                <td>
+                                                    <a href="javascript:void(0)" (click)="openArchivo(archivo.archivo)">
+                                                        <i class="fa fa-file text-success"></i>
+                                                    </a> &nbsp;
+                                                    <span class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5,'lg', archivo)">{{archivo.nombre}}</a></span>
+                                                </td>
+                                                    
+                                                <td>{{ archivo.descripcion }}</td>
+                                                <td>{{ tipoArchivo(archivo.id_tipo) }}</td>
+                                                <td>
+                                                    <small *ngIf="!archivo.convArchivos">Ninguna</small>
+                                                    <div *ngFor="let archivoB of archivo.convArchivos">
+                                                        <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
+                                                            <i class="fa fa-file text-info"></i>
+                                                        </a> &nbsp;
+                                                        <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    {{archivo.createdAt | date: 'dd/MM/yyyy'}}
+                                                </td>
+                                                <td>
+                                                    <span *ngIf="archivo.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
+                                                    <span *ngIf="!archivo.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminado</span>
+                                                </td>
+                                                
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <ul class="list-unstyled feeds_widget">
-                                    <li *ngFor="let archivoB of archivo.convArchivos">
-                                        <div class="feeds-left">
-                                            <a type="button" (click)="openArchivo(archivoB.archivo)">
-                                                <i class="fa fa-file text-info"></i>
-                                            </a>
-                                        </div>
-                                        <div class="feeds-body">
-                                            <h4 class="title"><small
-                                                    class="float-right text-muted">{{archivoB.createdAt | date: 'mediumDate'}}</small>
-                                            </h4>
-                                            <small>{{archivoB.descripcion}}</small>
-                                        </div>
-                                    </li>
-                                </ul>
                             </div>
-                        </div>
+                        </div>     
                     </div>
 
                 </div>
 
-                <div class="tab-pane p-l-15 p-r-15" [ngClass]="{'active':fragment == 'tavPublicaciones'}">
+                <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavPublicaciones'}">
                     <h3 class="align-center">Publicaciones</h3>
                     <div class="card" *ngIf="publicaciones.length === 0">
                         <div class="body text-center">
@@ -205,58 +216,64 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive" *ngIf="publicaciones.length > 0">
-                        <table class="table table-hover m-b-0 align-center">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th data-breakpoints="xs">Tipo de publicación</th>
-                                    <th>Titulo</th>
-                                    <th>Autores</th>
-                                    <th data-breakpoints="md">Fecha</th>
-                                    <th data-breakpoints="md">Archivos</th>
-                                    <th data-breakpoints="xs md">Estado</th>
-                                    <th data-breakpoints="sm xs md">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let publicacion of publicaciones">
-                                    <td>{{publicacion.tipo}}</td>
-                                    <td>{{publicacion.titulo}}</td>
-                                    <td>
-                                        <div *ngFor="let autor of publicacion.autores">
-                                            <small>{{autor.investigadore.persona.nombres}} {{autor.investigadore.persona.paterno}} {{autor.investigadore.persona.materno}}</small>
-                                        </div>
-                                    </td>
-                                    <td>{{publicacion.fecha | date }}</td>
-                                    <td>
-                                        <div *ngFor="let archivoB of publicacion.archivos">
-                                            <a type="button" (click)="openArchivo(archivoB.archivo)">
-                                                <i class="fa fa-file text-info"></i>
-                                            </a>
-                                            <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="publicacion.estado===true"
-                                            class="badge badge-success bg-success text-white">True</span>
-                                        <span *ngIf="publicacion.estado===false"
-                                            class="badge badge-danger bg-danger text-white">False</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', 1)">
-                                            <i class="icon-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarPublicacion(publicacion.id_publicacion)">
-                                            <i class="icon-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card product_item_list" *ngIf="publicaciones.length > 0">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead class="thead-dark align-center">
+                                        <tr>
+                                            <th data-breakpoints="xs">Tipo de publicación</th>
+                                            <th>Titulo</th>
+                                            <th>Autores</th>
+                                            <th data-breakpoints="md">Fecha</th>
+                                            <th data-breakpoints="md">Archivos</th>
+                                            <th data-breakpoints="xs md">Estado</th>
+                                            <th data-breakpoints="sm xs md">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let publicacion of publicaciones">
+                                            <td>{{publicacion.tipo}}</td>
+                                            <td>{{publicacion.titulo}}</td>
+                                            <td>
+                                                <div *ngFor="let autor of publicacion.autores">
+                                                    <small>{{autor.investigadore.persona.nombres}} {{autor.investigadore.persona.paterno}} {{autor.investigadore.persona.materno}}</small>
+                                                </div>
+                                            </td>
+                                            <td>{{publicacion.fecha | date }}</td>
+                                            <td>
+                                                <div *ngFor="let archivoB of publicacion.archivos">
+                                                    <a type="button" (click)="openArchivo(archivoB.archivo)">
+                                                        <i class="fa fa-file text-info"></i>
+                                                    </a>
+                                                    &nbsp;
+                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="publicacion.estado===true"
+                                                    class="badge badge-success bg-success text-white">True</span>
+                                                <span *ngIf="publicacion.estado===false"
+                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', 1)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                                    <i class="icon-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary" (click)="eliminarPublicacion(publicacion.id_publicacion)" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                                    <i class="icon-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="tab-pane p-l-15 p-r-15" [ngClass]="{'active':fragment == 'tavBasica'}">
+                <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavBasica'}">
                     <h3 class="align-center">Basica tecnicas</h3>
                     <div class="card" *ngIf="basica_tecnicas.length === 0">
                         <div class="body text-center">
@@ -265,51 +282,55 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive" *ngIf="basica_tecnicas.length > 0">
-                        <table class="table table-hover m-b-0 align-center">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Tipo de investigación</th>
-                                    <th data-breakpoints="sm xs">Area de investigación</th>
-                                    <th>Tipo de proyecto</th>
-                                    <th data-breakpoints="xs">Carga horaria</th>
-                                    <th>Unidades de la <i>UMSA</i></th>
-                                    <th data-breakpoints="xs md">Estado</th>
-                                    <th data-breakpoints="sm xs md">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let basica_tecnica of basica_tecnicas">
-                                    <td>{{basica_tecnica.tipo}}</td>
-                                    <td>{{basica_tecnica.area}}</td>
-                                    <td>{{basica_tecnica.tipo_p}}</td>
-                                    <td>{{basica_tecnica.carga_h}}</td>
-                                    <td>
-                                        <div *ngFor="let unidad of basica_tecnica.unidades">
-                                            <small>{{unidad.nombre}}</small>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <span *ngIf="basica_tecnica.estado===true"
-                                            class="badge badge-success bg-success text-white">True</span>
-                                        <span *ngIf="basica_tecnica.estado===false"
-                                            class="badge badge-danger bg-danger text-white">False</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalBaseTecnica(content1,'lg', basica_tecnica.id_basica_tecnica)">
-                                            <i class="icon-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarBasicaTecnica(basica_tecnica.id_basica_tecnica)">
-                                            <i class="icon-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card product_item_list" *ngIf="basica_tecnicas.length > 0">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead class="thead-dark align-center">
+                                        <tr>
+                                            <th>Tipo de investigación</th>
+                                            <th data-breakpoints="sm xs">Area de investigación</th>
+                                            <th>Tipo de proyecto</th>
+                                            <th data-breakpoints="xs">Carga horaria</th>
+                                            <th>Unidades de la <i>UMSA</i></th>
+                                            <th data-breakpoints="xs md">Estado</th>
+                                            <th data-breakpoints="sm xs md">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let basica_tecnica of basica_tecnicas">
+                                            <td>{{basica_tecnica.tipo}}</td>
+                                            <td>{{basica_tecnica.area}}</td>
+                                            <td>{{basica_tecnica.tipo_p}}</td>
+                                            <td>{{basica_tecnica.carga_h}}</td>
+                                            <td>
+                                                <div *ngFor="let unidad of basica_tecnica.unidades">
+                                                    <small>{{unidad.nombre}}</small>
+                                                </div>
+                                            </td>
+        
+                                            <td>
+                                                <span *ngIf="basica_tecnica.estado===true"
+                                                    class="badge badge-success bg-success text-white">True</span>
+                                                <span *ngIf="basica_tecnica.estado===false"
+                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalBaseTecnica(content1,'lg', basica_tecnica.id_basica_tecnica)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                                    <i class="icon-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary" (click)="eliminarBasicaTecnica(basica_tecnica.id_basica_tecnica)" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                                    <i class="icon-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="tavLugar" [ngClass]="{'active':fragment == 'tavLugar'}">
+                <div class="tab-pane p-l-0 p-r-0" id="tavLugar" [ngClass]="{'active':fragment == 'tavLugar'}">
                     <h3 class="align-center">Lugar de desarrollo</h3>
                     <div class="card" *ngIf="lugar_desarrollos.length === 0">
                         <div class="body text-center">
@@ -318,65 +339,69 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive" *ngIf="lugar_desarrollos.length > 0">
-                        <table class="table table-hover m-b-0 align-center">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Departamento</th>
-                                    <th data-breakpoints="sm xs">Provincia</th>
-                                    <th>Municipio</th>
-                                    <th data-breakpoints="xs">Localidad o comunidad</th>
-                                    <th>Latitud y Logintud <i>Maxima</i></th>
-                                    <th>Latitud y Logintud <i>Minima</i></th>
-                                    <th data-breakpoints="xs md">Estado</th>
-                                    <th data-breakpoints="sm xs md">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let lugar_desarrollo of lugar_desarrollos">
-                                    <td>
-                                        <span *ngIf="lugar_desarrollo.departamento==='BE'">Beni</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='CH'">Chuquicasa</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='CB'">Cochabamba</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='LP'">La Paz</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='OR'">Oruro</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='PD'">Pando</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='PT'">Potosi</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='SC'">Santa Cruz de la
-                                            Sierra</span>
-                                        <span *ngIf="lugar_desarrollo.departamento==='TJ'">Tarija</span>
-                                    </td>
-                                    <td>{{lugar_desarrollo.provincia}}</td>
-                                    <td>{{lugar_desarrollo.municipio}}</td>
-                                    <td>{{lugar_desarrollo.localidad}}</td>
-                                    <td>
-                                        {{lugar_desarrollo.latmax}} <br>
-                                        {{lugar_desarrollo.lonmax}}
-                                    </td>
-                                    <td>
-                                        {{lugar_desarrollo.latmin}} <br>
-                                        {{lugar_desarrollo.lonmin}}
-                                    </td>
-                                    <td>
-                                        <span *ngIf="lugar_desarrollo.estado===true"
-                                            class="badge badge-success bg-success text-white">True</span>
-                                        <span *ngIf="lugar_desarrollo.estado===false"
-                                            class="badge badge-danger bg-danger text-white">False</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalLugarDesarrollo(content2, 'lg', lugar_desarrollo.id_lugar_desarrollo)">
-                                            <i class="icon-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarLugarDesarrollo(lugar_desarrollo.id_lugar_desarrollo)">
-                                            <i class="icon-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card product_item_list" *ngIf="lugar_desarrollos.length > 0">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead class="thead-dark align-center">
+                                        <tr>
+                                            <th>Departamento</th>
+                                            <th data-breakpoints="sm xs">Provincia</th>
+                                            <th>Municipio</th>
+                                            <th data-breakpoints="xs">Localidad o comunidad</th>
+                                            <th>Latitud y Logintud <i>Maxima</i></th>
+                                            <th>Latitud y Logintud <i>Minima</i></th>
+                                            <th data-breakpoints="xs md">Estado</th>
+                                            <th data-breakpoints="sm xs md">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let lugar_desarrollo of lugar_desarrollos">
+                                            <td>
+                                                <span *ngIf="lugar_desarrollo.departamento==='BE'">Beni</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='CH'">Chuquicasa</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='CB'">Cochabamba</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='LP'">La Paz</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='OR'">Oruro</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='PD'">Pando</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='PT'">Potosi</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='SC'">Santa Cruz de la
+                                                    Sierra</span>
+                                                <span *ngIf="lugar_desarrollo.departamento==='TJ'">Tarija</span>
+                                            </td>
+                                            <td>{{lugar_desarrollo.provincia}}</td>
+                                            <td>{{lugar_desarrollo.municipio}}</td>
+                                            <td>{{lugar_desarrollo.localidad}}</td>
+                                            <td>
+                                                {{lugar_desarrollo.latmax}} <br>
+                                                {{lugar_desarrollo.lonmax}}
+                                            </td>
+                                            <td>
+                                                {{lugar_desarrollo.latmin}} <br>
+                                                {{lugar_desarrollo.lonmin}}
+                                            </td>
+                                            <td>
+                                                <span *ngIf="lugar_desarrollo.estado===true"
+                                                    class="badge badge-success bg-success text-white">True</span>
+                                                <span *ngIf="lugar_desarrollo.estado===false"
+                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalLugarDesarrollo(content2, 'lg', lugar_desarrollo.id_lugar_desarrollo)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                                    <i class="icon-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary" (click)="eliminarLugarDesarrollo(lugar_desarrollo.id_lugar_desarrollo)" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                                    <i class="icon-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="tab-pane p-l-15 p-r-15" id="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}" *ngIf="(difusiones | searchDifusiones: valorBusquedaDifusion) as result">
+                <div class="tab-pane p-l-0 p-r-0" id="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}" *ngIf="(difusiones | searchDifusiones: valorBusquedaDifusion) as result">
                     <h3 class="align-center">Difusión</h3>
                     <div class="row">
                         <div class="col-lg-5 col-md-8 col-sm-12">
@@ -391,18 +416,11 @@
                                 Listado
                             </button>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic1" right>
-                                <button class="btn btn-default" (click)="obtenerDifusion(1)" ngbDropdownItem>
-                                    Cursos, Seminarios y Talleres
-                                </button>
-                                <button class="btn btn-default" (click)="obtenerDifusion(2)" ngbDropdownItem>
-                                    Eventos cientificos
-                                </button>
-                                <button class="btn btn-default" (click)="obtenerDifusion(3)" ngbDropdownItem>
-                                    Notas de prensa
-                                </button>
-                                <button class="btn btn-default" (click)="obtenerDifusion(4)" ngbDropdownItem>
-                                    Exposiciones y conferencias
-                                </button>
+                                <button class="btn btn-default" (click)="obtenerDifusion(5)" ngbDropdownItem> Todos </button>
+                                <button class="btn btn-default" (click)="obtenerDifusion(1)" ngbDropdownItem> Cursos, Seminarios y Talleres </button>
+                                <button class="btn btn-default" (click)="obtenerDifusion(2)" ngbDropdownItem> Eventos cientificos </button>
+                                <button class="btn btn-default" (click)="obtenerDifusion(3)" ngbDropdownItem> Notas de prensa </button>
+                                <button class="btn btn-default" (click)="obtenerDifusion(4)" ngbDropdownItem> Exposiciones y conferencias </button>
                             </div>
                         </div>
                     </div>
@@ -414,56 +432,177 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive" *ngIf="result.length > 0">
-                        <table class="table table-hover m-b-0 align-center">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Titulo</th>
-                                    <th data-breakpoints="sm xs">Objetivo</th>
-                                    <th>Lugar de realizacion</th>
-                                    <th data-breakpoints="xs">Fecha</th>
-                                    <th data-breakpoints="xs md">Archivos</th>
-                                    <th data-breakpoints="xs md">Estado</th>
-                                    <th data-breakpoints="sm xs md">Acción</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let difusion of result">
-                                    <td>{{difusion.titulo}}</td>
-                                    <td>{{difusion.objetivo}}</td>
-                                    <td>{{difusion.lugar}}</td>
-                                    <td>
-                                        <span *ngIf="difusion.fecha">{{difusion.fecha | date:'yyyy-MM-dd'}}</span>
-                                        <span *ngIf="!difusion.fecha">{{difusion.fechaini | date:'yyyy-MM-dd'}} a
-                                            {{difusion.fechafin | date:'yyyy-MM-dd'}}</span>
-                                    </td>
-                                    <td>
-                                        <div *ngFor="let archivoB of difusion.archivos">
-                                            <a type="button" (click)="openArchivo(archivoB.archivo)">
-                                                <i class="fa fa-file text-info"></i>
-                                            </a>
-                                            <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span *ngIf="difusion.estado===true"
-                                            class="badge badge-success bg-success text-white">True</span>
-                                        <span *ngIf="difusion.estado===false"
-                                            class="badge badge-danger bg-danger text-white">False</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalDifusion(content3, 'lg', difusion)">
-                                            <i class="icon-pencil"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary" (click)="eliminarDifusion(difusion)">
-                                            <i class="icon-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="card product_item_list" *ngIf="result.length > 0">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead class="thead-dark align-center">
+                                        <tr>
+                                            <th>Titulo</th>
+                                            <th data-breakpoints="sm xs">Objetivo</th>
+                                            <th>Lugar de realizacion</th>
+                                            <th data-breakpoints="xs">Fecha</th>
+                                            <th data-breakpoints="xs md">Archivos</th>
+                                            <th data-breakpoints="xs md">Estado</th>
+                                            <th data-breakpoints="sm xs md">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let difusion of result">
+                                            <td>{{difusion.titulo}}</td>
+                                            <td>{{difusion.objetivo}}</td>
+                                            <td>{{difusion.lugar}}</td>
+                                            <td>
+                                                <span *ngIf="difusion.fecha">{{difusion.fecha | date:'yyyy-MM-dd'}}</span>
+                                                <span *ngIf="!difusion.fecha">{{difusion.fechaini | date:'yyyy-MM-dd'}} a
+                                                    {{difusion.fechafin | date:'yyyy-MM-dd'}}</span>
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let archivoB of difusion.archivos">
+                                                    <a type="button" (click)="openArchivo(archivoB.archivo)">
+                                                        <i class="fa fa-file text-info"></i>
+                                                    </a> &nbsp;
+                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="difusion.estado===true"
+                                                    class="badge badge-success bg-success text-white">True</span>
+                                                <span *ngIf="difusion.estado===false"
+                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalDifusion(content3, 'lg', difusion)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                                    <i class="icon-pencil"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-outline-secondary" (click)="eliminarDifusion(difusion)" data-toggle="tooltip" data-placement="right" title="Borrar">
+                                                    <i class="icon-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavSeguimiento'}">
+                    <h3 class="align-center">Seguimientos</h3>
+                    <div class="card" *ngIf="seguimientos.length === 0">
+                        <div class="body text-center">
+                            <div class="not_found">
+                                    <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card product_item_list" *ngIf="seguimientos.length > 0">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0 ">
+                                    <thead class="thead-dark align-center">
+                                        <tr>
+                                            <th data-breakpoints="xs">Tipo de seguimiento</th>
+                                            <th>Revision</th>
+                                            <th>Observaciones</th>
+                                            <th data-breakpoints="md">Archivos</th>
+                                            <th data-breakpoints="xs md">Estado</th>
+                                            <th data-breakpoints="sm xs md">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let seguimiento of seguimientos">
+                                            <td>{{seguimiento.tipo}}</td>
+                                            <td>{{seguimiento.revision}}</td>
+                                            <td>
+                                                {{seguimiento.observaciones}}
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let archivoB of seguimiento.archivos">
+                                                    <a type="button" (click)="openArchivo(archivoB.archivo)">
+                                                        <i class="fa fa-file text-info"></i>
+                                                    </a> &nbsp;
+                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="seguimiento.estado===true"
+                                                    class="badge badge-success bg-success text-white">True</span>
+                                                <span *ngIf="seguimiento.estado===false"
+                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevoSeguimiento(content7, 'lg', seguimiento.id_seguimiento)" data-toggle="tooltip" data-placement="right" title="Ver">
+                                                    <i class="icon-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavPeticion'}">
+                    <h3 class="align-center">Peticiones</h3>
+                    <div class="card" *ngIf="peticiones.length === 0">
+                        <div class="body text-center">
+                            <div class="not_found">
+                                    <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card product_item_list" *ngIf="peticiones.length > 0">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0">
+                                    <thead class="thead-dark align-center">
+                                        <tr>
+                                            <th data-breakpoints="xs">Tipo de petición</th>
+                                            <th>Motivos</th>
+                                            <th>Detalles</th>
+                                            <th data-breakpoints="md">Archivos</th>
+                                            <th data-breakpoints="xs md">Estado</th>
+                                            <th data-breakpoints="sm xs md">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let peticion of peticiones">
+                                            <td>{{peticion.tipo}}</td>
+                                            <td>{{peticion.motivos}}</td>
+                                            <td>
+                                                {{peticion.detalle}}
+                                            </td>
+                                            <td>
+                                                <div *ngFor="let archivoB of peticion.archivos">
+                                                    <a type="button" target="_blank" href="{{who +'peticiones/'+ archivoB.archivo}}">
+                                                        <i class="fa fa-file text-info"></i>
+                                                    </a> &nbsp;
+                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span *ngIf="peticion.estado===true"
+                                                    class="badge badge-success bg-success text-white">True</span>
+                                                <span *ngIf="peticion.estado===false"
+                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalPeticion(content8, 'lg', peticion.id_peticion)" data-toggle="tooltip" data-placement="right" title="Ver">
+                                                    <i class="icon-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -1335,3 +1474,146 @@
 		</form>
 	</div>
 </ng-template> 
+
+<!-- MODAL Guardar SEGUIMIENTO-->
+<ng-template #content7 let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title">Datos de seguimiento</h4>
+	</div>
+	<div class="modal-body">
+		<form class="container" #seguimientoForm="ngForm">
+            <div class="form-group row">
+                <label class="col-12 col-md-3">Tipo de publicación: </label>
+                <div class="col-12 col-md-9">
+                    <select [(ngModel)]="seguimiento.tipo" class="form-control" name="tipo" #tipo="ngModel"
+                        [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || seguimientoForm.submitted)}"
+                        required>
+                        <option value=""> --Seleccionar el tipo de seguimiento-- </option>
+                        <option value="Inicio">Inicio</option>
+                        <option value="Ejecucion">Ejecucion</option>
+                        <option value="Finalizacion">Finalizacion</option>
+                    </select>
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="!tipo.valid && (tipo.touched || seguimientoForm.submitted)">
+                        <li class="parsley-required" *ngIf="tipo.hasError('required')">Tipo de seguimiento
+                            requerida.</li>
+                    </ul>
+                </div>
+            </div>
+			<div class="form-group row">
+				<label class="col-sm-3 col-12" for="tipo">Revisión: </label>
+				<div class="col-sm-9 col-12">
+					<textarea [(ngModel)]="seguimiento.revision" rows="3" cols="30" class="form-control" name="revision" #revision="ngModel" placeholder="Revision"
+						[ngClass]="{'parsley-error':!revision.valid && (revision.touched || seguimientoForm.submitted)}"
+                        required>
+                    </textarea>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!revision.valid && (revision.touched || seguimientoForm.submitted)">
+						<li class="parsley-required" *ngIf="revision.hasError('required')">Revision requerido.
+						</li>
+					</ul>
+				</div>
+            </div>
+            <div class="form-group row">
+				<label class="col-sm-3 col-12" for="tipo">Observaciones: </label>
+				<div class="col-sm-9 col-12">
+					<textarea [(ngModel)]="seguimiento.observaciones" rows="3" cols="30" class="form-control" name="observaciones" #observaciones="ngModel" placeholder="Observaciones"
+						[ngClass]="{'parsley-error':!observaciones.valid && (observaciones.touched || seguimientoForm.submitted)}"
+                        required>
+                    </textarea>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!observaciones.valid && (observaciones.touched || seguimientoForm.submitted)">
+						<li class="parsley-required" *ngIf="observaciones.hasError('required')">Observaciones requerido.
+						</li>
+					</ul>
+				</div>
+            </div>
+
+			<div class="form-group">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="estado" name="estado"
+						[(ngModel)]="seguimiento.estado">
+					<label class="form-check-label" for="estado">Estado</label>
+				</div>
+            </div>
+			<div class="text-right">
+                <button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Salir</button>
+            </div>
+		</form>
+	</div>
+</ng-template>
+
+<ng-template #content8 let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Información Peticion</h4>
+    </div>
+    <div class="modal-body">
+        <form class="container" #peticionForm="ngForm">
+            
+            <div class="form-group row">
+                <label class="col-12 col-md-3">Tipo de peticion: </label>
+                <div class="col-12 col-md-9">
+                    <select [(ngModel)]="peticion.tipo" class="form-control" name="tipo" #tipo="ngModel"
+                        [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || peticionForm.submitted)}"
+                        required>
+                        <option value=""> --Seleccionar el tipo de peticion-- </option>
+                        <option value="Manifestaciones">Manifestaciones</option>
+                        <option value="Peticiones de información">Peticiones de información</option>
+                        <option value="Consultas">Consultas</option>
+                    </select>
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="!tipo.valid && (tipo.touched || peticionForm.submitted)">
+                        <li class="parsley-required" *ngIf="tipo.hasError('required')">Tipo de peticion
+                            requerida.</li>
+                    </ul>
+                </div>
+            </div>
+			<div class="form-group row">
+				<label class="col-sm-3 col-12" for="tipo">Motivos: </label>
+				<div class="col-sm-9 col-12">
+					<textarea [(ngModel)]="peticion.motivos" rows="3" cols="30" class="form-control" name="motivos" #motivos="ngModel" placeholder="motivos"
+						[ngClass]="{'parsley-error':!motivos.valid && (motivos.touched || peticionForm.submitted)}"
+                        required>
+                    </textarea>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!motivos.valid && (motivos.touched || peticionForm.submitted)">
+						<li class="parsley-required" *ngIf="motivos.hasError('required')">Motivos requerido.
+						</li>
+					</ul>
+				</div>
+            </div>
+            <div class="form-group row">
+				<label class="col-sm-3 col-12" for="tipo">Detalles: </label>
+				<div class="col-sm-9 col-12">
+					<textarea [(ngModel)]="peticion.detalle" rows="3" cols="30" class="form-control" name="detalle" #detalle="ngModel" placeholder="Detalles de la peticion"
+						[ngClass]="{'parsley-error':!detalle.valid && (detalle.touched || peticionForm.submitted)}"
+                        required>
+                    </textarea>
+					<ul class="parsley-errors-list filled"
+						*ngIf="!detalle.valid && (detalle.touched || peticionForm.submitted)">
+						<li class="parsley-required" *ngIf="detalle.hasError('required')">Detalles requerido.
+						</li>
+					</ul>
+				</div>
+            </div>
+            <button type="button" class="btn btn-danger btn-s" (click)="cancel()"
+                (click)="modal.dismiss('Close click')">
+                <span class="glyphicon glyphicon-ban-circle"></span> Salir
+            </button>
+            
+        </form>
+    </div>
+</ng-template>
+
+<ng-template #content9 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">¿Estas seguro de borrar la ?</h4>
+    </div>
+    <!-- <div class="modal-body">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales orci ante, sed ornare eros vestibulum ut. Ut accumsan vitae eros sit amet Integer dapibus, mi ac tempor varius, purus nibh mattis erat, vitae porta nunc nisi non tellus. Vivamus mollis ante non massa egestas fringilla. Vestibulum egestas consectetur nunc at ultricies. Morbi quis consectetur nunc.</p>
+    </div> -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close('Ok click')">Si</button>
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss('Close click')">No</button>
+    </div>
+</ng-template>

@@ -35,6 +35,10 @@ import { ToastrService } from 'ngx-toastr';
 import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.service';
 import { AutoresService } from 'src/app/services/proyecto/autores.service';
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
+import { SeguimientosService } from 'src/app/services/proyecto/seguimientos.service';
+import { SeguiArchivosService } from 'src/app/services/proyecto/segui-archivos.service';
+import { PeticionesService } from 'src/app/services/proyecto/peticiones.service';
+import { PetiArchivosService } from 'src/app/services/proyecto/peti-archivos.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -341,6 +345,14 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     tipo: '',
     estado: true
   };
+  // seguimiento
+  seguimiento: any = {
+    tipo: '',
+    estado: true
+  };
+  seguimientos: any = [];
+  peticiones: any = [];
+  peticion: any = {};
 
   constructor(
     private sidebarService: SidebarService,
@@ -375,7 +387,11 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private _servicePublicaciones: PublicacionesService,
     private _servicePubliArchivos: PubliArchivosService,
-    private _serviceAutores: AutoresService
+    private _serviceAutores: AutoresService,
+    private _serviceSeguimientos: SeguimientosService,
+    private _serviceSeguiArchivos: SeguiArchivosService,
+    private _servicePeticiones: PeticionesService,
+    private _servicePetiArchivos: PetiArchivosService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -409,7 +425,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       this.id = params.id;
     });
     this.getProArchivosByIdProyecto(this.id);
-    this.getArchivosByTipo(0);
+    this.getArchivosByTipo(8);
     this.getProyecto(this.id);
 
     // buscador archivos
@@ -420,9 +436,11 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
 
     this.obtenerBasicaTecnicas();
     this.obtenerLugarDesarrollos();
-    this.obtenerDifusion(1);
-    this.listado_difusion = 'Cursos, Seminarios y Talleres';
+    this.obtenerDifusion(5);
+    this.listado_difusion = 'Todas las difusiones';
     this.obtenerPublicaciones(this.id);
+    this.obtenerSeguimientos();
+    this.obtenerPeticiones();
   }
   getInvestigadoresByProyecto() {
     this._serviceProyecto.getProyecto(this.id, this.token)
@@ -561,6 +579,69 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         .then(responseProyArch => {
           this.archivos = responseProyArch.proy_archivos;
           // console.log(responseProyArch);
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      case 8:
+        this.tituloArch = 'Todos los documentos';
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 1, this.token)
+        .then(responseProyArch => {
+          this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+          this._servicePermisoArchivos.getPermisoArchivosByIdProyecto(this.id, this.token)
+          .then(responsePermisoArch => {
+            this.archivos = this.archivos.concat(responsePermisoArch.permiso_archivos);
+            this._serviceConvenios.getConveniosByIdProyecto(this.id, this.token)
+            .then(responseConv => {
+              responseConv.convenios.forEach(convenio => {
+                var convArch = {
+                  id_convenio: convenio.id_convenio,
+                  archivo:  convenio.archivo,
+                  nombre: convenio.nombre_archivo,
+                  descripcion: convenio.descripcion_archivo,
+                  id_tipo: convenio.id_tipo,
+                  createdAt: convenio.createdAt,
+                  convArchivos: Array,
+                  estado: convenio.estado
+                };
+                this._serviceConvArchivos.getConvArchivosByIdConvenio(convenio.id_convenio, this.token)
+                .then(responseConvArch => {
+                  convArch.convArchivos = responseConvArch.conv_archivos;
+                  this.archivos.push(convArch);
+                }).catch(error => { console.log('error al obtener convenio archivos', error); });
+              });
+              // console.log(this.archivos);
+              this._serviceContratados.getContratadosByIdProyecto(this.id, this.token)
+              .then(responseContra => {
+                responseContra.contratados.forEach(contratado => {
+                  var contraArch = {
+                    id_contratado: contratado.id_contratado,
+                    archivo:  contratado.archivo,
+                    nombre: contratado.nombre_archivo,
+                    descripcion: contratado.descripcion_archivo,
+                    id_tipo: contratado.id_tipo,
+                    createdAt: contratado.createdAt,
+                    convArchivos: Array,
+                    estado: contratado.estado
+                  };
+                  this._serviceContraArchivos.getContraArchivosByIdContratado(contratado.id_contratado, this.token)
+                  .then(responseContraArch => {
+                    contraArch.convArchivos = responseContraArch.contra_archivos;
+                    this.archivos.push(contraArch);
+                  }).catch(error => { console.log('error al obtener contratado archivo por id contratado', error); });
+                });
+                // console.log(this.archivos);
+                this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
+                .then(responseProyArch => {
+                  this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                  // console.log(responseProyArch);
+                  this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
+                  .then(responseProyArch => {
+                    this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                    console.log(responseProyArch);
+                  }).catch(error => { console.log('error al obtener proy_archivos', error); });
+                }).catch(error => { console.log('error al obtener proy_archivos', error); });
+              }).catch(error => { console.log('error al obtener contratados', error); });
+            }).catch(error => { console.log('error al obtener convenios', error); });
+          }).catch(error => { console.log('error al obtener permiso archivos', error); });
         }).catch(error => { console.log('error al obtener proy_archivos', error); });
         break;
       default:
@@ -775,6 +856,11 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       .then(response => {
         this.archivo = response.expo_archivo;
       }).catch(error => { console.log('Error al obtener expo archivo', error); });
+    } else if (archivo.id_segui_archivo) {
+      this._serviceSeguiArchivos.getSeguiArchivoById(archivo.id_segui_archivo, this.token)
+      .then(response => {
+        this.archivo = response.segui_archivo;
+      }).catch(error => { console.log('Error al obtener segui archivo', error); });
     }
   }
 
@@ -786,43 +872,61 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       console.log('actualizar');
       this._serviceBasicaTecnicas.update(this.basica_tecnica.id_basica_tecnica, this.basica_tecnica, this.token)
       .then(responseBT => {
-        console.log(responseBT.basica_tecnica);
-        this._serviceUnidades.deleteUnidadByIdBasicaTecnica(responseBT.basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseUnis => {
-          this.unidades.forEach(unidad => {
-            var uni = {
-              nombre: unidad.nombre,
-              id_basica_tecnica: responseBT.basica_tecnica.id_basica_tecnica
-            };
-            this._serviceUnidades.save(uni, this.token)
-            .then(response => { })
-            .catch(error => { console.log('Error al crear unidad', error); });
-          });
+        if (this.unidades.length > 0) {
+          this._serviceUnidades.deleteUnidadesByIdBasicaTecnica(responseBT.basica_tecnica.id_basica_tecnica, this.token)
+          .then(responseUnis => {
+            var contador = 0;
+            this.unidades.forEach(unidad => {
+              var uni = {
+                  nombre: unidad.nombre,
+                  id_basica_tecnica: responseBT.basica_tecnica.id_basica_tecnica
+              };
+              this._serviceUnidades.save(uni, this.token)
+              .then(response => {
+                contador ++;
+                if (this.unidades.length === contador) {
+                  this.obtenerBasicaTecnicas();
+                  this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                }
+              }).catch(error => { console.log('Error al crear unidad', error); });
+            });
+          }).catch(error => { console.log('Error al eliminar unidade por id_basica_tecnica', error); });
+        } else {
           this.obtenerBasicaTecnicas();
-        }).catch(error => { console.log('Error al eliminar unidade por id_basica_tecnica', error); });
+          this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }
       }).catch(error => { console.log('Error al actualizar basica tecnica', error); });
     } else {
       console.log('guardar');
       this._serviceBasicaTecnicas.save(this.basica_tecnica, this.token)
       .then(response => {
-        console.log(response.basica_tecnicas);
-        this.obtenerBasicaTecnicas();
-        this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        this.unidades.forEach(unidad => {
-          unidad.id_basica_tecnica = response.basica_tecnicas.id_basica_tecnica;
-          this._serviceUnidades.save(unidad, this.token)
-          .then(responseUnidad => {
-            console.log(responseUnidad);
-          }).catch(error => { console.log('Error al guardar la unidad ', error); });
-        });
-      }).catch(error => { 
+        // console.log(response.basica_tecnicas);
+        if (this.unidades.length > 0) {
+          var contador = 0;
+          this.unidades.forEach(unidad => {
+            unidad.id_basica_tecnica = response.basica_tecnicas.id_basica_tecnica;
+            this._serviceUnidades.save(unidad, this.token)
+            .then(responseUnidad => {
+              // console.log(responseUnidad);
+              contador++;
+              if (contador === this.unidades.length) {
+                this.obtenerBasicaTecnicas();
+                this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              }
+            }).catch(error => { console.log('Error al guardar la unidad ', error); });
+          });
+        } else {
+          this.obtenerBasicaTecnicas();
+          this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }
+      }).catch(error => {
         console.log('error al crear el pryArchivo', error);
         this.toastr.error('Error al guardar Basica tecnica', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     }
     this.modalService.dismissAll();
   }
-  
+
   guardarLugarDesarrollo() {
     this.lugar_desarrollo.id_proyecto = this.id;
     this.lugar_desarrollo.latmax = parseFloat(this.lugar_desarrollo.latmax);
@@ -834,14 +938,18 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       console.log('Actualizar');
       this._serviceLugarDesarrollos.update(this.lugar_desarrollo.id_lugar_desarrollo, this.lugar_desarrollo, this.token)
       .then(responseLugar => {
-        console.log(responseLugar.lugar_desarrollo);
+        // console.log(responseLugar.lugar_desarrollo);
+        this.toastr.success('Lugar de desarrollo actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         this.obtenerLugarDesarrollos();
-      }).catch(error => { console.log('Error al actualizar lugar desarrollo', error); });
+      }).catch(error => { 
+        console.log('Error al actualizar lugar desarrollo', error);
+        this.toastr.error('Error al actualizar Lugar Desarrollo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
     } else {
       console.log('Guardar');
       this._serviceLugarDesarrollos.save(this.lugar_desarrollo, this.token)
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.obtenerLugarDesarrollos();
         this.toastr.success('Lugar de desarrollo guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       }).catch(error => { 
@@ -857,93 +965,80 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     // console.log(this.difusion);
     // console.log(this.files);
     // console.log(this.datosArchivo);
-    var sw = true;
     // console.log(this.expositores);
-
     if (this.difusion.id_curso) {
       // actualizar curso
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceCursos.update(this.difusion.id_curso, this.difusion, this.token)
       .then(response => {
-        // console.log(response.curso);
-        sw = true;
         // actualizar expositores
-        this._serviceExpositores.deleteExpositorByIdCurso(response.curso.id_curso, this.token)
-        .then(responseCur => {
-          // console.log(responseCur);
-          this.expositores.forEach(expositor => {
-            var expo = {
-              id_curso: response.curso.id_curso,
-              nombres: expositor.nombres
-            };
-            this._serviceExpositores.save(expo, this.token)
-            .then(responseE => {  })
-            .catch(error => { 
-              console.log('Error al crear expositor', error);
-              // this.toastr.error('Error al guardar expositor', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-            });
-          });
-          // guardar archivos cursos
-          if (this.files) {
-            for (let i = 0; i < this.files.length; i++) {
-              const file = this.files[i];
-              var curso_archivo = {
+        if (this.expositores.length > 0 || this.files.length > 0) {
+          this._serviceExpositores.deleteExpositorByIdCurso(response.curso.id_curso, this.token)
+          .then(responseCur => {
+            // console.log(responseCur);
+            this.expositores.forEach(expositor => {
+              var expo = {
                 id_curso: response.curso.id_curso,
-                archivo: '',
-                nombre: this.datosArchivo[i].nombre,
-                descripcion: this.datosArchivo[i].descripcion,
-                id_tipo: '10'
+                nombres: expositor.nombres
               };
-              // console.log(curso_archivo);
-              this._serviceCursoArchivos.save(curso_archivo, this.token)
-              .then(responseArchivo => {
-                console.log(responseArchivo);
-                sw = true;
-                this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
-                .then(responseFile => {
-                  // console.log(responseFile);
-                  sw = true;
-                }).catch(error => { 
-                  console.log('error al subir el archivo', error);
-                  sw = false;
-                  // this.toastr.error('Error al subir archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                });
-                this.obtenerDifusion(1);
-              })
+              this._serviceExpositores.save(expo, this.token)
+              .then(responseE => {  })
               .catch(error => {
-                console.log('error al crear curso archivo', error);
-                sw = false;
-                // this.toastr.error('Error al guardar archicos de curso ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                console.log('Error al crear expositor', error);
+                // this.toastr.error('Error al guardar expositor', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               });
-              
-
+            });
+            // guardar archivos cursos
+            if (this.files.length > 0) {
+              var contador = 0;
+              for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+                var curso_archivo = {
+                  id_curso: response.curso.id_curso,
+                  archivo: '',
+                  nombre: this.datosArchivo[i].nombre,
+                  descripcion: this.datosArchivo[i].descripcion,
+                  id_tipo: '10'
+                };
+                // console.log(curso_archivo);
+                this._serviceCursoArchivos.save(curso_archivo, this.token)
+                .then(responseArchivo => {
+                  // console.log(responseArchivo);
+                  this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
+                  .then(responseFile => {
+                    contador++;
+                    if (contador === this.files.length) {
+                      this.toastr.success('Curso, Seminario o Taller actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                      this.obtenerDifusion(1);
+                    }
+                  }).catch(error => { console.log('error al subir el archivo', error); });
+                }).catch(error => { console.log('error al crear curso archivo', error); });
+              }
+            } else {
+              this.toastr.success('Curso, Seminario o Taller actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              this.obtenerDifusion(1);
             }
-          }
-          if (sw) {
-            this.obtenerDifusion(1);
-            this.toastr.success('Curso, Seminario o Taller actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-          } else {
-            this.toastr.error('Error al subir archivos de Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-          }
-
-        }).catch(error => { console.log('Error al eliminar expositores por id_curso', error); });
+          }).catch(error => { console.log('Error al eliminar expositores por id_curso', error); });
+        } else {
+          this.obtenerDifusion(1);
+          this.toastr.success('Curso, Seminario o Taller actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }
       }).catch(error => { 
         console.log('Error al actualizar curso', error);
         this.toastr.error('Error al actualizar curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
 
     } else if (this.difusion.id_evento) {
-      sw = false;
       // actualizar evento
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceEventos.update(this.difusion.id_evento, this.difusion, this.token)
       .then(response => {
         // console.log(response);
-        sw = true;
         // guardar archivo eventos
-        if (this.files) {
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var evento_archivo = {
               id_evento: response.evento.id_evento,
@@ -956,37 +1051,34 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
             this._serviceEventoArchivos.save(evento_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = false;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-evento-archivo/' + responseArchivo.evento_archivos.id_evento_archivo, this.files[i], this.token)
               .then(responseFile => {
                 // console.log(responseFile);
-                sw = true;
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-              this.obtenerDifusion(2);
-            }).catch(error => { console.log('error al crear evento archivo', error); sw = false ; });
+                contador++;
+                if (contador === this.files.length) {
+                  this.obtenerDifusion(2);
+                  this.toastr.success('Evento cientifico actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                }
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear evento archivo', error); });
           }
-        }
-        if (sw) {
+        } else {
           this.obtenerDifusion(2);
           this.toastr.success('Evento cientifico actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        } else {
-          this.toastr.error('Error al subir archivos de evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
-
       }).catch(error => {
         console.log('Error al actualizar evento', error);
         this.toastr.error('Error al actualizar Evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     } else if (this.difusion.id_nota_prensa) {
-      sw = false;
       // actualizar nota prensa
       this.difusion.fecha = this.formatDate(this.difusion.fecha) + 'T00:00:00.000';
       this._serviceNotaPrensas.update(this.difusion.id_nota_prensa, this.difusion, this.token)
       .then(response => {
-        sw = true;
         // console.log(response);
         // guardar archivos nota_prensas
-        if (this.files) {
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var nota_archivo = {
               id_nota_prensa: response.nota_prensa.id_nota_prensa,
@@ -999,38 +1091,35 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
             this._serviceNotaArchivos.save(nota_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-nota-archivo/' + responseArchivo.nota_archivos.id_nota_archivo, this.files[i], this.token)
               .then(responseFile => {
                 // console.log(responseFile);
-                sw = true;
-                this.obtenerDifusion(3);
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-            }).catch(error => { console.log('error al crear nota archivo', error); sw = false; });
+                contador++;
+                if (contador === this.files.length) {
+                  this.obtenerDifusion(3);
+                  this.toastr.success('Nota de prensa actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                }
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear nota archivo', error); });
           }
-        }
-        if (sw) {
+        } else {
           this.obtenerDifusion(3);
           this.toastr.success('Nota de prensa actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        } else {
-          this.toastr.error('Error al subir archivos de Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
-
       }).catch(error => {
         console.log('Error al actualizar nota de prensa', error);
         this.toastr.error('Error al actualizar Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     } else if (this.difusion.id_exposicion) {
       // actualizar exposicion
-      sw = false;
       this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
       this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
       this._serviceExposiciones.update(this.difusion.id_exposicion, this.difusion, this.token)
       .then(response => {
         // console.log(response);
-        sw = true;
         // guardar exposicion_archivos
-        if (this.files) {
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var expo_archivo = {
               id_exposicion: response.exposicion.id_exposicion,
@@ -1043,21 +1132,20 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
             this._serviceExpoArchivos.save(expo_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-expo-archivo/' + responseArchivo.expo_archivos.id_expo_archivo, this.files[i], this.token)
               .then(responseFile => {
                 // console.log(responseFile);
-                sw = true;
-                this.obtenerDifusion(4);
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-            }).catch(error => { console.log('error al crear expo archivo', error); sw = false; });
+                contador++;
+                if (contador === this.files.length) {
+                  this.obtenerDifusion(4);
+                  this.toastr.success('Exposición o Conferencia actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                }
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear expo archivo', error); });
           }
-        }
-        if (sw) {
+        } else {
           this.obtenerDifusion(4);
           this.toastr.success('Exposición o Conferencia actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        } else {
-          this.toastr.error('Error al subir archivos de Exposición o Conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
       }).catch(error => { 
         console.log('Error al actualizar Exposicion', error);
@@ -1067,29 +1155,24 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       switch (this.tipoDifusion) {
         case 1:
           // cursos
-          sw = false;
           this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
           this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
           this._serviceCursos.save(this.difusion, this.token)
           .then(response => {
-            sw = true;
             // console.log(response.cursos);
             // guardar expositores
-            if (this.expositores) {
+            if (this.expositores.length > 0) {
               this.expositores.forEach(expositor => {
                 expositor.id_curso = response.cursos.id_curso;
-                console.log(expositor);
+                // console.log(expositor);
                 this._serviceExpositores.save(expositor, this.token)
                 .then(responseExposi => { 
-                  // console.log(responseExposi);
-                  // this.obtenerDifusion(1);
-                  sw = true;
-                })
-                .catch(error => { console.log('Error al guardar expositor', error); sw = false; });
+                }).catch(error => { console.log('Error al guardar expositor', error); sw = false; });
               });
             }
             // guardar archivos cursos
-            if (this.files) {
+            if (this.files.length > 0) {
+              var contador = 0;
               for (let i = 0; i < this.files.length; i++) {
                 const file = this.files[i];
                 var curso_archivo = {
@@ -1102,42 +1185,40 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 // console.log(curso_archivo);
                 this._serviceCursoArchivos.save(curso_archivo, this.token)
                 .then(responseArchivo => {
-                  sw = true;
                   // console.log(responseArchivo);
                   // tslint:disable-next-line:max-line-length
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-curso-archivo/' + responseArchivo.curso_archivos.id_curso_archivo, this.files[i], this.token)
                   .then(responseFile => {
                     // console.log(responseFile);
-                    sw = true;
-                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-                  this.obtenerDifusion(1);
-                })
-                .catch(error => { console.log('error al crear curso archivo', error); sw = false; });
+                    contador++;
+                    if (contador === this.files.length) {
+                      this.obtenerDifusion(1);
+                      this.modalService.dismissAll();
+                      this.toastr.success('Curso, Seminario o Taller guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    }
+                  }).catch(error => { console.log('error al subir el archivo', error); });
+                }).catch(error => { console.log('error al crear curso archivo', error); });
               }
-            }
-            if (sw) {
-              this.obtenerDifusion(1);
-              this.toastr.success('Curso, Seminario o Taller guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             } else {
-              this.toastr.error('Error al subir archivos de Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              this.obtenerDifusion(1);
+              this.modalService.dismissAll();
+              this.toastr.success('Curso, Seminario o Taller guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             }
           }).catch(error => { 
             console.log('error al crear difusion curso', error);
             this.toastr.error('Error al guardar Curso, Seminario o Taller', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
-          this.modalService.dismissAll();
           break;
         case 2:
           // evento
-          sw = false;
           this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
           this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
           // console.log(this.difusion);
           this._serviceEventos.save(this.difusion, this.token)
           .then(response => {
             // console.log(response.eventos);
-            sw = true;
-            if (this.files) {
+            if (this.files.length > 0) {
+              var contador = 0;
               for (let i = 0; i < this.files.length; i++) {
                 var evento_archivo = {
                   id_evento: response.eventos.id_evento,
@@ -1150,21 +1231,19 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 this._serviceEventoArchivos.save(evento_archivo, this.token)
                 .then(responseArchivo => {
                   // console.log(responseArchivo);
-                  sw = true;
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-evento-archivo/' + responseArchivo.evento_archivos.id_evento_archivo, this.files[i], this.token)
                   .then(responseFile => {
-                    // console.log(responseFile);
-                    sw = true;
-                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-                  this.obtenerDifusion(2);
-                }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
+                    contador++;
+                    if (contador === this.files.length) {
+                      this.obtenerDifusion(2);
+                      this.toastr.success('Evento cientifico guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    }
+                  }).catch(error => { console.log('error al subir el archivo', error); });
+                }).catch(error => { console.log('error al crear evento archivo', error); });
               }
-            }
-            if (sw) {
+            } else {
               this.obtenerDifusion(2);
               this.toastr.success('Evento cientifico guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-            } else {
-              this.toastr.error('Error al subir archivos de Evento cientifico', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             }
           }).catch(error => {
             console.log('error al crear evento', error);
@@ -1174,14 +1253,13 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
           break;
         case 3:
           // nota_prensas
-          sw = false;
           this.difusion.fecha = this.formatDate(this.difusion.fecha) + 'T00:00:00.000';
           // console.log(this.difusion);
           this._serviceNotaPrensas.save(this.difusion, this.token)
           .then(response => {
             // console.log(response.nota_archivos);
-            sw = true;
-            if (this.files) {
+            if (this.files.length > 0) {
+              var contador = 0;
               for (let i = 0; i < this.files.length; i++) {
                 var nota_archivo = {
                   id_nota_prensa: response.nota_prensas.id_nota_prensa,
@@ -1194,21 +1272,20 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 this._serviceNotaArchivos.save(nota_archivo, this.token)
                 .then(responseArchivo => {
                   // console.log(responseArchivo);
-                  sw = true;
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-nota-archivo/' + responseArchivo.nota_archivos.id_nota_archivo, this.files[i], this.token)
                   .then(responseFile => {
                     // console.log(responseFile);
-                    sw = true;
+                    contador++;
+                    if (this.files.length === contador) {
+                      this.obtenerDifusion(3);
+                      this.toastr.success('Nota de prensa guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    }
                   }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-                  this.obtenerDifusion(3);
                 }).catch(error => { console.log('error al crear nota archivo', error); sw = false; });
               }
-            }
-            if (sw) {
+            } else {
               this.obtenerDifusion(3);
               this.toastr.success('Nota de prensa guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-            } else {
-              this.toastr.error('Error al subir archivos de Nota de prensa', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             }
           }).catch(error => {
             console.log('error al crear nota de presa', error);
@@ -1218,15 +1295,14 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
           break;
         case 4:
           // exposiciones
-          sw = false;
           this.difusion.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
           this.difusion.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
           // console.log(this.difusion);
           this._serviceExposiciones.save(this.difusion, this.token)
           .then(response => {
             // console.log(response.exposiciones);
-            sw = true;
-            if (this.files) {
+            if (this.files.length > 0) {
+              var contador = 0;
               for (let i = 0; i < this.files.length; i++) {
                 var expo_archivo = {
                   id_exposicion: response.exposiciones.id_exposicion,
@@ -1239,21 +1315,20 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 this._serviceExpoArchivos.save(expo_archivo, this.token)
                 .then(responseArchivo => {
                   // console.log(responseArchivo);
-                  sw = true;
                   this._uploadArchivo.uploadArchivo(this.url + 'upload-expo-archivo/' + responseArchivo.expo_archivos.id_expo_archivo, this.files[i], this.token)
                   .then(responseFile => {
-                    // console.log(responseFile);
-                    sw = true;
+                    contador++;
+                    if (contador === this.files.length) {
+                      this.obtenerDifusion(4);
+                      this.toastr.success('Exposicion y conferencia guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    }
                   }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
                   this.obtenerDifusion(4);
                 }).catch(error => { console.log('error al crear expo archivo', error); sw = false; });
               }
-            }
-            if (sw) {
+            } else {
               this.obtenerDifusion(4);
               this.toastr.success('Exposicion y conferencia guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-            } else {
-              this.toastr.error('Error al subir archivos de Exposicion y conferencia', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             }
           }).catch(error => {
             console.log('error al crear exposicion', error);
@@ -1273,8 +1348,6 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     // console.log(this.files);
     // console.log(this.datosArchivo);
     // console.log(this.seleccionados);
-    var sw = false;
-
     this.publicacion.fecha = this.formatDate(this.publicacion.fecha) + 'T00:00:00.000';
     this.publicacion.id_proyecto = this.proyecto.id_proyecto;
     this.publicacion.id_coordinador = this.proyecto.investigadore.id_investigador;
@@ -1282,13 +1355,12 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
 
     if (this.publicacion.id_publicacion) {
       // console.log('actualizar');
-      sw = false;
       this._servicePublicaciones.update(this.publicacion.id_publicacion, this.publicacion, this.token)
       .then(response => {
         // console.log(response.publicacion);
-        sw = true;
         // añadir archivos
-        if (this.files) {
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var publi_archivo = {
               id_publicacion: response.publicacion.id_publicacion,
@@ -1301,21 +1373,19 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
             this._servicePubliArchivos.save(publi_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-publi-archivo/' + responseArchivo.publi_archivo.id_publi_archivo, this.files[i], this.token)
               .then(responseFile => {
-                // console.log(responseFile);
-                sw = true;
+                contador++;
+                if (contador === this.files.length) {
+                  this.toastr.success('Publicación actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+                  this.obtenerPublicaciones(this.id);
+                }
               }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-              // this.obtenerPublicaciones(this.id);
             }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
           }
-        }
-        if (sw) {
+        } else {
           this.toastr.success('Publicación actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
           this.obtenerPublicaciones(this.id);
-        } else {
-          this.toastr.error('Error al subir archivos de publicacion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
         }
         // actualizar autores
       }).catch(error => {
@@ -1323,13 +1393,19 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         this.toastr.error('Error al actualizar publicación', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
       });
     } else {
-      sw = false;
       this._servicePublicaciones.save(this.publicacion, this.token)
       .then(response => {
         // console.log(response);
-        sw = true;
         // guardar publi_archivo
-        if (this.files) {
+        // guardar autores
+        this.seleccionados.forEach(autor => {
+          autor.id_publicacion = response.publicacion.id_publicacion;
+          this._serviceAutores.save(autor, this.token)
+          .then(responseA => {  })
+          .catch(error => { console.log('Error guardar autor', error); sw = false; });
+        });
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var publi_archivo = {
               id_publicacion: response.publicacion.id_publicacion,
@@ -1342,32 +1418,22 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
             this._servicePubliArchivos.save(publi_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-publi-archivo/' + responseArchivo.publi_archivo.id_publi_archivo, this.files[i], this.token)
               .then(responseFile => {
-                // console.log(responseFile);
-                sw = true;
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-              this.obtenerPublicaciones(this.id);
-            }).catch(error => { console.log('error al crear publi archivo', error); sw = false; });
+                contador++;
+                if (contador === this.files.length) {
+                  this.obtenerPublicaciones(this.id);
+                  this.toastr.success('Publicación guardada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                }
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear publi archivo', error); });
           }
-        }
-        if (sw) {
+        } else {
           this.obtenerPublicaciones(this.id);
           this.toastr.success('Publicación guardada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        } else {
-          this.toastr.error('Error al subir archivos de publicacion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
-        // guardar autores
-        this.seleccionados.forEach(autor => {
-          autor.id_publicacion = response.publicacion.id_publicacion;
-          this._serviceAutores.save(autor, this.token)
-          .then(responseA => { sw = true; })
-          .catch(error => { console.log('Error guardar autor', error); sw = false; });
-        });
-
       }).catch(error => { 
-        console.log('Error al crear publicacion', error); sw = false;
+        console.log('Error al crear publicacion', error);
         this.toastr.error('Error al guardar publicación', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     }
@@ -1544,6 +1610,61 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
           });
         }).catch(error => { console.log('error al obtener exposiciones', error); });
         break;
+      case 5:
+        this.listado_difusion = 'Todas las difusiones';
+        this._serviceCursos.getCursosByIdProyecto(this.id, this.token)
+        .then(responseCurso => {
+          // this.difusiones = response.cursos;
+          // console.log(response.cursos);
+          responseCurso.cursos.forEach(difusion => {
+            var difu = difusion;
+            // obtener cursos_archivos
+            this._serviceCursoArchivos.getCursoArchivosByIdCurso(difusion.id_curso, this.token)
+            .then(responseArch => {
+              difu.archivos = responseArch.curso_archivos;
+              this.difusiones.push(difu);
+            }).catch(error => { console.log('Error al obtener Curso Archivos', error); });
+          });
+          this._serviceEventos.getEventosByIdProyecto(this.id, this.token)
+          .then(responseEvento => {
+            responseEvento.eventos.forEach(difusion => {
+              // obtener evento_archivos
+              var difu = difusion;
+              this._serviceEventoArchivos.getEventoArchivosByIdEvento(difusion.id_evento, this.token)
+              .then(responseArch => {
+                difu.archivos = responseArch.evento_archivos;
+                this.difusiones.push(difu);
+              }).catch(error => { console.log('Error al obtener Evento Archivos', error); });
+            });
+            this._serviceNotaPrensas.getNotaPrensasByIdProyecto(this.id, this.token)
+            .then(responseNotaPrensa => {
+              responseNotaPrensa.nota_prensas.forEach(difusion => {
+                var difu = difusion;
+                // obtener nota_archivos
+                this._serviceNotaArchivos.getNotaArchivosByIdNotaPrensa(difusion.id_nota_prensa, this.token)
+                .then(responseArch => {
+                  difu.archivos = responseArch.nota_archivos;
+                  this.difusiones.push(difu);
+                }).catch(error => { console.log('Error al obtener Nota de presa Archivos', error); });
+              });
+              this._serviceExposiciones.getExposicionesByIdProyecto(this.id, this.token)
+              .then(responseExposicion => {
+                // this.difusiones.fecha = '';
+                responseExposicion.exposiciones.forEach(difusion => {
+                  var difu = difusion;
+                  // obtener expo_archivos
+                  this._serviceExpoArchivos.getExpoArchivosByIdExposicion(difusion.id_exposicion, this.token)
+                  .then(responseArch => {
+                    difu.archivos = responseArch.expo_archivos;
+                    this.difusiones.push(difu);
+                  }).catch(error => { console.log('Error al obtener Exposicion Archivos', error); });
+                });
+                // fin
+              }).catch(error => { console.log('error al obtener exposiciones', error); });
+            }).catch(error => { console.log('error al obtener nota prensas', error); });
+          }).catch(error => { console.log('error al obtener eventos', error); });
+        }).catch(error => { console.log('error al obtener cursos', error); });
+        break;
       default:
         console.log('no se obtuvo difusiones');
         break;
@@ -1701,6 +1822,120 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       }).catch(error => { console.log('Error al actualizar expo archivo', error); });
     }
     this.modalService.dismissAll();
+  }
+
+  public obtenerSeguimientos() {
+    this._serviceSeguimientos.getSeguimientosByIdProyecto(this.id, this.token)
+    .then(response => {
+      // this.seguimientos = response.seguimientos;
+      this.seguimientos = [];
+      response.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.seguimientos.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+      console.log(this.seguimientos);
+    }).catch(error => { console.log('Error al obtener seguimientos', error); });
+  }
+
+  openModalNuevoSeguimiento(content, size, id_seguimiento?: number) {
+    this.modalService.open(content, { size: size });
+    if (id_seguimiento) {
+      this._serviceSeguimientos.getSeguimientoById(id_seguimiento, this.token)
+      .then(response => {
+        this.seguimiento = response.seguimiento;
+      }).catch(error => { console.log('Error al obtener seguimiento por id', error); });
+    } else {
+      this.seguimiento = {};
+    }
+  }
+
+  tipoArchivo(idTipo: number): string{
+    let tipo = '';
+    switch (idTipo) {
+      case 1:
+        tipo = 'Principal';
+        break;
+      case 2:
+        tipo = 'DGB';
+        break;
+      case 3:
+        tipo = 'SERNAP';
+        break;
+      case 4:
+        tipo = 'CITES';
+        break;
+      case 5:
+        tipo = 'BIOETICA';
+        break;
+      case 6:
+        tipo = 'Cierre de proyecto';
+        break;
+      case 7:
+        tipo = 'Otros';
+        break;
+      case 8:
+        tipo = 'Convenios';
+        break;
+      case 9:
+        tipo = 'Contratados';
+        break;
+      case 10:
+        tipo = 'Cursos';
+        break;
+      case 11:
+        tipo = 'Eventos';
+        break;
+      case 12:
+        tipo = 'Notas de prensa';
+        break;
+      case 13:
+        tipo = 'Exposiciones';
+        break;
+      case 14:
+        tipo = 'Publicaciones';
+        break;
+      case 15:
+        tipo = 'Seguimientos';
+        break;
+      case 16:
+        tipo = 'Peticiones';
+        break;
+      case 17:
+        tipo = 'Final';
+        break;
+      default:
+        tipo = '';
+        break;
+    }
+    return tipo;
+  }
+
+  obtenerPeticiones() {
+    this.peticiones = [];
+    this._servicePeticiones.getPeticionesByIdProyecto(this.id, this.token)
+    .then(response => {
+      // this.peticiones = response.peticiones;
+      response.peticiones.forEach(peti => {
+        peti.archivos = [];
+        this._servicePetiArchivos.getPetiArchivosByIdPeticion(peti.id_peticion, this.token)
+        .then(responsePetiArch => {
+          peti.archivos = responsePetiArch.peti_archivos;
+          this.peticiones.push(peti);
+        }).catch(error => { console.log('Error al obtener peti Archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener peticiones por id_proyecto', error); });
+  }
+
+  openModalPeticion(content, size, idPeticion: number) {
+    this.modalService.open(content, { size: size });
+    this._servicePeticiones.getPeticionById(idPeticion, this.token)
+    .then(response => {
+      this.peticion = response.peticion;
+    }).catch(error => { console.log('Error al obtener peticion by id', error); });
   }
 
 }

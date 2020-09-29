@@ -34,6 +34,10 @@ import { ToastrService } from 'ngx-toastr';
 import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.service';
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
 import { AutoresService } from 'src/app/services/proyecto/autores.service';
+import { SeguimientosService } from 'src/app/services/proyecto/seguimientos.service';
+import { SeguiArchivosService } from 'src/app/services/proyecto/segui-archivos.service';
+import { PeticionesService } from 'src/app/services/proyecto/peticiones.service';
+import { PetiArchivosService } from 'src/app/services/proyecto/peti-archivos.service';
 
 @Component({
   selector: 'app-view-proyecto',
@@ -324,6 +328,23 @@ export class ViewProyectoComponent implements OnInit {
     }
   ];
 
+  // seguimiento
+  seguimiento: any = {
+    tipo: '',
+    estado: true
+  };
+  seguimientos: any = [];
+  id_seguimiento = 0;
+
+  peticion: any = {
+    tipo: '',
+    estado: true
+  };
+  peticiones: any = [];
+  id_persona = 0;
+  id_peticion = 0;
+
+
 
   constructor(
     private sidebarService: SidebarService,
@@ -356,7 +377,11 @@ export class ViewProyectoComponent implements OnInit {
     private toastr: ToastrService,
     private _servicePublicaciones: PublicacionesService,
     private _servicePubliArchivos: PubliArchivosService,
-    private _serviceAutores: AutoresService
+    private _serviceAutores: AutoresService,
+    private _serviceSeguimientos: SeguimientosService,
+    private _serviceSeguiArchivos: SeguiArchivosService,
+    private _servicePeticiones: PeticionesService,
+    private _servicePetiArchivos: PetiArchivosService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -389,7 +414,8 @@ export class ViewProyectoComponent implements OnInit {
     this._route.params.forEach((params: Params) => {
       this.id = params.id;
     });
-    this.getArchivosByTipo(0);
+    this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
+    this.getArchivosByTipo(8);
     this.getProArchivosByIdProyecto(this.id);
     this.getProyecto(this.id);
     // buscador archivos
@@ -400,39 +426,132 @@ export class ViewProyectoComponent implements OnInit {
 
     this.obtenerBasicaTecnicas();
     this.obtenerLugarDesarrollos();
-    this.obtenerDifusion(1);
-    this.listado_difusion = 'Cursos, Seminarios y Talleres';
+    this.obtenerDifusion(5);
+    this.listado_difusion = 'Todas las difusiones';
     this.obtenerPublicaciones(this.id);
+    this.obtenerSeguimientos();
+    this.obtenerPeticiones();
   }
-  openModal(content, size, num) {
-    this.modalService.open(content, { size: size });
-    // this.vaciarProyecto();
-    switch (num) {
-      case 1:
-        this.titulo = 'Petición a coordinador';
-        this.permisos = false;
-        break;
-      default:
-        console.log('error al navegar');
-        break;
-    }
-  }
-  guardar() {
-    console.log('Archivos', this.files);
-    console.log('PROGRESO', this.progress);
-    console.log(this.hasBaseDropZoneOver);
-    console.log(this.httpEmitter);
-    console.log(this.httpEvent);
-    console.log(this.lastFileAt);
-    console.log(this.sendableFormData);
-    console.log(this.dragFiles);
-    console.log(this.validComboDrag);
-    console.log(this.lastInvalids);
-    console.log(this.fileDropDisabled);
-    console.log(this.maxSize);
-    console.log(this.baseDropValid);
+  openModal(content, size, idPeticion?: number) {
+    this.files = [];
+    this.datosArchivo = [];
+    this.antFileTam = 0;
 
-    this.modalService.dismissAll();
+    if (idPeticion) {
+      this._servicePeticiones.getPeticionById(idPeticion, this.token)
+      .then(response => {
+        this.peticion = response.peticion;
+      }).catch(error => { console.log('Error la obtener peticion por id', error); });
+    } else {
+      this.peticion = {
+        tipo: '',
+        estado: true
+      };
+    }
+    this.modalService.open(content, { size: size });
+    this.titulo = 'Petición a coordinador';
+  }
+  guardarPeticion() {
+    // console.log('Archivos', this.files);
+    // console.log('PROGRESO', this.progress);
+
+    // console.log('peticion', this.peticion);
+    // console.log(this.datosArchivo);
+
+    this.peticion.id_proyecto = this.proyecto.id_proyecto;
+    this._serviceInvestigadores.getInvestigadorByIdPersona(this.id_persona, this.token)
+    .then(response => {
+      this.peticion.id_investigador = response.investigador.id_investigador;
+
+      if (this.peticion.id_peticion) {
+        // console.log('actualizar');
+        this._servicePeticiones.update(this.peticion.id_peticion, this.peticion, this.token)
+        .then(response => {
+          // console.log(response.peticion);
+          var contador = 0;
+          // añadir archivos
+          if (this.files.length > 0) {
+            for (let i = 0; i < this.files.length; i++) {
+              var peti_archivo = {
+                id_peticion: response.peticion.id_peticion,
+                archivo: '',
+                nombre: this.datosArchivo[i].nombre,
+                descripcion: this.datosArchivo[i].descripcion,
+                id_tipo: '16'
+              };
+              // console.log(peti_archivo);
+              this._servicePetiArchivos.save(peti_archivo, this.token)
+              .then(responseArchivo => {
+                // console.log(responseArchivo);
+                this._uploadArchivo.uploadArchivo(this.url + 'upload-peti-archivo/' + responseArchivo.peti_archivo.id_peti_archivo, this.files[i], this.token)
+                .then(responseFile => {
+                  // console.log(responseFile);
+                  contador++;
+                  if (contador === this.files.length) {
+                    this.toastr.success('peticion actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    this.peticion = {};
+                    this.obtenerPeticiones();
+                  }
+                }).catch(error => { console.log('error al subir el archivo', error); });
+                // this.obtenerpeticiones(this.id);
+              }).catch(error => { console.log('error al crear evento archivo', error); });
+            }
+          } else {
+            this.toastr.success('peticion actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            this.peticion = {};
+            this.obtenerPeticiones();
+          }
+          // actualizar autores
+        }).catch(error => {
+          console.log('Error al actualizar peticion', error);
+          this.toastr.error('Error al actualizar peticion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+        });
+      } else {
+        this._servicePeticiones.save(this.peticion, this.token)
+        .then(response => {
+          // console.log(response);
+          var contador = 0;
+          // guardar peti_archivo
+          if (this.files.length > 0) {
+            for (let i = 0; i < this.files.length; i++) {
+              var peti_archivo = {
+                id_peticion: response.peticion.id_peticion,
+                archivo: '',
+                nombre: this.datosArchivo[i].nombre,
+                descripcion: this.datosArchivo[i].descripcion,
+                id_tipo: '16'
+              };
+              // console.log(peti_archivo);
+              this._servicePetiArchivos.save(peti_archivo, this.token)
+              .then(responseArchivo => {
+                // console.log(responseArchivo);
+                console.log(responseArchivo);
+                this._uploadArchivo.uploadArchivo(this.url + 'upload-peti-archivo/' + responseArchivo.peti_archivo.id_peti_archivo, this.files[i], this.token)
+                .then(responseFile => {
+                  contador++;
+                  if (contador === this.files.length) {
+                    this.obtenerPeticiones();
+                    this.peticion = {};
+                    this.toastr.success('peticion guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                  }
+                }).catch(error => { console.log('error al subir el archivo', error); });
+                // this.obtenerpeticiones(this.id);
+              }).catch(error => { console.log('error al crear segui archivo', error); });
+            }
+          } else {
+            this.obtenerPeticiones();
+            this.peticion = {};
+            this.toastr.success('peticion guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          }
+        }).catch(error => {
+          console.log('Error al crear peticion', error);
+          this.toastr.error('Error al guardar peticion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
+      }
+      this.modalService.dismissAll();
+
+
+    }).catch(error => { console.log('Error al buscar investigador', error); });
   }
   fileChangeEvent(fileInput: any, pos: number) {
     if (fileInput.target.files.length > 0) {
@@ -473,11 +592,6 @@ export class ViewProyectoComponent implements OnInit {
       nombre: '',
       descripcion: ''
     };
-  }
-
-  fileChange(files: any) {
-    this.lastFileAt = this.getDate();
-    this.setName(files[files.length - 1]);
   }
 
   toggleFullWidth() {
@@ -628,6 +742,69 @@ export class ViewProyectoComponent implements OnInit {
         .then(responseProyArch => {
           this.archivos = responseProyArch.proy_archivos;
           // console.log(responseProyArch);
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      case 8:
+        this.tituloArch = 'Todos los documentos';
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 1, this.token)
+        .then(responseProyArch => {
+          this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+          this._servicePermisoArchivos.getPermisoArchivosByIdProyecto(this.id, this.token)
+          .then(responsePermisoArch => {
+            this.archivos = this.archivos.concat(responsePermisoArch.permiso_archivos);
+            this._serviceConvenios.getConveniosByIdProyecto(this.id, this.token)
+            .then(responseConv => {
+              responseConv.convenios.forEach(convenio => {
+                var convArch = {
+                  id_convenio: convenio.id_convenio,
+                  archivo:  convenio.archivo,
+                  nombre: convenio.nombre_archivo,
+                  descripcion: convenio.descripcion_archivo,
+                  id_tipo: convenio.id_tipo,
+                  createdAt: convenio.createdAt,
+                  convArchivos: Array,
+                  estado: convenio.estado
+                };
+                this._serviceConvArchivos.getConvArchivosByIdConvenio(convenio.id_convenio, this.token)
+                .then(responseConvArch => {
+                  convArch.convArchivos = responseConvArch.conv_archivos;
+                  this.archivos.push(convArch);
+                }).catch(error => { console.log('error al obtener convenio archivos', error); });
+              });
+              // console.log(this.archivos);
+              this._serviceContratados.getContratadosByIdProyecto(this.id, this.token)
+              .then(responseContra => {
+                responseContra.contratados.forEach(contratado => {
+                  var contraArch = {
+                    id_contratado: contratado.id_contratado,
+                    archivo:  contratado.archivo,
+                    nombre: contratado.nombre_archivo,
+                    descripcion: contratado.descripcion_archivo,
+                    id_tipo: contratado.id_tipo,
+                    createdAt: contratado.createdAt,
+                    convArchivos: Array,
+                    estado: contratado.estado
+                  };
+                  this._serviceContraArchivos.getContraArchivosByIdContratado(contratado.id_contratado, this.token)
+                  .then(responseContraArch => {
+                    contraArch.convArchivos = responseContraArch.contra_archivos;
+                    this.archivos.push(contraArch);
+                  }).catch(error => { console.log('error al obtener contratado archivo por id contratado', error); });
+                });
+                // console.log(this.archivos);
+                this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
+                .then(responseProyArch => {
+                  this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                  // console.log(responseProyArch);
+                  this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
+                  .then(responseProyArch => {
+                    this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                    console.log(responseProyArch);
+                  }).catch(error => { console.log('error al obtener proy_archivos', error); });
+                }).catch(error => { console.log('error al obtener proy_archivos', error); });
+              }).catch(error => { console.log('error al obtener contratados', error); });
+            }).catch(error => { console.log('error al obtener convenios', error); });
+          }).catch(error => { console.log('error al obtener permiso archivos', error); });
         }).catch(error => { console.log('error al obtener proy_archivos', error); });
         break;
       default:
@@ -815,7 +992,12 @@ export class ViewProyectoComponent implements OnInit {
 
   openModalArchivo(content, size, archivo: any) {
     this.modalService.open(content, { size: size });
-    if (archivo.id_publi_archivo) {
+    if (archivo.id_peti_archivo) {
+      this._servicePetiArchivos.getPetiArchivoById(archivo.id_peti_archivo, this.token)
+      .then(response => {
+        this.archivo = response.peti_archivo;
+      }).catch(error => { console.log('Error al obtener peti archivo', error); });
+    } else if (archivo.id_publi_archivo) {
       this._servicePubliArchivos.getPubliArchivoById(this.token, archivo.id_publi_archivo)
       .then(response => {
         this.archivo = response.publi_archivo;
@@ -845,6 +1027,11 @@ export class ViewProyectoComponent implements OnInit {
       .then(response => {
         this.archivo = response.proy_archivo;
       }).catch(error => { console.log('Error al obtener expo archivo', error); });
+    } else if (archivo.id_segui_archivo) {
+      this._serviceSeguiArchivos.getSeguiArchivoById(archivo.id_segui_archivo, this.token)
+      .then(response => {
+        this.archivo = response.segui_archivo;
+      }).catch(error => { console.log('Error al obtener segui archivo por id', error); });
     }
   }
 
@@ -1002,6 +1189,61 @@ export class ViewProyectoComponent implements OnInit {
           });
         }).catch(error => { console.log('error al obtener exposiciones', error); });
         break;
+      case 5:
+        this.listado_difusion = 'Todas las difusiones';
+        this._serviceCursos.getCursosByIdProyecto(this.id, this.token)
+        .then(responseCurso => {
+          // this.difusiones = response.cursos;
+          // console.log(response.cursos);
+          responseCurso.cursos.forEach(difusion => {
+            var difu = difusion;
+            // obtener cursos_archivos
+            this._serviceCursoArchivos.getCursoArchivosByIdCurso(difusion.id_curso, this.token)
+            .then(responseArch => {
+              difu.archivos = responseArch.curso_archivos;
+              this.difusiones.push(difu);
+            }).catch(error => { console.log('Error al obtener Curso Archivos', error); });
+          });
+          this._serviceEventos.getEventosByIdProyecto(this.id, this.token)
+          .then(responseEvento => {
+            responseEvento.eventos.forEach(difusion => {
+              // obtener evento_archivos
+              var difu = difusion;
+              this._serviceEventoArchivos.getEventoArchivosByIdEvento(difusion.id_evento, this.token)
+              .then(responseArch => {
+                difu.archivos = responseArch.evento_archivos;
+                this.difusiones.push(difu);
+              }).catch(error => { console.log('Error al obtener Evento Archivos', error); });
+            });
+            this._serviceNotaPrensas.getNotaPrensasByIdProyecto(this.id, this.token)
+            .then(responseNotaPrensa => {
+              responseNotaPrensa.nota_prensas.forEach(difusion => {
+                var difu = difusion;
+                // obtener nota_archivos
+                this._serviceNotaArchivos.getNotaArchivosByIdNotaPrensa(difusion.id_nota_prensa, this.token)
+                .then(responseArch => {
+                  difu.archivos = responseArch.nota_archivos;
+                  this.difusiones.push(difu);
+                }).catch(error => { console.log('Error al obtener Nota de presa Archivos', error); });
+              });
+              this._serviceExposiciones.getExposicionesByIdProyecto(this.id, this.token)
+              .then(responseExposicion => {
+                // this.difusiones.fecha = '';
+                responseExposicion.exposiciones.forEach(difusion => {
+                  var difu = difusion;
+                  // obtener expo_archivos
+                  this._serviceExpoArchivos.getExpoArchivosByIdExposicion(difusion.id_exposicion, this.token)
+                  .then(responseArch => {
+                    difu.archivos = responseArch.expo_archivos;
+                    this.difusiones.push(difu);
+                  }).catch(error => { console.log('Error al obtener Exposicion Archivos', error); });
+                });
+                // fin
+              }).catch(error => { console.log('error al obtener exposiciones', error); });
+            }).catch(error => { console.log('error al obtener nota prensas', error); });
+          }).catch(error => { console.log('error al obtener eventos', error); });
+        }).catch(error => { console.log('error al obtener cursos', error); });
+        break;
       default:
         console.log('no se obtuvo difusiones');
         break;
@@ -1065,6 +1307,132 @@ export class ViewProyectoComponent implements OnInit {
   }
   guardarPublicacion() {
     this.modalService.dismissAll();
+  }
+
+  public obtenerSeguimientos() {
+    this._serviceSeguimientos.getSeguimientosByIdProyecto(this.id, this.token)
+    .then(response => {
+      // this.seguimientos = response.seguimientos;
+      this.seguimientos = [];
+      response.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.seguimientos.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+      console.log(this.seguimientos);
+    }).catch(error => { console.log('Error al obtener seguimientos', error); });
+  }
+
+  openModalNuevoSeguimiento(content, size, id_seguimiento?: number) {
+    this.modalService.open(content, { size: size });
+    if (id_seguimiento) {
+      this._serviceSeguimientos.getSeguimientoById(id_seguimiento, this.token)
+      .then(response => {
+        this.seguimiento = response.seguimiento;
+      }).catch(error => { console.log('Error al obtener seguimiento por id', error); });
+    } else {
+      this.seguimiento = {};
+    }
+  }
+
+  fileChange() {
+    this.lastFileAt = this.getDate();
+    this.setName(this.files);
+  }
+
+  obtenerPeticiones() {
+    this.peticiones = [];
+    this._servicePeticiones.getPeticionesByIdProyecto(this.id, this.token)
+    .then(response => {
+      // this.peticiones = response.peticiones;
+      response.peticiones.forEach(peti => {
+        peti.archivos = [];
+        this._servicePetiArchivos.getPetiArchivosByIdPeticion(peti.id_peticion, this.token)
+        .then(responsePetiArch => {
+          peti.archivos = responsePetiArch.peti_archivos;
+          this.peticiones.push(peti);
+        }).catch(error => { console.log('Error al obtener peti Archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener peticiones por id_proyecto', error); });
+  }
+
+  tipoArchivo(idTipo: number): string{
+    let tipo = '';
+    switch (idTipo) {
+      case 1:
+        tipo = 'Principal';
+        break;
+      case 2:
+        tipo = 'DGB';
+        break;
+      case 3:
+        tipo = 'SERNAP';
+        break;
+      case 4:
+        tipo = 'CITES';
+        break;
+      case 5:
+        tipo = 'BIOETICA';
+        break;
+      case 6:
+        tipo = 'Cierre de proyecto';
+        break;
+      case 7:
+        tipo = 'Otros';
+        break;
+      case 8:
+        tipo = 'Convenios';
+        break;
+      case 9:
+        tipo = 'Contratados';
+        break;
+      case 10:
+        tipo = 'Cursos';
+        break;
+      case 11:
+        tipo = 'Eventos';
+        break;
+      case 12:
+        tipo = 'Notas de prensa';
+        break;
+      case 13:
+        tipo = 'Exposiciones';
+        break;
+      case 14:
+        tipo = 'Publicaciones';
+        break;
+      case 15:
+        tipo = 'Seguimientos';
+        break;
+      case 16:
+        tipo = 'Peticiones';
+        break;
+      case 17:
+        tipo = 'Final';
+        break;
+      default:
+        tipo = '';
+        break;
+    }
+    return tipo;
+  }
+
+  eliminarPeticion(idPeticion: number) {
+    this._servicePeticiones.update(idPeticion, { estado: false }, this.token)
+    .then(response => {
+      this.obtenerPeticiones();
+      this.toastr.success('peticion eliminada!', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    }).catch(error => { 
+      console.log('Error al eliminar peticion', error);
+      this.toastr.error('Error al eliminar peticion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+    });
+  }
+  openModalEliminar(content, size, idPeticion: number) {
+    this.modalService.open(content, { size: size });
+    this.id_peticion = idPeticion;
   }
 
 }

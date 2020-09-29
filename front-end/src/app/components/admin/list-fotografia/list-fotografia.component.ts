@@ -31,6 +31,8 @@ export class ListFotografiaComponent implements OnInit {
   search = new FormControl('');
   public valorBusqueda = '';
 
+  public id_fotografia = 0;
+
   constructor(
     private _serviceFotografias: FotografiasService,
     private _auth: AuthService,
@@ -181,4 +183,10 @@ export class ListFotografiaComponent implements OnInit {
       this.getFotografiasAdmin();
     }).catch(error => { console.log('Error al eliminar la foto', error); });
   }
+
+  openModal(content, size, idFotografia: number) {
+    this.modalService.open(content, { size: size });
+    this.id_fotografia = idFotografia;
+  }
+
 }

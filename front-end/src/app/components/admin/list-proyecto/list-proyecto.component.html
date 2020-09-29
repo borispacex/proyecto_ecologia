@@ -15,16 +15,16 @@
 		</div>
 	</div>
 
+	<button type="button" class="btn btn-default mr-1 mb-2" (click)="openModalAgregar(content,'lg')">
+		<i class="fa fa-plus-square"></i>&nbsp;<span> Agregar Proyecto</span>
+	</button>
+
 	<div class="container row">
 		<form id="navbar-search" class="navbar-form search-form col-12 col-sm-6 mr-1">
 			<input [formControl]="search" class="form-control" placeholder="Buscar proyecto ..."
 				type="text" />
 			<button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
 		</form>
-	
-		<button type="button" class="btn btn-default mr-1 mb-3" href="javascript:void(0)"
-		(click)="openModalAgregar(content,'lg')"><i class="fa fa-plus-square"></i>&nbsp;<span>Agregar
-			Proyecto</span></button>
 
 		<div ngbDropdown class="d-inline-block" placement="bottom-left">
 			<button class="btn btn-default mr-1 mb-3" id="dropdownBasic1" ngbDropdownToggle>Listado</button>
@@ -89,10 +89,12 @@
 										</ul>
 									</td>
 									<td class="project-actions">
-										<a href="javascript:void(0);" 
-											class="btn btn-outline-secondary mr-1" (click)="openModalEditar(content,'lg', proyecto.id_proyecto)"><i class="icon-eye"></i></a>
-										<a href="javascript:void(0);" class="btn btn-outline-secondary" [routerLink]="['../../detail-proyecto/', proyecto.id_proyecto]"><i
-												class="icon-pencil"></i></a>
+										<button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalEditar(content,'lg', proyecto.id_proyecto)" data-toggle="tooltip" data-placement="right" title="Editar">
+											<i class="icon-pencil"></i>
+										</button>
+										<button type="button" class="btn btn-outline-secondary" [routerLink]="['../../detail-proyecto/', proyecto.id_proyecto]" data-toggle="tooltip" data-placement="right" title="Ver">
+											<i class="icon-eye"></i>
+										</button>
 									</td>
 								</tr>
 							</tbody>

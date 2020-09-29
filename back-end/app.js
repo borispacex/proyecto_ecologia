@@ -71,6 +71,11 @@ require('./server/routes/proyecto/comentarios')(app);
 require('./server/routes/proyecto/autores')(app);
 require('./server/routes/proyecto/publi_archivos')(app);
 
+require('./server/routes/proyecto/seguimientos')(app);
+require('./server/routes/proyecto/segui_archivos')(app);
+require('./server/routes/proyecto/peticiones')(app);
+require('./server/routes/proyecto/peti_archivos')(app);
+
 app.get('*', (req, res) => {
     res.status(200).send({ message: 'Bienvenido al servidor NODEJS' });
 })

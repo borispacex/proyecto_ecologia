@@ -3,7 +3,7 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { GLOBAL } from 'src/app/services/global';
 import { FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { NgbModal, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProyArchivosService } from 'src/app/services/admin/proy-archivos.service';
 import { ProyectosService } from 'src/app/services/admin/proyectos.service';
@@ -34,6 +34,9 @@ import { AutoresService } from 'src/app/services/proyecto/autores.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { ComentariosService } from 'src/app/services/proyecto/comentarios.service';
+import { HttpEvent } from '@angular/common/http';
+import { SeguiArchivosService } from 'src/app/services/proyecto/segui-archivos.service';
+import { SeguimientosService } from 'src/app/services/proyecto/seguimientos.service';
 
 @Component({
   selector: 'app-show-proyecto',
@@ -299,6 +302,34 @@ export class ShowProyectoComponent implements OnInit {
   // id_persona
   private id_persona: number;
 
+  seguimiento: any = {
+    tipo: '',
+    estado: true
+  };
+  seguimientos: any = [];
+  id_seguimiento = 0;
+
+    // MANEJO DE ARCHIVOS
+  accept = 'pdf'; // *
+  files: Array<File> = [];
+  progress: number;
+  hasBaseDropZoneOver: boolean = false;
+  httpEmitter: Subscription;
+  httpEvent: HttpEvent<{}>;
+  lastFileAt: Date;
+
+  sendableFormData: FormData; //populated via ngfFormData directive
+
+  dragFiles: any;
+  validComboDrag: any;
+  lastInvalids: any;
+  fileDropDisabled: any;
+  maxSize: any;
+  baseDropValid: any;
+
+  convenio: any = {};
+  personal_rrhh: any = {};
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -331,7 +362,9 @@ export class ShowProyectoComponent implements OnInit {
     private _servicePublicaciones: PublicacionesService,
     private _servicePubliArchivos: PubliArchivosService,
     private _serviceAutores: AutoresService,
-    private _serviceComentarios: ComentariosService
+    private _serviceComentarios: ComentariosService,
+    private _serviceSeguimientos: SeguimientosService,
+    private _serviceSeguiArchivos: SeguiArchivosService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -368,7 +401,7 @@ export class ShowProyectoComponent implements OnInit {
       this.id = params.id_proyecto;
     });
     this.getProArchivosByIdProyecto(this.id);
-    this.getArchivosByTipo(0);
+    this.getArchivosByTipo(8);
     this.getProyecto(this.id);
 
     // buscador archivos
@@ -379,9 +412,10 @@ export class ShowProyectoComponent implements OnInit {
 
     this.obtenerBasicaTecnicas();
     this.obtenerLugarDesarrollos();
-    this.obtenerDifusion(1);
-    this.listado_difusion = 'Cursos, Seminarios y Talleres';
+    this.obtenerDifusion(5);
+    this.listado_difusion = 'Todas las difusiones';
     this.obtenerPublicaciones(this.id);
+    this.obtenerSeguimientos();
 
     this.pieOptions = {
       color: ['#49c5b6', '#e47297', '#a27ce6', '#ffce4b', '#3eacff', '#3eac01'],
@@ -564,7 +598,7 @@ export class ShowProyectoComponent implements OnInit {
         }).catch(error => { console.log('error al obtener contratados', error); });
         break;
       case 6:
-        this.tituloArch = 'Documentos - Proyecto final';
+        this.tituloArch = 'Documentos - Cierre Proyecto';
         // console.log(this.tipoArch);
         this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
         .then(responseProyArch => {
@@ -578,6 +612,69 @@ export class ShowProyectoComponent implements OnInit {
         .then(responseProyArch => {
           this.archivos = responseProyArch.proy_archivos;
           // console.log(responseProyArch);
+        }).catch(error => { console.log('error al obtener proy_archivos', error); });
+        break;
+      case 8:
+        this.tituloArch = 'Todos los documentos';
+        this._serviceProyArch.getProy_archivosByIdTipo(this.id, 1, this.token)
+        .then(responseProyArch => {
+          this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+          this._servicePermisoArchivos.getPermisoArchivosByIdProyecto(this.id, this.token)
+          .then(responsePermisoArch => {
+            this.archivos = this.archivos.concat(responsePermisoArch.permiso_archivos);
+            this._serviceConvenios.getConveniosByIdProyecto(this.id, this.token)
+            .then(responseConv => {
+              responseConv.convenios.forEach(convenio => {
+                var convArch = {
+                  id_convenio: convenio.id_convenio,
+                  archivo:  convenio.archivo,
+                  nombre: convenio.nombre_archivo,
+                  descripcion: convenio.descripcion_archivo,
+                  id_tipo: convenio.id_tipo,
+                  createdAt: convenio.createdAt,
+                  convArchivos: Array,
+                  estado: convenio.estado
+                };
+                this._serviceConvArchivos.getConvArchivosByIdConvenio(convenio.id_convenio, this.token)
+                .then(responseConvArch => {
+                  convArch.convArchivos = responseConvArch.conv_archivos;
+                  this.archivos.push(convArch);
+                }).catch(error => { console.log('error al obtener convenio archivos', error); });
+              });
+              // console.log(this.archivos);
+              this._serviceContratados.getContratadosByIdProyecto(this.id, this.token)
+              .then(responseContra => {
+                responseContra.contratados.forEach(contratado => {
+                  var contraArch = {
+                    id_contratado: contratado.id_contratado,
+                    archivo:  contratado.archivo,
+                    nombre: contratado.nombre_archivo,
+                    descripcion: contratado.descripcion_archivo,
+                    id_tipo: contratado.id_tipo,
+                    createdAt: contratado.createdAt,
+                    convArchivos: Array,
+                    estado: contratado.estado
+                  };
+                  this._serviceContraArchivos.getContraArchivosByIdContratado(contratado.id_contratado, this.token)
+                  .then(responseContraArch => {
+                    contraArch.convArchivos = responseContraArch.contra_archivos;
+                    this.archivos.push(contraArch);
+                  }).catch(error => { console.log('error al obtener contratado archivo por id contratado', error); });
+                });
+                // console.log(this.archivos);
+                this._serviceProyArch.getProy_archivosByIdTipo(this.id, 6, this.token)
+                .then(responseProyArch => {
+                  this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                  // console.log(responseProyArch);
+                  this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
+                  .then(responseProyArch => {
+                    this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
+                    console.log(responseProyArch);
+                  }).catch(error => { console.log('error al obtener proy_archivos', error); });
+                }).catch(error => { console.log('error al obtener proy_archivos', error); });
+              }).catch(error => { console.log('error al obtener contratados', error); });
+            }).catch(error => { console.log('error al obtener convenios', error); });
+          }).catch(error => { console.log('error al obtener permiso archivos', error); });
         }).catch(error => { console.log('error al obtener proy_archivos', error); });
         break;
       default:
@@ -764,8 +861,31 @@ export class ShowProyectoComponent implements OnInit {
   }
 
   openModalArchivo(content, size, archivo: any) {
+    console.log(archivo);
     this.modalService.open(content, { size: size });
-    if (archivo.id_publi_archivo) {
+    if (archivo.id_permiso_archivo) {
+      this._servicePermisoArchivos.getPermisoArchivoById(this.token, archivo.id_permiso_archivo)
+      .then(response => {
+        // console.log(response);
+        this.archivo = response.permiso_archivo;
+      }).catch(error => { console.log('Error al obtener permi archivos', error); });
+    } else if (archivo.id_convenio) {
+      this.archivo = archivo;
+    } else if (archivo.id_conv_archivo) {
+      this._serviceConvArchivos.getConvArchivoById(this.token, archivo.id_conv_archivo)
+      .then(response => {
+        console.log(response);
+        this.archivo = response.conv_archivo;
+      }).catch(error => { console.log('Error al obtener conv archivo', error); });
+    } else if (archivo.id_contratado) {
+      this.archivo = archivo;
+    } else if (archivo.id_contra_archivo) {
+      this._serviceContraArchivos.getContraArchivoById(this.token, archivo.id_contra_archivo)
+      .then(response => {
+        console.log(response);
+        this.archivo = response.contra_archivo;
+      }).catch(error => { console.log('Error al obtener evento archivo', error); });
+    } else if (archivo.id_publi_archivo) {
       this._servicePubliArchivos.getPubliArchivoById(this.token, archivo.id_publi_archivo)
       .then(response => {
         this.archivo = response.publi_archivo;
@@ -795,6 +915,40 @@ export class ShowProyectoComponent implements OnInit {
       .then(response => {
         this.archivo = response.proy_archivo;
       }).catch(error => { console.log('Error al obtener expo archivo', error); });
+    } else if (archivo.id_segui_archivo) {
+      this._serviceSeguiArchivos.getSeguiArchivoById(archivo.id_segui_archivo, this.token)
+      .then(response => {
+        this.archivo = response.segui_archivo;
+      }).catch(error => { console.log('Error al obtener segui archivo', error); });
+    }
+  }
+
+  openModalArchivoVarios(content, size, archivo: any) {
+    // console.log(archivo);
+    this.modalService.open(content, { size: size });
+    if (archivo.id_tipo === 8) {
+      // this.openModal(content, size, 6); // archivos convenios
+      this._serviceConvenios.getConvenioById(archivo.id_convenio, this.token)
+      .then(responseConv => {
+        // console.log(responseConv);
+        this.convenio = responseConv.convenio;
+        var date = new Date(this.convenio.fechaini);
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        var date = new Date(this.convenio.fechafin);
+        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+      }).catch(error => { console.log('Error al obtener convenio por id', error); });
+
+    } else if (archivo.id_tipo === 9) {
+      // this.openModal(content, size, 7); // archivos contratados
+      this._serviceContratados.getContratadoById(archivo.id_contratado, this.token)
+      .then(responseContra => {
+        // console.log(responseContra);
+        this.personal_rrhh = responseContra.contratado;
+        var date = new Date(this.personal_rrhh.fechaini);
+        this.fechainicio = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        var date = new Date(this.personal_rrhh.fechafin);
+        this.fechafinal = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+      }).catch(error => { console.log('Error al obtener contratado por id', error); });
     }
   }
 
@@ -974,6 +1128,62 @@ export class ShowProyectoComponent implements OnInit {
           });
         }).catch(error => { console.log('error al obtener exposiciones', error); });
         break;
+
+      case 5:
+        this.listado_difusion = 'Todas las difusiones';
+        this._serviceCursos.getCursosByIdProyecto(this.id, this.token)
+        .then(responseCurso => {
+          // this.difusiones = response.cursos;
+          // console.log(response.cursos);
+          responseCurso.cursos.forEach(difusion => {
+            var difu = difusion;
+            // obtener cursos_archivos
+            this._serviceCursoArchivos.getCursoArchivosByIdCurso(difusion.id_curso, this.token)
+            .then(responseArch => {
+              difu.archivos = responseArch.curso_archivos;
+              this.difusiones.push(difu);
+            }).catch(error => { console.log('Error al obtener Curso Archivos', error); });
+          });
+          this._serviceEventos.getEventosByIdProyecto(this.id, this.token)
+          .then(responseEvento => {
+            responseEvento.eventos.forEach(difusion => {
+              // obtener evento_archivos
+              var difu = difusion;
+              this._serviceEventoArchivos.getEventoArchivosByIdEvento(difusion.id_evento, this.token)
+              .then(responseArch => {
+                difu.archivos = responseArch.evento_archivos;
+                this.difusiones.push(difu);
+              }).catch(error => { console.log('Error al obtener Evento Archivos', error); });
+            });
+            this._serviceNotaPrensas.getNotaPrensasByIdProyecto(this.id, this.token)
+            .then(responseNotaPrensa => {
+              responseNotaPrensa.nota_prensas.forEach(difusion => {
+                var difu = difusion;
+                // obtener nota_archivos
+                this._serviceNotaArchivos.getNotaArchivosByIdNotaPrensa(difusion.id_nota_prensa, this.token)
+                .then(responseArch => {
+                  difu.archivos = responseArch.nota_archivos;
+                  this.difusiones.push(difu);
+                }).catch(error => { console.log('Error al obtener Nota de presa Archivos', error); });
+              });
+              this._serviceExposiciones.getExposicionesByIdProyecto(this.id, this.token)
+              .then(responseExposicion => {
+                // this.difusiones.fecha = '';
+                responseExposicion.exposiciones.forEach(difusion => {
+                  var difu = difusion;
+                  // obtener expo_archivos
+                  this._serviceExpoArchivos.getExpoArchivosByIdExposicion(difusion.id_exposicion, this.token)
+                  .then(responseArch => {
+                    difu.archivos = responseArch.expo_archivos;
+                    this.difusiones.push(difu);
+                  }).catch(error => { console.log('Error al obtener Exposicion Archivos', error); });
+                });
+                // fin
+              }).catch(error => { console.log('error al obtener exposiciones', error); });
+            }).catch(error => { console.log('error al obtener nota prensas', error); });
+          }).catch(error => { console.log('error al obtener eventos', error); });
+        }).catch(error => { console.log('error al obtener cursos', error); });
+        break;
       default:
         console.log('no se obtuvo difusiones');
         break;
@@ -983,10 +1193,10 @@ export class ShowProyectoComponent implements OnInit {
 
   }
 
-  // fileChange(files: any) {
-  //   this.lastFileAt = this.getDate();
-  //   this.setName(files);
-  // }
+  fileChange() {
+    this.lastFileAt = this.getDate();
+    this.setName(this.files);
+  }
 
   addUnidad() {
     this.unidades.push({
@@ -1060,5 +1270,205 @@ export class ShowProyectoComponent implements OnInit {
     }
   }
 
+  openModalNuevoSeguimiento(content, size, id_seguimiento?: number) {
+    this.files = [];
+    this.datosArchivo = [];
+    if (id_seguimiento) {
+      this._serviceSeguimientos.getSeguimientoById(id_seguimiento, this.token)
+      .then(response => {
+        this.seguimiento = response.seguimiento;
+      }).catch(error => { console.log('Error al obtener el seguimiento por id', error); });
+    } else {
+      this.seguimiento = {};
+    }
+    this.modalService.open(content, { size: size });
+  }
+
+  guardarSeguimiento() {
+    console.log(this.seguimiento);
+    console.log(this.datosArchivo);
+
+    var sw = false;
+
+    this.seguimiento.id_proyecto = this.proyecto.id_proyecto;
+    this.seguimiento.id_director = this.id_persona;
+
+    if (this.seguimiento.id_seguimiento) {
+      // console.log('actualizar');
+      sw = false;
+      this._serviceSeguimientos.update(this.seguimiento.id_seguimiento, this.seguimiento, this.token)
+      .then(response => {
+        // console.log(response.seguimiento);
+        sw = true;
+        // añadir archivos
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var segui_archivo = {
+              id_seguimiento: response.seguimiento.id_seguimiento,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '15'
+            };
+            // console.log(segui_archivo);
+            this._serviceSeguiArchivos.save(segui_archivo, this.token)
+            .then(responseArchivo => {
+              // console.log(responseArchivo);
+              sw = true;
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-segui-archivo/' + responseArchivo.segui_archivo.id_segui_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                // console.log(responseFile);
+                sw = true;
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
+              // this.obtenerseguimientoes(this.id);
+            }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
+          }
+        }
+        if (sw) {
+          this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          this.obtenerSeguimientos();
+        } else {
+          this.toastr.error('Error al subir archivos de seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+        }
+        // actualizar autores
+      }).catch(error => {
+        console.log('Error al actualizar seguimiento', error);
+        this.toastr.error('Error al actualizar seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+      });
+    } else {
+      sw = false;
+      this._serviceSeguimientos.save(this.seguimiento, this.token)
+      .then(response => {
+        // console.log(response);
+        sw = true;
+        // guardar segui_archivo
+        if (this.files) {
+          for (let i = 0; i < this.files.length; i++) {
+            var segui_archivo = {
+              id_seguimiento: response.seguimiento.id_seguimiento,
+              archivo: '',
+              nombre: this.datosArchivo[i].nombre,
+              descripcion: this.datosArchivo[i].descripcion,
+              id_tipo: '15'
+            };
+            // console.log(segui_archivo);
+            this._serviceSeguiArchivos.save(segui_archivo, this.token)
+            .then(responseArchivo => {
+              // console.log(responseArchivo);
+              sw = true;
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-segui-archivo/' + responseArchivo.segui_archivo.id_segui_archivo, this.files[i], this.token)
+              .then(responseFile => {
+                // console.log(responseFile);
+                sw = true;
+              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
+              // this.obtenerseguimientoes(this.id);
+            }).catch(error => { console.log('error al crear segui archivo', error); sw = false; });
+          }
+        }
+        if (sw) {
+          this.obtenerSeguimientos();
+          this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        } else {
+          this.toastr.error('Error al subir archivos de seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }
+      }).catch(error => {
+        console.log('Error al crear seguimiento', error); sw = false;
+        this.toastr.error('Error al guardar seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      });
+    }
+    this.modalService.dismissAll();
+  }
+
+  public obtenerSeguimientos() {
+    this._serviceSeguimientos.getSeguimientosByIdProyecto(this.id, this.token)
+    .then(response => {
+      // this.seguimientos = response.seguimientos;
+      this.seguimientos = [];
+      response.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.seguimientos.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+      console.log(this.seguimientos);
+    }).catch(error => { console.log('Error al obtener seguimientos', error); });
+  }
+
+  public eliminarSeguimiento(idSeguimiento: number) {
+    this._serviceSeguimientos.update(idSeguimiento, { estado: false }, this.token)
+    .then(response => {
+      console.log(response);
+      this.seguimiento = {};
+      this.obtenerSeguimientos();
+    }).catch(error => { console.log('Error al eliminar seguimiento', error); });
+  }
+
+  openModal(content, size, idSeguimiento: number) {
+    this.modalService.open(content, { size: size });
+    this.id_seguimiento = idSeguimiento;
+  }
+
+  tipoArchivo(idTipo: number): string{
+    let tipo = '';
+    switch (idTipo) {
+      case 1:
+        tipo = 'Principal';
+        break;
+      case 2:
+        tipo = 'DGB';
+        break;
+      case 3:
+        tipo = 'SERNAP';
+        break;
+      case 4:
+        tipo = 'CITES';
+        break;
+      case 5:
+        tipo = 'BIOETICA';
+        break;
+      case 6:
+        tipo = 'Cierre de proyecto';
+        break;
+      case 7:
+        tipo = 'Otros';
+        break;
+      case 8:
+        tipo = 'Convenios';
+        break;
+      case 9:
+        tipo = 'Contratados';
+        break;
+      case 10:
+        tipo = 'Cursos';
+        break;
+      case 11:
+        tipo = 'Eventos';
+        break;
+      case 12:
+        tipo = 'Notas de prensa';
+        break;
+      case 13:
+        tipo = 'Exposiciones';
+        break;
+      case 14:
+        tipo = 'Publicaciones';
+        break;
+      case 15:
+        tipo = 'Seguimientos';
+        break;
+      case 16:
+        tipo = 'Peticiones';
+        break;
+      case 17:
+        tipo = 'Final';
+        break;
+      default:
+        tipo = '';
+        break;
+    }
+    return tipo;
+  }
 
 }
