@@ -10,7 +10,6 @@ const inv_proyectos = require('./inv_proyectos');
 const proy_archivos = require('./proy_archivos');
 const proyectos = require('./proyectos');
 
-const basica_tecnicas = require('./proyecto/basica_tecnicas');
 const lugar_desarrollos = require('./proyecto/lugar_desarrollos');
 const cursos = require('./proyecto/cursos');
 const eventos = require('./proyecto/eventos');
@@ -27,6 +26,7 @@ const conv_archivos = require('./proyecto/conv_archivos');
 const contra_archivos = require('./proyecto/contra_archivos');
 const expositores = require('./proyecto/expositores');
 const unidades = require('./proyecto/unidades');
+const financiamientos = require('./proyecto/financiamientos');
 
 const publicaciones = require('./proyecto/publicaciones');
 const autores = require('./proyecto/autores');
@@ -49,7 +49,6 @@ module.exports = {
     inv_proyectos,
     proy_archivos,
     proyectos,
-    basica_tecnicas,
     lugar_desarrollos,
     cursos,
     eventos,
@@ -66,6 +65,7 @@ module.exports = {
     contra_archivos,
     expositores,
     unidades,
+    financiamientos,
     publicaciones,
     autores,
     publi_archivos,

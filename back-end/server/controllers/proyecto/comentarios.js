@@ -99,6 +99,19 @@ function getAllByIdPublicacion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un comentarios por id_publicacion', err });
     })
 }
+// funcion para contar comentarios por id_publicacion
+function countByIdPublicacion(req, res) {
+    var id = req.params.id_publicacion;
+    comentarios.count({
+        where: { id_publicacion: id, estado: true }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar un comentarios por id_proyecto', err });
+    })
+}
 
 
 module.exports = {
@@ -106,5 +119,6 @@ module.exports = {
     update,
     getById,
     getAll,
-    getAllByIdPublicacion
+    getAllByIdPublicacion,
+    countByIdPublicacion
 }

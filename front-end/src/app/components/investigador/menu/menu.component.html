@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                <h2>
+                    Dashboard
+                </h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a [routerLink]="['/director/dashboard/data']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item">Dashboard</li>
+					<li class="breadcrumb-item actice">Menu principal</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row clearfix mt-3">
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/investigador/dashboard/list-proyectos-inv', 'proyecto']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/proyecto.png" alt="imagen_fotografias"></div>
+            <div class="content">
+              <h6>Listar Proyectos</h6>
+              <p>Proyectos de investigación (Activo, Inactivo, Pendiente, Cerrado).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card appliances-grp" type="button" [routerLink]="['/investigador/dashboard/profile']">
+          <div class="body clearfix">
+            <div class="icon"><img src="assets/images/reporte.png" alt="imagen_fotografias"></div>
+            <div class="content">
+              <h6>Perfil de Investigador</h6>
+              <p>Publicaciones activas, informacion de investigador.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>

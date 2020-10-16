@@ -25,7 +25,6 @@ import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.se
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
 import { ProyArchivosService } from 'src/app/services/admin/proy-archivos.service';
 import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
-import { BasicaTecnicasService } from 'src/app/services/proyecto/basica-tecnicas.service';
 import { LugarDesarrollosService } from 'src/app/services/proyecto/lugar-desarrollos.service';
 import { CursosService } from 'src/app/services/proyecto/cursos.service';
 import { EventosService } from 'src/app/services/proyecto/eventos.service';
@@ -47,6 +46,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { DatePipe } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { InvProyectosService } from 'src/app/services/admin/inv-proyectos.service';
+import { FinanciamientosService } from 'src/app/services/proyecto/financiamientos.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -318,7 +318,7 @@ export class GenerateReportesComponent
     private _servicePublicaciones: PublicacionesService,
     private _servicePubliArchivos: PubliArchivosService,
     private _serviceInvestigadores: InvestigadoresService,
-    private _serviceBasicaTecnicas: BasicaTecnicasService,
+    private _serviceFinanciamientos: FinanciamientosService,
     private _serviceLugarDesarrollo: LugarDesarrollosService,
     private _serviceCursos: CursosService,
     private _serviceCursoArchivos: CursoArchivosService,
@@ -640,12 +640,13 @@ export class GenerateReportesComponent
       // buscando basica tecnicas
       if (this.filtro.mostrarBasicaTecnica) {
         proyecto.basica_tecnicas = '';
-        this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
-            response.basica_tecnicas.forEach(basica_tecnica => {
-              proyecto.basica_tecnicas = proyecto.basica_tecnicas + ' - ' + `${basica_tecnica.tipo}, ${basica_tecnica.area}`;
-            });
-          }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
+
+        // this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(proyecto.id_proyecto, this.token)
+        //   .then(response => {
+        //     response.basica_tecnicas.forEach(basica_tecnica => {
+        //       proyecto.basica_tecnicas = proyecto.basica_tecnicas + ' - ' + `${basica_tecnica.tipo}, ${basica_tecnica.area}`;
+        //     });
+        //   }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
       }
       // buscando lugar_desarrollo
       if (this.filtro.mostrarLugarDesarrollo) {
@@ -754,10 +755,11 @@ export class GenerateReportesComponent
       //  buscando nro_basica_tecnicas
       if (this.filtro.mostrarNumeroBasicaTecnicas) {
         proyecto.nro_basicas_tecnicas = 0;
-        this._serviceBasicaTecnicas.countBasicaTecnicasByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
-            proyecto.nro_basicas_tecnicas = response.contador;
-          }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+        
+        // this._serviceBasicaTecnicas.countBasicaTecnicasByIdProyecto(proyecto.id_proyecto, this.token)
+        //   .then(response => {
+        //     proyecto.nro_basicas_tecnicas = response.contador;
+        //   }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
       }
       // buscando nro lugar de desarrollo
       if (this.filtro.mostrarNumeroLugarDesarrollos) {

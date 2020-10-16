@@ -1,7 +1,7 @@
 const nota_archivosController = require('../../controllers').nota_archivos;  
 const md_auth = require('../../authenticated/authenticated');
 const cm = require('connect-multiparty');
-const md_upload = cm({ uploadDir: './server/uploads/archivos' });
+const md_upload = cm({ uploadDir: './server/uploads/archivos/notas_prensa' });
 
 // configuracion el express
 module.exports = (app) => {
@@ -11,8 +11,7 @@ module.exports = (app) => {
     app.get('/api/nota_archivos/:id_nota_prensa', nota_archivosController.getAllByIdNotaPrensa);
 
     app.post('/api/upload-nota-archivo/:id_nota_archivo', md_upload, nota_archivosController.uploadArchivo);
-    app.get('/api/get-archivo/:archivo', nota_archivosController.getArchivo);
-    app.get('/:archivo', nota_archivosController.getArchivo);
+    app.get('/notas_prensa/:archivo', nota_archivosController.getArchivo);
     app.get('/api/nota_archivo/:id_nota_archivo', nota_archivosController.getById);
     app.get('/api/countNotaArchivosByIdNotaPrensa/:id_nota_prensa', nota_archivosController.countByIdNotaPrensa);
 

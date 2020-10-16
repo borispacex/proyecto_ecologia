@@ -91,6 +91,20 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un peticiones por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un peticiones por id_proyecto
+function getAllByIdProyectoAndIdInvestigador(req, res) {
+    var id = req.params.id_proyecto;
+    var id_inv = req.params.id_investigador;
+    peticiones.findAll({
+        where: { id_proyecto: id , id_investigador: id_inv }
+    })
+    .then(peticiones => {
+        res.status(200).send({ peticiones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un peticiones por id_proyecto', err });
+    })
+}
 // funcion contar peticiones por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
@@ -113,5 +127,6 @@ module.exports = {
     getAllByEstado,
     getAllByIdInvestigador,
     getAllByIdProyecto,
+    getAllByIdProyectoAndIdInvestigador,
     countByIdProyecto
 }

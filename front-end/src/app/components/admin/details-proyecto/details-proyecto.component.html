@@ -17,44 +17,44 @@
     <div class="row clearfix">
         <div class="col-lg-8 col-md-8">
             <div class="card">
-                <div class="header">
-                    <h1>{{proyecto.titulo}}</h1>
-                </div>
                 <div class="body">
-                    <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
-                    <hr>
-                    <h4>Fechas</h4>
-                    <p><strong>Fecha inicio del proyecto: </strong>{{proyecto.fechaini | date}}</p>
-                    <p><strong>fecha conclusion del proyecto: </strong>{{proyecto.fechafin | date}}</p>
-                    <hr>
-                    <h4>Grupo</h4>
-                    <h6>Investigador coordinador</h6>
-                    <ul>
-                        <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}}
-                                {{proyecto.investigadore.persona.paterno}}
-                                {{proyecto.investigadore.persona.materno}}</a></li>
-                    </ul>
-                    <h6>Investigadores</h6>
-                    <ul>
-                        <li *ngFor="let inv of proyecto.investigadores"><a
-                                href="javascript:void(0)">{{inv.investigadore.persona.nombres}}
-                                {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
-                    </ul>
-
-                    <p>
-                        <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">
-                        </ngb-progressbar>
-                    </p>
-                    <div class="row">
-                        <div class="col-7">
-                            <small>Numero de archivos: 23</small>
-                            <h5>
-                                <strong>estado: </strong>
-                                <span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
-                                <span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
-                                <span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
-                                <span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
-                            </h5>
+                    <div class="details">
+                        <h3 class="product-title m-b-0"><strong>{{proyecto.titulo}}</strong></h3>
+                        <hr>
+                        <h5 class="price m-t-0"><strong>Inicio de proyecto: </strong> <span class="text-primary">{{proyecto.fechaini | date: 'dd/MM/yyyy'}}</span></h5>
+                        <h5 class="price m-t-0"><strong>Fin de proyecto: </strong> <span class="text-primary">{{proyecto.fechafin | date: 'dd/MM/yyyy'}}</span></h5>
+                        <h5 class="sizes"><strong>Investigador coordinador: </strong>
+                            <ul>
+                                <li>
+                                    <a type="button" class="text-primary">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a>
+                                </li>
+                            </ul>
+                        </h5>
+                        <h5 class="colors"><strong>Investigadores: </strong>
+                            <ul>
+                                <li *ngFor="let inv of proyecto.investigadores">
+                                    <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
+                                </li>
+                            </ul>
+                        </h5>
+                        <hr>
+                        <div class="action">
+                            <p>
+                                <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">
+                                </ngb-progressbar>
+                            </p>
+                            <div class="row">
+                                <div class="col-7">
+                                    <!-- <small>Numero de archivos: 23</small> -->
+                                    <h5>
+                                        <strong>estado: </strong>
+                                        <span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
+                                        <span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
+                                        <span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
+                                        <span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -88,8 +88,7 @@
     </div>
     <div class="row clearfix" *ngIf="(archivos | searchArchivos: valorBusqueda) as result">
         <div class="col-lg-12 col-md-12 col-sm-12">
-            <h3 class="text-center">Lista de archivos</h3>
-            <h5 class="text-center text-lg-left">{{tituloArch}}</h5>
+            <h2 class="text-center"><strong>Lista de archivos</strong></h2>
         </div>
         <div class="col-lg-5 col-md-8 col-sm-12">
             <form id="navbar-search" class="navbar-form search-form">
@@ -121,6 +120,7 @@
     
             <div class="card product_item_list" *ngIf="result.length > 0">
                 <div class="body">
+                    <h5 class="text-center text-lg-left"><strong>{{tituloArch}}</strong></h5>
                     <div class="table-responsive">
                         <table class="table table-hover m-b-0">
                             <thead class="thead-dark align-center">
@@ -137,10 +137,12 @@
                             <tbody *ngFor="let archivo of result">
                                 <tr>
                                     <td>
-                                        <a href="javascript:void(0)" (click)="openArchivo(archivo.archivo)">
-                                            <i class="fa fa-file text-success"></i>
-                                        </a> &nbsp;
-                                        <span class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content1,'lg', archivo)">{{archivo.nombre}}</a></span>
+                                        <a *ngIf="archivo.id_proy_archivo" type="button" target="_blank" href="{{who + 'proyectos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                        <a *ngIf="archivo.id_permiso_archivo" type="button" target="_blank" href="{{who + 'permisos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                        <a *ngIf="archivo.id_convenio" type="button" target="_blank" href="{{who + 'convenios/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                        <a *ngIf="archivo.id_contratado" type="button" target="_blank" href="{{who + 'contratados/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                        &nbsp;
+                                        <span class="title"><a type="button" class="text-success" (click)="openModalArchivo(content1,'lg', archivo)">{{archivo.nombre}}</a></span>
                                     </td>
                                         
                                     <td>{{ archivo.descripcion }}</td>
@@ -148,10 +150,10 @@
                                     <td>
                                         <small *ngIf="!archivo.convArchivos">Ninguna</small>
                                         <div *ngFor="let archivoB of archivo.convArchivos">
-                                            <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
-                                                <i class="fa fa-file text-info"></i>
-                                            </a> &nbsp;
-                                            <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content1,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                            <a *ngIf="archivoB.id_conv_archivo" type="button" target="_blank" href="{{who + 'convenios/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
+                                            <a *ngIf="archivoB.id_contra_archivo" type="button" target="_blank" href="{{who + 'contratados/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
+                                            &nbsp;
+                                            <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content1,'lg', archivoB)">{{archivoB.nombre}}</a></small>
                                         </div>
                                     </td>
                                     <td>
@@ -191,7 +193,22 @@
         <form class="container" #formDetail="ngForm" (ngSubmit)="guardar()">
             <!-- OTROS -->
             <section *ngIf="tipoModal===1">
-                
+                <div class="form-group row">
+                    <label class="col-12 col-md-3">Tipo de Archivo: </label>
+                    <div class="col-12 col-md-9">
+                        <select [(ngModel)]="proy_archivo.id_tipo" class="form-control" name="tipo"
+                            #tipo="ngModel" [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || formDetail.submitted)}"
+                            required>
+                            <option value=""> --Seleccionar tipo de Archivo-- </option>
+                            <option value="1">Principal</option>
+                            <option value="7">Otros</option>
+                        </select>
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="!tipo.valid && (tipo.touched || formDetail.submitted)">
+                            <li class="parsley-required" *ngIf="tipo.hasError('required')">Tipo de personal de RRHH requerida.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
             <!-- PERMISO -->
             <section *ngIf="tipoModal===2">
@@ -231,6 +248,13 @@
                 </div>
                 <div>
                     <h5 style="color:brown;">Solamente suba un archivo</h5>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="estado" name="estado"
+                            [(ngModel)]="permiso.estado" />
+                        <label class="form-check-label" for="estado">Estado</label>
+                    </div>
                 </div>
 
             </section>
@@ -344,6 +368,14 @@
                             <button class="btn btn-warning my-1" type="button" (click)="file.click()"><i
                                     class="icon-paper-clip text-light"></i></button>
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="estado" name="estado"
+                            [(ngModel)]="convenio.estado" />
+                        <label class="form-check-label" for="estado">Estado</label>
                     </div>
                 </div>
 
@@ -461,11 +493,19 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="estado" name="estado"
+                            [(ngModel)]="personal_rrhh.estado" />
+                        <label class="form-check-label" for="estado">Estado</label>
+                    </div>
+                </div>
         
             </section>
             <!-- SUBIR PROYECTO FINAL -->
             <section *ngIf="tipoModal===5">
-
+                
             </section>
             <section *ngIf="tipoModalShow">
                 <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>

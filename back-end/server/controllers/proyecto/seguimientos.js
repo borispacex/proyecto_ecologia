@@ -95,7 +95,7 @@ function getAllByIdProyecto(req, res) {
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     seguimientos.count({
-        where: { id_proyecto: id }
+        where: { id_proyecto: id, estado: true }
     })
     .then(contador => {
         res.status(200).send({ contador });

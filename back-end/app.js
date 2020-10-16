@@ -47,7 +47,7 @@ require('./server/routes/proyecto/convenios')(app);
 require('./server/routes/proyecto/contratados')(app);
 require('./server/routes/proyecto/conv_archivos')(app);
 require('./server/routes/proyecto/contra_archivos')(app);
-require('./server/routes/proyecto/basica_tecnicas')(app);
+require('./server/routes/proyecto/financiamientos')(app);
 require('./server/routes/proyecto/lugar_desarrollos')(app);
 require('./server/routes/proyecto/cursos')(app);
 require('./server/routes/proyecto/eventos')(app);

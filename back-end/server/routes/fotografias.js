@@ -12,7 +12,7 @@ module.exports = (app) => {
     // app.post('/api/upload-fotografia/:id', [md_auth.auth, md_upload], fotografiasController.uploadFotografia);
     app.post('/api/upload-fotografia/:id_fotografia', md_upload, fotografiasController.uploadFotografia);
 
-    app.get('/api/get-fotografia/:fotografia/:thumb', fotografiasController.getFotografia);
+    app.get('/fotografias/:fotografia/:thumb', fotografiasController.getFotografia);
     app.get('/api/fotografia/:id_fotografia', fotografiasController.getById);
 
     app.get('/api/fotografias-admin', md_auth.auth, fotografiasController.getAllAdmin);

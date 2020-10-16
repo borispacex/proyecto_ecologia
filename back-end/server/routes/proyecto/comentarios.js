@@ -10,4 +10,5 @@ module.exports = (app) => {
     app.get('/api/comentarios-publi/:id_publicacion', comentariosController.getAllByIdPublicacion);
 
     app.get('/api/comentario/:id_comentario', comentariosController.getById);
+    app.get('/api/countComentariosByIdPublicacion/:id_publicacion', comentariosController.countByIdPublicacion);
 }

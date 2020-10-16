@@ -12,6 +12,7 @@ import { AdminHelpComponent } from '../help/admin-help/admin-help.component';
 import { DirectorHelpComponent } from '../help/director-help/director-help.component';
 import { InvestigadorHelpComponent } from '../help/investigador-help/investigador-help.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 const routes: Routes = [
@@ -25,7 +26,8 @@ const routes: Routes = [
           {
               path: 'dashboard',
               children: [
-                { path: '', redirectTo: 'profile', pathMatch: 'full' },
+                { path: '', redirectTo: 'menu', pathMatch: 'full' },
+                { path: 'menu', component: MenuComponent, data: { title: 'Menu principal' } },
                 { path: 'profile', component: ProfileComponent, data: { title: 'Perfil' } },
                 { path: 'profile-post/:id_publicacion', component: ProfilePostComponent, data: { title: 'Detalles publicacion' } },
                 { path: 'list-proyectos-inv/:tipo', component: ListProyectoInvComponent, data: { title: 'Lista proyectos de Investigador' } },

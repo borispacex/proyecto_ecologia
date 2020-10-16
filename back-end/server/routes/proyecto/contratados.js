@@ -1,7 +1,7 @@
 const contratadosController = require('../../controllers').contratados;  
 const md_auth = require('../../authenticated/authenticated');
 const cm = require('connect-multiparty');
-const md_upload = cm({ uploadDir: './server/uploads/archivos' }); // '../../../server/uploads/archivos'
+const md_upload = cm({ uploadDir: './server/uploads/archivos/contratados' }); // '../../../server/uploads/archivos'
 
 // configuracion el express
 module.exports = (app) => {
@@ -11,8 +11,7 @@ module.exports = (app) => {
     app.get('/api/contratados/:id_proyecto', contratadosController.getAllByIdProyecto);
     
     app.post('/api/upload-contratado/:id_contratado', md_upload, contratadosController.uploadArchivo);
-    app.get('/api/get-archivo/:archivo', contratadosController.getArchivo);
-    app.get('/:archivo', contratadosController.getArchivo);
+    app.get('/contratados/:archivo', contratadosController.getArchivo);
     app.get('/api/contratado/:id_contratado', contratadosController.getById);
     app.get('/api/countContratadosByIdProyecto/:id_proyecto', contratadosController.countByIdProyecto);
 }

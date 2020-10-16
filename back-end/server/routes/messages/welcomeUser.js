@@ -2,8 +2,7 @@
 const personas = require('../../models').personas;
 require('dotenv').config();
 const nodemailer = require('nodemailer');
-// const url = 'http://localhost:4200';
-const url = 'https://umsa-ecologia.xyz';
+const url = require('../../global');
 
 module.exports = (app) => {
     app.get('/api/bienvenidoUser/:id_persona', (req, res) => {
@@ -30,7 +29,6 @@ module.exports = (app) => {
                             + 'Te recomendamos cambiar tu contraseña para mayor seguridad.\n\n'
                             + 'Ingresa a este enlace para acceder al sistema: \n'
                             + `${url}\n\n`
-                            + 'Nos vemos pronto!\n\n'
                             + 'Instituto de Ecologia, Proyectos de investigacion.\n'
                     };
                     transporter.sendMail(mailOptions, (err, response) => {

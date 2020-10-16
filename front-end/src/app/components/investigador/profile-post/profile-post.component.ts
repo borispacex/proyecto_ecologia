@@ -20,6 +20,7 @@ export class ProfilePostComponent implements OnInit {
   public id_publicacion: number;
   private token: string;
   public url: string;
+  public who: string;
 
   public publicacion: any = {};
   public archivos: any = [];
@@ -45,6 +46,7 @@ export class ProfilePostComponent implements OnInit {
     ) {
       this.token = this._auth.getToken();
       this.url = GLOBAL.url;
+      this.who = GLOBAL.who;
       this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
   }
 

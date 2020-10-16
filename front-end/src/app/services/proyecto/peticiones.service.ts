@@ -67,8 +67,17 @@ export class PeticionesService {
     return this._http.get(this.url + 'peticiones-proy/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
+    // obtenemos todos los peticiones by id_proyecto
+  getPeticionesByIdProyectoAndIdInvestigador(id_proyecto: number, id_investigador,token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'peticiones-proy-inv/' + id_proyecto + '/' + id_investigador, options).toPromise()
+      .then(res => res.json());
+  }
   // obtenemos todos los peticiones by id_investigador
-  getPeticionesByIdDirector(id_investigador: number, token: string) {
+  getPeticionesByIdInvestigador(id_investigador: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });

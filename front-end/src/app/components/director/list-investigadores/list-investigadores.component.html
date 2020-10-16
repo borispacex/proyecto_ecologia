@@ -62,7 +62,7 @@
 										{{investigador.persona.paterno}}
 										{{investigador.persona.materno}}</td>
 									<td>{{investigador.persona.ci}}</td>
-									<td><img src="{{url +'get-fotografia/'+ investigador.persona.fotografia.imagen + '/true'}}"
+									<td><img src="{{who +'fotografias/'+ investigador.persona.fotografia.imagen + '/true'}}"
 											width="48" alt="usr img"></td>
 									<td>
 										<span>{{investigador.persona.correo}}</span>
@@ -79,7 +79,7 @@
 									</td>
 									<td>
 										<small *ngFor="let inv_proyecto of investigador.inv_proyectos; index as i">
-                                            {{i+1}}.- <a [routerLink]="['../../show-proyecto', inv_proyecto.id_proyecto]">{{inv_proyecto.proyecto.titulo | slice:0:15}}</a><br/>
+										<span class="text-primary">{{i+1}}.- </span><a [routerLink]="['../../show-proyecto', inv_proyecto.id_proyecto]">{{inv_proyecto.proyecto.titulo | slice:0:15}}</a><br/>
                                         </small>
 									</td>
 								</tr>

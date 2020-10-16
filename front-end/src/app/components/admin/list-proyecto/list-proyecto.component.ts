@@ -17,6 +17,8 @@ import { Proyecto } from 'src/app/interfaces/proyecto';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { HttpEvent } from '@angular/common/http';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -60,6 +62,7 @@ export class ListProyectoComponent implements OnInit {
   public token: string;
   public proyectos: Array<Proyecto> = [];
   public url: string;
+  public who: string;
   public proyecto: any = {};
   public fechainicio: any = {};
   public fechafinal: any = {};
@@ -68,10 +71,6 @@ export class ListProyectoComponent implements OnInit {
 
 
   // cambios de archivo
-  public archivo_selected1: string;
-  public archivo_selected2: string;
-  public archivo_selected3: string;
-  public filesToUpload: Array<File> = [];
   public tipo_form: boolean; // true -> editar, false -> agregar
   public sidebarVisible: boolean = true;
 
@@ -98,6 +97,25 @@ export class ListProyectoComponent implements OnInit {
   // tipo proyecto
   private tipo = '';
 
+    // MANEJO DE ARCHIVOS
+    accept = 'pdf'; // *
+    files: Array<File> = [];
+    progress: number;
+    hasBaseDropZoneOver: boolean = false;
+    httpEmitter: Subscription;
+    httpEvent: HttpEvent<{}>;
+    lastFileAt: Date;
+    sendableFormData: FormData; //populated via ngfFormData directive
+    dragFiles: any;
+    validComboDrag: any;
+    lastInvalids: any;
+    fileDropDisabled: any;
+    maxSize: any;
+    baseDropValid: any;
+    public datosArchivo: any = [];
+    public antFileTam = 0;
+
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -114,6 +132,7 @@ export class ListProyectoComponent implements OnInit {
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
 
     this.dropdownConfiguracion1 = {
       singleSelection: true,
@@ -260,10 +279,10 @@ export class ListProyectoComponent implements OnInit {
   }
   agregar() {
     let sw = true;
-    console.log(this.proyecto, 'proyecto');
-    console.log(this.seleccionados1, 'coordinador');
-    console.log(this.seleccionados2, 'investigadores');
-    console.log(this.filesToUpload, 'archivos');
+    // console.log(this.proyecto, 'proyecto');
+    // console.log(this.seleccionados1, 'coordinador');
+    // console.log(this.seleccionados2, 'investigadores');
+    // console.log(this.filesToUpload, 'archivos');
     this.proyecto.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
     this.proyecto.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
 
@@ -285,71 +304,38 @@ export class ListProyectoComponent implements OnInit {
               this.toastr.error('Error al enlazar proyecto con investigador', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             });
         });
-        // archivos
-        sw = false;
-        if (this.filesToUpload) {
-          // for (let i = 0; i < this.filesToUpload.length; i++) {
-          // console.log(this.filesToUpload[i]);
-          var proyecto_archivo: any = {
-            id_proyecto: responseProy.proyecto.id_proyecto,
-            descripcion: 'Archivos necesarios para la creacion de proyecto',
-            id_tipo: 1,
-            nombre: this.obtenerNombreArchivo(this.filesToUpload[0].name)
-          };
-          // 1
-          this._serviceProyArch.saveProy_archivo(proyecto_archivo, this.token)
+
+        if (this.files.length > 0) {
+          var contador = 0;
+          for (let pos = 0; pos < this.files.length; pos++) {
+            this.datosArchivo[pos].id_proyecto = responseProy.proyecto.id_proyecto;
+            this.datosArchivo[pos].id_tipo = 1;  // Principal
+            this._serviceProyArch.saveProy_archivo(this.datosArchivo[pos], this.token)
             .then(responseProyArch => {
-              console.log(responseProyArch, this.filesToUpload[0]);
-              this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch.proy_archivo.id_proy_archivo, this.filesToUpload[0], this.token)
-                .then((responseArchivo: any) => {
-                  console.log(responseArchivo);
-                  // 2
-                  proyecto_archivo.nombre = this.obtenerNombreArchivo(this.filesToUpload[1].name);
-                  console.log(proyecto_archivo, this.token, this.filesToUpload[1]);
-                  this._serviceProyArch.saveProy_archivo(proyecto_archivo, this.token)
-                    .then(responseProyArch2 => {
-                      console.log(responseProyArch2, this.filesToUpload[1]);
-                      this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch2.proy_archivo.id_proy_archivo, this.filesToUpload[1], this.token)
-                        .then((responseArchivo2: any) => {
-                          console.log(responseArchivo2);
-                          // 3
-                          proyecto_archivo.nombre = this.obtenerNombreArchivo(this.filesToUpload[2].name);
-                          console.log(proyecto_archivo, this.token, this.filesToUpload[2]);
-                          this._serviceProyArch.saveProy_archivo(proyecto_archivo, this.token)
-                            .then(responseProyArch3 => {
-                              console.log(responseProyArch3, this.filesToUpload[2]);
-                              this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch3.proy_archivo.id_proy_archivo, this.filesToUpload[2], this.token)
-                                .then((responseArchivo3: any) => {
-                                  console.log(responseArchivo3);
-                                  this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                                  this.modalService.dismissAll();
-                                  this.comprobarTipoProyecto();
-                                  this.vaciarProyecto();
-                                }).catch(error => {
-                                  console.log('Error al crear archivo del Inv_proyecto', error);
-                                  this.toastr.error('Error al subir archivo proyecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                                });
-                            }).catch(error => {
-                              console.log('Error al crear proy Archivos', error);
-                              this.toastr.error('Error al guardar archivo proyecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                            });
-                        }).catch(error => {
-                          console.log('Error al crear archivo del Inv_proyecto', error);
-                          this.toastr.error('Error al subir archivo proyecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                        });
-                    }).catch(error => {
-                      console.log('Error al crear proy Archivos', error); // aqui
-                      this.toastr.error('Error al guardar archivo proyecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                    });
-                }).catch(error => {
-                  console.log('Error al crear archivo del Inv_proyecto', error);
-                  this.toastr.error('Error al subir archivo proyecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                });
+              // console.log(responseProyArch);
+              this._uploadArchivo.uploadArchivo(this.url + 'upload-proyecto-archivo/' + responseProyArch.proy_archivo.id_proy_archivo, this.files[pos], this.token)
+              .then((responseArchivo: any) => {
+                contador++;
+                if (contador === this.files.length) {
+                  this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                  this.modalService.dismissAll();
+                  this.comprobarTipoProyecto();
+                  this.vaciarProyecto();
+                }
+              }).catch(error => {
+                console.log('Error al crear archivo del Inv_proyecto', error);
+                this.toastr.error('Error al subir archivo de inicio', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              });
             }).catch(error => {
-              console.log('Error al crear proy Archivos', error);
-              this.toastr.error('Error al guardar archivo proyecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              console.log('Error al crear el proyecto archivo', error);
+              this.toastr.error('Error al guardar archivo inicio', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             });
-          // }
+          }
+        } else {
+          this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          this.modalService.dismissAll();
+          this.comprobarTipoProyecto();
+          this.vaciarProyecto();
         }
       }).catch(error => {
         console.log('error al crear proyecto', error);
@@ -367,42 +353,16 @@ export class ListProyectoComponent implements OnInit {
       (d.day < 10 ? ('0' + d.day) : d.day)
     ].join('-');
   }
-
-  fileChangeEvent(fileInput: any, pos: number) {
-    console.log(fileInput);
-    if (fileInput.target.files.length > 0) {
-      this.filesToUpload.push(fileInput.target.files[0] as File);
-    }
-    switch (pos) {
-      case 0:
-        this.archivo_selected1 = this.filesToUpload
-          ? fileInput.target.files[0].name
-          : '';
-        break;
-      case 1:
-        this.archivo_selected2 = this.filesToUpload
-          ? fileInput.target.files[0].name
-          : '';
-        break;
-      case 2:
-        this.archivo_selected3 = this.filesToUpload
-          ? fileInput.target.files[0].name
-          : '';
-        break;
-      default:
-        console.log('error');
-        break;
-    }
-  }
   toggleFullWidth() {
     this.sidebarService.toggle();
     this.sidebarVisible = this.sidebarService.getStatus();
     this.cdr.detectChanges();
   }
   vaciarProyecto() {
-    this.archivo_selected1 = '';
-    this.archivo_selected2 = '';
-    this.archivo_selected3 = '';
+    // this.filesToUpload = [];
+    this.files.length = 0;
+    this.datosArchivo.length = 0;
+    this.antFileTam = 0;
     this.fechainicio = {};
     this.fechafinal = {};
     this.proyecto = {
@@ -411,7 +371,6 @@ export class ListProyectoComponent implements OnInit {
       fechafin: '',
       estado: 'activo'
     };
-    this.filesToUpload = [];
     this.seleccionados1 = [];
     this.seleccionados2 = [];
   }
@@ -472,5 +431,22 @@ export class ListProyectoComponent implements OnInit {
     } else {
       this.agregar();
     }
+  }
+  fileChange() {
+    this.lastFileAt = this.getDate();
+    this.setName(this.files);
+  }
+  public setName(files: any) {
+    // console.log(files);
+    // console.log('posicion', this.antFileTam);
+    for (let i = this.antFileTam; i < files.length; i++) {
+      const file = files[i];
+      this.datosArchivo.push({ nombre: this.obtenerNombreArchivo(file.name) });
+    }
+    this.antFileTam = files.length;
+    // console.log(this.datosArchivo);
+  }
+  getDate() {
+    return new Date();
   }
 }

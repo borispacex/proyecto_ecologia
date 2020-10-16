@@ -50,22 +50,22 @@ export class UnidadesService {
     return this._http.get(this.url + 'unidad/' + id_unidad, options).toPromise()
       .then(res => res.json());
   }
-  // obtenemos todos los unidades by id_basica_tecnica
-  getUnidadesByIdBasicaTecnica(id_basica_tecnica: number, token: string) {
+  // obtenemos todos los unidades by id_proyecto
+  getUnidadesByIdProyecto(id_proyecto: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'unidades/' + id_basica_tecnica, options).toPromise()
+    return this._http.get(this.url + 'unidades/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
   // borramos la unidad
-  deleteUnidadesByIdBasicaTecnica(id_basica_tecnica: number, token: string) {
+  deleteUnidadesByIdProyecto(id_proyecto: number, token: string) {
     let headers = new Headers({
       'Authorization': token
     });
     let options = new RequestOptions({ headers: headers });
-    return this._http.delete(this.url + 'unidades/' + id_basica_tecnica, options).toPromise()
+    return this._http.delete(this.url + 'unidades/' + id_proyecto, options).toPromise()
       .then(res => res.json());
   }
   // borramos la unidad

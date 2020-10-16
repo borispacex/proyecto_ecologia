@@ -19,6 +19,7 @@ export class ListFotografiaComponent implements OnInit {
   public token: string;
   public fotografias: any[] = [];
   public url: string;
+  public who: string;
   public fotografia: any = {};
   public image_selected: string;
   public filesToUpload: Array<File>;
@@ -44,6 +45,7 @@ export class ListFotografiaComponent implements OnInit {
     ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
   }
 
   ngOnInit() {

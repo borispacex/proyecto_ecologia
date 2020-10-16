@@ -30,7 +30,7 @@ module.exports = (app) => {
                   to: `${persona.correo}`,
                   subject: 'proyecto de investigacion',
                   text:
-                    'Hey ' + `${persona.nombres}` + ' ' + `${persona.paterno}` + ' ' + `${persona.materno}` + '!\n\n'
+                    'Hola, ' + `${persona.nombres}` + ' ' + `${persona.paterno}` + ' ' + `${persona.materno}` + '!\n\n'
                     + 'Usted acaba de unirse al proyecto "' + `${proyecto.titulo}` + '" como COORDINADOR, recibira informacion acerca de los cambios que halla en ella.\n\n'
                     + 'Nos vemos pronto!\n\n'
                     + 'Instituto de Ecologia, Proyectos de investigacion.\n'

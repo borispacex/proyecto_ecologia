@@ -20,8 +20,8 @@
                         <ul class="dropdown-menu user-menu menu-icon" ngbDropdownMenu>
                             <li class="menu-heading">CUENTA</li>
                             <li *ngIf="rol==='investigador'"><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i> <span>Mi perfil</span></a></li>
-                            <li><a href="javascript:void(0);" [routerLink]="['./settings/account']"><i class="icon-settings"></i> <span>Configuraciones</span></a></li>
-                            <li><a href="javascript:void(0);" (click)="logout()"><i class="icon-power"></i> <span>Salir</span></a></li>
+                            <li><a [routerLink]="['./settings/account']"><i class="icon-settings"></i> <span>Configuraciones</span></a></li>
+                            <li><a type="button" (click)="logout()"><i class="icon-power"></i> <span>Salir</span></a></li>
                         </ul>
                     </li>
 

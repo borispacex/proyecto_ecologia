@@ -17,44 +17,44 @@
 
 		<div class="col-lg-7 col-md-7 col-12">
             <div class="card">
-                <div class="header">
-                    <h1>{{proyecto.titulo}}</h1>
-                </div>
                 <div class="body">
-                    <strong>Creacion del proyecto: </strong> <small>{{proyecto.createdAt | date: 'medium'}}</small>
-                    <hr>
-                    <h4>Fechas</h4>
-                    <p><strong>Fecha inicio del proyecto: </strong>{{proyecto.fechaini | date}}</p>
-                    <p><strong>fecha conclusion del proyecto: </strong>{{proyecto.fechafin | date}}</p>
-                    <hr>
-                    <h4>Grupo</h4>
-                    <h6>Investigador coordinador</h6>
-                    <ul>
-                        <li><a href="javascript:void(0)">{{proyecto.investigadore.persona.nombres}}
-                                {{proyecto.investigadore.persona.paterno}}
-                                {{proyecto.investigadore.persona.materno}}</a></li>
-                    </ul>
-                    <h6>Investigadores</h6>
-                    <ul>
-                        <li *ngFor="let inv of proyecto.investigadores"><a
-                                href="javascript:void(0)">{{inv.investigadore.persona.nombres}}
-                                {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a></li>
-                    </ul>
-
-                    <p>
-                        <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">
-                        </ngb-progressbar>
-                    </p>
-                    <div class="row">
-                        <div class="col-7">
-                            <small>Numero de archivos: 23</small>
-                            <h5>
-                                <strong>estado: </strong>
-                                <span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
-                                <span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
-                                <span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
-                                <span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
-                            </h5>
+                    <div class="details">
+                        <h3 class="product-title m-b-0"><strong>{{proyecto.titulo}}</strong></h3>
+                        <hr>
+                        <h5 class="price m-t-0"><strong>Inicio de proyecto: </strong> <span class="text-primary">{{proyecto.fechaini | date: 'dd/MM/yyyy'}}</span></h5>
+                        <h5 class="price m-t-0"><strong>Fin de proyecto: </strong> <span class="text-primary">{{proyecto.fechafin | date: 'dd/MM/yyyy'}}</span></h5>
+                        <h5 class="sizes"><strong>Investigador coordinador: </strong>
+                            <ul>
+                                <li>
+                                    <a type="button" class="text-primary">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a>
+                                </li>
+                            </ul>
+                        </h5>
+                        <h5 class="colors"><strong>Investigadores: </strong>
+                            <ul>
+                                <li *ngFor="let inv of proyecto.investigadores">
+                                    <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
+                                </li>
+                            </ul>
+                        </h5>
+                        <hr>
+                        <div class="action">
+                            <p>
+                                <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">
+                                </ngb-progressbar>
+                            </p>
+                            <div class="row">
+                                <div class="col-7">
+                                    <!-- <small>Numero de archivos: 23</small> -->
+                                    <h5>
+                                        <strong>estado: </strong>
+                                        <span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
+                                        <span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
+                                        <span *ngIf="proyecto.estado==='pendiente'" class="badge badge-warning">Pendiente</span>
+                                        <span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,17 +62,15 @@
         </div>
 
 		<div class="col-lg-5 col-md-5 col-sm-12">
-            <button type="button" class="btn btn-default card align-items-center">
+            <!-- <button type="button" class="btn btn-default card align-items-center">
                 <i class="fa fa-flag"></i>&nbsp;<span class="h6"> Generar reporte</span>
-            </button>
+            </button> -->
             <button type="button" class="btn btn-default card align-items-center" (click)="openModalNuevoSeguimiento(content7, 'lg')">
                 <i class="fa fa-plus-square"></i>&nbsp;<span class="h6"> Realizar seguimiento</span>
             </button>
 			<div class="card">
-				<div class="header">
-					<h2>Avance del proyecto</h2>
-				</div>
 				<div class="body">
+                    <h2>Avance del proyecto</h2>
 					<div echarts [options]="pieOptions"></div>
 				</div>
 			</div>
@@ -82,34 +80,19 @@
 	<div class="row ">
         <div class="sidebar-scroll col-lg-12">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs">
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavArchivos" [ngClass]="{'active':fragment == 'tavArchivos'}">Archivos</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavPublicaciones" [ngClass]="{'active':fragment == 'tavPublicaciones'}"><i
-                            class="fa fa-plus-square"></i>&nbsp;Publicaciones</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavBasica" [ngClass]="{'active':fragment == 'tavBasica'}"><i
-                            class="fa fa-plus-square"></i>&nbsp;Basica tecnica</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavLugar"
-                        [ngClass]="{'active':fragment == 'tavLugar'}"><i class="fa fa-flag"></i>&nbsp;Lugar de
-                        desarrollo</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}"><i
-                            class="fa fa-folder-open-o"></i>&nbsp;Difusion</a></li>
-                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]"
-                        fragment="tavSeguimiento" [ngClass]="{'active':fragment == 'tavSeguimiento'}"><i
-                            class="fa fa-folder-open-o"></i>&nbsp;Seguimiento</a></li>
+            <ul class="nav nav-tabs-new center">
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavArchivos" [ngClass]="{'active':fragment == 'tavArchivos'}">Archivos</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavPublicaciones" [ngClass]="{'active':fragment == 'tavPublicaciones'}"><i class="fa fa-plus-square"></i>&nbsp;Publicaciones</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavLugar" [ngClass]="{'active':fragment == 'tavLugar'}"><i class="fa fa-flag"></i>&nbsp;Lugar de desarrollo</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}"><i class="fa fa-folder-open-o"></i>&nbsp;Difusion</a></li>
+                <li class="nav-item"><a class="nav-link" data-toggle="tab" [routerLink]="['../',id]" fragment="tavSeguimiento" [ngClass]="{'active':fragment == 'tavSeguimiento'}"><i class="fa fa-folder-open-o"></i>&nbsp;Seguimiento</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content p-l-0 p-r-0">
                 <div class="tab-pane p-l-15 p-r-15" [ngClass]="{'active':fragment == 'tavArchivos'}">
-                    
                     <div>
-                        <h3 class="align-center">Lista de archivos</h3>
-                        <h5 class="text-center text-lg-left">{{tituloArch}}</h5>
+                        <h3 class="align-center"><strong>Lista de archivos</strong></h3>
                     </div>
-
                     <div class="row">
                         <div class="col-lg-5 col-md-8 col-sm-12">
                             <form id="navbar-search" class="navbar-form search-form">
@@ -132,7 +115,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- <div class="row file_manager"> -->
                     <div class="row file_manager" *ngIf="(archivos | searchArchivos: valorBusqueda) as result">
                         <div class="card" *ngIf="result.length === 0 || archivos.length === 0">
@@ -142,9 +124,9 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="card product_item_list" *ngIf="result.length > 0">
                             <div class="body">
+                                <h5 class="text-center text-lg-left"><strong>{{tituloArch}}</strong></h5>
                                 <div class="table-responsive">
                                     <table class="table table-hover m-b-0">
                                         <thead class="thead-dark align-center">
@@ -160,10 +142,12 @@
                                         <tbody *ngFor="let archivo of result">
                                             <tr>
                                                 <td>
-                                                    <a href="javascript:void(0)" (click)="openArchivo(archivo.archivo)">
-                                                        <i class="fa fa-file text-success"></i>
-                                                    </a> &nbsp;
-                                                    <span class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5,'lg', archivo)">{{archivo.nombre}}</a></span>
+                                                    <a *ngIf="archivo.id_proy_archivo" type="button" target="_blank" href="{{who + 'proyectos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                                    <a *ngIf="archivo.id_permiso_archivo" type="button" target="_blank" href="{{who + 'permisos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                                    <a *ngIf="archivo.id_convenio" type="button" target="_blank" href="{{who + 'convenios/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                                    <a *ngIf="archivo.id_contratado" type="button" target="_blank" href="{{who + 'contratados/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                                    &nbsp;
+                                                    <span class="title"><a type="button" class="text-success" (click)="openModalArchivo(content5,'lg', archivo)">{{archivo.nombre}}</a></span>
                                                 </td>
                                                     
                                                 <td>{{ archivo.descripcion }}</td>
@@ -171,10 +155,10 @@
                                                 <td>
                                                     <small *ngIf="!archivo.convArchivos">Ninguna</small>
                                                     <div *ngFor="let archivoB of archivo.convArchivos">
-                                                        <a href="javascript:void(0)" (click)="openArchivo(archivoB.archivo)">
-                                                            <i class="fa fa-file text-info"></i>
-                                                        </a> &nbsp;
-                                                        <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                        <a *ngIf="archivoB.id_conv_archivo" type="button" target="_blank" href="{{who + 'convenios/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
+                                                        <a *ngIf="archivoB.id_contra_archivo" type="button" target="_blank" href="{{who + 'contratados/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
+                                                        &nbsp;
+                                                        <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5,'lg', archivoB)">{{archivoB.nombre}}</a></small>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -184,20 +168,16 @@
                                                     <span *ngIf="archivo.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
                                                     <span *ngIf="!archivo.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminado</span>
                                                 </td>
-                                                
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
-        
                     </div>
-
                 </div>
-
                 <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavPublicaciones'}">
-                    <h3 class="align-center">Publicaciones</h3>
+                    <h3 class="align-center"><strong>Publicaciones</strong></h3>
                     <div class="card" *ngIf="publicaciones.length === 0">
                         <div class="body text-center">
                             <div class="not_found">
@@ -232,10 +212,10 @@
                                             <td>{{publicacion.fecha | date }}</td>
                                             <td>
                                                 <div *ngFor="let archivoB of publicacion.archivos">
-                                                    <a type="button" (click)="openArchivo(archivoB.archivo)">
+                                                    <a type="button" target="_blank" href="{{who + 'publicaciones/' +archivoB.archivo}}">
                                                         <i class="fa fa-file text-info"></i>
                                                     </a> &nbsp;
-                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
                                                     <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
                                                 </div>
                                             </td>
@@ -260,63 +240,8 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavBasica'}">
-                    <h3 class="align-center">Basica tecnicas</h3>
-                    <div class="card" *ngIf="basica_tecnicas.length === 0">
-                        <div class="body text-center">
-                            <div class="not_found">
-                                    <h4 class="m-b-0">Lo sentimos, No se encontraron resultados.</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card product_item_list" *ngIf="basica_tecnicas.length > 0">
-                        <div class="body">
-                            <div class="table-responsive">
-                                <table class="table table-hover m-b-0">
-                                    <thead class="thead-dark align-center">
-                                        <tr>
-                                            <th>Tipo de investigación</th>
-                                            <th data-breakpoints="sm xs">Area de investigación</th>
-                                            <th>Tipo de proyecto</th>
-                                            <th data-breakpoints="xs">Carga horaria</th>
-                                            <th>Unidades de la <i>UMSA</i></th>
-                                            <th data-breakpoints="xs md">Estado</th>
-                                            <th data-breakpoints="sm xs md">Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let basica_tecnica of basica_tecnicas">
-                                            <td>{{basica_tecnica.tipo}}</td>
-                                            <td>{{basica_tecnica.area}}</td>
-                                            <td>{{basica_tecnica.tipo_p}}</td>
-                                            <td>{{basica_tecnica.carga_h}}</td>
-                                            <td>
-                                                <div *ngFor="let unidad of basica_tecnica.unidades">
-                                                    <small>{{unidad.nombre}}</small>
-                                                </div>
-                                            </td>
-        
-                                            <td>
-                                                <span *ngIf="basica_tecnica.estado===true"
-                                                    class="badge badge-success bg-success text-white">True</span>
-                                                <span *ngIf="basica_tecnica.estado===false"
-                                                    class="badge badge-danger bg-danger text-white">False</span>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalBaseTecnica(content1,'lg', basica_tecnica.id_basica_tecnica)">
-                                                    <i class="icon-eye"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="tab-pane p-l-0 p-r-0" id="tavLugar" [ngClass]="{'active':fragment == 'tavLugar'}">
-                    <h3 class="align-center">Lugar de desarrollo</h3>
+                    <h3 class="align-center"><strong>Lugar de desarrollo</strong></h3>
                     <div class="card" *ngIf="lugar_desarrollos.length === 0">
                         <div class="body text-center">
                             <div class="not_found">
@@ -384,7 +309,7 @@
                     </div>
                 </div>
                 <div class="tab-pane p-l-0 p-r-0" id="tavDifusion" [ngClass]="{'active':fragment == 'tavDifusion'}" *ngIf="(difusiones | searchDifusiones: valorBusquedaDifusion) as result">
-                    <h3 class="align-center">Difusión</h3>
+                    <h3 class="align-center"><strong>Difusión</strong></h3>
                     <div class="row">
                         <div class="col-lg-5 col-md-8 col-sm-12">
                             <form id="navbar-search" class="navbar-form search-form">
@@ -406,7 +331,6 @@
                             </div>
                         </div>
                     </div>
-                    <h5 class="align-center">{{listado_difusion}}</h5>
                     <div class="card" *ngIf="result.length === 0 || difusiones.length === 0">
                         <div class="body text-center">
                             <div class="not_found">
@@ -416,6 +340,7 @@
                     </div>
                     <div class="card product_item_list" *ngIf="result.length > 0">
                         <div class="body">
+                            <h5 class="align-center"><strong>{{listado_difusion}}</strong></h5>
                             <div class="table-responsive">
                                 <table class="table table-hover m-b-0">
                                     <thead class="thead-dark align-center">
@@ -441,10 +366,12 @@
                                             </td>
                                             <td>
                                                 <div *ngFor="let archivoB of difusion.archivos">
-                                                    <a type="button" (click)="openArchivo(archivoB.archivo)">
-                                                        <i class="fa fa-file text-info"></i>
-                                                    </a> &nbsp;
-                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    <a *ngIf="archivoB.id_curso_archivo" type="button" target="_blank" href="{{who + 'cursos/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
+                                                    <a *ngIf="archivoB.id_evento_archivo" type="button" target="_blank" href="{{who + 'eventos/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
+                                                    <a *ngIf="archivoB.id_nota_archivo" type="button" target="_blank" href="{{who + 'notas_prensa/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
+                                                    <a *ngIf="archivoB.id_expo_archivo" type="button" target="_blank" href="{{who + 'exposiciones/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
+                                                    &nbsp;
+                                                    <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
                                                     <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
                                                 </div>
                                             </td>
@@ -468,7 +395,7 @@
                 </div>
 
                 <div class="tab-pane p-l-0 p-r-0" [ngClass]="{'active':fragment == 'tavSeguimiento'}">
-                    <h3 class="align-center">Seguimientos</h3>
+                    <h3 class="align-center"><strong>Seguimientos</strong></h3>
                     <div class="card" *ngIf="seguimientos.length === 0">
                         <div class="body text-center">
                             <div class="not_found">
@@ -499,10 +426,10 @@
                                             </td>
                                             <td>
                                                 <div *ngFor="let archivoB of segui.archivos">
-                                                    <a type="button" (click)="openArchivo(archivoB.archivo)">
+                                                    <a type="button" target="_blank" href="{{who + 'seguimientos/' +archivoB.archivo}}">
                                                         <i class="fa fa-file text-info"></i>
                                                     </a> &nbsp;
-                                                    <small class="title"><a href="javascript:void(0)" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                    <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
                                                     <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
                                                 </div>
                                             </td>
@@ -1259,6 +1186,19 @@
 						</li>
 					</ul>
 				</div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-3 col-12" for="proceso">Proceso: <br><small>Proceso Actual: </small><a href="javascript:void(0)">{{proyecto.proceso}}</a>
+                </label>
+                <div class="col-sm-9 col-12">
+                    <input type="text" [(ngModel)]="seguimiento.proceso" class="form-control" name="range" #range="ngModel" placeholder="0 - 100" required [ngClass]="{'parsley-error':(!range.valid || !(seguimiento && seguimiento.proceso && seguimiento.proceso >= 0 && seguimiento.proceso <= 100 )) && (range.touched || seguimientoForm.submitted)}">
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="(!range.valid || !(seguimiento && seguimiento.proceso && seguimiento.proceso >= 0 && seguimiento.proceso <= 100 )) && (range.touched || seguimientoForm.submitted)">
+                        <li class="parsley-required" *ngIf="range.hasError('required')">El proceso es requerido.</li>
+                        <li class="parsley-required" *ngIf="!range.hasError('required') && !(seguimiento && seguimiento.proceso && seguimiento.proceso >= 20 && seguimiento.proceso <= 30)">El proceso debe estar en rango de 0 - 100.</li>
+                    </ul>
+                </div>
             </div>
             
             <section>

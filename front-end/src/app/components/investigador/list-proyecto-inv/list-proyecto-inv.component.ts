@@ -23,6 +23,7 @@ export class ListProyectoInvComponent implements OnInit {
   public token: string;
   public proyectos: Array<Proyecto> = [];
   public url: string;
+  public who: string;
 
   // search proyectos
   search = new FormControl('');
@@ -39,6 +40,7 @@ export class ListProyectoInvComponent implements OnInit {
     ) {
       this.token = this._auth.getToken();
       this.url = GLOBAL.url;
+      this.who = GLOBAL.who;
     }
 
   ngOnInit() {

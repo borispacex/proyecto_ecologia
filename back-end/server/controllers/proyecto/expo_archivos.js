@@ -40,7 +40,7 @@ function uploadArchivo(req, res) {
     if (req.files) {
         var file_path = req.files.documento.path;        //documento: es con lo que busco
         var file_split = file_path.split('/');
-        var file_name = file_split[3];
+        var file_name = file_split[4];
         var ext_split = file_name.split('.');
         var file_ext = ext_split[1];
         if (file_ext == 'pdf' || file_ext == 'jpg' || file_ext == 'png' || file_ext == 'jpeg') {
@@ -78,7 +78,7 @@ function uploadArchivo(req, res) {
 // funcion para mostrar la expo_archivo false: thumb, true: normal
 function getArchivo(req, res) {
     var archivo = req.params.archivo; // la variable se llama archivo
-    var path_documento = './server/uploads/archivos/' + archivo;
+    var path_documento = './server/uploads/archivos/exposiciones/' + archivo;
     fs.exists(path_documento, (exists) => {
         if (exists) {
             res.sendFile(path.resolve(path_documento));

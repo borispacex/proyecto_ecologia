@@ -2460,9 +2460,9 @@ html.fullscreen-bg #wrapper {
   border: 1px solid #eee;
   border-radius: 30px;
   padding: 7px 23px;
-  background-color: transparent;
+  background-color: white;
 }
-.nav-tabs-new > li > a:hover,
+/* .nav-tabs-new > li > a:hover,
 .nav-tabs-new > li > a:focus {
   background-color: #49c5b6;
   color: #fff;
@@ -2471,7 +2471,68 @@ html.fullscreen-bg #wrapper {
   border: 1px solid #49c5b6 !important;
   background: #49c5b6;
   color: #fff;
+} */
+.theme-cyan .nav-tabs-new > li > a:hover,
+.theme-cyan .nav-tabs-new > li > a:focus {
+  background-color: #49c5b6;
+  color: #fff;
 }
+.theme-cyan .nav-tabs-new > li > a.active {
+  border: 1px solid #49c5b6 !important;
+  background: #49c5b6;
+  color: #fff;
+}
+.theme-purple .nav-tabs-new > li > a:hover,
+.theme-purple .nav-tabs-new > li > a:focus {
+  background-color: #a27ce6;
+  color: #fff;
+}
+.theme-purple .nav-tabs-new > li > a.active {
+  border: 1px solid #a27ce6 !important;
+  background: #a27ce6;
+  color: #fff;
+}
+.theme-blue .nav-tabs-new > li > a:hover,
+.theme-blue .nav-tabs-new > li > a:focus {
+  background-color: #3eacff;
+  color: #fff;
+}
+.theme-blue .nav-tabs-new > li > a.active {
+  border: 1px solid #3eacff !important;
+  background: #3eacff;
+  color: #fff;
+}
+.theme-green .nav-tabs-new > li > a:hover,
+.theme-green .nav-tabs-new > li > a:focus {
+  background-color: #50d38a;
+  color: #fff;
+}
+.theme-green .nav-tabs-new > li > a.active {
+  border: 1px solid #50d38a !important;
+  background: #50d38a;
+  color: #fff;
+}
+.theme-orange .nav-tabs-new > li > a:hover,
+.theme-orange .nav-tabs-new > li > a:focus {
+  background-color: #ffce4b;
+  color: #fff;
+}
+.theme-orange .nav-tabs-new > li > a.active {
+  border: 1px solid #ffce4b !important;
+  background: #ffce4b;
+  color: #fff;
+}
+.theme-blush .nav-tabs-new > li > a:hover,
+.theme-blush .nav-tabs-new > li > a:focus {
+  background-color: #e47297;
+  color: #fff;
+}
+.theme-blush .nav-tabs-new > li > a.active {
+  border: 1px solid #e47297 !important;
+  background: #e47297;
+  color: #fff;
+}
+
 .nav-tabs-new2 {
   border-bottom: 1px solid #eee;
 }

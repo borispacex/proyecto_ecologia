@@ -38,10 +38,8 @@
 	<div class="row clearfix">
 		<div class="col-lg-12 col-md-12">
 			<div class="card">
-				<div class="header">
-					<h2>Listado de proyectos</h2>
-				</div>
 				<div class="body project_report" *ngIf="(proyectos | searchProyectos: valorBusqueda) as result">
+					<h2><strong>Listado de proyectos</strong></h2>
 					<div class="text-center" *ngIf="result.length === 0 || proyectos.length === 0">
 						<div class="not_found">
 							<h4 class="m-b-0">Lo sentimos, No se encontraron proyectos.</h4>
@@ -81,7 +79,7 @@
 									</td>
 									<td>
 										<ul class="list-unstyled team-info">
-											<li *ngFor="let foto of proyecto.fotos"><img src="{{url +'get-fotografia/'+ foto + '/true'}}" alt="Avatar"></li>
+											<li *ngFor="let foto of proyecto.fotos"><img src="{{who +'fotografias/'+ foto + '/true'}}" alt="Avatar"></li>
 										</ul>
 									</td>
 									<td class="project-actions">

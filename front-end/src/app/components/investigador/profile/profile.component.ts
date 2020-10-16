@@ -7,6 +7,7 @@ import { AutoresService } from 'src/app/services/proyecto/autores.service';
 import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
 import { FotografiasService } from 'src/app/services/upload/fotografias.service';
+import { ComentariosService } from 'src/app/services/proyecto/comentarios.service';
 
 @Component({
   selector: 'app-profile',
@@ -26,9 +27,11 @@ export class ProfileComponent implements OnInit {
 
   private token: string;
   public url: string;
+  public who: string;
 
   private id_persona;
   public publicaciones: any = [];
+  public nroComentarios = 0;
 
   constructor(
     private sidebarService: SidebarService,
@@ -38,10 +41,12 @@ export class ProfileComponent implements OnInit {
     private _serviceAutores: AutoresService,
     private _serviceInvestigadores: InvestigadoresService,
     private _servicePubliArchivos: PubliArchivosService,
-    private _serviceFotografia: FotografiasService
+    private _serviceFotografia: FotografiasService,
+    private _serviceComentarios: ComentariosService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
   }
 
   ngOnInit() {
@@ -88,7 +93,11 @@ export class ProfileComponent implements OnInit {
           this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publi.id_publicacion, this.token)
           .then(responsePubliA => {
             publi.archivos = responsePubliA.publi_archivos;
-            this.publicaciones.push(publi);
+            this._serviceComentarios.getCountByIdPublicacion(publi.id_publicacion, this.token)
+            .then(response => {
+              publi.nroComentarios = response.contador;
+              this.publicaciones.push(publi);
+            }).catch(error => { console.log('Error al obtener nro comentarios by id', error); });
           }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
         });
         // console.log(this.publicaciones);

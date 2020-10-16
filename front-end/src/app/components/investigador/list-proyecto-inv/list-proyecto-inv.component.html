@@ -7,7 +7,7 @@
 					Lista de proyectos del investigador
 				</h2>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a [routerLink]="['/investigador/dashboard/profile']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item"><a [routerLink]="['/investigador/dashboard/menu']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
 					<li class="breadcrumb-item active">Lista de proyectos del investigador</li>
 				</ul>
@@ -66,8 +66,8 @@
 										<span *ngIf="proyecto.estado==='cerrado'" class="badge badge-primary">Cerrado</span>
 									</td>
 									<td class="project-title">
-										<h6><a href="javascript:void(0);">{{ proyecto.titulo }}</a>
-										</h6>
+										<h6 *ngIf="id_investigador!==proyecto.id_coordinador"><a type="button" class="text-primary" [routerLink]="['../../view-proyecto/', proyecto.id_proyecto]" >{{ proyecto.titulo }}</a></h6>
+										<h6 *ngIf="id_investigador===proyecto.id_coordinador"><a type="button" class="text-primary" [routerLink]="['../../edit-proyecto/', proyecto.id_proyecto]">{{ proyecto.titulo }}</a></h6>
 										<small>{{proyecto.createdAt | date:'medium' }}</small>
 									</td>
 									<td>
@@ -78,12 +78,12 @@
 									</td>
 									<td>
 										<ul class="list-unstyled team-info">
-											<li *ngFor="let foto of proyecto.fotos"><img src="{{url +'get-fotografia/'+ foto + '/true'}}" alt="Avatar"></li>
+											<li *ngFor="let foto of proyecto.fotos"><img src="{{who +'fotografias/'+ foto + '/true'}}" alt="Avatar"></li>
 										</ul>
 									</td>
 									<td class="project-actions">
-										<a *ngIf="id_investigador!==proyecto.id_coordinador" href="javascript:void(0);" [routerLink]="['../../view-proyecto/', proyecto.id_proyecto]" class="btn btn-outline-secondary mr-1"><i class="icon-eye"></i></a>
-										<a *ngIf="id_investigador===proyecto.id_coordinador" href="javascript:void(0);" [routerLink]="['../../edit-proyecto/', proyecto.id_proyecto]" class="btn btn-outline-secondary" ><i class="icon-pencil"></i></a>
+										<a *ngIf="id_investigador!==proyecto.id_coordinador" [routerLink]="['../../view-proyecto/', proyecto.id_proyecto]" class="btn btn-outline-secondary mr-1"><i class="icon-eye"></i></a>
+										<a *ngIf="id_investigador===proyecto.id_coordinador" [routerLink]="['../../edit-proyecto/', proyecto.id_proyecto]" class="btn btn-outline-secondary" ><i class="icon-pencil"></i></a>
 									</td>
 								</tr>
 							</tbody>

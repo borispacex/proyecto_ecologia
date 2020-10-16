@@ -20,6 +20,7 @@ export class ListUsuarioComponent implements OnInit {
 
   public token: string;
   public url: string;
+  public who: string;
 
   public adm_usuario_roles: any = [];    // donde se guarda todo lo llegado en getUsuarios --> para el listado
   public adm_usuario_rol: any = {};
@@ -66,6 +67,7 @@ export class ListUsuarioComponent implements OnInit {
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
 
     this.dropdownLista = [
       { id_rol: 1, rol: 'Administrador' },

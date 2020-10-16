@@ -12,6 +12,14 @@ module.exports = (sequelize, DataTypes) => {
         proceso: DataTypes.INTEGER,
         fechaini: DataTypes.DATE,
         fechafin: DataTypes.DATE,
+        carrera: DataTypes.STRING,
+        n_instituto: DataTypes.STRING,
+        tipo: DataTypes.STRING,
+        area: DataTypes.STRING,
+        tipo_p: DataTypes.STRING,
+        carga_h: DataTypes.INTEGER,
+        moneda: DataTypes.STRING,
+        financiamiento: DataTypes.INTEGER,
         estado: DataTypes.STRING
     });
     return proyectos;

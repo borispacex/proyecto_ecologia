@@ -60,5 +60,14 @@ export class ComentariosService {
     return this._http.get(this.url + 'comentarios-publi/' + id_publicacion, options).toPromise()
       .then(res => res.json());
   }
+  // contar todos los comentarios by id_publicacion
+  getCountByIdPublicacion(id_publicacion: number, token: string) {
+    let headers = new Headers({
+      'Authorization': token
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countComentariosByIdPublicacion/' + id_publicacion, options).toPromise()
+      .then(res => res.json());
+  }
 
 }

@@ -12,7 +12,6 @@ import { takeUntil, debounceTime } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
 import { InvProyectosService } from 'src/app/services/admin/inv-proyectos.service';
-import { BasicaTecnicasService } from 'src/app/services/proyecto/basica-tecnicas.service';
 import { LugarDesarrollosService } from 'src/app/services/proyecto/lugar-desarrollos.service';
 import { CursosService } from 'src/app/services/proyecto/cursos.service';
 import { EventosService } from 'src/app/services/proyecto/eventos.service';
@@ -39,6 +38,7 @@ import { SeguimientosService } from 'src/app/services/proyecto/seguimientos.serv
 import { SeguiArchivosService } from 'src/app/services/proyecto/segui-archivos.service';
 import { PeticionesService } from 'src/app/services/proyecto/peticiones.service';
 import { PetiArchivosService } from 'src/app/services/proyecto/peti-archivos.service';
+import { FinanciamientosService } from 'src/app/services/proyecto/financiamientos.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -297,6 +297,16 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   public unidades: any[] = [{
     nombre: ''
   }];
+  public financiamientos: any[] = [{
+    fuente: 'UMSA',
+    aporte: 0,
+    observacion: ''
+  },
+  {
+    fuente: '',
+    aporte: 0,
+    observacion: ''
+  }];
   // multi expositores
   public expositores: any[] = [{
     nombre: '',
@@ -354,6 +364,10 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   peticiones: any = [];
   peticion: any = {};
 
+  auxiEliminar: any = {};
+  tipoEliminar = 0;
+  tituloEliminar = '';
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -366,7 +380,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     private _serviceInvestigadores: InvestigadoresService,
     private _serviceInvProyectos: InvProyectosService,
     public calendar: NgbCalendar,
-    private _serviceBasicaTecnicas: BasicaTecnicasService,
+    private _serviceFinanciamientos: FinanciamientosService ,
     private _serviceLugarDesarrollos: LugarDesarrollosService,
     private _serviceCursos: CursosService,
     private _serviceEventos: EventosService,
@@ -434,7 +448,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this.searchDifusion.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusquedaDifusion = value );
     this.getInvestigadoresByProyecto(); // investigadores del proyecto
 
-    this.obtenerBasicaTecnicas();
+    // this.obtenerBasicaTecnicas();
     this.obtenerLugarDesarrollos();
     this.obtenerDifusion(5);
     this.listado_difusion = 'Todas las difusiones';
@@ -656,23 +670,24 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
   openModalBaseTecnica(content, size, id?) {
     if (id) {
       this.unidades = [];
-      this._serviceBasicaTecnicas.getBasicaTecnicaById(this.token, id)
-      .then(responseBasicaT => {
-        this.basica_tecnica = responseBasicaT.basica_tecnica;
-        this._serviceUnidades.getUnidadesByIdBasicaTecnica(this.basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseUnis => {
-          this.unidades = responseUnis.unidades;
-        }).catch(error => { console.log('Error al obtener unidades', error); });
+      this.financiamientos = [];
+      // obtener datos
 
-      }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
     } else {
       this.unidades = [{
         nombre: ''
       }];
       this.basica_tecnica = {
+        moneda: '',
+        financiamiento: 0,
         tipo: '',
         estado: true
       };
+      this.financiamientos = [{
+        fuente: '',
+        aporte: 0,
+        observaciones: ''
+      }];
     }
     this.modalService.open(content, { size: size });
   }
@@ -691,7 +706,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         provincia: '',
         estado: true
       };
-      this.provincias.length = 0;
+      // this.provincias.length = 0;
     }
     this.modalService.open(content, { size: size });
   }
@@ -831,7 +846,26 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
 
   openModalArchivo(content, size, archivo: any) {
     this.modalService.open(content, { size: size });
-    if (archivo.id_publi_archivo) {
+    if (archivo.id_convenio) {
+      this.archivo = archivo;
+    } else if (archivo.id_contratado) {
+      this.archivo = archivo;
+    } else if (archivo.id_permiso_archivo) {
+      this._servicePermisoArchivos.getPermisoArchivoById(this.token, archivo.id_permiso_archivo)
+      .then(response => {
+        this.archivo = response.permiso_archivo;
+      }).catch(error => { console.log('Error al obtener permi archivo', error); });
+    } else if (archivo.id_proy_archivo) {
+      this._serviceProyArch.getProyArchivoById(archivo.id_proy_archivo, this.token)
+      .then(response => {
+        this.archivo = response.proy_archivo;
+      }).catch(error => { console.log('Error al obtener proy archivo', error); });
+    } else if (archivo.id_peti_archivo) {
+      this._servicePetiArchivos.getPetiArchivoById(archivo.id_peti_archivo, this.token)
+      .then(response => {
+        this.archivo = response.peti_archivo;
+      }).catch(error => { console.log('Error al obtener peti archivo', error); });
+    } else if (archivo.id_publi_archivo) {
       this._servicePubliArchivos.getPubliArchivoById(this.token ,archivo.id_publi_archivo)
       .then(response => {
         this.archivo = response.publi_archivo;
@@ -861,6 +895,16 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       .then(response => {
         this.archivo = response.segui_archivo;
       }).catch(error => { console.log('Error al obtener segui archivo', error); });
+    } else if (archivo.id_contra_archivo) {
+      this._serviceContraArchivos.getContraArchivoById(this.token, archivo.id_contra_archivo)
+      .then(response => {
+        this.archivo = response.contra_archivo;
+      }).catch(error => { console.log('Error al obtener contra archivo', error); });
+    } else if (archivo.id_conv_archivo) {
+      this._serviceConvArchivos.getConvArchivoById(this.token, archivo.id_conv_archivo)
+      .then(response => {
+        this.archivo = response.conv_archivo;
+      }).catch(error => { console.log('Error al obtener conv archivos', error); });
     }
   }
 
@@ -868,63 +912,65 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     console.log(this.basica_tecnica);
     this.basica_tecnica.id_proyecto = this.id;
     console.log('unidades', this.unidades);
-    if (this.basica_tecnica.id_basica_tecnica) {
-      console.log('actualizar');
-      this._serviceBasicaTecnicas.update(this.basica_tecnica.id_basica_tecnica, this.basica_tecnica, this.token)
-      .then(responseBT => {
-        if (this.unidades.length > 0) {
-          this._serviceUnidades.deleteUnidadesByIdBasicaTecnica(responseBT.basica_tecnica.id_basica_tecnica, this.token)
-          .then(responseUnis => {
-            var contador = 0;
-            this.unidades.forEach(unidad => {
-              var uni = {
-                  nombre: unidad.nombre,
-                  id_basica_tecnica: responseBT.basica_tecnica.id_basica_tecnica
-              };
-              this._serviceUnidades.save(uni, this.token)
-              .then(response => {
-                contador ++;
-                if (this.unidades.length === contador) {
-                  this.obtenerBasicaTecnicas();
-                  this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                }
-              }).catch(error => { console.log('Error al crear unidad', error); });
-            });
-          }).catch(error => { console.log('Error al eliminar unidade por id_basica_tecnica', error); });
-        } else {
-          this.obtenerBasicaTecnicas();
-          this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        }
-      }).catch(error => { console.log('Error al actualizar basica tecnica', error); });
-    } else {
-      console.log('guardar');
-      this._serviceBasicaTecnicas.save(this.basica_tecnica, this.token)
-      .then(response => {
-        // console.log(response.basica_tecnicas);
-        if (this.unidades.length > 0) {
-          var contador = 0;
-          this.unidades.forEach(unidad => {
-            unidad.id_basica_tecnica = response.basica_tecnicas.id_basica_tecnica;
-            this._serviceUnidades.save(unidad, this.token)
-            .then(responseUnidad => {
-              // console.log(responseUnidad);
-              contador++;
-              if (contador === this.unidades.length) {
-                this.obtenerBasicaTecnicas();
-                this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-              }
-            }).catch(error => { console.log('Error al guardar la unidad ', error); });
-          });
-        } else {
-          this.obtenerBasicaTecnicas();
-          this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        }
-      }).catch(error => {
-        console.log('error al crear el pryArchivo', error);
-        this.toastr.error('Error al guardar Basica tecnica', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-      });
-    }
-    this.modalService.dismissAll();
+    console.log('financiamientos', this.financiamientos);
+
+    // if (this.basica_tecnica.id_basica_tecnica) {
+    //   console.log('actualizar');
+    //   this._serviceBasicaTecnicas.update(this.basica_tecnica.id_basica_tecnica, this.basica_tecnica, this.token)
+    //   .then(responseBT => {
+    //     if (this.unidades.length > 0) {
+    //       this._serviceUnidades.deleteUnidadesByIdBasicaTecnica(responseBT.basica_tecnica.id_basica_tecnica, this.token)
+    //       .then(responseUnis => {
+    //         var contador = 0;
+    //         this.unidades.forEach(unidad => {
+    //           var uni = {
+    //               nombre: unidad.nombre,
+    //               id_basica_tecnica: responseBT.basica_tecnica.id_basica_tecnica
+    //           };
+    //           this._serviceUnidades.save(uni, this.token)
+    //           .then(response => {
+    //             contador ++;
+    //             if (this.unidades.length === contador) {
+    //               this.obtenerBasicaTecnicas();
+    //               this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    //             }
+    //           }).catch(error => { console.log('Error al crear unidad', error); });
+    //         });
+    //       }).catch(error => { console.log('Error al eliminar unidade por id_basica_tecnica', error); });
+    //     } else {
+    //       this.obtenerBasicaTecnicas();
+    //       this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    //     }
+    //   }).catch(error => { console.log('Error al actualizar basica tecnica', error); });
+    // } else {
+    //   console.log('guardar');
+    //   this._serviceBasicaTecnicas.save(this.basica_tecnica, this.token)
+    //   .then(response => {
+    //     // console.log(response.basica_tecnicas);
+    //     if (this.unidades.length > 0) {
+    //       var contador = 0;
+    //       this.unidades.forEach(unidad => {
+    //         unidad.id_basica_tecnica = response.basica_tecnicas.id_basica_tecnica;
+    //         this._serviceUnidades.save(unidad, this.token)
+    //         .then(responseUnidad => {
+    //           // console.log(responseUnidad);
+    //           contador++;
+    //           if (contador === this.unidades.length) {
+    //             this.obtenerBasicaTecnicas();
+    //             this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    //           }
+    //         }).catch(error => { console.log('Error al guardar la unidad ', error); });
+    //       });
+    //     } else {
+    //       this.obtenerBasicaTecnicas();
+    //       this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    //     }
+    //   }).catch(error => {
+    //     console.log('error al crear el pryArchivo', error);
+    //     this.toastr.error('Error al guardar Basica tecnica', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    //   });
+    // }
+    // this.modalService.dismissAll();
   }
 
   guardarLugarDesarrollo() {
@@ -1167,7 +1213,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                 // console.log(expositor);
                 this._serviceExpositores.save(expositor, this.token)
                 .then(responseExposi => { 
-                }).catch(error => { console.log('Error al guardar expositor', error); sw = false; });
+                }).catch(error => { console.log('Error al guardar expositor', error); });
               });
             }
             // guardar archivos cursos
@@ -1280,8 +1326,8 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                       this.obtenerDifusion(3);
                       this.toastr.success('Nota de prensa guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                     }
-                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-                }).catch(error => { console.log('error al crear nota archivo', error); sw = false; });
+                  }).catch(error => { console.log('error al subir el archivo', error); });
+                }).catch(error => { console.log('error al crear nota archivo', error); });
               }
             } else {
               this.obtenerDifusion(3);
@@ -1322,9 +1368,9 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                       this.obtenerDifusion(4);
                       this.toastr.success('Exposicion y conferencia guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                     }
-                  }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
+                  }).catch(error => { console.log('error al subir el archivo', error); });
                   this.obtenerDifusion(4);
-                }).catch(error => { console.log('error al crear expo archivo', error); sw = false; });
+                }).catch(error => { console.log('error al crear expo archivo', error); });
               }
             } else {
               this.obtenerDifusion(4);
@@ -1380,8 +1426,8 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
                   this.toastr.success('Publicación actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
                   this.obtenerPublicaciones(this.id);
                 }
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-            }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear evento archivo', error); });
           }
         } else {
           this.toastr.success('Publicación actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
@@ -1402,7 +1448,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
           autor.id_publicacion = response.publicacion.id_publicacion;
           this._serviceAutores.save(autor, this.token)
           .then(responseA => {  })
-          .catch(error => { console.log('Error guardar autor', error); sw = false; });
+          .catch(error => { console.log('Error guardar autor', error); });
         });
         if (this.files.length > 0) {
           var contador = 0;
@@ -1520,23 +1566,6 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     ].join('-');
   }
 
-  obtenerBasicaTecnicas() {
-    this.basica_tecnicas = [];
-    this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(this.id, this.token)
-    .then(response => {
-      // console.log(response);
-      // this.basica_tecnicas = response.basica_tecnicas;
-      response.basica_tecnicas.forEach(basica_tecnica => {
-        basica_tecnica.unidades = [];
-        this._serviceUnidades.getUnidadesByIdBasicaTecnica(basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseBT => {
-          basica_tecnica.unidades = responseBT.unidades;
-          this.basica_tecnicas.push(basica_tecnica);
-        }).catch(error => { console.log('Error obtener unidad', error); });
-      });
-      // console.log(this.basica_tecnicas);
-    }).catch(error => { console.log('error al obtener Basica tecnicas', error); });
-  }
   obtenerLugarDesarrollos() {
     this._serviceLugarDesarrollos.getLugarDesarrollosByIdProyecto(this.id, this.token)
     .then(response => {
@@ -1684,8 +1713,18 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       nombre: ''
     });
   }
+  addFinanciamiento() {
+    this.financiamientos.push({
+      fuente: '',
+      aporte: 0,
+      observacion: ''
+    });
+  }
   removeUnidad(i: number) {
     this.unidades.splice(i, 1);
+  }
+  removeFinanciamiento(i: number) {
+    this.financiamientos.splice(i, 1);
   }
   addExpositor() {
     this.expositores.push({
@@ -1704,16 +1743,6 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
       console.log(response);
     }).catch(error => { console.log('Error al eliminar publicacion', error); });
 
-  }
-  eliminarBasicaTecnica(id: number) {
-    this._serviceBasicaTecnicas.update(id, { estado: false }, this.token )
-    .then(response => {
-      this.obtenerBasicaTecnicas();
-      this.toastr.success('Basica tecnica eliminada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    }).catch(error => {
-      console.log('Error al actualizar Basica tecnica', error);
-      this.toastr.error('Error al eliminar Basica tecnica', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    });
   }
   eliminarLugarDesarrollo(id: number) {
     this._serviceLugarDesarrollos.update(id, { estado: false }, this.token )
@@ -1924,7 +1953,11 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         this._servicePetiArchivos.getPetiArchivosByIdPeticion(peti.id_peticion, this.token)
         .then(responsePetiArch => {
           peti.archivos = responsePetiArch.peti_archivos;
-          this.peticiones.push(peti);
+          this._serviceInvestigadores.getInvestigador(peti.id_investigador, this.token)
+          .then(responseInv => {
+            peti.investigador = `${responseInv.investigador.persona.nombres} ${responseInv.investigador.persona.paterno} ${responseInv.investigador.persona.materno}`;
+            this.peticiones.push(peti);
+          }).catch(error => { console.log('Error al obtener investigador', error); });
         }).catch(error => { console.log('Error al obtener peti Archivo', error); });
       });
     }).catch(error => { console.log('Error al obtener peticiones por id_proyecto', error); });
@@ -1936,6 +1969,46 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     .then(response => {
       this.peticion = response.peticion;
     }).catch(error => { console.log('Error al obtener peticion by id', error); });
+  }
+  openModalEliminar(content, size, auxi: any) {
+    this.modalService.open(content, { size: size });
+    this.auxiEliminar = auxi;
+    if (auxi.id_publicacion) {
+      this.tituloEliminar = 'Publicación';
+    } else if (auxi.id_basica_tecnica) {
+      this.tituloEliminar = 'Basica Tecnica';
+      // borrar
+    } else if (auxi.id_lugar_desarrollo) {
+      this.tituloEliminar = 'Lugar de desarrollo';
+
+    } else if (auxi.id_curso) {
+      this.tituloEliminar = 'Curso, Seminario';
+
+    } else if (auxi.id_evento) {
+      this.tituloEliminar = 'Evento';
+
+    } else if (auxi.id_nota_prensa) {
+      this.tituloEliminar = 'Nota de prensa';
+
+    } else if (auxi.id_exposicion) {
+      this.tituloEliminar = 'Exposición';
+
+    }
+  }
+  eliminar() {
+    if (this.auxiEliminar.id_publicacion) {
+      this.eliminarPublicacion(this.auxiEliminar.id_publicacion);
+    } else if (this.auxiEliminar.id_lugar_desarrollo) {
+      this.eliminarLugarDesarrollo(this.auxiEliminar.id_lugar_desarrollo);
+    } else if (this.auxiEliminar.id_curso) {
+      this.eliminarDifusion(this.auxiEliminar);
+    } else if (this.auxiEliminar.id_evento) {
+      this.eliminarDifusion(this.auxiEliminar);
+    } else if (this.auxiEliminar.id_nota_prensa) {
+      this.eliminarDifusion(this.auxiEliminar);
+    } else if (this.auxiEliminar.id_exposicion) {
+      this.eliminarDifusion(this.auxiEliminar);
+    }
   }
 
 }

@@ -18,6 +18,7 @@ import { LayoutModule } from '../layout/layout.module';
 import { ToastrModule } from 'ngx-toastr';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { ProfilePostComponent } from './profile-post/profile-post.component';
     ListProyectoInvComponent,
     ProfileComponent,
     ViewProyectoComponent,
-    ProfilePostComponent
+    ProfilePostComponent,
+    MenuComponent
   ],
   imports: [
     CommonModule,

@@ -13,7 +13,6 @@ import { LugarDesarrollosService } from 'src/app/services/proyecto/lugar-desarro
 import { CursosService } from 'src/app/services/proyecto/cursos.service';
 import { EventosService } from 'src/app/services/proyecto/eventos.service';
 import { NotaPrensasService } from 'src/app/services/proyecto/nota-prensas.service';
-import { BasicaTecnicasService } from 'src/app/services/proyecto/basica-tecnicas.service';
 import { ExposicionesService } from 'src/app/services/proyecto/exposiciones.service';
 import { CursoArchivosService } from 'src/app/services/proyecto/curso-archivos.service';
 import { EventoArchivosService } from 'src/app/services/proyecto/evento-archivos.service';
@@ -37,6 +36,7 @@ import { ComentariosService } from 'src/app/services/proyecto/comentarios.servic
 import { HttpEvent } from '@angular/common/http';
 import { SeguiArchivosService } from 'src/app/services/proyecto/segui-archivos.service';
 import { SeguimientosService } from 'src/app/services/proyecto/seguimientos.service';
+import { FinanciamientosService } from 'src/app/services/proyecto/financiamientos.service';
 
 @Component({
   selector: 'app-show-proyecto',
@@ -340,7 +340,7 @@ export class ShowProyectoComponent implements OnInit {
     private _serviceProyecto: ProyectosService,
     private _serviceInvestigadores: InvestigadoresService,
     private _serviceInvProyectos: InvProyectosService,
-    private _serviceBasicaTecnicas: BasicaTecnicasService,
+    private _serviceFinanciamientos: FinanciamientosService,
     private _serviceLugarDesarrollos: LugarDesarrollosService,
     private _serviceCursos: CursosService,
     private _serviceEventos: EventosService,
@@ -410,59 +410,15 @@ export class ShowProyectoComponent implements OnInit {
     this.searchDifusion.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusquedaDifusion = value );
     this.getInvestigadoresByProyecto(); // investigadores del proyecto
 
-    this.obtenerBasicaTecnicas();
+    // this.obtenerBasicaTecnicas();
     this.obtenerLugarDesarrollos();
     this.obtenerDifusion(5);
     this.listado_difusion = 'Todas las difusiones';
     this.obtenerPublicaciones(this.id);
     this.obtenerSeguimientos();
 
-    this.pieOptions = {
-      color: ['#49c5b6', '#e47297', '#a27ce6', '#ffce4b', '#3eacff', '#3eac01'],
-      title: {
-        text: '',
-        subtext: '',
-        x: 'center',
-        textStyle: {
-          color: '#C2C2C2'
-        }
-      },
-      tooltip: {
-        trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)'
-      },
-      legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['Publicaciones', 'Basica tecnica', 'Cursos, Seminarios o Talleres', 'Eventos cientificos', 'Notas de prensa', 'Exposiciones o Conferencias'],
-        textStyle: {
-          color: '#C2C2C2'
-        }
-      },
-      series: [
-        {
-          name: 'Avance',
-          type: 'pie',
-          radius: '55%',
-          center: ['50%', '60%'],
-          data: [
-            { value: 135, name: 'Publicaciones' },
-            { value: 310, name: 'Basica tecnica' },
-            { value: 234, name: 'Cursos, Seminarios o Talleres' },
-            { value: 335, name: 'Eventos cientificos' },
-            { value: 1548, name: 'Notas de prensa' },
-            { value: 100, name: 'Exposiciones o Conferencias' }
-          ],
-          itemStyle: {
-            emphasis: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
-            }
-          }
-        }
-      ]
-    };
+    this.obtenerEstadistica();
+
   }
   toggleFullWidth() {
     this.isResizing = true;
@@ -473,6 +429,76 @@ export class ShowProyectoComponent implements OnInit {
       that.isResizing = false;
       that.cdr.detectChanges();
     }, 400);
+  }
+
+  obtenerEstadistica() {
+    this._servicePublicaciones.countPublicacionesByIdProyecto(this.id, this.token)
+    .then(responseCountPubli => {
+        this._serviceLugarDesarrollos.countLugarDesarrollosByIdProyecto(this.id, this.token)
+        .then(responseCountLD => {
+          this._serviceCursos.countCursosByIdProyecto(this.id, this.token)
+          .then(responseCountCurso => {
+            this._serviceEventos.countEventosByIdProyecto(this.id, this.token)
+            .then(responseCountEvento => {
+              this._serviceNotaPrensas.countNotaPrensasByIdProyecto(this.id, this.token)
+              .then(responseCountNota => {
+                this._serviceExposiciones.countExposicionesByIdProyecto(this.id, this.token)
+                .then(responseCountExpo => {
+                  this._serviceSeguimientos.countSeguimientosByIdProyecto(this.id, this.token)
+                  .then(responseCountSegui => {
+                    this.pieOptions = {
+                      color: ['#49c5b6', '#a27ce6', '#ffce4b', '#3eacff'],
+                      title: {
+                        text: '',
+                        subtext: '',
+                        x: 'center',
+                        textStyle: {
+                          color: '#C2C2C2'
+                        }
+                      },
+                      tooltip: {
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                      },
+                      legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: ['Publicaciones', 'Basicas tecnica', 'Lugares Desarrollo', 'Difusiones', 'Seguimientos'],
+                        textStyle: {
+                          color: '#C2C2C2'
+                        }
+                      },
+                      series: [
+                        {
+                          name: 'Cantidad',
+                          type: 'pie',
+                          radius: '55%',
+                          center: ['50%', '60%'],
+                          data: [
+                            { value: responseCountPubli.contador, name: 'Publicaciones' },
+                            { value: responseCountLD.contador, name: 'Lugares Desarrollo' },
+                            // tslint:disable-next-line:max-line-length
+                            { value: responseCountCurso.contador + responseCountEvento.contador + responseCountNota.contador + responseCountExpo.contador, name: 'Difusiones' },
+                            { value: responseCountSegui.contador, name: 'Seguimientos' }
+                          ],
+                          itemStyle: {
+                            emphasis: {
+                              shadowBlur: 10,
+                              shadowOffsetX: 0,
+                              shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                          }
+                        }
+                      ]
+                    };
+
+                  }).catch(error => { console.log('Error al obtener count seguimiento', error); });
+                }).catch(error => { console.log('Error al obtener count exposicion', error); });
+              }).catch(error => { console.log('Erro al obtener count nota prensa', error); });
+            }).catch(error => { console.log('Error al obtener count evento', error); });
+          }).catch(error => { console.log('Error al obtener count curso', error); });
+        }).catch(error => { console.log('Error al obtener count lugar desarrollo', error); });
+    }).catch(error => { console.log('Error al obtener count publicaciones', error); });
   }
 
   getInvestigadoresByProyecto() {
@@ -689,15 +715,8 @@ export class ShowProyectoComponent implements OnInit {
   openModalBaseTecnica(content, size, id?) {
     if (id) {
       this.unidades = [];
-      this._serviceBasicaTecnicas.getBasicaTecnicaById(this.token, id)
-      .then(responseBasicaT => {
-        this.basica_tecnica = responseBasicaT.basica_tecnica;
-        this._serviceUnidades.getUnidadesByIdBasicaTecnica(this.basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseUnis => {
-          this.unidades = responseUnis.unidades;
-        }).catch(error => { console.log('Error al obtener unidades', error); });
+      // obtener informacion by id
 
-      }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
     } else {
       this.unidades = [{
         nombre: ''
@@ -1038,23 +1057,6 @@ export class ShowProyectoComponent implements OnInit {
     ].join('-');
   }
 
-  obtenerBasicaTecnicas() {
-    this.basica_tecnicas = [];
-    this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(this.id, this.token)
-    .then(response => {
-      // console.log(response);
-      // this.basica_tecnicas = response.basica_tecnicas;
-      response.basica_tecnicas.forEach(basica_tecnica => {
-        basica_tecnica.unidades = [];
-        this._serviceUnidades.getUnidadesByIdBasicaTecnica(basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseBT => {
-          basica_tecnica.unidades = responseBT.unidades;
-          this.basica_tecnicas.push(basica_tecnica);
-        }).catch(error => { console.log('Error obtener unidad', error); });
-      });
-      // console.log(this.basica_tecnicas);
-    }).catch(error => { console.log('error al obtener Basica tecnicas', error); });
-  }
   obtenerLugarDesarrollos() {
     this._serviceLugarDesarrollos.getLugarDesarrollosByIdProyecto(this.id, this.token)
     .then(response => {
@@ -1273,35 +1275,41 @@ export class ShowProyectoComponent implements OnInit {
   openModalNuevoSeguimiento(content, size, id_seguimiento?: number) {
     this.files = [];
     this.datosArchivo = [];
+    this.antFileTam = 0;
     if (id_seguimiento) {
       this._serviceSeguimientos.getSeguimientoById(id_seguimiento, this.token)
       .then(response => {
         this.seguimiento = response.seguimiento;
       }).catch(error => { console.log('Error al obtener el seguimiento por id', error); });
     } else {
-      this.seguimiento = {};
+      this.seguimiento = {
+        tipo: '',
+        proceso: this.proyecto.proceso,
+        estado: true
+      };
     }
     this.modalService.open(content, { size: size });
   }
 
   guardarSeguimiento() {
-    console.log(this.seguimiento);
-    console.log(this.datosArchivo);
-
-    var sw = false;
+    // console.log(this.seguimiento);
+    // console.log(this.datosArchivo);
 
     this.seguimiento.id_proyecto = this.proyecto.id_proyecto;
     this.seguimiento.id_director = this.id_persona;
 
     if (this.seguimiento.id_seguimiento) {
       // console.log('actualizar');
-      sw = false;
       this._serviceSeguimientos.update(this.seguimiento.id_seguimiento, this.seguimiento, this.token)
       .then(response => {
         // console.log(response.seguimiento);
-        sw = true;
         // añadir archivos
-        if (this.files) {
+        this._serviceProyecto.updateproyecto(this.id, { proceso: response.seguimiento.proceso }, this.token)
+        .then(responseProy => {
+          this.getProyecto(this.id);
+        }).catch(error => { console.log('Error al actualizar proyecto proceso', error); });
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var segui_archivo = {
               id_seguimiento: response.seguimiento.id_seguimiento,
@@ -1314,21 +1322,20 @@ export class ShowProyectoComponent implements OnInit {
             this._serviceSeguiArchivos.save(segui_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-segui-archivo/' + responseArchivo.segui_archivo.id_segui_archivo, this.files[i], this.token)
               .then(responseFile => {
                 // console.log(responseFile);
-                sw = true;
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-              // this.obtenerseguimientoes(this.id);
-            }).catch(error => { console.log('error al crear evento archivo', error); sw = false; });
+                contador++;
+                if (contador === this.files.length) {
+                  this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                  this.obtenerSeguimientos();
+                }
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear evento archivo', error); });
           }
-        }
-        if (sw) {
+        } else {
           this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           this.obtenerSeguimientos();
-        } else {
-          this.toastr.error('Error al subir archivos de seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
         }
         // actualizar autores
       }).catch(error => {
@@ -1336,13 +1343,16 @@ export class ShowProyectoComponent implements OnInit {
         this.toastr.error('Error al actualizar seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
       });
     } else {
-      sw = false;
       this._serviceSeguimientos.save(this.seguimiento, this.token)
       .then(response => {
         // console.log(response);
-        sw = true;
         // guardar segui_archivo
-        if (this.files) {
+        this._serviceProyecto.updateproyecto(this.id, { proceso: response.seguimiento.proceso }, this.token)
+        .then(responseProy => {
+          this.getProyecto(this.id);
+        }).catch(error => { console.log('Error al actualizar proyecto proceso', error); });
+        if (this.files.length > 0) {
+          var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var segui_archivo = {
               id_seguimiento: response.seguimiento.id_seguimiento,
@@ -1355,24 +1365,23 @@ export class ShowProyectoComponent implements OnInit {
             this._serviceSeguiArchivos.save(segui_archivo, this.token)
             .then(responseArchivo => {
               // console.log(responseArchivo);
-              sw = true;
               this._uploadArchivo.uploadArchivo(this.url + 'upload-segui-archivo/' + responseArchivo.segui_archivo.id_segui_archivo, this.files[i], this.token)
               .then(responseFile => {
                 // console.log(responseFile);
-                sw = true;
-              }).catch(error => { console.log('error al subir el archivo', error); sw = false; });
-              // this.obtenerseguimientoes(this.id);
-            }).catch(error => { console.log('error al crear segui archivo', error); sw = false; });
+                contador++;
+                if (contador === this.files.length) {
+                  this.obtenerSeguimientos();
+                  this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                }
+              }).catch(error => { console.log('error al subir el archivo', error); });
+            }).catch(error => { console.log('error al crear segui archivo', error); });
           }
-        }
-        if (sw) {
+        } else {
           this.obtenerSeguimientos();
           this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        } else {
-          this.toastr.error('Error al subir archivos de seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
       }).catch(error => {
-        console.log('Error al crear seguimiento', error); sw = false;
+        console.log('Error al crear seguimiento', error);
         this.toastr.error('Error al guardar seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     }
@@ -1380,6 +1389,7 @@ export class ShowProyectoComponent implements OnInit {
   }
 
   public obtenerSeguimientos() {
+
     this._serviceSeguimientos.getSeguimientosByIdProyecto(this.id, this.token)
     .then(response => {
       // this.seguimientos = response.seguimientos;

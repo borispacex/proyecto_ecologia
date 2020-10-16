@@ -17,7 +17,6 @@ import { ConvArchivosService } from 'src/app/services/proyecto/conv-archivos.ser
 import { ContratadosService } from 'src/app/services/proyecto/contratados.service';
 import { ContraArchivosService } from 'src/app/services/proyecto/contra-archivos.service';
 import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
-import { BasicaTecnicasService } from 'src/app/services/proyecto/basica-tecnicas.service';
 import { LugarDesarrollosService } from 'src/app/services/proyecto/lugar-desarrollos.service';
 import { CursosService } from 'src/app/services/proyecto/cursos.service';
 import { EventosService } from 'src/app/services/proyecto/eventos.service';
@@ -38,6 +37,7 @@ import { SeguimientosService } from 'src/app/services/proyecto/seguimientos.serv
 import { SeguiArchivosService } from 'src/app/services/proyecto/segui-archivos.service';
 import { PeticionesService } from 'src/app/services/proyecto/peticiones.service';
 import { PetiArchivosService } from 'src/app/services/proyecto/peti-archivos.service';
+import { FinanciamientosService } from 'src/app/services/proyecto/financiamientos.service';
 
 @Component({
   selector: 'app-view-proyecto',
@@ -356,7 +356,7 @@ export class ViewProyectoComponent implements OnInit {
     private _serviceProyecto: ProyectosService,
     private _serviceInvestigadores: InvestigadoresService,
     private _serviceInvProyectos: InvProyectosService,
-    private _serviceBasicaTecnicas: BasicaTecnicasService,
+    private _serviceFinanciamientos: FinanciamientosService,
     private _serviceLugarDesarrollos: LugarDesarrollosService,
     private _serviceCursos: CursosService,
     private _serviceEventos: EventosService,
@@ -424,7 +424,7 @@ export class ViewProyectoComponent implements OnInit {
     this.searchDifusion.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusquedaDifusion = value );
     this.getInvestigadoresByProyecto(); // investigadores del proyecto
 
-    this.obtenerBasicaTecnicas();
+    // this.obtenerBasicaTecnicas();
     this.obtenerLugarDesarrollos();
     this.obtenerDifusion(5);
     this.listado_difusion = 'Todas las difusiones';
@@ -819,15 +819,8 @@ export class ViewProyectoComponent implements OnInit {
   openModalBaseTecnica(content, size, id?) {
     if (id) {
       this.unidades = [];
-      this._serviceBasicaTecnicas.getBasicaTecnicaById(this.token, id)
-      .then(responseBasicaT => {
-        this.basica_tecnica = responseBasicaT.basica_tecnica;
-        this._serviceUnidades.getUnidadesByIdBasicaTecnica(this.basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseUnis => {
-          this.unidades = responseUnis.unidades;
-        }).catch(error => { console.log('Error al obtener unidades', error); });
+      // obtener datos
 
-      }).catch(error => { console.log('Error al obtener basica tecnicas', error); });
     } else {
       this.unidades = [{
         nombre: ''
@@ -992,7 +985,21 @@ export class ViewProyectoComponent implements OnInit {
 
   openModalArchivo(content, size, archivo: any) {
     this.modalService.open(content, { size: size });
-    if (archivo.id_peti_archivo) {
+    if (archivo.id_convenio) {
+      this.archivo = archivo;
+    } else if (archivo.id_contratado) {
+      this.archivo = archivo;
+    } else if (archivo.id_permiso_archivo) {
+      this._servicePermisoArchivos.getPermisoArchivoById(this.token, archivo.id_permiso_archivo)
+      .then(response => {
+        this.archivo = response.permiso_archivo;
+      }).catch(error => { console.log('Error al obtener permi archivo', error); });
+    } else if (archivo.id_proy_archivo) {
+      this._serviceProyArch.getProyArchivoById(archivo.id_proy_archivo, this.token)
+      .then(response => {
+        this.archivo = response.proy_archivo;
+      }).catch(error => { console.log('Error al obtener proy archivo', error); });
+    } else if (archivo.id_peti_archivo) {
       this._servicePetiArchivos.getPetiArchivoById(archivo.id_peti_archivo, this.token)
       .then(response => {
         this.archivo = response.peti_archivo;
@@ -1022,17 +1029,12 @@ export class ViewProyectoComponent implements OnInit {
       .then(response => {
         this.archivo = response.expo_archivo;
       }).catch(error => { console.log('Error al obtener expo archivo', error); });
-    } else if (archivo.id_proy_archivo) {
-      this._serviceProyArch.getProyArchivoById(archivo.id_proy_archivo, this.token)
-      .then(response => {
-        this.archivo = response.proy_archivo;
-      }).catch(error => { console.log('Error al obtener expo archivo', error); });
     } else if (archivo.id_segui_archivo) {
       this._serviceSeguiArchivos.getSeguiArchivoById(archivo.id_segui_archivo, this.token)
       .then(response => {
         this.archivo = response.segui_archivo;
       }).catch(error => { console.log('Error al obtener segui archivo por id', error); });
-    }
+    } 
   }
 
   borrarTodoDifusion() {
@@ -1099,23 +1101,6 @@ export class ViewProyectoComponent implements OnInit {
     ].join('-');
   }
 
-  obtenerBasicaTecnicas() {
-    this.basica_tecnicas = [];
-    this._serviceBasicaTecnicas.getBasicaTecnicasByIdProyecto(this.id, this.token)
-    .then(response => {
-      // console.log(response);
-      // this.basica_tecnicas = response.basica_tecnicas;
-      response.basica_tecnicas.forEach(basica_tecnica => {
-        basica_tecnica.unidades = [];
-        this._serviceUnidades.getUnidadesByIdBasicaTecnica(basica_tecnica.id_basica_tecnica, this.token)
-        .then(responseBT => {
-          basica_tecnica.unidades = responseBT.unidades;
-          this.basica_tecnicas.push(basica_tecnica);
-        }).catch(error => { console.log('Error obtener unidad', error); });
-      });
-      // console.log(this.basica_tecnicas);
-    }).catch(error => { console.log('error al obtener Basica tecnicas', error); });
-  }
   obtenerLugarDesarrollos() {
     this._serviceLugarDesarrollos.getLugarDesarrollosByIdProyecto(this.id, this.token)
     .then(response => {
@@ -1293,6 +1278,14 @@ export class ViewProyectoComponent implements OnInit {
   }
 
   editarArchivo() {
+    this._servicePetiArchivos.update(this.archivo.id_peti_archivo, this.archivo, this.token)
+    .then(response => {
+      this.toastr.success('archivo peticion actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+      this.obtenerPeticiones();
+    }).catch(error => {
+      console.log('Error al actualizar peti archivo', error);
+      this.toastr.error('Error al actualizar archivo peticion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' }); 
+    })
     this.modalService.dismissAll();
   }
 
@@ -1345,18 +1338,21 @@ export class ViewProyectoComponent implements OnInit {
 
   obtenerPeticiones() {
     this.peticiones = [];
-    this._servicePeticiones.getPeticionesByIdProyecto(this.id, this.token)
+    this._serviceInvestigadores.getInvestigadorByIdPersona(this.id_persona, this.token)
     .then(response => {
-      // this.peticiones = response.peticiones;
-      response.peticiones.forEach(peti => {
-        peti.archivos = [];
-        this._servicePetiArchivos.getPetiArchivosByIdPeticion(peti.id_peticion, this.token)
-        .then(responsePetiArch => {
-          peti.archivos = responsePetiArch.peti_archivos;
-          this.peticiones.push(peti);
-        }).catch(error => { console.log('Error al obtener peti Archivo', error); });
-      });
-    }).catch(error => { console.log('Error al obtener peticiones por id_proyecto', error); });
+      this._servicePeticiones.getPeticionesByIdProyectoAndIdInvestigador(this.id, response.investigador.id_investigador, this.token)
+      .then(responsePeti => {
+        // this.peticiones = response.peticiones;
+        responsePeti.peticiones.forEach(peti => {
+          peti.archivos = [];
+          this._servicePetiArchivos.getPetiArchivosByIdPeticion(peti.id_peticion, this.token)
+          .then(responsePetiArch => {
+            peti.archivos = responsePetiArch.peti_archivos;
+            this.peticiones.push(peti);
+          }).catch(error => { console.log('Error al obtener peti Archivo', error); });
+        });
+      }).catch(error => { console.log('Error al obtener peticiones por id_proyecto', error); });
+    }).catch(error => { console.log('Error al obtener investigador', error); });
   }
 
   tipoArchivo(idTipo: number): string{

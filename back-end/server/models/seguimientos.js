@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         tipo: DataTypes.STRING,
         revision: DataTypes.STRING,
         observaciones: DataTypes.STRING,
+        proceso: DataTypes.INTEGER,
         estado: DataTypes.BOOLEAN
     });
     return seguimientos;

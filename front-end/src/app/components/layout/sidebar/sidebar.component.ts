@@ -31,6 +31,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
 
   private token: string;
   public url: string;
+  public who: string;
 
   private id_persona;
 
@@ -44,6 +45,7 @@ export class SidebarComponent implements OnDestroy, OnInit {
     this.rol = localStorage.getItem('rol');
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
     this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
     this.obtenerDatos();
   }

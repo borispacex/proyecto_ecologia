@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.get('/api/peticiones', peticionesController.getAll);
     app.get('/api/peticionesByEstado/:estado', peticionesController.getAllByEstado);
     app.get('/api/peticiones-proy/:id_proyecto', peticionesController.getAllByIdProyecto);
+    app.get('/api/peticiones-proy-inv/:id_proyecto/:id_investigador', peticionesController.getAllByIdProyectoAndIdInvestigador);
     app.get('/api/peticiones-dir/:id_investigador', peticionesController.getAllByIdInvestigador);
     
     app.get('/api/peticion/:id_peticion', peticionesController.getById);

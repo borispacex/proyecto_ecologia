@@ -1,5 +1,5 @@
+const URL = 'http://localhost:4200/';
+// const URL = 'http://www.umsa-ecologia.xyz/';
+// const URL = 'http://www.proyectosecologia.net.bo/';
 
-const host = 'localhost:4200';
-// const host = 'umsa-ecologia.xyz';
-
-export const URL = `http://${host}`;
+module.exports = URL;

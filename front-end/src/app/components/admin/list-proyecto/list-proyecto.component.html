@@ -42,10 +42,7 @@
 	<div class="row clearfix">
 		<div class="col-lg-12 col-md-12">
 			<div class="card" *ngIf="(proyectos | searchProyectos: valorBusqueda) as result">
-				<div class="header">
-					<h2>Listado de proyectos</h2>
-				</div>
-				
+				<!-- <h2>Lista proyectos</h2> -->
 				<div class="body project_report">
 					<div class="text-center" *ngIf="proyectos.length === 0 || result.length === 0">
 						<div class="not_found">
@@ -85,7 +82,7 @@
 									</td>
 									<td>
 										<ul class="list-unstyled team-info">
-											<li *ngFor="let foto of proyecto.fotos"><img src="{{url +'get-fotografia/'+ foto + '/true'}}" alt="Avatar"></li>
+											<li *ngFor="let foto of proyecto.fotos"><img src="{{who +'fotografias/'+ foto + '/true'}}" alt="Avatar"></li>
 										</ul>
 									</td>
 									<td class="project-actions">
@@ -198,39 +195,6 @@
 					</ul>
 				</div>
 			</div>
-
-			<div class="form-group row" *ngIf="!(this.proyecto.id_proyecto > 0)">
-				<label class="col-12 col-md-3" for="imagen">Resolucion C.C. : </label>
-				<div class="col-12 col-md-9">
-					<input #file1 type="file" accept="application/pdf" style="display: none;" (change)="fileChangeEvent($event, 0)">
-					<div class="text-left"> {{archivo_selected1}}
-						<button class="btn btn-warning mr-1 ml-4" type="button" (click)="file1.click()"><i
-								class="icon-paper-clip text-light"></i></button>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group row" *ngIf="!(this.proyecto.id_proyecto > 0)">
-				<label class="col-12 col-md-3" for="imagen">Formulario : </label>
-				<div class="col-12 col-md-9">
-					<input #file2 type="file" accept="application/pdf" style="display: none;" (change)="fileChangeEvent($event, 1)">
-					<div class="text-left"> {{archivo_selected2}}
-						<button class="btn btn-warning mr-1 ml-4" type="button" (click)="file2.click()"><i
-								class="icon-paper-clip text-light"></i></button>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group row" *ngIf="!(this.proyecto.id_proyecto > 0)">
-				<label class="col-12 col-md-3" for="imagen">Proyecto Extenso : </label>
-				<div class="col-12 col-md-9">
-					<input #file3 type="file" accept="application/pdf" style="display: none;" (change)="fileChangeEvent($event, 2)">
-					<div class="text-left"> {{archivo_selected3}}
-						<button class="btn btn-warning mr-1 ml-4" type="button" (click)="file3.click()"><i
-								class="icon-paper-clip text-light"></i></button>
-					</div>
-				</div>
-			</div>
 			<div class="form-group row">
 				<label class="col-12 col-md-3" for="estado">Estado: </label>
 				<div class="col-12 col-md-4">
@@ -247,8 +211,94 @@
 					</ul>
 				</div>
 			</div>
-			<button class="btn btn-success" [disabled]="!proyectoForm.form.valid" type="submit">Guardar
-				Cambios</button>
+			<section *ngIf="!this.proyecto.id_proyecto">
+                <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>
+                <ngfUploadStatus [(percent)]="progress" [httpEvent]="httpEvent"></ngfUploadStatus>
+                <div>
+                    <div>
+                        <div class="my-drop-zone" ngfDrop multiple="1" selectable="1" [(validDrag)]="validComboDrag"
+                            [(files)]="files" accept="application/pdf" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids"
+                            [(dragFiles)]="dragFiles" [class.invalid-drag]="validComboDrag===false"
+                            [class.valid-drag]="validComboDrag"
+                            (filesChange)="fileChange()"
+                            [fileDropDisabled]="fileDropDisabled">
+                            <span class="pt-3">
+                                Zona para subir archivos<br> <strong>Arrastre/Click</strong><br>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <h6 class="py-2">{{ files.length }} Archivos en la cola</h6>
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Nombre</th>
+                                <th data-breakpoints="md lg">Descripción</th>
+                                <th data-breakpoints="sm xs md">Tamaño</th>
+                                <th data-breakpoints="sm xs">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of files;let i=index">
+                                <td nowrap>
+                                    <div *ngIf="['application/pdf'].indexOf(item.type)>=0">
+                                        <div class="previewIcon" [ngfBackground]="item"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <strong class="ml-2" style="font-size: 12px;">{{ item.name.length>35?(item.name | slice:0:35)+'...':(item.name) }}</strong>
+                                        <input [(ngModel)]="datosArchivo[i].nombre" class="form-control" name="name{{i}}" #name="ngModel" placeholder="nombre del documento.."
+                                            [ngClass]="{'parsley-error':!name.valid && (name.touched || proyectoForm.submitted)}"
+                                            required>
+                                        <ul class="parsley-errors-list filled"
+                                            *ngIf="!name.valid && (name.touched || proyectoForm.submitted)">
+                                            <li class="parsley-required" *ngIf="name.hasError('required')">
+                                                Nombre {{i}} del archivo requerido.
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td nowrap>
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="2" cols="25" [(ngModel)]="datosArchivo[i].descripcion"
+                                            name="descripcion{{i}}" #descripcion="ngModel" required
+                                            [ngClass]="{'parsley-error':!descripcion.valid && (descripcion.touched || proyectoForm.submitted)}" placeholder="descripcion del documento.."></textarea>
+                                        <ul class="parsley-errors-list filled"
+                                            *ngIf="!descripcion.valid && (descripcion.touched || proyectoForm.submitted)">
+                                            <li class="parsley-required" *ngIf="descripcion.hasError('required')">
+                                                Descripcion {{i}} requerida.</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td nowrap>
+                                    {{ item.size/1024/1024 | number:'.2' }} MB
+                                </td>
+                                <td nowrap>
+                                    <button type="button" class="btn btn-danger btn-xs"
+                                        (click)="datosArchivo.splice(i,1) && files.splice(i,1) && antFileTam=antFileTam-1">
+                                        <i class="icon-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div> Proceso de la cola:
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': progress + '%' }"></div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="lastFileAt">
+                        <p><strong>Ultimo documento(s) seleccionado:</strong> {{ lastFileAt | date : 'longTime' }}</p>
+                    </ng-container>
+                    <ng-container *ngIf="progress==100">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        &nbsp;Carga completa
+                    </ng-container>
+                </div>
+            </section>
+			<button class="btn btn-success" [disabled]="!proyectoForm.form.valid" type="submit">Guardar Cambios</button>
 			<button class="btn btn-danger" (click)="modal.dismiss('Close click')" type="button">Cancelar</button>
 		</form>
 	</div>

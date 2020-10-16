@@ -1,7 +1,7 @@
 const unidades = require('../../models').unidades;
-const basica_tecnicas = require('../../models').basica_tecnicas;
+const proyectos = require('../../models').proyectos;
 
-// unidades.belongsTo(basica_tecnicas, { foreignKey: 'id_basica_tecnica' });
+unidades.belongsTo(proyectos, { foreignKey: 'id_proyecto' });
 
 // crear unidad
 function create(req, res) {
@@ -56,16 +56,16 @@ function getById(req, res) {
     })
 }
 // funcion para buscar y mostrar un unidades por id_basica_tecnica
-function getAllByIdBasicaTecnica(req, res) {
-    var id = req.params.id_basica_tecnica;
+function getAllByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
     unidades.findAll({
-        where: { id_basica_tecnica: id }
+        where: { id_proyecto: id }
     })
     .then(unidades => {
         res.status(200).send({ unidades });
     })
     .catch(err => {
-        res.status(500).send({ message: 'Ocurrio un error al buscar un unidades por id_basica_tecnica', err });
+        res.status(500).send({ message: 'Ocurrio un error al buscar un unidades por id_proyecto', err });
     })
 }
 // funcion para eliminar la unidad
@@ -82,16 +82,16 @@ function deleteUnidad(req, res) {
     })
 }
 // funcion para eliminar la unidad por id_unidad_basica
-function deleteUnidadByIdBasicaTecnica(req, res) {
-    var id = req.params.id_basica_tecnica;
+function deleteUnidadesByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
     unidades.destroy({
-        where: { id_basica_tecnica: id }
+        where: { id_proyecto: id }
     })
     .then(unidades => {
         res.status(200).send({ unidades });
     })
     .catch(err => {
-        res.status(500).send({ message: 'Ocurrio un error al buscar una unidad por id_basica_tecnica', err});
+        res.status(500).send({ message: 'Ocurrio un error al buscar una unidad por id_proyecto', err});
     })
 }
 
@@ -100,7 +100,7 @@ module.exports = {
     update,
     getById,
     getAll,
-    getAllByIdBasicaTecnica,
+    getAllByIdProyecto,
     deleteUnidad,
-    deleteUnidadByIdBasicaTecnica
+    deleteUnidadesByIdProyecto
 }

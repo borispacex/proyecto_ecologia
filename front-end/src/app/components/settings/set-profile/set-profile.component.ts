@@ -54,6 +54,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
 
   public token: string;
   public url: string;
+  public who: string;
 
   // usuario
   private usuario: any = {};
@@ -94,6 +95,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
     this.activatedRoute.fragment
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((fragment: string) => {

@@ -20,6 +20,7 @@ export class ListProyectosComponent implements OnInit {
   public token: string;
   public proyectos: Array<Proyecto> = [];
   public url: string;
+  public who: string;
   public proyecto: any = {};
 
   // search archivos
@@ -37,6 +38,7 @@ export class ListProyectosComponent implements OnInit {
   ) { 
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
   }
 
   ngOnInit(): void {

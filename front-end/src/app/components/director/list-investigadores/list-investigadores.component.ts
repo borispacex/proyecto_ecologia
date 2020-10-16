@@ -18,6 +18,7 @@ export class ListInvestigadoresComponent implements OnInit {
 
   public token: string;
   public url: string;
+  public who: string;
 
   public usuario: any = {};
   public persona: any = {};
@@ -40,6 +41,7 @@ export class ListInvestigadoresComponent implements OnInit {
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    this.who = GLOBAL.who;
   }
 
   ngOnInit(): void {

@@ -85,13 +85,13 @@ function getAllByIdProyecto(req, res) {
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     publicaciones.count({
-        where: { id_proyecto: id }
+        where: { id_proyecto: id, estado: true }
     })
     .then(contador => {
         res.status(200).send({ contador });
     })
     .catch(err => {
-        res.status(500).send({ message: 'Ocurrio un error al contar publicaciones por id_proyecto', err });
+        res.status(500).send({ message: 'Ocurrio un error al contar publicaciones true por id_proyecto', err });
     })
 }
 

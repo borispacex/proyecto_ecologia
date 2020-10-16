@@ -6,8 +6,9 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             type: DataTypes.INTEGER
         },
-        id_basica_tecnica: DataTypes.INTEGER,
+        id_proyecto: DataTypes.INTEGER,
         nombre: DataTypes.STRING,
+        observacion: DataTypes.STRING,
         estado: DataTypes.BOOLEAN
     });
     return unidades;

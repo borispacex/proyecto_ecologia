@@ -7,7 +7,7 @@
 					Investigador
 				</h2>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a [routerLink]="['../profile']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item"><a [routerLink]="['../menu']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
 					<li class="breadcrumb-item active">Perfil de Investigador</li>
 				</ul>
@@ -18,7 +18,7 @@
 		<div class="col-lg-4 col-md-12">
 			<div class="card profile-header">
 				<div class="body">
-					<div class="profile-image rounded-circle"> <img src="{{url +'get-fotografia/'+ imagen + '/true'}}" alt="fotografia"> </div>
+					<div class="profile-image rounded-circle"> <img src="{{who +'fotografias/'+ imagen + '/true'}}" alt="fotografia"> </div>
 					<div>
 						<h4 class="m-b-0"><strong>{{persona.nombres}}</strong> {{persona.paterno}} {{persona.materno}}</h4>
 						<span>{{persona.ciudad}}, {{persona.pais}}</span>
@@ -113,7 +113,7 @@
 				<div *ngFor="let publicacion of publicaciones" class="card single_post">
 					<div class="body">
 						<div class="img-post">
-							<img class="d-block img-fluid" src="{{url +'get-fotografia/'+ 'logo-pdf.jpg' + '/false'}}" alt="publicacion">
+							<img class="d-block img-fluid" src="{{who +'fotografias/'+ 'logo-pdf.jpg' + '/false'}}" alt="publicacion">
 						</div>
 						<h3><a [routerLink]="['../profile-post/', publicacion.id_publicacion]">{{publicacion.titulo}}</a></h3>
 						<small>{{publicacion.fecha | date}}</small>
@@ -125,8 +125,8 @@
 							<a type="button" class="btn btn-outline-secondary" [routerLink]="['../profile-post/', publicacion.id_publicacion]">Continuar leyendo</a>
 						</div>
 						<ul class="stats">
-							<li><a href="javascript:void(0);">Comentarios</a></li>
-							<li><a href="javascript:void(0);" class="icon-bubbles">2</a></li>
+							<li><a type="button">Comentarios</a></li>
+							<li><a type="button" class="icon-bubbles">{{publicacion.nroComentarios}}</a></li>
 						</ul>
 					</div>
 				</div>
