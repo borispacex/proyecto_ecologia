@@ -486,7 +486,7 @@ export class GenerateReportesComponent
 
     printJS({ printable: data, properties: propiedades, type: 'json' });
 
-    this.dataSource.paginator._changePageSize(pageAnt);
+    // this.dataSource.paginator._changePageSize(pageAnt);
   }
 
   obtenerProyectos() { }
@@ -557,7 +557,7 @@ export class GenerateReportesComponent
     ].join('-');
   }
 
-  formatDateString(d: string): NgbDate {
+  Data(d: string): NgbDate {
     if (d === null) {
       return null;
     }
@@ -988,8 +988,8 @@ export class GenerateReportesComponent
           }
         });
       }
-
-
+      proyecto.fechaini = this.formatDateStringData(proyecto.fechaini);
+      proyecto.fechafin = this.formatDateStringData(proyecto.fechafin);
       proys.push(proyecto);
     });
     console.log(proys);
@@ -1240,5 +1240,17 @@ export class GenerateReportesComponent
         break;
     }
     return depa;
+  }
+
+  formatDateStringData(date: string): string {
+    var d = new Date(date);
+    if (d === null) {
+      return null;
+    }
+    return [
+      d.getFullYear(),
+      ((d.getMonth() + 1) < 10 ? ('0' + (d.getMonth() + 1)) : (d.getMonth() + 1)),
+      (d.getDate() < 10 ? ('0' + d.getDate()) : d.getDate())
+    ].join('-');
   }
 }

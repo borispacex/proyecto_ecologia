@@ -186,7 +186,7 @@ create table convenios (
     id_tipo integer not null,
     tipo varchar(200),
     titulo varchar(1500),
-    obejtivo varchar(1500),
+    objetivo varchar(1500),
     fechaini timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
     fechafin timestamp with time zone,
     descripcion varchar(2000),
@@ -554,6 +554,7 @@ create table segui_archivos(
 ------------------################### LLENADO DE DATOS ###################------------------ 
 -- CONSULTAS FOTOGRAFIAS
 insert into fotografias (imagen, descripcion, tipo) values ('photo_default.png', 'Fotografia por default', 'foto');
+insert into fotografias (imagen, descripcion, tipo) values ('logo-pdf.jpg', 'Archivo PDF por default', 'imagen');
 -- CONSULTAS ADM_ROLES
 insert into adm_roles (rol, descripcion) values ('admin', 'Administrador del sistema');
 insert into adm_roles (rol, descripcion) values ('director', 'Director del instituto de Ecologia');

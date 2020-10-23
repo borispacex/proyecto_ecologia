@@ -3,7 +3,7 @@ const proyectos = require("../../models").proyectos;
 const fs = require('fs');
 const path = require('path');
 
-// convenios.belongsTo(proyectos, { foreignKey: 'id_proyecto' });
+convenios.belongsTo(proyectos, { foreignKey: 'id_proyecto' });
 
 // crear convenio
 function create(req, res) {

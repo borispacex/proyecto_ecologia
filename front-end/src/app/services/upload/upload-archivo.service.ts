@@ -43,7 +43,7 @@ export class UploadArchivoService {
       xhr.open('POST', url, true);
       // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr.setRequestHeader('Authorization', token);
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
       xhr.send(formData);
 
 

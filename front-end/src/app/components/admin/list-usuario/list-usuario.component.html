@@ -126,7 +126,7 @@
 			<div class="form-group row">
 				<label class="col-3" for="tipo">Nombres: </label>
 				<div class="col-9">
-					<input [(ngModel)]="persona.nombres" class="form-control" name="nombres" #nombres="ngModel"
+					<input [(ngModel)]="persona.nombres" class="form-control" name="nombres" #nombres="ngModel" placeholder="Nombres"
 						[ngClass]="{'parsley-error':!nombres.valid && (nombres.touched || usuarioForm.submitted)}"
 						required>
 					<ul class="parsley-errors-list filled"
@@ -140,7 +140,7 @@
 			<div class="form-group row">
 				<label class="col-3" for="paterno">Apellido Paterno: </label>
 				<div class="col-9">
-					<input [(ngModel)]="persona.paterno" class="form-control" name="paterno" #paterno="ngModel"
+					<input [(ngModel)]="persona.paterno" class="form-control" name="paterno" #paterno="ngModel" placeholder="apellido paterno"
 						[ngClass]="{'parsley-error':!paterno.valid && (paterno.touched || usuarioForm.submitted)}"
 						required>
 					<ul class="parsley-errors-list filled"
@@ -154,14 +154,14 @@
 			<div class="form-group row">
 				<label class="col-3" for="materno">Apellido Materno: </label>
 				<div class="col-9">
-					<input [(ngModel)]="persona.materno" class="form-control" name="materno" #materno="ngModel">
+					<input [(ngModel)]="persona.materno" class="form-control" name="materno" #materno="ngModel" placeholder="apellido materno">
 				</div>
 			</div>
 
 			<div class="form-group row">
 				<label class="col-3" for="ci">Cedula de Identidad: </label>
 				<div class="col-9">
-					<input [(ngModel)]="persona.ci" class="form-control" name="ci" #ci="ngModel"
+					<input [(ngModel)]="persona.ci" class="form-control" name="ci" #ci="ngModel" placeholder="cedula de identidad"
 						[ngClass]="{'parsley-error':!ci.valid && (ci.touched || usuarioForm.submitted)}" required>
 					<ul class="parsley-errors-list filled" *ngIf="!ci.valid && (ci.touched || usuarioForm.submitted)">
 						<li class="parsley-required" *ngIf="ci.hasError('required')">Cedula de identidad requerida.</li>
@@ -172,7 +172,7 @@
 			<div class="form-group row">
 				<label class="col-3" for="correo">Correo Electronico: </label>
 				<div class="col-9">
-					<input type="email" class="form-control" [(ngModel)]="persona.correo" name="correo"
+					<input type="email" class="form-control" [(ngModel)]="persona.correo" name="correo" placeholder="correo electronico"
 						#correo="ngModel" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
 						[ngClass]="{'parsley-error':!correo.valid && (correo.touched || usuarioForm.submitted)}"
 						required>
@@ -230,10 +230,12 @@
 						required>
 						<option value="">Seleccionar</option>
 						<option value="Ph. D.">Ph. D. (Doctorado)</option>
+						<option value="D. Sc.">D. Sc. (Doctorado Ciencias)</option>
 						<option value="M. Sc.">M. Sc. (Maestria)</option>
-						<option value="Lic.">Lic. (Licenciado)</option>
 						<option value="Dipl.">Dipl. (Diplomado)</option>
-						<option value="Otro">Otros</option>
+						<option value="Lic.">Lic. (Licenciado)</option>
+						<option value="Dipl.">Univ. (Universitario)</option>
+						<option value="Otro">Otro</option>
 					</select>
 					<ul class="parsley-errors-list filled"
 						*ngIf="!grado_academico.valid && (grado_academico.touched || usuarioForm.submitted)">

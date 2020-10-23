@@ -100,7 +100,7 @@ export class ListUsuarioComponent implements OnInit {
   }
   openModalAgregar(content, size) {
     this.modalService.open(content, { size: size });
-    this.vaciarUsuario();
+    // this.vaciarUsuario();
     this.tipo_form = false;  // guardar
   }
   openModalEditar(content, size, id: number, status: boolean) {
