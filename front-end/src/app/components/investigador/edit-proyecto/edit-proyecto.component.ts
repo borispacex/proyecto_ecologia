@@ -134,7 +134,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
 
   public provincias: any = [];
   public departamentos: any = [
-    { value: 'BE', depa: 'Beni', capi: 'Trinidad',
+    { value: 'Beni', depa: 'Beni', capi: 'Trinidad',
       provincias: [
         { provi: 'Cercado', capi: 'San Javier'},
         { provi: 'Antonio Vaca Díez', capi: 'Riberalta'},
@@ -146,7 +146,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Iténez', capi: 'Magdalena'}
       ]
     },
-    { value: 'CH', depa: 'Chuquisaca', capi: 'Sucre',
+    { value: 'Chuquisaca', depa: 'Chuquisaca', capi: 'Sucre',
       provincias: [
         { provi: 'Oropeza', capi: 'Sucre'},
         { provi: 'Juana Azurduy de Padilla', capi: 'Azurduy'},
@@ -160,7 +160,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Luis Calvo', capi: 'Villa Vaca Guzmán'}
       ]
     },
-    { value: 'CB', depa: 'Cochabamba', capi: 'Cochabamba',
+    { value: 'Cochabamba', depa: 'Cochabamba', capi: 'Cochabamba',
       provincias: [
         { provi: 'Arani', capi: 'Arani'},
         { provi: 'Esteban Arce', capi: 'Tarata'},
@@ -180,7 +180,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Tiraque', capi: 'Tiraque'}
       ]
     },
-    { value: 'LP', depa: 'La Paz', capi: 'La Paz',
+    { value: 'La Paz', depa: 'La Paz', capi: 'La Paz',
       provincias: [
         { provi: 'Aroma', capi: 'Sica Sica'},
         { provi: 'Bautista Saavedra', capi: 'Charazani'},
@@ -204,7 +204,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Sud Yungas', capi: 'Chulumani'}
       ]
     },
-    { value: 'OR', depa: 'Oruro', capi: 'Oruro',
+    { value: 'Oruro', depa: 'Oruro', capi: 'Oruro',
       provincias: [
         { provi: 'Sabaya', capi: 'Sabaya'},
         { provi: 'Carangas', capi: 'Corque'},
@@ -224,7 +224,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Tomas Barrón', capi: 'Eucaliptus'}
       ]
     },
-    { value: 'PD', depa: 'Pando', capi: 'Cobija',
+    { value: 'Pando', depa: 'Pando', capi: 'Cobija',
       provincias: [
         { provi: 'Abuná', capi: 'Santa Rosa del Abuná'},
         { provi: 'Federico Román', capi: 'Nueva Esperanza'},
@@ -233,7 +233,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Nicolás Suárez', capi: 'Cobija'}
       ]
     },
-    { value: 'PT', depa: 'Potosí', capi: 'Potosí',
+    { value: 'Potosí', depa: 'Potosí', capi: 'Potosí',
       provincias: [
         { provi: 'Alonzo de Ibáñez', capi: 'Villa de Sacaca'},
         { provi: 'Antonio Quijarro', capi: 'Uyuni'},
@@ -253,7 +253,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Tomás Frías', capi: 'Tinguipaya'}
       ]
     },
-    { value: 'SC', depa: 'Santa Cruz', capi: 'Santa Cruz de la Sierra',
+    { value: 'Santa Cruz', depa: 'Santa Cruz', capi: 'Santa Cruz de la Sierra',
       provincias: [
         { provi: 'Andrés Ibáñez', capi: 'Ciudad de Santa Cruz'},
         { provi: 'Ignacio Warnes', capi: 'Warnes'},
@@ -272,7 +272,7 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
         { provi: 'Guarayos', capi: 'Ascensión'}
       ]
     },
-    { value: 'TJ', depa: 'Tarija', capi: 'Tarija',
+    { value: 'Tarija', depa: 'Tarija', capi: 'Tarija',
       provincias: [
         { provi: 'Aniceto Arce', capi: 'Padcaya'},
         { provi: 'Burdet OConnor', capi: 'Entre Ríos'},
@@ -495,12 +495,21 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     this._serviceProyecto.getProyecto(id, this.token)
     .then(responseProyecto => {
       this.proyecto = responseProyecto.proyecto;
-      // console.log(this.proyecto);
+      this.proyecto.financiamintos = [];
+      this.proyecto.unidades = [];
       this._serviceInvProyectos.getInv_proyectosByIdProyecto(this.proyecto.id_proyecto, this.token)
       .then(responseInvProy => {
-        // console.log(responseInvProy.inv_proyectos);
         this.proyecto.investigadores = responseInvProy.inv_proyectos;
-        // console.log(this.proyecto);
+        // obtenemos unidades
+        this._serviceUnidades.getUnidadesByIdProyecto(this.proyecto.id_proyecto, this.token)
+        .then(responseU => {
+          this.proyecto.unidades = responseU.unidades;
+          // obtenemos financiamientos
+          this._serviceFinanciamientos.getFinanciamientosByIdProyecto(this.proyecto.id_proyecto, this.token)
+          .then(responseF => {
+            this.proyecto.financiamientos = responseF.financiamientos;
+          }).catch(error => { console.log('Error al obtener financiamientos', error); });
+        }).catch(error => { console.log('Error al obtener unidades', error); });
       }).catch(error => { console.log('Error al obtener Inv Proyecto by Id Proyecto', error); });
     }).catch(error => { console.log('error al obtener proyecto', error); });
   }
@@ -667,28 +676,56 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
     window.open(this.who + pdf, '_blank');
   }
 
-  openModalBaseTecnica(content, size, id?) {
-    if (id) {
-      this.unidades = [];
-      this.financiamientos = [];
-      // obtener datos
+  openModalBaseTecnica(content, size) {
+    this.unidades = [{
+      nombre: ''
+    }];
+    this.basica_tecnica = {
+      moneda: '',
+      financiamiento: 0,
+      tipo: '',
+      estado: true
+    };
+    this.financiamientos = [{
+      fuente: '',
+      aporte: 0,
+      observaciones: ''
+    }];
 
-    } else {
-      this.unidades = [{
-        nombre: ''
-      }];
+    this._serviceProyecto.getProyecto(this.id, this.token)
+    .then(responseP => {
+      // this.basica_tecnica = responseP.proyecto;
       this.basica_tecnica = {
-        moneda: '',
-        financiamiento: 0,
-        tipo: '',
-        estado: true
+        id_proyecto: responseP.proyecto.id_proyecto,
+        carrera: responseP.proyecto.carrera,
+        n_instituto: responseP.proyecto.n_instituto,
+        tipo: responseP.proyecto.tipo,
+        area: responseP.proyecto.area,
+        tipo_p: responseP.proyecto.tipo_p,
+        carga_h: responseP.proyecto.carga_h,
+        financiamiento: responseP.proyecto.financiamiento,
+        moneda: responseP.proyecto.moneda
       };
-      this.financiamientos = [{
-        fuente: '',
-        aporte: 0,
-        observaciones: ''
-      }];
-    }
+      // obtenemos unidades
+      this._serviceUnidades.getUnidadesByIdProyecto(this.basica_tecnica.id_proyecto, this.token)
+      .then(responseU => {
+        console.log(responseU);
+        if (responseU.unidades.length > 0) {
+          this.unidades = responseU.unidades;
+        }
+        console.log(this.unidades);
+        // obtenemos financiamientos
+        this._serviceFinanciamientos.getFinanciamientosByIdProyecto(this.basica_tecnica.id_proyecto, this.token)
+        .then(responseF => {
+          console.log(responseF);
+          if (responseF.financiamientos.length > 0) {
+            this.financiamientos = responseF.financiamientos;
+          }
+          console.log(this.financiamientos);
+        }).catch(error => { console.log('Error al obtener financiamientos', error); });
+      }).catch(error => { console.log('Error al obtener unidades', error); });
+    }).catch(error => { console.log('Error al obtener proyecto por id', error); });
+
     this.modalService.open(content, { size: size });
   }
   openModalLugarDesarrollo(content, size, id?) {
@@ -910,67 +947,62 @@ export class EditProyectoComponent implements OnInit, OnDestroy {
 
   guardarBasicaTecnica() {
     console.log(this.basica_tecnica);
-    this.basica_tecnica.id_proyecto = this.id;
     console.log('unidades', this.unidades);
     console.log('financiamientos', this.financiamientos);
 
-    // if (this.basica_tecnica.id_basica_tecnica) {
-    //   console.log('actualizar');
-    //   this._serviceBasicaTecnicas.update(this.basica_tecnica.id_basica_tecnica, this.basica_tecnica, this.token)
-    //   .then(responseBT => {
-    //     if (this.unidades.length > 0) {
-    //       this._serviceUnidades.deleteUnidadesByIdBasicaTecnica(responseBT.basica_tecnica.id_basica_tecnica, this.token)
-    //       .then(responseUnis => {
-    //         var contador = 0;
-    //         this.unidades.forEach(unidad => {
-    //           var uni = {
-    //               nombre: unidad.nombre,
-    //               id_basica_tecnica: responseBT.basica_tecnica.id_basica_tecnica
-    //           };
-    //           this._serviceUnidades.save(uni, this.token)
-    //           .then(response => {
-    //             contador ++;
-    //             if (this.unidades.length === contador) {
-    //               this.obtenerBasicaTecnicas();
-    //               this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    //             }
-    //           }).catch(error => { console.log('Error al crear unidad', error); });
-    //         });
-    //       }).catch(error => { console.log('Error al eliminar unidade por id_basica_tecnica', error); });
-    //     } else {
-    //       this.obtenerBasicaTecnicas();
-    //       this.toastr.success('Basica tecnica actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    //     }
-    //   }).catch(error => { console.log('Error al actualizar basica tecnica', error); });
-    // } else {
-    //   console.log('guardar');
-    //   this._serviceBasicaTecnicas.save(this.basica_tecnica, this.token)
-    //   .then(response => {
-    //     // console.log(response.basica_tecnicas);
-    //     if (this.unidades.length > 0) {
-    //       var contador = 0;
-    //       this.unidades.forEach(unidad => {
-    //         unidad.id_basica_tecnica = response.basica_tecnicas.id_basica_tecnica;
-    //         this._serviceUnidades.save(unidad, this.token)
-    //         .then(responseUnidad => {
-    //           // console.log(responseUnidad);
-    //           contador++;
-    //           if (contador === this.unidades.length) {
-    //             this.obtenerBasicaTecnicas();
-    //             this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    //           }
-    //         }).catch(error => { console.log('Error al guardar la unidad ', error); });
-    //       });
-    //     } else {
-    //       this.obtenerBasicaTecnicas();
-    //       this.toastr.success('Basica tecnica guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    //     }
-    //   }).catch(error => {
-    //     console.log('error al crear el pryArchivo', error);
-    //     this.toastr.error('Error al guardar Basica tecnica', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-    //   });
-    // }
-    // this.modalService.dismissAll();
+    this._serviceProyecto.updateProyecto(this.basica_tecnica.id_proyecto, this.basica_tecnica, this.token)
+    .then(responseP => {
+      this.basica_tecnica = {
+        id_proyecto: responseP.proyecto.id_proyecto,
+        carrera: responseP.proyecto.carrera,
+        n_instituto: responseP.proyecto.n_instituto,
+        tipo: responseP.proyecto.tipo,
+        area: responseP.proyecto.area,
+        tipo_p: responseP.proyecto.tipo_p,
+        carga_h: responseP.proyecto.carga_h,
+        financiamiento: responseP.proyecto.financiamiento,
+        moneda: responseP.proyecto.moneda
+      };
+      // actualizar unidades
+      var contadorF = 0;
+      var contadorU = 0;
+      if (this.unidades.length > 0) {
+        this._serviceUnidades.deleteUnidadesByIdProyecto(this.basica_tecnica.id_proyecto, this.token)
+        .then(responseE => {
+          // creamos unidades
+          this.unidades.forEach(unidad => {
+            unidad.id_proyecto = this.basica_tecnica.id_proyecto;
+            this._serviceUnidades.save(unidad, this.token)
+            .then(responseU => {
+              contadorU++;
+              if (contadorU === this.unidades.length) {
+                this.getProyecto(this.id);
+              }
+            }).catch(error => { console.log('Error al guardar unidad', error); });
+          });
+        }).catch(error => { console.log('Error al eliminar', error); });
+      }
+      // actualizar financiamientos
+      if (this.financiamientos.length > 0) {
+        this._serviceFinanciamientos.deleteFinanciamientosByIdProyecto(this.basica_tecnica.id_proyecto, this.token)
+        .then(responseEF => {
+          // creamos financiamientos
+          this.financiamientos.forEach(financiamiento => {
+            financiamiento.id_proyecto = this.basica_tecnica.id_proyecto;
+            this._serviceFinanciamientos.save(financiamiento, this.token)
+            .then(responseF => {
+              contadorF++;
+              if (contadorF === this.financiamientos.length) {
+                this.getProyecto(this.id);
+              }
+            }).catch(error => { console.log('Error al guardar financiamiento', error); });
+          });
+        }).catch(error => { console.log('Error al eliminar', error); });
+      }
+      // obtenemos proyecto
+      this.getProyecto(this.id);
+      this.modalService.dismissAll();
+    }).catch(error => { console.log('Error al actualizar basica tecnica', error); });  
   }
 
   guardarLugarDesarrollo() {

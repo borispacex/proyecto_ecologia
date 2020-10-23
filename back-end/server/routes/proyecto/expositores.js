@@ -9,6 +9,11 @@ module.exports = (app) => {
     app.get('/api/expositores/:id_curso', expositoresController.getAllByIdCurso);
 
     app.get('/api/expositor/:id_expositor', expositoresController.getById);
-    app.delete('/api/expositor/:id_expositor', expositoresController.deleteExpositor)
-    app.delete('/api/expositores/:id_curso', expositoresController.deleteExpositoresByIdCurso)
+    app.delete('/api/expositor/:id_expositor', expositoresController.deleteExpositor);
+    app.delete('/api/expositores/:id_curso', expositoresController.deleteExpositoresByIdCurso);
+
+    app.get('/api/expositoresByEstado/:estado', expositoresController.getAllByEstado);
+    app.get('/api/expositoresByIdCursoAndEstado/:id_curso/:estado', expositoresController.getAllByIdCursoAndEstado);
+    app.get('/api/countExpositoresByIdCurso/:id_curso', expositoresController.countByIdCurso);
+    app.get('/api/countExpositoresByIdCursoAndEstado/:id_curso/:estado', expositoresController.countByIdCursoAndEstado);
 }

@@ -55,7 +55,6 @@ ssh -i mi-llave bvargas7@35.226.114.61
 
 9. Preparamos Backend
     cd /var/www/proyecto_ecologia/back-end/
-    npm install
     sudo pm2 start bin/www.js --name web --watch
     sudo pm2 startup systemd
     sudo pm2 save
@@ -93,7 +92,8 @@ ssh -i mi-llave bvargas7@35.226.114.61
     sudo ufw allow ssh          // permitir conexiones conexiones ssh
     sudo ufw allow 'Nginx Full'
     -- paso 4
-    sudo certbot --nginx -d umsa-ecologia.xyz -d www.umsa-ecologia.xyz
+    // sudo certbot --nginx -d umsa-ecologia.xyz -d www.umsa-ecologia.xyz
+    sudo certbot --nginx -d proyectosecologia.net.bo -d www.proyectosecologia.net.bo
     -- paso 5
     sudo systemctl status certbot.timer
 
@@ -110,4 +110,3 @@ ssh -i mi-llave bvargas7@35.226.114.61
         ng build --prod
     -- Copiamos la carpeta dist al servidor
         scp -rp -i "/Users/boris/Documents/angular-projects/proyecto_ecologia/llaves-ecologia/llaves-ecologia" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargasp@35.199.66.1:/var/www/proyecto_ecologia/back-end
-    

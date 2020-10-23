@@ -266,7 +266,7 @@ export class ListProyectoComponent implements OnInit {
   editar() {
     this.proyecto.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
     this.proyecto.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
-    this._serviceProyecto.updateproyecto(this.proyecto.id_proyecto, this.proyecto, this.token)
+    this._serviceProyecto.updateProyecto(this.proyecto.id_proyecto, this.proyecto, this.token)
       .then(responseProy => {
         this.modalService.dismissAll();
         this.comprobarTipoProyecto();
@@ -279,17 +279,13 @@ export class ListProyectoComponent implements OnInit {
   }
   agregar() {
     let sw = true;
-    // console.log(this.proyecto, 'proyecto');
-    // console.log(this.seleccionados1, 'coordinador');
-    // console.log(this.seleccionados2, 'investigadores');
-    // console.log(this.filesToUpload, 'archivos');
     this.proyecto.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
     this.proyecto.fechafin = this.formatDate(this.fechafinal) + 'T00:00:00.000';
 
     this.proyecto.id_adm = JSON.parse(localStorage.getItem('identity_user')).id_persona;
     this.proyecto.id_coordinador = this.seleccionados1[0].id_investigador;
 
-    this._serviceProyecto.saveproyecto(this.proyecto, this.token)
+    this._serviceProyecto.saveProyecto(this.proyecto, this.token)
       .then(responseProy => {
         console.log(responseProy);
         // inv_proyectos

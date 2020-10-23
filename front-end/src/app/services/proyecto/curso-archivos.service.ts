@@ -1,6 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { GLOBAL } from './../global';
 
 @Injectable({
@@ -10,64 +9,64 @@ export class CursoArchivosService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
   // curso_archivos, curso_archivo, CursoArchivos, CursoArchivo, id_curso, IdCurso
 
   // guardar una curso_archivo
   save(curso_archivo: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'curso_archivo', curso_archivo, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'curso_archivo', curso_archivo, options).toPromise()
+    .then(res => res);
   }
   // actualizar curso_archivo
   update(id_curso_archivo: number, archivo: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'curso_archivo/' + id_curso_archivo, archivo, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.put<any>(this.url + 'curso_archivo/' + id_curso_archivo, archivo, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los curso_archivos
   getCursoArchivos(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'curso_archivos', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'curso_archivos', options).toPromise()
+    .then(res => res);
   }
   // obtenemos el curso_archivo por id_curso_archivo
   getCursoArchivoById(token: string, id_curso_archivo: number) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'curso_archivo/' + id_curso_archivo, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'curso_archivo/' + id_curso_archivo, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los curso_archivos by id_curso
   getCursoArchivosByIdCurso(id_curso: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'curso_archivos/' + id_curso, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'curso_archivos/' + id_curso, options).toPromise()
+    .then(res => res);
   }
   // contar todos los curso_archivos by id_curso
   countCursoArchivosByIdCurso(id_curso: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'countCursoArchivosByIdCurso/' + id_curso, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countCursoArchivosByIdCurso/' + id_curso, options).toPromise()
+    .then(res => res);
   }
 
 

@@ -18,20 +18,20 @@
 	<div class="block-header">
 
 		<form class="container" #filtroForm="ngForm" (ngSubmit)="realizarFiltro()">
-
 			<div class="form-group row">
-				<div class="form-check form-check-inline col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="radio" name="tipoFecha" id="inlineRadio1" value="inicio" [(ngModel)]="filtro.tipoFecha" #tipoFecha="ngModel" >
-					<label class="form-check-label" for="inlineRadio1">Fecha de inicio de proyecto</label>
-				</div>
-				<div class="form-check form-check-inline col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="radio" name="tipoFecha" id="inlineRadio2" value="final" [(ngModel)]="filtro.tipoFecha" #tipoFecha="ngModel">
-					<label class="form-check-label" for="inlineRadio2">Fecha de fin de proyecto</label>
-				</div>
-				<div class="form-check form-check-inline col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="radio" name="tipoFecha" id="inlineRadio3" value="ninguna" (ngModelChange)="this.filtro.fechaini =''; this.filtro.fechafin =''" [(ngModel)]="filtro.tipoFecha" #tipoFecha="ngModel">
-					<label class="form-check-label" for="inlineRadio3">Ninguna</label>
-				</div>
+
+				<label class="fancy-radio col-12 col-md-3">
+					<input type="radio" name="tipoFecha" id="inlineRadio1" value="inicio" [(ngModel)]="filtro.tipoFecha" #tipoFecha="ngModel" >
+					<span><i></i>Fecha de inicio de proyecto</span>
+				</label>
+				<label class="fancy-radio col-12 col-md-3">
+					<input type="radio" name="tipoFecha" id="inlineRadio2" value="final" [(ngModel)]="filtro.tipoFecha" #tipoFecha="ngModel">
+					<span><i></i>Fecha de fin de proyecto</span>
+				</label>
+				<label class="fancy-radio col-12 col-md-3">
+					<input type="radio" name="tipoFecha" id="inlineRadio3" value="ninguna" (ngModelChange)="this.filtro.fechaini =''; this.filtro.fechafin =''" [(ngModel)]="filtro.tipoFecha" #tipoFecha="ngModel">
+					<span><i></i>Ninguna</span>
+				</label>
 			</div>
 
 			<div class="form-group row">
@@ -105,9 +105,6 @@
 					</select>
 				</div>
 			</div>
-
-			<hr>
-
 			<div class="form-group row">
 				<label class="col-12 col-md-2" for="departamento">Departamento: </label>
 				<div class="col-12 col-md-4">
@@ -126,127 +123,57 @@
 						</option>
 					</select>
 				</div>
-			</div>
+			
 
-			<hr>
+				<label class="col-12 col-md-2 my-1" for="basica">Basica tecnica: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect" #multiSelect="ngModel" [placeholder]="'Seleccionar basica tecnica'"
+					[settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="filtro.mostrarBasicaTecnica">
+				</ng-multiselect-dropdown>
 
-			<div class="form-group row">
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarCoordinador" name="mostrarCoordinador"
-						[(ngModel)]="filtro.mostrarCoordinador">
-					<label class="form-check-label" for="mostrarCoordinador">Mostrar coordinador</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarInvestigador" name="mostrarInvestigador"
-						[(ngModel)]="filtro.mostrarInvestigador">
-					<label class="form-check-label" for="mostrarInvestigador">Mostrar investigadores</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarBasicaTecnica"
-						name="mostrarBasicaTecnica" [(ngModel)]="filtro.mostrarBasicaTecnica">
-					<label class="form-check-label" for="mostrarBasicaTecnica">Mostrar basica tecnicas</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarLugarDesarrollo"
-						name="mostrarLugarDesarrollo" [(ngModel)]="filtro.mostrarLugarDesarrollo">
-					<label class="form-check-label" for="mostrarLugarDesarrollo">Mostrar lugar de desarrollo</label>
-				</div>
-			</div>
-			<hr>
+				<label class="col-12 col-md-2 my-1" for="basica">Lugar de desarrollo: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-4 my-1" name="multiSelect3" #multiSelect3="ngModel" [placeholder]="'Seleccionar lugar desarrollo'"
+					[settings]="dropdownSettings3" [data]="dropdownList3" [(ngModel)]="filtro.mostrarLugarDesarrollo">
+				</ng-multiselect-dropdown>
 
-			<div class="form-group row">
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarPublicacion" name="mostrarPublicacion"
-						[(ngModel)]="filtro.mostrarPublicacion">
-					<label class="form-check-label" for="mostrarPublicacion">Mostrar publicaciones</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarConvenio" name="mostrarConvenio"
-						[(ngModel)]="filtro.mostrarConvenio">
-					<label class="form-check-label" for="mostrarConvenio">Mostrar convenios</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarContratado" name="mostrarContratado"
-						[(ngModel)]="filtro.mostrarContratado">
-					<label class="form-check-label" for="mostrarContratado">Mostrar contratados</label>
-				</div>
-			</div>
-			<hr>
-
-			<div class="form-group row">
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarCurso" name="mostrarCurso"
-						[(ngModel)]="filtro.mostrarCurso">
-					<label class="form-check-label" for="mostrarCurso">Mostrar cursos</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarEvento" name="mostrarEvento"
-						[(ngModel)]="filtro.mostrarEvento">
-					<label class="form-check-label" for="mostrarEvento">Mostrar eventos</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNotaPrensa" name="mostrarNotaPrensa"
-						[(ngModel)]="filtro.mostrarNotaPrensa">
-					<label class="form-check-label" for="mostrarNotaPrensa">Mostrar notas de prensa</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarExposicion" name="mostrarExposicion"
-						[(ngModel)]="filtro.mostrarExposicion">
-					<label class="form-check-label" for="mostrarExposicion">Mostrar exposiciones</label>
-				</div>
-			</div>
-			<hr>
-
-			<div class="form-group row">
+				<!-- <label class="fancy-checkbox col-12 col-md-3">
+					<input type="checkbox" id="mostrarLugarDesarrollo" name="mostrarLugarDesarrollo" [(ngModel)]="filtro.mostrarLugarDesarrollo">
+					<span>Mostrar lugar de desarrollo</span>
+				</label> -->
 				
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroPublicacion"
-						name="mostrarNumeroPublicacion" [(ngModel)]="filtro.mostrarNumeroPublicacion">
-					<label class="form-check-label" for="mostrarNumeroPublicacion">Mostrar numero publicaciones</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroBasicaTecnicas"
-						name="mostrarNumeroBasicaTecnicas" [(ngModel)]="filtro.mostrarNumeroBasicaTecnicas">
-					<label class="form-check-label" for="mostrarNumeroBasicaTecnicas">Mostrar numero basicas tecnica</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroLugarDesarrollos"
-						name="mostrarNumeroLugarDesarrollos" [(ngModel)]="filtro.mostrarNumeroLugarDesarrollos">
-					<label class="form-check-label" for="mostrarNumeroLugarDesarrollos">Mostrar numero lugares de desarrollo</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroConvenios"
-						name="mostrarNumeroConvenios" [(ngModel)]="filtro.mostrarNumeroConvenios">
-					<label class="form-check-label" for="mostrarNumeroConvenios">Mostrar numero convenios</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroContratados"
-						name="mostrarNumeroContratados" [(ngModel)]="filtro.mostrarNumeroContratados">
-					<label class="form-check-label" for="mostrarNumeroContratados">Mostrar numero contratados</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroCursos"
-						name="mostrarNumeroCursos" [(ngModel)]="filtro.mostrarNumeroCursos">
-					<label class="form-check-label" for="mostrarNumeroCursos">Mostrar numero cursos</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroEventos"
-						name="mostrarNumeroEventos" [(ngModel)]="filtro.mostrarNumeroEventos">
-					<label class="form-check-label" for="mostrarNumeroEventos">Mostrar numero eventos</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroNotasPrensa"
-						name="mostrarNumeroNotasPrensa" [(ngModel)]="filtro.mostrarNumeroNotasPrensa">
-					<label class="form-check-label" for="mostrarNumeroNotasPrensa">Mostrar numero notas de prensa</label>
-				</div>
-				<div class="form-check col-12 col-md-3 ml-2">
-					<input class="form-check-input" type="checkbox" id="mostrarNumeroExposiciones"
-						name="mostrarNumeroExposiciones" [(ngModel)]="filtro.mostrarNumeroExposiciones">
-					<label class="form-check-label" for="mostrarNumeroExposiciones">Mostrar numero exposiciones</label>
-				</div>
+				<label class="fancy-checkbox col-auto my-1">
+					<input type="checkbox" id="mostrarCoordinador" name="mostrarCoordinador" [(ngModel)]="filtro.mostrarCoordinador">
+					<span>Mostrar coordinador</span>
+				</label>
+				<label class="fancy-checkbox col-auto my-1">
+					<input type="checkbox" id="mostrarInvestigador" name="mostrarInvestigador" [(ngModel)]="filtro.mostrarInvestigador">
+					<span>Mostrar investigadores</span>
+				</label>
+								
+				<label class="fancy-checkbox col-auto my-1">
+					<input type="checkbox" id="mostrarPublicacion" name="mostrarPublicacion" [(ngModel)]="filtro.mostrarPublicacion">
+					<span>Mostrar publicaciones</span>
+				</label>
+				<label class="fancy-checkbox col-auto my-1">
+					<input type="checkbox" id="mostrarConvenio" name="mostrarConvenio" [(ngModel)]="filtro.mostrarConvenio">
+					<span>Mostrar convenios</span>
+				</label>
+				<label class="fancy-checkbox col-auto my-1">
+					<input type="checkbox" id="mostrarContratado" name="mostrarContratado" [(ngModel)]="filtro.mostrarContratado">
+					<span>Mostrar contratados</span>
+				</label>
 			</div>
-			<hr>
+			<div class="form-group row">
+				<label class="col-12 col-md-2 mb-1" for="basica">Difusión: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect2" #multiSelect2="ngModel" [placeholder]="'Seleccionar difusión'"
+					[settings]="dropdownSettings2" [data]="dropdownList2" [(ngModel)]="filtro.mostrarDifusion">
+				</ng-multiselect-dropdown>
+			
 
+				<label class="col-12 col-md-2 my-1" for="basica">Numero: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect1" #multiSelect1="ngModel" [placeholder]="'Seleccionar numero'"
+					[settings]="dropdownSettings1" [data]="dropdownList1" [(ngModel)]="filtro.mostrarNumero">
+				</ng-multiselect-dropdown>
+			</div>
 			<div class="form-group row navbar-form search-form" id="navbar-search">
 				<input class="form-control" placeholder="Filtrar" type="text"
 					(keyup)="applyFilter($event.target.value)" />
@@ -295,6 +222,8 @@
 		<div class="col-lg-12 col-md-12">
 			<div class="card planned_task">
 				<div class="body">
+					<h2 class="align-center">Lista de proyectos de investigación</h2>
+					<span><b>Proyectos en total: </b> {{this.proyectos.length}}</span>
 					<div class="table-responsive">
 						<table class="table-hover" mat-table matTableExporter matSort [dataSource]="dataSource"
 							#exporter="matTableExporter">
@@ -308,8 +237,9 @@
 							<tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
 
 						</table>
-						<mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-							showFirstLastButtons></mat-paginator>
+						<mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [pageIndex]="currentPage" (page)="handlePage($event)" [showFirstLastButtons]="true"></mat-paginator>
+						
+						<!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator> -->
 					</div>
 
 				</div>

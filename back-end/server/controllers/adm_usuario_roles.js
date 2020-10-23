@@ -56,9 +56,29 @@ function getByUsuario(req, res) {
 function getByRolesIdUsuario(req, res) {
     var id = req.params.id_usuario;
     adm_usuario_roles.findAll({
-        where: {
-            id_usuario: id
-        },
+        where: { id_usuario: id },
+        include: [
+            {
+                model: adm_roles,
+                attributes: [
+                    "id_rol",
+                    "rol"
+                ]
+            }
+        ]
+    })
+        .then(adm_usuario_roles => {
+            res.status(200).send({ adm_usuario_roles });
+        })
+        .catch(err => {
+            res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios', err });
+        });
+}
+function getByRolesIdUsuarioAndEstado(req, res) {
+    var id = req.params.id_usuario;
+    var status = req.params.estado;
+    adm_usuario_roles.findAll({
+        where: { id_usuario: id, estado: status },
         include: [
             {
                 model: adm_roles,
@@ -82,7 +102,32 @@ function getRolByIdUsuarioIdRol(req, res) {
     adm_usuario_roles.findOne({
         where: {
             id_usuario: id,
-            id_rol: idRol
+            id_rol: idRol,
+        },
+        include: [
+            {
+                model: adm_roles,
+                attributes: [
+                    "id_rol",
+                    "rol"
+                ]
+            }
+        ]
+    }).then(adm_usuario_role => {
+        res.status(200).send({ adm_usuario_role });
+    }).catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar los usuarios', err });
+    });
+}
+function getRolByIdUsuarioIdRolAndEstado(req, res) {
+    var id = req.params.id_usuario;
+    var idRol = req.params.id_rol;
+    var status = req.params.estado;
+    adm_usuario_roles.findOne({
+        where: {
+            id_usuario: id,
+            id_rol: idRol,
+            estado: status
         },
         include: [
             {
@@ -105,5 +150,8 @@ module.exports = {
     update,
     getByUsuario,
     getByRolesIdUsuario,
-    getRolByIdUsuarioIdRol
+    getRolByIdUsuarioIdRol,
+
+    getRolByIdUsuarioIdRolAndEstado,
+    getByRolesIdUsuarioAndEstado
 }

@@ -18,6 +18,7 @@ import * as $ from 'jquery';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,9 +26,11 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     HttpModule,
     RouterModule,
+
 
     NgbModule,
     FormsModule,

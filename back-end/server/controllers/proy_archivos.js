@@ -106,6 +106,23 @@ function getAll(req, res) {
             res.status(500).send({ message: 'Ocurrio un error al buscar los proy_archivos' }, err);
         });
 }
+// Listar todos los proy_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    proy_archivos.findAll({
+        where: { estado: status },
+        include: [
+            { model: proyectos },
+            { model: tipos }
+        ]
+    })
+        .then(proy_archivos => {
+            res.status(200).send({ proy_archivos });
+        })
+        .catch(err => {
+            res.status(500).send({ message: 'Ocurrio un error al buscar los proy_archivos' }, err);
+        });
+}
 // funcion para proy_archivo por id
 function getById(req, res) {
     var id = req.params.id_proy_archivo;
@@ -127,6 +144,24 @@ function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     proy_archivos.findAll({
         where: { id_proyecto: id },
+        include: [
+            { model: proyectos },
+            { model: tipos }
+        ]
+    })
+    .then(proy_archivos => {
+        res.status(200).send({ proy_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un proy_archivos por id_proyecto', err });
+    })
+}
+// funcion para buscar y mostrar un proy_archivos por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    proy_archivos.findAll({
+        where: { id_proyecto: id, estado: status },
         include: [
             { model: proyectos },
             { model: tipos }
@@ -170,6 +205,20 @@ function countByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al contar proy_archivos por id_proyecto', err });
     })
 }
+// contar proy_archivos por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    proy_archivos.count({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar proy_archivos por id_proyecto', err });
+    })
+}
 
 
 // EXPORTAMOS
@@ -182,5 +231,11 @@ module.exports = {
     getById,
     uploadArchivo,
     getArchivo,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByIdProyectoAndEstado,
+    getAllByEstado,
+    countByIdProyectoAndEstado,
+
+
 }

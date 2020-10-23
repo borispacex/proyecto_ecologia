@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las evento archivos', err });
     })
 }
+// funcion para mostrar todos los evento_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    evento_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(evento_archivos => {
+        res.status(200).send({ evento_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las evento archivos', err });
+    })
+}
 // funcion para evento_archivo por id
 function getById(req, res) {
     var id = req.params.id_evento_archivo;
@@ -124,11 +137,39 @@ function getAllByIdEvento(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un evento_archivos por id_evento', err });
     })
 }
+// mostrar un evento_archivos por id_evento
+function getAllByIdEventoAndEstado(req, res) {
+    var id = req.params.id_evento;
+    var status = req.params.estado;
+    evento_archivos.findAll({
+        where: { id_evento: id, estado: status }
+    })
+    .then(evento_archivos => {
+        res.status(200).send({ evento_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un evento_archivos por id_evento', err });
+    })
+}
 // contar evento_archivos por id_evento
 function countByIdEvento(req, res) {
     var id = req.params.id_evento;
     evento_archivos.count({
         where: { id_evento: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar evento_archivos por id_evento', err });
+    })
+}
+// contar evento_archivos por id_evento
+function countByIdEventoAndEstado(req, res) {
+    var id = req.params.id_evento;
+    var status = req.params.estado;
+    evento_archivos.count({
+        where: { id_evento: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdEvento,
-    countByIdEvento
+    countByIdEvento,
+
+    getAllByEstado,
+    getAllByIdEventoAndEstado,
+    countByIdEventoAndEstado
 }

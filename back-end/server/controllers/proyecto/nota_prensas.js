@@ -44,6 +44,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las nota_prensas', err });
     })
 }
+// funcion para mostrar todos nota_prensas
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    nota_prensas.findAll({
+        where: { estado: status }
+    })
+    .then(nota_prensas => {
+        res.status(200).send({ nota_prensas });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las nota_prensas', err });
+    })
+}
 // funcion para nota_prensa por id
 function getById(req, res) {
     var id = req.params.id_nota_prensa;
@@ -68,11 +81,39 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un nota_prensas por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un nota_prensas por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    nota_prensas.findAll({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(nota_prensas => {
+        res.status(200).send({ nota_prensas });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un nota_prensas por id_proyecto', err });
+    })
+}
 // funcion para contar nota_prensas por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     nota_prensas.count({
-        where: { id_proyecto: id, estado: true }
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contador nota_prensas por id_proyecto', err });
+    })
+}
+// funcion para contar nota_prensas por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    nota_prensas.count({
+        where: { id_proyecto: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -88,5 +129,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdProyecto,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado
 }

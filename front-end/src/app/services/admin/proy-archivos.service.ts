@@ -16,7 +16,7 @@ export class ProyArchivosService {
   // guardar proy_archivo
   saveProy_archivo(proy_archivo: any, token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.post(this.url + 'proy_archivo', proy_archivo, options).toPromise()
@@ -25,7 +25,7 @@ export class ProyArchivosService {
   // actualizar proy_archivo
   updateProy_archivo(id: number, proy_archivo: any, token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.put(this.url + 'proy_archivo/' + id, proy_archivo, options).toPromise()
@@ -34,7 +34,7 @@ export class ProyArchivosService {
   // se obtiene todos las proy_archivos
   getProy_archivos(token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.get(this.url + 'proy_archivos', options).toPromise()
@@ -43,7 +43,7 @@ export class ProyArchivosService {
   // se obtiene todos las proy_archivos. mediante el id_proyecto
   getProy_archivosByIdProyecto(id: number, token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.get(this.url + 'proy_archivosByIdProyecto/' + id, options).toPromise()
@@ -52,7 +52,7 @@ export class ProyArchivosService {
   // se obtiene el proy_archivo, mediante el id_archivo
   getProy_archivosByIdTipo(id_proyecto:number, id_tipo: number, token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.get(this.url + 'proy_archivosByIdTipo/' + id_proyecto + '/' + id_tipo, options).toPromise()
@@ -61,7 +61,7 @@ export class ProyArchivosService {
   // se obtiene el proy_archivo, mediante el id_proy_archivo
   getProyArchivoById(id: number, token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.get(this.url + 'proy_archivo/' + id, options).toPromise()
@@ -70,7 +70,7 @@ export class ProyArchivosService {
   // contar todos las proy_archivos. mediante el id_proyecto
   countProy_archivosByIdProyecto(id_proyecto: number, token: string) {
     let headers = new Headers({
-      'Authorization': token
+      'Authorization': `Bearer ${token}`
     });
     let options = new RequestOptions({ headers: headers });
     return this._http.get(this.url + 'countProyArchivosByIdProyecto/' + id_proyecto, options).toPromise()

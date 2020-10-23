@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-10-16 10:49:35 -04
+-- Started on 2020-10-23 09:01:30 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1363,7 +1363,7 @@ CREATE TABLE public.proyectos (
     id_proyecto integer NOT NULL,
     id_adm integer NOT NULL,
     id_coordinador integer NOT NULL,
-    titulo character varying(200),
+    titulo character varying(2000),
     fechaini timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
     fechafin timestamp with time zone,
     estado character varying(20) DEFAULT 'activo'::character varying NOT NULL,
@@ -1985,13 +1985,13 @@ COPY public.adm_roles (id_rol, rol, descripcion, estado, "createdAt", "updatedAt
 COPY public.adm_usuario_roles (id_adm_usuario_rol, id_usuario, id_rol, estado, "createdAt", "updatedAt") FROM stdin;
 2	2	2	t	2019-09-09 17:27:12.909651+00	2019-10-02 17:44:29.867+00
 4	2	3	t	2019-09-09 20:26:16.862347+00	2019-10-02 17:44:29.873+00
-66	28	2	t	2019-10-02 14:13:04.434+00	2019-10-02 17:44:44.612+00
 1	1	1	t	2019-09-09 17:27:10.3653+00	2019-09-09 17:27:10.3653+00
 67	28	3	t	2019-10-02 14:14:06.978+00	2019-10-02 17:47:24.651+00
 3	3	3	t	2019-09-09 17:27:15.474194+00	2019-09-09 17:27:15.474194+00
-69	29	2	t	2019-10-02 17:49:19.21+00	2020-09-22 21:10:06.102+00
 68	29	1	f	2019-10-02 17:49:13.087+00	2020-09-23 12:57:45.892+00
 70	29	3	t	2019-10-02 17:49:26.016+00	2020-09-29 14:43:34.895+00
+66	28	2	f	2019-10-02 14:13:04.434+00	2020-10-20 13:48:04.516+00
+69	29	2	f	2019-10-02 17:49:19.21+00	2020-10-20 13:48:20.699+00
 \.
 
 
@@ -2212,6 +2212,8 @@ COPY public.expositores (id_expositor, id_curso, nombres, apellidos, estado, "cr
 --
 
 COPY public.financiamientos (id_financiamiento, id_proyecto, fuente, aporte, observacion, estado, "createdAt", "updatedAt") FROM stdin;
+2	58	Exterior	30		t	2020-10-17 22:39:45.875+00	2020-10-17 23:03:00.167+00
+1	58	UMSA	70	obs1	t	2020-10-17 22:01:24.95+00	2020-10-17 23:03:00.168+00
 \.
 
 
@@ -2291,9 +2293,9 @@ COPY public.investigadores (id_investigador, id_persona, id_inv_tipo, estado, "c
 --
 
 COPY public.lugar_desarrollos (id_lugar_desarrollo, id_proyecto, departamento, provincia, municipio, localidad, latmax, lonmax, latmin, lonmin, estado, "createdAt", "updatedAt") FROM stdin;
-6	52	OR	Litoral	Rurrenabaque	Nose	1.00000000	1.00000000	2.00000000	2.00000000	f	2020-06-26 04:38:37.179+00	2020-09-29 15:36:06.089+00
-5	52	LP	Aroma	municipio prueba	localidad prueba	1.00000010	-1.00000000	10.05000000	10.06000000	t	2020-06-05 19:47:16.153+00	2020-09-29 15:46:11.077+00
-7	58	LP	Sud Yungas	Coroico	Yolosita	1.00000000	-1.00000000	10.05000000	10.06000000	t	2020-10-04 04:00:02.383+00	2020-10-04 04:00:02.383+00
+6	52	Oruro	Litoral	Rurrenabaque	Nose	1.00000000	1.00000000	2.00000000	2.00000000	f	2020-06-26 04:38:37.179+00	2020-09-29 15:36:06.089+00
+5	52	La Paz	Aroma	municipio prueba	localidad prueba	1.00000010	-1.00000000	10.05000000	10.06000000	t	2020-06-05 19:47:16.153+00	2020-09-29 15:46:11.077+00
+7	58	La Paz	Sud Yungas	Coroico	Yolosita	1.00000000	-1.00000000	10.05000000	10.06000000	t	2020-10-04 04:00:02.383+00	2020-10-04 04:00:02.383+00
 \.
 
 
@@ -2358,11 +2360,11 @@ COPY public.permiso_archivos (id_permiso_archivo, id_proyecto, archivo, nombre, 
 --
 
 COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, sexo, estado_civil, fec_nacimiento, pais, provincia, direccion1, correo, telefono, grado_academico, estado, "createdAt", "updatedAt", ci, url, ciudad, direccion2, celular, lenguaje, formacion_pro, formacion_adi, habilidades, conclusion, tema, color) FROM stdin;
-33	1	perez		juanito22	\N	\N	\N	\N	\N	\N	p4ecologia@outlook.es	\N	M. Sc.	t	2019-10-02 17:49:12.962+00	2020-04-30 14:23:41.621+00	002	\N	SC	\N	\N	\N	\N	\N	\N	\N		theme-cyan
 3	20	Garitano	Zavala	Alvaro	Masculino	Casado	1988-01-05 04:00:00+00	BO	Murillo	Calacoto	p2ecologia@outlook.com	22222222	Ph. D.	t	2019-09-09 04:52:01.047628+00	2020-09-27 19:22:27.197+00	0000003	\N	CH	\N	\N	\N	\N	\N	\N	\N		theme-orange
-2	19	Moraes	Ramirez	Monica	Femenino	Casado	1986-01-05 04:00:00+00	BO	Murillo	Obrajes	p1ecologia@outlook.es	00000000	Ph. D.	t	2019-09-09 04:46:55.187564+00	2020-10-04 02:32:47.473+00	0000002	\N	LP	\N	\N	\N	\N	\N	\N	\N		theme-blue
-32	72	perez		juan1	\N	\N	\N	\N	\N	\N	p3ecologia@outlook.es	\N	Ph. D.	t	2019-10-02 14:13:04.331+00	2020-09-07 16:07:21.1+00	001	\N	LP	\N	\N	\N	\N	\N	\N	\N		theme-cyan
-1	18	Vargas	Paucara	Boris	Masculino	Soltero	1996-01-12 04:00:00+00	BO	Murillo	Mallasa	borisvargaspaucara@gmail.com	60514138	Lic.	t	2019-09-09 04:44:24.860882+00	2020-10-15 14:27:04.59+00	0000001	\N	LP	\N	60514138	es_BO	Estudie lalaa	\N	\N	\N		theme-cyan
+32	72	Acha	Cordero	Dario	\N	\N	\N	\N	\N	\N	p3ecologia@outlook.es	\N	Ph. D.	t	2019-10-02 14:13:04.331+00	2020-10-20 13:46:42.134+00	3374109	\N	LP	\N	\N	\N	\N	\N	\N	\N		theme-cyan
+33	1	Amurrio	Ordoñez	Patricia Janneth	\N	\N	\N	\N	\N	\N	p4ecologia@outlook.es	\N	M. Sc.	t	2019-10-02 17:49:12.962+00	2020-10-20 13:47:14.444+00	333225	\N	SC	\N	\N	\N	\N	\N	\N	\N		theme-cyan
+1	18	Vargas	Paucara	Boris	Masculino	Soltero	1996-01-12 04:00:00+00	BO	Murillo	Mallasa	borisvargaspaucara@gmail.com	60514138	Lic.	t	2019-09-09 04:44:24.860882+00	2020-10-20 13:48:58.621+00	9884972	\N	LP	\N	60514138	es_BO	Estudie lalaa	\N	\N	\N		theme-cyan
+2	19	Moraes	Ramirez	Monica	Femenino	Casado	1986-01-05 04:00:00+00	BO	Murillo	Obrajes	p1ecologia@outlook.es	00000000	Ph. D.	t	2019-09-09 04:46:55.187564+00	2020-10-22 11:36:01.774+00	183792	\N	LP	\N	\N	\N	\N	\N	\N	\N		theme-blue
 \.
 
 
@@ -2466,15 +2468,15 @@ COPY public.proy_archivos (id_proy_archivo, id_proyecto, archivo, nombre, descri
 --
 
 COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, fechaini, fechafin, estado, "createdAt", "updatedAt", proceso, carrera, n_instituto, tipo, area, tipo_p, carga_h, moneda, financiamiento) FROM stdin;
-57	1	2	titutlo inicio	2020-09-02 04:00:00+00	2020-10-02 04:00:00+00	cerrado	2020-10-01 01:27:11.049+00	2020-10-04 03:05:33.008+00	0	\N	\N	\N	\N	\N	\N	\N	\N
-56	1	2	sin titutlo 1000	2020-09-10 04:00:00+00	2020-09-30 04:00:00+00	cerrado	2020-10-01 00:54:00.398+00	2020-10-04 03:05:40.033+00	0	\N	\N	\N	\N	\N	\N	\N	\N
-55	1	2	sin titutlo	2020-09-10 04:00:00+00	2020-09-18 04:00:00+00	cerrado	2020-10-01 00:46:56.11+00	2020-10-04 03:05:43.835+00	0	\N	\N	\N	\N	\N	\N	\N	\N
-54	1	2	Proyecto sin titulo 2	2020-09-23 04:00:00+00	2020-10-01 04:00:00+00	cerrado	2020-10-01 00:44:00.61+00	2020-10-04 03:05:48.251+00	0	\N	\N	\N	\N	\N	\N	\N	\N
-53	1	1	Proyecto sin titulo	2012-05-09 04:00:00+00	2020-09-30 04:00:00+00	cerrado	2020-10-01 00:33:55.696+00	2020-10-04 03:05:52.423+00	0	\N	\N	\N	\N	\N	\N	\N	\N
-1	1	2	Renovacion de agua	2019-09-01 04:00:00+00	2019-11-29 04:00:00+00	cerrado	2019-09-30 14:25:27.22+00	2020-10-04 03:05:56.307+00	20	\N	\N	\N	\N	\N	\N	\N	\N
-51	1	2	proyecto prueba 100	2020-05-01 04:00:00+00	2020-05-31 04:00:00+00	cerrado	2020-05-08 02:44:35.543+00	2020-10-04 03:06:01.034+00	40	\N	\N	\N	\N	\N	\N	\N	\N
-52	1	1	PROYECTO 1	2020-05-28 04:00:00+00	2020-05-29 04:00:00+00	cerrado	2020-05-28 22:30:48.085+00	2020-10-04 03:06:06.324+00	55	\N	\N	\N	\N	\N	\N	\N	\N
-58	1	1	PROYECTO 1	2020-10-03 04:00:00+00	2020-10-04 04:00:00+00	activo	2020-10-04 03:07:31.419+00	2020-10-04 05:13:30.131+00	15	\N	\N	\N	\N	\N	\N	\N	\N
+56	1	2	Assessing the risk of extinction of plants and updating Key Biodiversity Areas in the Tropical Andes	2018-01-01 04:00:00+00	2020-06-18 04:00:00+00	pendiente	2020-10-01 00:54:00.398+00	2020-10-20 13:52:26.923+00	0	\N	\N	\N	\N	\N	\N	\N	\N
+55	1	2	Bioremedicacion de las zonas de Huatajata y bahia Cohana del lago Titicaca y revalorizacion cultural economica de la totora	2018-10-04 04:00:00+00	2021-10-04 04:00:00+00	inactivo	2020-10-01 00:46:56.11+00	2020-10-20 13:53:46.516+00	0	\N	\N	\N	\N	\N	\N	\N	\N
+54	1	2	Cooperacion tecnica ambiental para la planificacion de la conservacion de los espacios naturales del municipio de La Paz	2018-09-06 04:00:00+00	2021-10-14 04:00:00+00	cerrado	2020-10-01 00:44:00.61+00	2020-10-20 13:55:02.743+00	0	\N	\N	\N	\N	\N	\N	\N	\N
+1	1	2	Conservacion de especie endemica Syagrus yungasensis: Practicas de propagacion (Proyecto Plantas Endemicas)	2019-09-01 04:00:00+00	2019-11-29 04:00:00+00	cerrado	2019-09-30 14:25:27.22+00	2020-10-04 03:05:56.307+00	20	\N	\N	\N	\N	\N	\N	\N	\N
+51	1	2	Cultivos marginados en Iberoamerica Red CULTIMA CYTED	2020-05-01 04:00:00+00	2020-05-31 04:00:00+00	cerrado	2020-05-08 02:44:35.543+00	2020-10-04 03:06:01.034+00	40	\N	\N	\N	\N	\N	\N	\N	\N
+58	1	1	Diagnostico de la biodiversidad acuatica laguna Moa, La Paz Bolivia	2020-10-03 04:00:00+00	2020-10-04 04:00:00+00	activo	2020-10-04 03:07:31.419+00	2020-10-17 22:01:24.827+00	15	Biologia	Instituto de Ecologia	basica	Biologia	Investigacion	100	USD	100
+57	1	2	Dieta, tiempo de transito intestinal, consistencia fecal y contenido en materia seca de las heces en Ateles chamek en semilibertad.	2020-09-02 04:00:00+00	2020-10-02 04:00:00+00	cerrado	2020-10-01 01:27:11.049+00	2020-10-19 14:20:34.292+00	0	\N	\N	\N	\N	\N	\N	\N	\N
+52	1	1	Crecimiento y supervivencia de caimanes en el sistema del lago Moa. Bases para el manejo en sistemas de granjas de levante	2020-05-28 04:00:00+00	2020-05-29 04:00:00+00	activo	2020-05-28 22:30:48.085+00	2020-10-20 14:04:32.488+00	55	\N	\N	\N	\N	\N	\N	\N	\N
+53	1	1	Construccion y validacion de un metodo de capacitacion sobre el manejo del conflicto con micromamiferos y sus implicancias en la salud publica, dirigido a ..	2012-05-09 04:00:00+00	2020-09-30 04:00:00+00	cerrado	2020-10-01 00:33:55.696+00	2020-10-20 14:04:51.049+00	0	\N	\N	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -2498,8 +2500,8 @@ COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, d
 --
 
 COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, fecha, contenido, estado, "createdAt", "updatedAt", tipo) FROM stdin;
-1	52	1	libro 1 publi1	2020-06-26 04:00:00+00	allala\nlibro1\nla	t	2020-06-26 07:15:02.31+00	2020-09-29 15:46:00.434+00	Libro
 2	58	1	TITULO 1	2020-10-04 04:00:00+00	contenido	t	2020-10-04 04:15:26.416+00	2020-10-04 04:15:26.416+00	Artículo
+1	52	1	DIeta, tiempo de transito intestinal consistencia fecal	2020-06-26 04:00:00+00	El mono araña negro (Ateles chamel), es una de las especies de primate que esta en peligro de extincion ...	t	2020-06-26 07:15:02.31+00	2020-09-29 15:46:00.434+00	Libro
 \.
 
 
@@ -2566,6 +2568,8 @@ COPY public.tipos (id_tipo, nombre, descripcion, estado, "createdAt", "updatedAt
 --
 
 COPY public.unidades (id_unidad, id_proyecto, nombre, observacion, estado, "createdAt", "updatedAt") FROM stdin;
+1	58	uni1	ob1	t	2020-10-17 22:01:24.93+00	2020-10-17 23:03:00.133+00
+2	58	uni2	ob2	t	2020-10-17 23:03:00.135+00	2020-10-17 23:03:00.135+00
 \.
 
 
@@ -2719,7 +2723,7 @@ SELECT pg_catalog.setval('public.expositores_id_expositor_seq', 12, true);
 -- Name: financiamientos_id_financiamiento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 1, false);
+SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 2, true);
 
 
 --
@@ -2890,7 +2894,7 @@ SELECT pg_catalog.setval('public.tipos_id_tipo_seq', 17, true);
 -- Name: unidades_id_unidad_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.unidades_id_unidad_seq', 1, false);
+SELECT pg_catalog.setval('public.unidades_id_unidad_seq', 2, true);
 
 
 --
@@ -3739,7 +3743,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-10-16 10:49:36 -04
+-- Completed on 2020-10-23 09:01:32 -04
 
 --
 -- PostgreSQL database dump complete

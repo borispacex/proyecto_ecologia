@@ -44,6 +44,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las unidades', err });
     })
 }
+// funcion para mostrar todos unidades
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    unidades.findAll({
+        where: { estado: status }
+    })
+    .then(unidades => {
+        res.status(200).send({ unidades });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las unidades', err });
+    })
+}
 // funcion para unidad por id
 function getById(req, res) {
     var id = req.params.id_unidad;
@@ -60,6 +73,20 @@ function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     unidades.findAll({
         where: { id_proyecto: id }
+    })
+    .then(unidades => {
+        res.status(200).send({ unidades });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un unidades por id_proyecto', err });
+    })
+}
+// funcion para buscar y mostrar un unidades por id_basica_tecnica
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    unidades.findAll({
+        where: { id_proyecto: id, estado: status }
     })
     .then(unidades => {
         res.status(200).send({ unidades });
@@ -102,5 +129,8 @@ module.exports = {
     getAll,
     getAllByIdProyecto,
     deleteUnidad,
-    deleteUnidadesByIdProyecto
+    deleteUnidadesByIdProyecto,
+
+    getAllByIdProyectoAndEstado,
+    getAllByEstado
 }

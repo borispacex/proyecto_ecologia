@@ -52,7 +52,8 @@ const routes: Routes = [
                   { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda Cuenta' } },
                   { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda Cuenta' } }
               ]
-          }
+          },
+          { path: '**', redirectTo: 'dashboard' }
       ]
   },
 

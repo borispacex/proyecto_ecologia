@@ -15,4 +15,8 @@ module.exports = (app) => {
     app.get('/api/permiso_archivo/:id_permiso_archivo', permiso_archivosController.getById);
     app.get('/api/countPermisoArchivosByIdProyecto/:id_proyecto', permiso_archivosController.countByIdProyecto);
 
+    app.get('/api/permiso_archivosByEstado/:estado', permiso_archivosController.getAllByEstado);
+    app.get('/api/permiso_archivosByIdProyectoAndEstado/:id_proyecto/:estado', permiso_archivosController.getAllByIdProyectoAndEstado);
+    app.get('/api/countPermisoArchivosByIdProyectoAndEstado/:id_proyecto/:estado', permiso_archivosController.countByIdProyectoAndEstado);
+
 }

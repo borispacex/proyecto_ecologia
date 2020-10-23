@@ -2,26 +2,36 @@
     <div class="vertical-align-wrap">
         <div class="vertical-align-middle auth-main">
             <div class="auth-box">
-                <div class="top">
-                    <img src="assets/images/logo-white.svg" alt="Lucid">
-                </div>
                 <div class="card">
                     <div class="header">
                         <h3>
                             <span class="clearfix title">
-                                <span class="number left">Error</span> <span class="text">403 <br>Error prohibido!</span>
+                                <span class="number left h1">Error 403</span> <br><span class="text">prohibido el acceso!</span>
                             </span>
                         </h3>
                     </div>
                     <div class="body">
-                        <p>No tiene permiso para acceder / en este servidor.</p>
+                        <p>No tiene permiso para acceder en este sitio.</p>
                         <div class="margin-top-30">
-                            <a href="javascript:history.go(-1)" class="btn btn-default"><i
-                                    class="fa fa-arrow-left"></i>&nbsp;<span>Regresar</span></a>&nbsp;
-                            <a [routerLink]="['/home']" class="btn btn-primary"><i class="fa fa-home"></i>&nbsp;<span>INICIO</span></a>
+                            <a [routerLink]="['/authentication/login']" class="btn btn-primary"><i class="fa fa-home"></i>&nbsp;<span>INICIO</span></a>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="vertical-align-middle">
+            <div class="mx-5 d-none d-sm-none d-lg-block">
+              <div class="row">
+                <div class="col-12 align-center">
+                  <img src="assets/images/logo_ie.png" height="330px" alt="logo umsa">
+                </div>
+              </div>
+              <hr>
+              <div class="align-center">
+                <span>Campus Universitario: Calle 27 Cota - Cota, Zona sur, Telf. (5912) 2792582, 2792416, 2772768</span><br>
+                <span>Casilla 10077 - Correo Central, La Paz, Bolivia, Fax 591-2-2797511</span><br>
+                <span>Email: dir.ie.umsa@gmail.com</span>  
+              </div>        
             </div>
         </div>
     </div>

@@ -1,6 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { GLOBAL } from './../global';
 
 @Injectable({
@@ -10,7 +9,7 @@ export class SeguiArchivosService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
 
@@ -18,66 +17,66 @@ export class SeguiArchivosService {
 
 
   save(segui_archivo: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'segui_archivo', segui_archivo, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'segui_archivo', segui_archivo, options).toPromise()
+    .then(res => res);
   }
   // actualizar segui_archivo
   update(id_segui_archivo: number, archivo: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'segui_archivo/' + id_segui_archivo, archivo, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.put<any>(this.url + 'segui_archivo/' + id_segui_archivo, archivo, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los segui_archivos
   getSeguiArchivos(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'segui_archivos', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'segui_archivos', options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los segui_archivos when true
   getSeguiArchivosTrue(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'segui_archivos-true', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'segui_archivos-true', options).toPromise()
+    .then(res => res);
   }
   // obtenemos el segui_archivo por id_segui_archivo
   getSeguiArchivoById(id_segui_archivo: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'segui_archivo/' + id_segui_archivo, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'segui_archivo/' + id_segui_archivo, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los segui_archivos by id_seguimiento
   getSeguiArchivosByIdSeguimiento(id_seguimiento: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'segui_archivos/' + id_seguimiento, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'segui_archivos/' + id_seguimiento, options).toPromise()
+    .then(res => res);
   }
   // contador todos los segui_archivos by id_seguimiento
   countSeguiArchivosByIdSeguimiento(id_seguimiento: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'countSeguiArchivosByIdSeguimiento/' + id_seguimiento, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countSeguiArchivosByIdSeguimiento/' + id_seguimiento, options).toPromise()
+    .then(res => res);
   }
   
 }

@@ -1,6 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RequestOptions, Headers, Http } from '@angular/http';
 import { GLOBAL} from '../global';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,7 +9,7 @@ export class LoginService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
    }
 
@@ -16,16 +17,16 @@ export class LoginService {
     if (getToken) {
       usuario.token = getToken;
     }
-    let headers = new Headers({
+    let reqHeader = new HttpHeaders({
       'Content-Type': 'Application/json'
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'login', usuario, options).toPromise()
-    .then( res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'login', usuario, options).toPromise()
+    .then(res => res);
   }
   // obtener id_rol, atravez de un usuario
   getRolByUsuario(id: number) {
-    return this._http.get(this.url + 'getByUsuario/' + id).toPromise()
-    .then (res => res.json());
+    return this._httpClient.get<any>(this.url + 'getByUsuario/' + id).toPromise()
+    .then(res => res);
   }
 }

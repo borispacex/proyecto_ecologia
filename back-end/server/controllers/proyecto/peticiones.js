@@ -78,11 +78,39 @@ function getAllByIdInvestigador(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un peticiones por id_investigador', err });
     })
 }
+// funcion para buscar y mostrar un peticiones por id_investigador
+function getAllByIdInvestigadorAndEstado(req, res) {
+    var id = req.params.id_investigador;
+    var status = req.params.estado;
+    peticiones.findAll({
+        where: { id_investigador: id, estado: status }
+    })
+    .then(peticiones => {
+        res.status(200).send({ peticiones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un peticiones por id_investigador', err });
+    })
+}
 // funcion para buscar y mostrar un peticiones por id_proyecto
 function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     peticiones.findAll({
         where: { id_proyecto: id }
+    })
+    .then(peticiones => {
+        res.status(200).send({ peticiones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un peticiones por id_proyecto', err });
+    })
+}
+// funcion para buscar y mostrar un peticiones por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    peticiones.findAll({
+        where: { id_proyecto: id, estado: status }
     })
     .then(peticiones => {
         res.status(200).send({ peticiones });
@@ -118,6 +146,20 @@ function countByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al contar peticiones por id_proyecto', err });
     })
 }
+// funcion contar peticiones por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    peticiones.count({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar peticiones por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
@@ -128,5 +170,9 @@ module.exports = {
     getAllByIdInvestigador,
     getAllByIdProyecto,
     getAllByIdProyectoAndIdInvestigador,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByIdInvestigadorAndEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado
 }

@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las contra_archivos', err });
     })
 }
+// funcion para mostrar todos los contra_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    contra_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(contra_archivos => {
+        res.status(200).send({ contra_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las contra_archivos', err });
+    })
+}
 // funcion para contra_archivo por id
 function getById(req, res) {
     var id = req.params.id_contra_archivo;
@@ -124,11 +137,39 @@ function getAllByIdContratado(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un contra_archivos por id_contratado', err });
     })
 }
+// mostrar un contra_archivos por id_contratado
+function getAllByIdContratadoAndEstado(req, res) {
+    var id = req.params.id_contratado;
+    var status = req.params.estado;
+    contra_archivos.findAll({
+        where: { id_contratado: id, estado: status }
+    })
+    .then(contra_archivos => {
+        res.status(200).send({ contra_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un contra_archivos por id_contratado', err });
+    })
+}
 // contar contra_archivos por id_contratado
 function countByIdContratado(req, res) {
     var id = req.params.id_contratado;
     contra_archivos.count({
         where: { id_contratado: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar contra_archivos por id_contratado', err });
+    })
+}
+// contar contra_archivos por id_contratado
+function countByIdContratadoAndEstado(req, res) {
+    var id = req.params.id_contratado;
+    var status = req.params.estado;
+    contra_archivos.count({
+        where: { id_contratado: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdContratado,
-    countByIdContratado
+    countByIdContratado,
+
+    getAllByEstado,
+    getAllByIdContratadoAndEstado,
+    countByIdContratadoAndEstado
 }

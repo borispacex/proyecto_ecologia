@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las expo_archivos', err });
     })
 }
+// funcion para mostrar todos los expo_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    expo_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(expo_archivos => {
+        res.status(200).send({ expo_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las expo_archivos', err });
+    })
+}
 // funcion para expo_archivo por id
 function getById(req, res) {
     var id = req.params.id_expo_archivo;
@@ -124,11 +137,39 @@ function getAllByIdExposicion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un expo_archivos por id_exposicion', err });
     })
 }
+// mostrar un expo_archivos por id_exposicion
+function getAllByIdExposicionAndEstado(req, res) {
+    var id = req.params.id_exposicion;
+    var status = req.params.estado;
+    expo_archivos.findAll({
+        where: { id_exposicion: id, estado: status }
+    })
+    .then(expo_archivos => {
+        res.status(200).send({ expo_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un expo_archivos por id_exposicion', err });
+    })
+}
 // contar expo_archivos por id_exposicion
 function countByIdExposicion(req, res) {
     var id = req.params.id_exposicion;
     expo_archivos.count({
         where: { id_exposicion: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar expo_archivos por id_exposicion', err });
+    })
+}
+// contar expo_archivos por id_exposicion
+function countByIdExposicionAndEstado(req, res) {
+    var id = req.params.id_exposicion;
+    var status = req.params.estado;
+    expo_archivos.count({
+        where: { id_exposicion: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdExposicion,
-    countByIdExposicion
+    countByIdExposicion,
+
+    getAllByEstado,
+    getAllByIdExposicionAndEstado,
+    countByIdExposicionAndEstado
 }

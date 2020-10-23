@@ -44,6 +44,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las financiamientos', err });
     })
 }
+// funcion para mostrar todos financiamientos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    financiamientos.findAll({
+        where: { estado: status }
+    })
+    .then(financiamientos => {
+        res.status(200).send({ financiamientos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las financiamientos', err });
+    })
+}
 // funcion para financiamiento por id
 function getById(req, res) {
     var id = req.params.id_financiamiento;
@@ -60,6 +73,20 @@ function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     financiamientos.findAll({
         where: { id_proyecto: id }
+    })
+    .then(financiamientos => {
+        res.status(200).send({ financiamientos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un financiamientos por id_proyecto', err });
+    })
+}
+// funcion para buscar y mostrar un financiamientos por id_basica_tecnica
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    financiamientos.findAll({
+        where: { id_proyecto: id, estado: status }
     })
     .then(financiamientos => {
         res.status(200).send({ financiamientos });
@@ -94,6 +121,33 @@ function deleteFinanciamientosByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar una financiamiento por id_proyecto', err});
     })
 }
+// funcion contar financiamientos por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    financiamientos.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar financiamientos por id_proyecto', err });
+    })
+}
+// funcion contar financiamientos por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    financiamientos.count({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar financiamientos por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
@@ -102,5 +156,10 @@ module.exports = {
     getAll,
     getAllByIdProyecto,
     deleteFinanciamiento,
-    deleteFinanciamientosByIdProyecto
+    deleteFinanciamientosByIdProyecto,
+
+    getAllByEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyecto,
+    countByIdProyectoAndEstado
 }

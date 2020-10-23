@@ -15,4 +15,8 @@ module.exports = (app) => {
     app.get('/api/contra_archivo/:id_contra_archivo', contra_archivosController.getById);
     app.get('/api/countContraArchivosByIdContratado/:id_contratado', contra_archivosController.countByIdContratado);
 
+    app.get('/api/contra_archivosByEstado/:estado', contra_archivosController.getAllByEstado);
+    app.get('/api/contra_archivosByIdContratadoAndEstado/:id_contratado/:estado', contra_archivosController.getAllByIdContratadoAndEstado);
+    app.get('/api/countContraArchivosByIdContratadoAndEstado/:id_contratado/:estado', contra_archivosController.countByIdContratadoAndEstado);
+
 }

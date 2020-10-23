@@ -16,7 +16,9 @@ const routes: Routes = [
                   { path: '', redirectTo: 'stories', pathMatch: 'full' },
                   { path: 'stories', component: StoriesComponent, data: { title: ':: Stories Home ::' } }
               ]
-          }
+          },
+          { path: '**', redirectTo: 'dashboard' } // final
+
       ]
   },
 

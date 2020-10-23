@@ -18,11 +18,11 @@ const routes: Routes = [
           { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: 'Olvido su contraseña' } },
           { path: 'update-password/:token', component: UpdatePasswordByEmailComponent, data: { title: 'Actualizar Contraseña' } },
           { path: 'page-401', component: PageTokenExpiredComponent, data: { title: 'Pagina 401' } },
-          { path: 'page-404', component: PageNotFoundComponent, data: { title: 'Pagina 404' } },       // no encontrado
           { path: 'page-403', component: PageForbiddonErrorComponent, data: { title: 'Pagina 403' } }, // error prohibido
+          { path: 'page-404', component: PageNotFoundComponent, data: { title: 'Pagina 404' } },       // no encontrado
           { path: 'page-500', component: PageIsErrorComponent, data: { title: 'Pagina 500' } },        // error
-          { path: 'page-503', component: PageTryLaterComponent, data: { title: 'Pagina 503' } }        // intentar mas tarde
-
+          { path: 'page-503', component: PageTryLaterComponent, data: { title: 'Pagina 503' } },        // intentar mas tarde
+          { path: '**', redirectTo: 'login' },
       ]
   }
 ];

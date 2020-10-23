@@ -1,6 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { GLOBAL } from './../global';
 
 @Injectable({
@@ -10,72 +9,72 @@ export class ExpositoresService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
 
   // guardar una expositor
   save(expositor: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'expositor', expositor, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'expositor', expositor, options).toPromise()
+    .then(res => res);
   }
   // actualizar expositor
   update(id_expositor: number, expositores: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'expositor/' + id_expositor, expositores, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.put<any>(this.url + 'expositor/' + id_expositor, expositores, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los expositores
   getExpositores(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'expositores', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expositores', options).toPromise()
+    .then(res => res);
   }
   // obtenemos el expositor por id_expositor
   getExpositorById(token: string, id_expositor: number) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'expositor/' + id_expositor, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expositor/' + id_expositor, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los expositores by id_curso
   getExpositoresByIdCurso(id_curso: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'expositores/' + id_curso, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expositores/' + id_curso, options).toPromise()
+    .then(res => res);
   }
   // borramos la expositor
   deleteExpositorByIdCurso(id_curso: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.delete(this.url + 'expositores/' + id_curso, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.delete<any>(this.url + 'expositores/' + id_curso, options).toPromise()
+    .then(res => res);
   }
   // borramos la expositor
   deleteExpositor(id_expositor: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.delete(this.url + 'expositor/' + id_expositor, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.delete<any>(this.url + 'expositor/' + id_expositor, options).toPromise()
+    .then(res => res);
   }
 
 }

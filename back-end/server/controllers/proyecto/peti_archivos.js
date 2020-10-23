@@ -138,11 +138,39 @@ function getAllByIdPeticion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un peti_archivos por id_peticion', err });
     })
 }
+// mostrar un peti_archivos por id_peticion
+function getAllByIdPeticionAndEstado(req, res) {
+    var id = req.params.id_peticion;
+    var status = req.params.estado;
+    peti_archivos.findAll({
+        where: { id_peticion: id, estado: status }
+    })
+    .then(peti_archivos => {
+        res.status(200).send({ peti_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un peti_archivos por id_peticion', err });
+    })
+}
 // contar peti_archivos por id_peticion
 function countByIdPeticion(req, res) {
     var id = req.params.id_peticion;
     peti_archivos.count({
         where: { id_peticion: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar peti_archivos por id_peticion', err });
+    })
+}
+// contar peti_archivos por id_peticion
+function countByIdPeticionAndEstado(req, res) {
+    var id = req.params.id_peticion;
+    var status = req.params.estado;
+    peti_archivos.count({
+        where: { id_peticion: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -161,5 +189,8 @@ module.exports = {
     getAll,
     getAllByEstado,
     getAllByIdPeticion,
-    countByIdPeticion
+    countByIdPeticion,
+    
+    getAllByIdPeticionAndEstado,
+    countByIdPeticionAndEstado
 }

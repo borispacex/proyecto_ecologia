@@ -1,6 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { GLOBAL } from './../global';
 
 @Injectable({
@@ -10,64 +9,64 @@ export class ComentariosService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
   // comentarios, comentario, comentarios, comentario, id_publicacion, IdPublicacion
 
   // guardar una comentario
   save(comentario: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'comentario', comentario, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'comentario', comentario, options).toPromise()
+    .then(res => res);
   }
   // actualizar comentario
   update(id_comentario: number, comentario: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'comentario/' + id_comentario, comentario, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.put<any>(this.url + 'comentario/' + id_comentario, comentario, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los comentarios
   getComentarios(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'comentarios', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'comentarios', options).toPromise()
+    .then(res => res);
   }
   // obtenemos el comentario por id_comentario
   getComentarioById(id_comentario: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'comentario/' + id_comentario, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'comentario/' + id_comentario, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los comentarios by id_publicacion
   getcomentariosByIdPublicacion(id_publicacion: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'comentarios-publi/' + id_publicacion, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'comentarios-publi/' + id_publicacion, options).toPromise()
+    .then(res => res);
   }
   // contar todos los comentarios by id_publicacion
   getCountByIdPublicacion(id_publicacion: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'countComentariosByIdPublicacion/' + id_publicacion, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countComentariosByIdPublicacion/' + id_publicacion, options).toPromise()
+    .then(res => res);
   }
 
 }

@@ -9,6 +9,11 @@ module.exports = (app) => {
     app.get('/api/financiamientos/:id_proyecto', financiamientosController.getAllByIdProyecto);
 
     app.get('/api/financiamiento/:id_financiamiento', financiamientosController.getById);
-    app.delete('/api/financiamiento/:id_financiamiento', financiamientosController.deleteFinanciamiento)
-    app.delete('/api/financiamientos/:id_proyecto', financiamientosController.deleteFinanciamientosByIdProyecto)
+    app.delete('/api/financiamiento/:id_financiamiento', financiamientosController.deleteFinanciamiento);
+    app.delete('/api/financiamientos/:id_proyecto', financiamientosController.deleteFinanciamientosByIdProyecto);
+
+    app.get('/api/financiamientosByEstado/:estado', financiamientosController.getAllByEstado);
+    app.get('/api/financiamientosByIdProyectoAndEstado/:id_proyecto/:estado', financiamientosController.getAllByIdProyectoAndEstado);
+    app.get('/api/countFinanciamientosByIdProyecto/:id_proyecto', financiamientosController.countByIdProyecto);
+    app.get('/api/countFinanciamientosByIdProyectoAndEstado/:id_proyecto/:estado', financiamientosController.countByIdProyectoAndEstado);
 }

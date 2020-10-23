@@ -14,4 +14,8 @@ module.exports = (app) => {
     app.get('/publicaciones/:archivo', publi_archivosController.getArchivo);
     app.get('/api/publi_archivo/:id_publi_archivo', publi_archivosController.getById);
     app.get('/api/countPubliArchivosByIdPublicacion/:id_publicacion', publi_archivosController.countByIdPublicacion);
+
+    app.get('/api/publi_archivosByEstado/:estado', publi_archivosController.getAllByEstado);
+    app.get('/api/publi_archivosByIdPublicacionAndEstado/:id_publicacion/:estado', publi_archivosController.getAllByIdPublicacionAndEstado);
+    app.get('/api/countPubliArchivosByIdPublicacionAndEstado/:id_publicacion/:estado', publi_archivosController.countByIdPublicacionAndEstado);
 }

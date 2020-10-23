@@ -11,4 +11,8 @@ module.exports = (app) => {
     
     app.get('/api/nota_prensa/:id_nota_prensa', nota_prensasController.getById);
     app.get('/api/countNotaPrensasByIdProyecto/:id_proyecto', nota_prensasController.countByIdProyecto);
+
+    app.get('/api/nota_prensasByEstado/:estado', nota_prensasController.getAllByEstado);
+    app.get('/api/nota_prensasByIdProyectoAndEstado/:id_proyecto/:estado', nota_prensasController.getAllByIdProyectoAndEstado);
+    app.get('/api/countNotaPrensasByIdProyectoAndEstado/:id_proyecto/:estado', nota_prensasController.countByIdProyectoAndEstado);
 }

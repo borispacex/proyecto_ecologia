@@ -136,11 +136,39 @@ function getAllByIdSeguimiento(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un segui_archivos por id_seguimiento', err });
     })
 }
+// mostrar un segui_archivos por id_seguimiento
+function getAllByIdSeguimientoAndEstado(req, res) {
+    var id = req.params.id_seguimiento;
+    var status = req.params.estado;
+    segui_archivos.findAll({
+        where: { id_seguimiento: id, estado: status }
+    })
+    .then(segui_archivos => {
+        res.status(200).send({ segui_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un segui_archivos por id_seguimiento', err });
+    })
+}
 // contar segui_archivos por id_seguimiento
 function countByIdSeguimiento(req, res) {
     var id = req.params.id_seguimiento;
     segui_archivos.count({
         where: { id_seguimiento: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar segui_archivos por id_seguimiento', err });
+    })
+}
+// contar segui_archivos por id_seguimiento
+function countByIdSeguimientoAndEstado(req, res) {
+    var id = req.params.id_seguimiento;
+    var status = req.params.estado;
+    segui_archivos.count({
+        where: { id_seguimiento: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -159,5 +187,8 @@ module.exports = {
     getAll,
     getAllTrue,
     getAllByIdSeguimiento,
-    countByIdSeguimiento
+    countByIdSeguimiento,
+
+    getAllByIdSeguimientoAndEstado,
+    countByIdSeguimientoAndEstado
 }

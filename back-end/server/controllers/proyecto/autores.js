@@ -66,6 +66,37 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las autores', err });
     })
 }
+// funcion para mostrar todos autores
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    autores.findAll({
+        where: { estado: status },
+        include: [
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            },
+            { model: publicaciones }
+        ]
+    })
+    .then(autores => {
+        res.status(200).send({ autores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las autores', err });
+    })
+}
 // funcion para autor por id
 function getById(req, res) {
     var id = req.params.id_autor;
@@ -108,12 +139,77 @@ function getAllByIdPublicacion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un autores por id_publicacion', err });
     })
 }
+// funcion para buscar y mostrar un autores por id_publicacion
+function getAllByIdPublicacionAndEstado(req, res) {
+    var id = req.params.id_publicacion;
+    var status = req.params.estado;
+    autores.findAll({
+        where: { id_publicacion: id, estado: status },
+        include: [
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            },
+            { model: publicaciones }
+        ]
+    })
+    .then(autores => {
+        res.status(200).send({ autores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un autores por id_publicacion', err });
+    })
+}
 
 // funcion para buscar y mostrar un autores por id_investigador
 function getAllByIdInvestigador(req, res) {
     var id = req.params.id_investigador;
     autores.findAll({
         where: { id_investigador: id, estado: true },
+        include: [
+            {
+                model: investigadores,
+                include: [
+                    { model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            },
+            { model: publicaciones }
+        ]
+        
+    })
+    .then(autores => {
+        res.status(200).send({ autores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un autores por id_investigador', err });
+    })
+}
+// funcion para buscar y mostrar un autores por id_investigador
+function getAllByIdInvestigadorAndEstado(req, res) {
+    var id = req.params.id_investigador;
+    var status = req.params.estado;
+    autores.findAll({
+        where: { id_investigador: id, estado: status },
         include: [
             {
                 model: investigadores,
@@ -178,5 +274,11 @@ module.exports = {
     getAllByIdPublicacion,
     getAllByIdInvestigador,
     deleteAutor,
-    deleteAutoresByIdPublicacion
+    deleteAutoresByIdPublicacion,
+
+    getAllByEstado,
+    getAllByIdPublicacionAndEstado,
+    getAllByIdInvestigadorAndEstado,
+
+
 }

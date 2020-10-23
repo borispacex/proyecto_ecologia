@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las permiso_archivos', err });
     })
 }
+// funcion para mostrar todos los permiso_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    permiso_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(permiso_archivos => {
+        res.status(200).send({ permiso_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las permiso_archivos', err });
+    })
+}
 // funcion para permiso_archivo por id
 function getById(req, res) {
     var id = req.params.id_permiso_archivo;
@@ -124,11 +137,39 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un permiso_archivos por id_proyecto', err });
     })
 }
+// mostrar un permiso_archivos por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    permiso_archivos.findAll({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(permiso_archivos => {
+        res.status(200).send({ permiso_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un permiso_archivos por id_proyecto', err });
+    })
+}
 // contar permiso_archivos por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     permiso_archivos.count({
         where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contador permiso_archivos por id_proyecto', err });
+    })
+}
+// contar permiso_archivos por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    permiso_archivos.count({
+        where: { id_proyecto: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdProyecto,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado,
 }

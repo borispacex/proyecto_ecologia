@@ -1304,7 +1304,7 @@ export class ShowProyectoComponent implements OnInit {
       .then(response => {
         // console.log(response.seguimiento);
         // añadir archivos
-        this._serviceProyecto.updateproyecto(this.id, { proceso: response.seguimiento.proceso }, this.token)
+        this._serviceProyecto.updateProyecto(this.id, { proceso: response.seguimiento.proceso }, this.token)
         .then(responseProy => {
           this.getProyecto(this.id);
         }).catch(error => { console.log('Error al actualizar proyecto proceso', error); });
@@ -1347,7 +1347,7 @@ export class ShowProyectoComponent implements OnInit {
       .then(response => {
         // console.log(response);
         // guardar segui_archivo
-        this._serviceProyecto.updateproyecto(this.id, { proceso: response.seguimiento.proceso }, this.token)
+        this._serviceProyecto.updateProyecto(this.id, { proceso: response.seguimiento.proceso }, this.token)
         .then(responseProy => {
           this.getProyecto(this.id);
         }).catch(error => { console.log('Error al actualizar proyecto proceso', error); });

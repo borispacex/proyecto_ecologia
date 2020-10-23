@@ -70,6 +70,38 @@ function getAll(req, res) {
             res.status(500).send({ message: 'Ocurrio un error al buscar los inv_proyectos' }, err);
         });
 }
+// Listar todos los inv_proyectos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    inv_proyectos.findAll({
+        where: { estado: status },
+        include: [
+            { model: proyectos },
+            {
+                model: investigadores,
+                include: [
+                    { 
+                        model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    })
+        .then(inv_proyectos => {
+            res.status(200).send({ inv_proyectos });
+        })
+        .catch(err => {
+            res.status(500).send({ message: 'Ocurrio un error al buscar los inv_proyectos' }, err);
+        });
+}
 // funcion para inv_proyecto por id
 function getById(req, res) {
     var id = req.params.id_inv_proyecto;
@@ -133,11 +165,77 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un inv_proyectos por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un inv_proyectos por id_proyecto --
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    inv_proyectos.findAll({
+        where: { id_proyecto: id, estado: status },
+        include: [
+            {
+                model: investigadores,
+                include: [
+                    { 
+                        model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    },
+                    { model: inv_tipos }
+                ]
+            }
+        ]
+    })
+    .then(inv_proyectos => {
+        res.status(200).send({ inv_proyectos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un inv_proyectos por id_proyecto', err });
+    })
+}
 // funcion para buscar y mostrar un inv_proyectos por id_investigador
 function getAllByIdInvestigador(req, res) {
     var id = req.params.id_investigador;
     inv_proyectos.findAll({
         where: { id_investigador: id },
+        include: [
+            { model: proyectos },
+            {
+                model: investigadores,
+                include: [
+                    { 
+                        model: personas,
+                        include: [
+                            { 
+                                model: fotografias,
+                                attributes: [
+                                    "imagen"
+                                ] 
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    })
+    .then(inv_proyectos => {
+        res.status(200).send({ inv_proyectos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un inv_proyectos por id_proyecto', err });
+    })
+}
+// funcion para buscar y mostrar un inv_proyectos por id_investigador
+function getAllByIdInvestigadorAndEstado(req, res) {
+    var id = req.params.id_investigador;
+    var status = req.params.estado;
+    inv_proyectos.findAll({
+        where: { id_investigador: id, estado: status },
         include: [
             { model: proyectos },
             {
@@ -172,5 +270,9 @@ module.exports = {
     getAll,
     getAllByIdProyecto,
     getAllByIdInvestigador,
-    getById
+    getById,
+
+    getAllByEstado,
+    getAllByIdInvestigadorAndEstado,
+    getAllByIdProyectoAndEstado
 }

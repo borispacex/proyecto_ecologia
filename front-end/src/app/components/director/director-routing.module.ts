@@ -50,7 +50,9 @@ const routes: Routes = [
                   { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda director' } },
                   { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda investigador' } }
               ]
-          }
+          },
+          { path: '**', redirectTo: 'dashboard' }
+
       ]
   },
 

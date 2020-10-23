@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ngfModule } from 'angular-file';
 
 
+
 @NgModule({
   declarations: [
     DirectorComponent,
@@ -58,7 +59,6 @@ import { ngfModule } from 'angular-file';
     MatPaginatorModule,
     MatSortModule,
     MatInputModule
-
   ]
 })
 export class DirectorModule { }

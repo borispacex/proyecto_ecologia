@@ -12,4 +12,8 @@ module.exports = (app) => {
     
     app.get('/api/seguimiento/:id_seguimiento', seguimientosController.getById);
     app.get('/api/countSeguimientosByIdProyecto/:id_proyecto', seguimientosController.countByIdProyecto);
+
+    app.get('/api/seguimientosByIdDirectorAndEstado/:id_director/:estado', seguimientosController.getAllByIdDirectorAndEstado);
+    app.get('/api/seguimientosByIdProyectoAndEstado/:id_proyecto/:estado', seguimientosController.getAllByIdProyectoAndEstado);
+    app.get('/api/countSeguimientosByIdProyectoAndEstado/:id_proyecto/:estado', seguimientosController.countByIdProyectoAndEstado);
 }

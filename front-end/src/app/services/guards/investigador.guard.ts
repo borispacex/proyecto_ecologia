@@ -10,17 +10,21 @@ export class InvestigadorGuard implements CanActivate {
 
   canActivate() {
     var roles = JSON.parse(this._auth.getAdmRoles());
-    let estado = false;
-    roles.forEach(rol => {
-      if (this._auth.getIdentity() && rol.id_rol === 3) {
-        estado = true;
+    if (roles) {
+      let estado = false;
+      roles.forEach(rol => {
+        if (this._auth.getIdentity() && rol.id_rol === 3) {
+          estado = true;
+        }
+      });
+      if (estado) {
+        return true;
+      } else {
+        this._router.navigate(['/authentication/page-403']);
+        return false;
       }
-    });
-    if (estado) {
-      return true;
     } else {
-      this._router.navigate(['/authentication/login']);
-      return false;
+      this._router.navigate(['/authentication/page-401']);
     }
   }
 }

@@ -1,6 +1,5 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { GLOBAL } from './../global';
 
 @Injectable({
@@ -10,81 +9,81 @@ export class SeguimientosService {
 
   private url: string;
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
 
   // guardar una seguimiento
   save(seguimiento: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'seguimiento', seguimiento, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'seguimiento', seguimiento, options).toPromise()
+    .then(res => res);
   }
   // actualizar seguimiento
   update(id_seguimiento: number, seguimiento: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'seguimiento/' + id_seguimiento, seguimiento, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.put<any>(this.url + 'seguimiento/' + id_seguimiento, seguimiento, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los seguimientos
   getSeguimientos(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'seguimientos', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientos', options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los seguimientos true
   getSeguimientosByEstado(estado: boolean, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'seguimientosByEstado/' + estado, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientosByEstado/' + estado, options).toPromise()
+    .then(res => res);
   }
   // obtenemos el seguimiento por id_seguimiento
   getSeguimientoById(id_seguimiento: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'seguimiento/' + id_seguimiento, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimiento/' + id_seguimiento, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los seguimientos by id_proyecto
   getSeguimientosByIdProyecto(id_proyecto: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'seguimientos-proy/' + id_proyecto, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientos-proy/' + id_proyecto, options).toPromise()
+    .then(res => res);
   }
   // obtenemos todos los seguimientos by id_director
   getSeguimientosByIdDirector(id_director: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'seguimientos-dir/' + id_director, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientos-dir/' + id_director, options).toPromise()
+    .then(res => res);
   }
   // contamos todos los seguimientos by id_proyecto
   countSeguimientosByIdProyecto(id_proyecto: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'countSeguimientosByIdProyecto/' + id_proyecto, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countSeguimientosByIdProyecto/' + id_proyecto, options).toPromise()
+    .then(res => res);
   }
 
 }

@@ -44,6 +44,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las expositores', err });
     })
 }
+// funcion para mostrar todos expositores
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    expositores.findAll({
+        where: { estado: status }
+    })
+    .then(expositores => {
+        res.status(200).send({ expositores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las expositores', err });
+    })
+}
 // funcion para expositor por id
 function getById(req, res) {
     var id = req.params.id_expositor;
@@ -60,6 +73,20 @@ function getAllByIdCurso(req, res) {
     var id = req.params.id_curso;
     expositores.findAll({
         where: { id_curso: id }
+    })
+    .then(expositores => {
+        res.status(200).send({ expositores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un expositores por id_curso', err });
+    })
+}
+// funcion para buscar y mostrar un expositores por id_curso
+function getAllByIdCursoAndEstado(req, res) {
+    var id = req.params.id_curso;
+    var status = req.params.estado;
+    expositores.findAll({
+        where: { id_curso: id, estado: status }
     })
     .then(expositores => {
         res.status(200).send({ expositores });
@@ -94,6 +121,33 @@ function deleteExpositoresByIdCurso(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar expositores por id_curso', err});
     })
 }
+// funcion contar expositores por id_curso
+function countByIdCurso(req, res) {
+    var id = req.params.id_curso;
+    expositores.count({
+        where: { id_curso: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar expositores por id_curso', err });
+    })
+}
+// funcion contar expositores por id_curso
+function countByIdCursoAndEstado(req, res) {
+    var id = req.params.id_curso;
+    var status = req.params.estado;
+    expositores.count({
+        where: { id_curso: id, estado: status }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar expositores por id_curso', err });
+    })
+}
 
 module.exports = {
     create,
@@ -102,5 +156,10 @@ module.exports = {
     getAll,
     getAllByIdCurso,
     deleteExpositor,
-    deleteExpositoresByIdCurso
+    deleteExpositoresByIdCurso,
+
+    getAllByEstado,
+    getAllByIdCursoAndEstado,
+    countByIdCurso,
+    countByIdCursoAndEstado
 }

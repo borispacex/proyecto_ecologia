@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GLOBAL } from '../global';
-import { Http, RequestOptions, Headers } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class FotografiasService {
   private url: string;
   private imagen: BehaviorSubject<string> = new BehaviorSubject<string>('photo_default.png');
 
-  constructor(private _http: Http) {
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
 
@@ -24,63 +24,63 @@ export class FotografiasService {
   }
 
   getFotografiasTrue(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'fotografias', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'fotografias', options).toPromise()
+    .then(res => res);
   }
   getFotografiasFalse(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'fotografiasFalse', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'fotografiasFalse', options).toPromise()
+    .then(res => res);
   }
   getFotografiasAdmin(token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'fotografias-admin', options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'fotografias-admin', options).toPromise()
+    .then(res => res);
   }
   // guardar una fotografia
   save(fotografia: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.post(this.url + 'fotografia', fotografia, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.post<any>(this.url + 'fotografia', fotografia, options).toPromise()
+    .then(res => res);
   }
   // actualizar fotografia
-  update(id: number, fotografia: any, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+  update(id_fotografia: number, fotografia: any, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.put(this.url + 'fotografia/' + id, fotografia, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.put<any>(this.url + 'fotografia/' + id_fotografia, fotografia, options).toPromise()
+    .then(res => res);
   }
   //mostrar fotografia por ID
   getFotografiasById(id: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'fotografia/' + id, options).toPromise()
-      .then(res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'fotografia/' + id, options).toPromise()
+    .then(res => res);
   }
   // obtener rol
   getRolByUsuario(id: number, token: string) {
-    let headers = new Headers({
-      'Authorization': token
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
     });
-    let options = new RequestOptions({ headers: headers });
-    return this._http.get(this.url + 'getByUsuario/' + id, options).toPromise()
-    .then (res => res.json());
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'getByUsuario/' + id, options).toPromise()
+    .then(res => res);
   }
 }

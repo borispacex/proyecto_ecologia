@@ -10,4 +10,8 @@ module.exports = (app) => {
     
     app.get('/api/curso/:id_curso', cursosController.getById);
     app.get('/api/countCursosByIdProyecto/:id_proyecto', cursosController.countByIdProyecto);
+
+    app.get('/api/cursosByEstado/:estado', cursosController.getAllByEstado);
+    app.get('/api/cursosByIdProyectoAndEstado/:id_proyecto/:estado', cursosController.getAllByIdProyectoAndEstado);
+    app.get('/api/countCursosByIdProyectoAndEstado/:id_proyecto/:estado', cursosController.countByIdProyectoAndEstado);
 }

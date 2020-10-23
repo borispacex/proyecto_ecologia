@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las nota_archivos', err });
     })
 }
+// funcion para mostrar todos los nota_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    nota_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(nota_archivos => {
+        res.status(200).send({ nota_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las nota_archivos', err });
+    })
+}
 // funcion para nota_archivo por id
 function getById(req, res) {
     var id = req.params.id_nota_archivo;
@@ -124,11 +137,39 @@ function getAllByIdNotaPrensa(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un nota_archivos por id_nota_prensa', err });
     })
 }
+// mostrar un nota_archivos por id_nota_prensa
+function getAllByIdNotaPrensaAndEstado(req, res) {
+    var id = req.params.id_nota_prensa;
+    var status = req.params.estado;
+    nota_archivos.findAll({
+        where: { id_nota_prensa: id, estado: status }
+    })
+    .then(nota_archivos => {
+        res.status(200).send({ nota_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un nota_archivos por id_nota_prensa', err });
+    })
+}
 // contar nota_archivos por id_nota_prensa
 function countByIdNotaPrensa(req, res) {
     var id = req.params.id_nota_prensa;
     nota_archivos.count({
         where: { id_nota_prensa: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar nota_archivos por id_nota_prensa', err });
+    })
+}
+// contar nota_archivos por id_nota_prensa
+function countByIdNotaPrensaAndEstado(req, res) {
+    var id = req.params.id_nota_prensa;
+    var status = req.params.estado;
+    nota_archivos.count({
+        where: { id_nota_prensa: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdNotaPrensa,
-    countByIdNotaPrensa
+    countByIdNotaPrensa,
+
+    getAllByEstado,
+    getAllByIdNotaPrensaAndEstado,
+    countByIdNotaPrensaAndEstado
 }

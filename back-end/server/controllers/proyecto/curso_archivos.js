@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las curso_archivos', err });
     })
 }
+// funcion para mostrar todos los curso_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    curso_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(curso_archivos => {
+        res.status(200).send({ curso_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las curso_archivos', err });
+    })
+}
 // funcion para curso_archivo por id
 function getById(req, res) {
     var id = req.params.id_curso_archivo;
@@ -124,11 +137,39 @@ function getAllByIdCurso(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un curso_archivos por id_curso', err });
     })
 }
+// mostrar un curso_archivos por id_proyecto
+function getAllByIdCursoAndEstado(req, res) {
+    var id = req.params.id_curso;
+    var status = req.params.estado;
+    curso_archivos.findAll({
+        where: { id_curso: id, estado: status }
+    })
+    .then(curso_archivos => {
+        res.status(200).send({ curso_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un curso_archivos por id_curso', err });
+    })
+}
 // contar curso_archivos por id_proyecto
 function countByIdCurso(req, res) {
     var id = req.params.id_curso;
     curso_archivos.count({
         where: { id_curso: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar curso_archivos por id_curso', err });
+    })
+}
+// contar curso_archivos por id_proyecto
+function countByIdCursoAndEstado(req, res) {
+    var id = req.params.id_curso;
+    var status = req.params.estado;
+    curso_archivos.count({
+        where: { id_curso: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdCurso,
-    countByIdCurso
+    countByIdCurso,
+
+    getAllByEstado,
+    getAllByIdCursoAndEstado,
+    countByIdCursoAndEstado
 }

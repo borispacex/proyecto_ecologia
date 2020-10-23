@@ -14,4 +14,8 @@ module.exports = (app) => {
     app.get('/convenios/:archivo', conveniosController.getArchivo);
     app.get('/api/convenio/:id_convenio', conveniosController.getById);
     app.get('/api/countConveniosByIdProyecto/:id_proyecto', conveniosController.countByIdProyecto);
+
+    app.get('/api/conveniosByEstado/:estado', conveniosController.getAllByEstado);
+    app.get('/api/conveniosByIdProyectoAndEstado/:id_proyecto/:estado', conveniosController.getAllByIdProyectoAndEstado);
+    app.get('/api/countConveniosByIdProyectoAndEstado/:id_proyecto/:estado', conveniosController.countByIdProyectoAndEstado);
 }

@@ -10,6 +10,10 @@ module.exports = (app) => {
     app.get('/api/autores-inv/:id_investigador', autoresController.getAllByIdInvestigador);
 
     app.get('/api/autor/:id_autor', autoresController.getById);
-    app.delete('/api/autor/:id_autor', autoresController.deleteAutor)
-    app.delete('/api/autores/:id_publicacion', autoresController.deleteAutoresByIdPublicacion)
+    app.delete('/api/autor/:id_autor', autoresController.deleteAutor);
+    app.delete('/api/autores/:id_publicacion', autoresController.deleteAutoresByIdPublicacion);
+
+    app.get('/api/autoresByEstado/:estado', autoresController.getAllByEstado);
+    app.get('/api/autoresByIdPublicacionAndEstado/:id_publicacion/:estado', autoresController.getAllByIdPublicacionAndEstado);
+    app.get('/api/autoresByIdInvestigadorAndEstado/:id_investigador/:estado', autoresController.getAllByIdInvestigadorAndEstado);
 }

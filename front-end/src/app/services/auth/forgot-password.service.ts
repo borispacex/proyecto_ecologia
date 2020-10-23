@@ -1,5 +1,5 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { GLOBAL } from '../global';
 
 @Injectable({
@@ -9,19 +9,19 @@ export class ForgotPasswordService {
 
   private url: string;
 
-  constructor(private _http: Http) { 
+  constructor(private _httpClient: HttpClient) {
     this.url = GLOBAL.url;
   }
   forgotPassword(correo: string) {
-    return this._http.post(this.url + 'forgotPassword', correo).toPromise()
-    .then(res => res.json());
+    return this._httpClient.post<any>(this.url + 'forgotPassword', correo).toPromise()
+    .then(res => res);
   }
   resetPassword(token: string) {
-    return this._http.get(this.url + 'reset/' + token).toPromise()
-    .then(res => res.json());
+    return this._httpClient.get<any>(this.url + 'reset/' + token).toPromise()
+    .then(res => res);
   }
   updatePasswordByEmail(usuario: any) {
-    return this._http.put(this.url + 'updatePasswordViaEmail', usuario).toPromise()
-    .then(res => res.json());
+    return this._httpClient.put<any>(this.url + 'updatePasswordViaEmail', usuario).toPromise()
+    .then(res => res);
   }
 }

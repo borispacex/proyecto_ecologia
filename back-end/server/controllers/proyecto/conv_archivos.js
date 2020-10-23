@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las conv_archivos', err });
     })
 }
+// funcion para mostrar todos los conv_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    conv_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(conv_archivos => {
+        res.status(200).send({ conv_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las conv_archivos', err });
+    })
+}
 // funcion para conv_archivo por id
 function getById(req, res) {
     var id = req.params.id_conv_archivo;
@@ -124,11 +137,39 @@ function getAllByIdConvenio(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un conv_archivos por id_convenio', err });
     })
 }
+// mostrar un conv_archivos por id_convenio
+function getAllByIdConvenioAndEstado(req, res) {
+    var id = req.params.id_convenio;
+    var status = req.params.estado;
+    conv_archivos.findAll({
+        where: { id_convenio: id, estado: status }
+    })
+    .then(conv_archivos => {
+        res.status(200).send({ conv_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un conv_archivos por id_convenio', err });
+    })
+}
 // contar conv_archivos por id_convenio
 function countByIdConvenio(req, res) {
     var id = req.params.id_convenio;
     conv_archivos.count({
         where: { id_convenio: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar conv_archivos por id_convenio', err });
+    })
+}
+// contar conv_archivos por id_convenio
+function countByIdConvenioAndEstado(req, res) {
+    var id = req.params.id_convenio;
+    var status = req.params.estado;
+    conv_archivos.count({
+        where: { id_convenio: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdConvenio,
-    countByIdConvenio
+    countByIdConvenio,
+
+    getAllByEstado,
+    getAllByIdConvenioAndEstado,
+    countByIdConvenioAndEstado
 }

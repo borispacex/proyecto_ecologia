@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { of, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las publicacion archivos', err });
     })
 }
+// funcion para mostrar todos los publi_archivos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    publi_archivos.findAll({
+        where: { estado: status }
+    })
+    .then(publi_archivos => {
+        res.status(200).send({ publi_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las publicacion archivos', err });
+    })
+}
 // funcion para publi_archivo por id
 function getById(req, res) {
     var id = req.params.id_publi_archivo;
@@ -124,11 +137,39 @@ function getAllByIdPublicacion(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un publi_archivos por id_publicacion', err });
     })
 }
+// mostrar un publi_archivos por id_publicacion
+function getAllByIdPublicacionAndEstado(req, res) {
+    var id = req.params.id_publicacion;
+    var status = req.params.estado;
+    publi_archivos.findAll({
+        where: { id_publicacion: id, estado: status }
+    })
+    .then(publi_archivos => {
+        res.status(200).send({ publi_archivos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un publi_archivos por id_publicacion', err });
+    })
+}
 // contar publi_archivos por id_publicacion
 function countByIdPublicacion(req, res) {
     var id = req.params.id_publicacion;
     publi_archivos.count({
         where: { id_publicacion: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar publi_archivos por id_publicacion', err });
+    })
+}
+// contar publi_archivos por id_publicacion
+function countByIdPublicacionAndEstado(req, res) {
+    var id = req.params.id_publicacion;
+    var status = req.params.estado;
+    publi_archivos.count({
+        where: { id_publicacion: id, estado: status}
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,10 @@ module.exports = {
     getById,
     getAll,
     getAllByIdPublicacion,
-    countByIdPublicacion
+    countByIdPublicacion,
+
+    getAllByEstado,
+    getAllByIdPublicacionAndEstado,
+    countByIdPublicacionAndEstado
+
 }

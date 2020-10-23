@@ -42,6 +42,43 @@
                             </ul>
                         </h5>
                         <hr>
+                        <p class="align-center">Basica general</p>
+                        <h5 class="price m-t-0" *ngIf="proyecto.carrera"><strong>Carrera: </strong> <span class="text-primary">{{proyecto.carrera}}</span></h5>
+                        <h5 class="price m-t-0" *ngIf="proyecto.n_instituto"><strong>Nombre del Instituto: </strong> <span class="text-primary">{{proyecto.n_instituto}}</span></h5>
+                        <hr>
+                        <p class="align-center">Basica tecnica</p>
+                        <h5 class="price m-t-0" *ngIf="proyecto.tipo"><strong>Tipo de investigación: </strong> <span class="text-primary">{{proyecto.tipo}}</span></h5>
+                        <h5 class="price m-t-0" *ngIf="proyecto.area"><strong>Linea o Area de investigación: </strong> <span class="text-primary">{{proyecto.area}}</span></h5>
+                        <h5 class="price m-t-0" *ngIf="proyecto.tipo_p"><strong>Tipo de proyecto: </strong> <span class="text-primary">{{proyecto.tipo_p}}</span></h5>
+                        <h5 class="price m-t-0" *ngIf="proyecto.carga_h"><strong>Carga horaria dedicada al proyecto: </strong> <span class="text-primary">{{proyecto.carga_h}}</span></h5>
+                        <section *ngIf="proyecto.unidades">
+                            <hr>
+                            <h5 class="colors"><strong>Unidades: </strong>
+                                <ul>
+                                    <li *ngFor="let uni of proyecto.unidades">
+                                        <a type="button">
+                                            <span class="text-primary">{{uni.nombre}}</span> &nbsp;
+                                            <span class="text-info">{{uni.observacion}}</span> &nbsp;
+                                        </a>
+                                    </li>
+                                </ul>
+                            </h5>
+                        </section>
+                        <section *ngIf="proyecto.financiamientos">
+                            <hr>
+                            <h5 class="price m-t-0" *ngIf="proyecto.financiamiento"><strong>Financiamiento: </strong> <span class="text-primary">{{proyecto.financiamiento}} {{proyecto.moneda}}</span></h5>
+                            <h5 class="colors"><strong>FInanciamientos: </strong>
+                                <ul>
+                                    <li *ngFor="let fina of proyecto.financiamientos">
+                                        <a type="button">
+                                            <span class="text-primary">{{fina.fuente}}</span> &nbsp;
+                                            <span class="text-success">{{fina.aporte}} {{proyecto.moneda}}</span> &nbsp;
+                                            <span class="text-info">{{fina.observacion}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </h5>
+                        </section>
                         <div class="action">
                             <p>
                                 <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">
@@ -301,16 +338,7 @@
                                     <tbody>
                                         <tr *ngFor="let lugar_desarrollo of lugar_desarrollos">
                                             <td>
-                                                <span *ngIf="lugar_desarrollo.departamento==='BE'">Beni</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='CH'">Chuquicasa</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='CB'">Cochabamba</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='LP'">La Paz</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='OR'">Oruro</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='PD'">Pando</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='PT'">Potosi</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='SC'">Santa Cruz de la
-                                                    Sierra</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='TJ'">Tarija</span>
+                                                <span>{{lugar_desarrollo.departamento}}</span>
                                             </td>
                                             <td>{{lugar_desarrollo.provincia}}</td>
                                             <td>{{lugar_desarrollo.municipio}}</td>
@@ -599,7 +627,7 @@
                     <select [(ngModel)]="basica_tecnica.tipo" class="form-control" name="tipo" #tipo="ngModel"
                         [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || formBasicaTecnica.submitted)}"
                         required>
-                        <option value=""> --Seleccionar-- </option>
+                        <option value=null> --Seleccionar-- </option>
                         <option value="basica">Basica</option>
                         <option value="aplicada">Aplicada</option>
                         <option value="experimental">Experimental</option>
@@ -683,14 +711,14 @@
                 <label class="col-12 col-md-3" for="financia">Financiamiento: </label>
                 <div class="col-12 col-md-9">
                     <div class="input-group mb-1">
-                        <input [(ngModel)]="basica_tecnica.financiamiento" class="form-control" name="financiamiento" #financiamiento="ngModel" type="number"
+                        <input [(ngModel)]="basica_tecnica.financiamiento" class="form-control" name="financiamiento" #financiamiento="ngModel" type="number" placeholder="0"
                         [ngClass]="{'parsley-error':!financiamiento.valid && (financiamiento.touched || formBasicaTecnica.submitted)}"
                         required/>
                         <div class="input-group-append">
                             <select [(ngModel)]="basica_tecnica.moneda" class="form-control" name="moneda" #moneda="ngModel"
                                 [ngClass]="{'parsley-error':!moneda.valid && (moneda.touched || formBasicaTecnica.submitted)}"
                                 required>
-                                <option value=""> --Moneda-- </option>
+                                <option value=null> --Moneda-- </option>
                                 <option value="Bs.">Bs.</option>
                                 <option value="USD">USD</option>
                                 <option value="EURO">EUROS</option>
@@ -727,13 +755,6 @@
                             <li class="parsley-required" *ngIf="fuente.hasError('required')">Financiamiento {{i+1}} requerido</li>
                         </ul>
                     </section>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="estado" name="estado"
-                        [(ngModel)]="basica_tecnica.estado" />
-                    <label class="form-check-label" for="estado">Estado</label>
                 </div>
             </div>
             <button class="btn btn-success" [disabled]="!formBasicaTecnica.form.valid" type="submit">

@@ -15,4 +15,8 @@ module.exports = (app) => {
     app.get('/api/nota_archivo/:id_nota_archivo', nota_archivosController.getById);
     app.get('/api/countNotaArchivosByIdNotaPrensa/:id_nota_prensa', nota_archivosController.countByIdNotaPrensa);
 
+    app.get('/api/nota_archivosByEstado/:estado', nota_archivosController.getAllByEstado);
+    app.get('/api/nota_archivosByIdNotaPrensaAndEstado/:id_nota_prensa/:estado', nota_archivosController.getAllByIdNotaPrensaAndEstado);
+    app.get('/api/countNotaArchivosByIdNotaPrensaAndEstado/:id_nota_prensa/:estado', nota_archivosController.countByIdNotaPrensaAndEstado);
+
 }

@@ -13,4 +13,8 @@ module.exports = (app) => {
     
     app.get('/api/peticion/:id_peticion', peticionesController.getById);
     app.get('/api/countPeticionesByIdProyecto/:id_proyecto', peticionesController.countByIdProyecto);
+
+    app.get('/api/peticionesByIdInvestigadorAndEstado/:id_investigador/:estado', peticionesController.getAllByIdInvestigadorAndEstado);
+    app.get('/api/peticionesByIdProyectoAndEstado/:id_proyecto/:estado', peticionesController.getAllByIdProyectoAndEstado);
+    app.get('/api/countPeticionesByIdProyectoAndEstado/:id_proyecto/:estado', peticionesController.countByIdProyectoAndEstado);
 }

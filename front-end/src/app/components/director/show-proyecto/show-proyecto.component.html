@@ -2,7 +2,7 @@
 	<div class="block-header">
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
-				<h2>Principal</h2>
+				<h2>Seguimiento proyecto</h2>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a [routerLink]="['/director']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
@@ -71,7 +71,7 @@
 			<div class="card">
 				<div class="body">
                     <h2>Avance del proyecto</h2>
-					<div echarts [options]="pieOptions"></div>
+					<div echarts [options]="pieOptions" style="width: 300px !important; height: 320px !important;"></div>
 				</div>
 			</div>
 		</div>
@@ -1142,7 +1142,7 @@
 	<div class="modal-body">
 		<form class="container" #seguimientoForm="ngForm" (ngSubmit)="guardarSeguimiento()">
             <div class="form-group row">
-                <label class="col-12 col-md-3">Tipo de publicación: </label>
+                <label class="col-12 col-md-3">Tipo de seguimiento: </label>
                 <div class="col-12 col-md-9">
                     <select [(ngModel)]="seguimiento.tipo" class="form-control" name="tipo" #tipo="ngModel"
                         [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || seguimientoForm.submitted)}"

@@ -9,6 +9,9 @@ module.exports = (app) => {
     app.get('/api/unidades/:id_proyecto', unidadesController.getAllByIdProyecto);
 
     app.get('/api/unidad/:id_unidad', unidadesController.getById);
-    app.delete('/api/unidad/:id_unidad', unidadesController.deleteUnidad)
-    app.delete('/api/unidades/:id_proyecto', unidadesController.deleteUnidadesByIdProyecto)
+    app.delete('/api/unidad/:id_unidad', unidadesController.deleteUnidad);
+    app.delete('/api/unidades/:id_proyecto', unidadesController.deleteUnidadesByIdProyecto);
+
+    app.get('/api/unidadesByIdProyectoAndEstado/:id_proyecto/:estado', unidadesController.getAllByIdProyectoAndEstado);
+    app.get('/api/unidadesByEstado/:estado', unidadesController.getAllByEstado);
 }

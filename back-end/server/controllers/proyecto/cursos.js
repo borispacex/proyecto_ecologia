@@ -44,6 +44,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las cursos', err });
     })
 }
+// funcion para mostrar todos cursos
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    cursos.findAll({
+        where: { estado: status }
+    })
+    .then(cursos => {
+        res.status(200).send({ cursos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las cursos', err });
+    })
+}
 // funcion para curso por id
 function getById(req, res) {
     var id = req.params.id_curso;
@@ -68,11 +81,39 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un cursos por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un cursos por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    cursos.findAll({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(cursos => {
+        res.status(200).send({ cursos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un cursos por id_proyecto', err });
+    })
+}
 // funcion contar cursos por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     cursos.count({
-        where: { id_proyecto: id, estado: true }
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar cursos por id_proyecto', err });
+    })
+}
+// funcion contar cursos por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    cursos.count({
+        where: { id_proyecto: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -88,5 +129,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdProyecto,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado
 }

@@ -44,6 +44,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las publicaciones', err });
     });
 }
+// funcion para mostrar todos publicaciones
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    publicaciones.findAll({
+        where: { estado: status }
+    })
+    .then(publicaciones => {
+        res.status(200).send({ publicaciones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las publicaciones', err });
+    });
+}
 // funcion para publicacion por id
 function getById(req, res) {
     var id = req.params.id_publicacion;
@@ -68,6 +81,20 @@ function getAllByIdCoordinador(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por id_investigador', err });
     })
 }
+// funcion para buscar y mostrar un publicaciones por id_investigador
+function getAllByIdCoordinadorAndEstado(req, res) {
+    var id = req.params.id_coordinador;
+    var status = req.params.estado;
+    publicaciones.findAll({
+        where: { id_coordinador: id, estado: status }
+    })
+    .then(publicaciones => {
+        res.status(200).send({ publicaciones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por id_investigador', err });
+    })
+}
 // funcion para buscar y mostrar un publicaciones por id_proyecto
 function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
@@ -81,11 +108,39 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un publicaciones por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    publicaciones.findAll({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(publicaciones => {
+        res.status(200).send({ publicaciones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por id_proyecto', err });
+    })
+}
 // funcion contar publicaciones por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     publicaciones.count({
-        where: { id_proyecto: id, estado: true }
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar publicaciones true por id_proyecto', err });
+    })
+}
+// funcion contar publicaciones por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    publicaciones.count({
+        where: { id_proyecto: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -102,5 +157,10 @@ module.exports = {
     getAll,
     getAllByIdCoordinador,
     getAllByIdProyecto,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByEstado,
+    getAllByIdCoordinadorAndEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado
 }

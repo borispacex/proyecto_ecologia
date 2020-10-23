@@ -100,6 +100,19 @@ function getAll(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las convenios', err });
     })
 }
+// funcion para mostrar todos los convenios
+function getAllByEstado(req, res) {
+    var status = req.params.estado;
+    convenios.findAll({
+        where: { estado: status }
+    })
+    .then(convenios => {
+        res.status(200).send({ convenios });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las convenios', err });
+    })
+}
 // funcion para convenio por id
 function getById(req, res) {
     var id = req.params.id_convenio;
@@ -124,11 +137,39 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un convenios por id_proyecto', err });
     })
 }
+// mostrar un convenios por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    convenios.findAll({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(convenios => {
+        res.status(200).send({ convenios });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un convenios por id_proyecto', err });
+    })
+}
 // contar convenios por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     convenios.count({
         where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar convenios por id_proyecto', err });
+    })
+}
+// contar convenios por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    convenios.count({
+        where: { id_proyecto: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -146,5 +187,9 @@ module.exports = {
     getById,
     getAll,
     getAllByIdProyecto,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado
 }

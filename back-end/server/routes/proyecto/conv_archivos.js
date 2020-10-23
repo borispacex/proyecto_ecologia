@@ -15,4 +15,8 @@ module.exports = (app) => {
     app.get('/api/conv_archivo/:id_conv_archivo', conv_archivosController.getById);
     app.get('/api/countConvArchivosByIdConvenio/:id_convenio', conv_archivosController.countByIdConvenio);
 
+    app.get('/api/conv_archivosByEstado/:estado', conv_archivosController.getAllByEstado);
+    app.get('/api/conv_archivosByIdConvenioAndEstado/:id_convenio/:estado', conv_archivosController.getAllByIdConvenioAndEstado);
+    app.get('/api/countConvArchivosByIdConvenioAndEstado/:id_convenio/:estado', conv_archivosController.countByIdConvenioAndEstado);
+
 }

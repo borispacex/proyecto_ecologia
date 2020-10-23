@@ -78,6 +78,20 @@ function getAllByIdDirector(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un seguimientos por id_investigador', err });
     })
 }
+// funcion para buscar y mostrar un seguimientos por id_director
+function getAllByIdDirectorAndEstado(req, res) {
+    var id = req.params.id_director;
+    var status = req.params.estado;
+    seguimientos.findAll({
+        where: { id_director: id, estado: status }
+    })
+    .then(seguimientos => {
+        res.status(200).send({ seguimientos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un seguimientos por id_investigador', err });
+    })
+}
 // funcion para buscar y mostrar un seguimientos por id_proyecto
 function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
@@ -91,11 +105,39 @@ function getAllByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar un seguimientos por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un seguimientos por id_proyecto
+function getAllByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    seguimientos.findAll({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(seguimientos => {
+        res.status(200).send({ seguimientos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un seguimientos por id_proyecto', err });
+    })
+}
 // funcion contar seguimientos por id_proyecto
 function countByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     seguimientos.count({
-        where: { id_proyecto: id, estado: true }
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar seguimientos por id_proyecto', err });
+    })
+}
+// funcion contar seguimientos por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    seguimientos.count({
+        where: { id_proyecto: id, estado: status }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -113,5 +155,9 @@ module.exports = {
     getAllByEstado,
     getAllByIdDirector,
     getAllByIdProyecto,
-    countByIdProyecto
+    countByIdProyecto,
+
+    getAllByIdDirectorAndEstado,
+    getAllByIdProyectoAndEstado,
+    countByIdProyectoAndEstado
 }
