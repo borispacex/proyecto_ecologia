@@ -35,14 +35,14 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'profile-inv'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('profile-inv')"><i class="icon-globe"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('profile-inv')"><i class="icon-layers"></i>
                                 <span>Perfil</span></a>
                             <ul *ngIf="currentActiveMenu == 'profile-inv'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/profile']">Perfil Investigador</a></li>
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'proyectos-inv'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-inv')"><i class="icon-globe"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-inv')"><i class="icon-layers"></i>
                                 <span>Proyectos</span></a>
                             <ul *ngIf="currentActiveMenu == 'proyectos-inv'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/list-proyectos-inv','proyecto']">Listar proyectos</a></li>
@@ -63,13 +63,13 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'fotografias'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('fotografias')"><i class="icon-grid"></i> <span>Fotografias</span></a>
+                            <a class="has-arrow" (click)="activeInactiveMenu('fotografias')"><i class="icon-picture"></i> <span>Fotografias</span></a>
                             <ul *ngIf="currentActiveMenu == 'fotografias'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-fotografias']">Listar fotografias</a></li>
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'usuarios'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('usuarios')"><i class="icon-folder"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('usuarios')"><i class="icon-users"></i>
                                 <span>Usuarios</span></a>
                             <ul *ngIf="currentActiveMenu == 'usuarios'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-usuarios', 'usuario']">Listar usuarios</a></li>
@@ -82,7 +82,7 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'proyectos'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos')"><i class="icon-globe"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos')"><i class="icon-layers"></i>
                                 <span>Proyectos</span></a>
                             <ul *ngIf="currentActiveMenu == 'proyectos'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/admin/dashboard/list-proyectos', 'proyecto']">Listar proyectos</a></li>
@@ -103,7 +103,7 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'proyectos-dir'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-dir')"><i class="icon-folder"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-dir')"><i class="icon-users"></i>
                                 <span>Proyectos</span></a>
                             <ul *ngIf="currentActiveMenu == 'proyectos-dir'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/director/dashboard/list-proyectos', 'proyecto']">Listar proyectos</a></li>
@@ -114,7 +114,7 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'investigadores'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('investigadores')"><i class="icon-globe"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('investigadores')"><i class="icon-layers"></i>
                                 <span>Investigadores</span></a>
                             <ul *ngIf="currentActiveMenu == 'investigadores'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/director/dashboard/list-investigadores', 'investigador']">Listar investigadores</a></li>
@@ -179,24 +179,24 @@
             <div class="tab-pane p-l-15 p-r-15" id="question" [ngClass]="{'active':navTab == 'question'}">
                 <ul class="list-unstyled question">
                     <li class="menu-heading">Cuenta</li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/cuenta/', '1']">Como crear una cuenta</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/cuenta/', '2']">Como dar de baja mi cuenta</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/cuenta/', '3']">Que hago si olvide mi contraseña</a></li>
+                    <li><a [routerLink]="['./help/cuenta/', '1']">¿Cómo acceder a una cuenta?</a></li>
+                    <li><a [routerLink]="['./help/cuenta/', '2']">¿Cómo dar de baja mi cuenta?</a></li>
+                    <li><a [routerLink]="['./help/cuenta/', '3']">¿Qué hago si olvide mi contraseña?</a></li>
                     <li class="menu-heading">Administrador</li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/admin/', '1']">Como administrar cuentas</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/admin/', '2']">Como crear proyectos de investigacion</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/admin/', '3']">Sobre contratos</a></li>
+                    <li><a [routerLink]="['./help/admin/', '1']">¿Cómo administrar cuentas?</a></li>
+                    <li><a [routerLink]="['./help/admin/', '2']">¿Cómo crear proyectos de investigación?</a></li>
+                    <li><a [routerLink]="['./help/admin/', '3']">¿Cómo administrar proyectos de investigación?</a></li>
                     <li class="menu-heading">Director</li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/director/', '1']">Administra proyectos</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/director/', '2']">Hacer busquedas de proyectos</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/director/', '3']">Realizar informes</a></li>
+                    <li><a [routerLink]="['./help/director/', '1']">¿Cómo administrar proyectos de investigación?</a></li>
+                    <li><a [routerLink]="['./help/director/', '2']">¿Cómo administrar investigadores?</a></li>
+                    <li><a [routerLink]="['./help/director/', '3']">¿Cómo generar reportes?</a></li>
                     <li class="menu-heading">Investigador</li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '1']">Administrar proyecto</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '2']">Como dar de concluido el proyecto</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '3']">Como hacer una publicacion</a></li>
-                    <li><a href="javascript:void(0);" [routerLink]="['./help/investigador/', '4']">Sobre difusion</a></li>
+                    <li><a [routerLink]="['./help/investigador/', '1']">¿Cómo administrar proyectos de investigación?</a></li>
+                    <li><a [routerLink]="['./help/investigador/', '2']">¿Cómo dar de concluido el proyecto?</a></li>
+                    <li><a [routerLink]="['./help/investigador/', '3']">¿Cómo realizar una publicación?</a></li>
+                    <li><a [routerLink]="['./help/investigador/', '4']">¿Cómo realizar difusiones?</a></li>
                     <div class="menu-button m-t-30">
-                        <a type="button" href="javascript:void(0);" class="btn btn-primary"><i class="icon-question"></i> ¿Necesita ayuda?</a>
+                        <a type="button" href="mailto:dir.ie.umsa@gmail.com" target="_blank" class="btn btn-primary"><i class="icon-question"></i> ¿Necesita ayuda?</a>
                     </div>
                 </ul>
             </div>

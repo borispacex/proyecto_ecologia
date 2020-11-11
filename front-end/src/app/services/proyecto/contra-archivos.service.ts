@@ -68,5 +68,32 @@ export class ContraArchivosService {
     return this._httpClient.get<any>(this.url + 'countContraArchivosByIdContratado/' + id_contratado, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los contra_archivos by id_contratado
+  getContraArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'contra_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los contra_archivos by id_contratado
+  getContraArchivosByIdContratadoAndEstado(id_contratado: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'contra_archivosByIdContratadoAndEstado/' + id_contratado + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los contra_archivos by id_contratado
+  countContraArchivosByIdContratadoAndEstado(id_contratado: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countContraArchivosByIdContratadoAndEstado/' + id_contratado + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

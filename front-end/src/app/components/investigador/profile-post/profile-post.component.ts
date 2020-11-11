@@ -89,7 +89,6 @@ export class ProfilePostComponent implements OnInit {
   obtenerInvestigador() {
     this._serviceInvestigador.getInvestigadorByIdPersona(this.id_persona, this.token)
     .then(response => {
-      console.log(response);
       this.persona = response.investigador.persona;
     }).catch(error => { console.log('Error al obtener investigador por id', error); });
   }

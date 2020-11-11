@@ -76,4 +76,32 @@ export class ProyArchivosService {
     return this._http.get(this.url + 'countProyArchivosByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res.json());
   }
+  // se obtiene todos las proy_archivos. mediante el id_proyecto and estado
+  getProy_archivosByIdProyectoAndEstado(id: number, estado: boolean, token: string) {
+    let headers = new Headers({
+      'Authorization': `Bearer ${token}`
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'proy_archivosByIdProyectoAndEstado/' + id + '/' + estado, options).toPromise()
+    .then(res => res.json());
+  }
+  // se obtiene todos las proy_archivos. mediante and estado
+  getProy_archivosByEstado(estado: boolean, token: string) {
+    let headers = new Headers({
+      'Authorization': `Bearer ${token}`
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'proy_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res.json());
+  }
+  // contar todos las proy_archivos. mediante el id_proyecto
+  countProy_archivosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let headers = new Headers({
+      'Authorization': `Bearer ${token}`
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._http.get(this.url + 'countProyArchivosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res.json());
+  }
+
 }

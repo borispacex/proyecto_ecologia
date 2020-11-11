@@ -94,5 +94,32 @@ export class PeticionesService {
     return this._httpClient.get<any>(this.url + 'countPeticionesByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los peticiones by id_investigador
+  getPeticionesByIdInvestigadorAndEstado(id_investigador: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'peticionesByIdInvestigadorAndEstado/' + id_investigador + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los peticiones by id_proyecto
+  getPeticionesByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'peticionesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contamos todos los peticiones by id_proyecto
+  countPeticionesByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countPeticionesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

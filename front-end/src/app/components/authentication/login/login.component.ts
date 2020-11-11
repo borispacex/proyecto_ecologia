@@ -77,12 +77,12 @@ export class LoginComponent implements OnInit {
               });
           })
           .catch(error => {
-            console.log(error);
+            console.log('Error al ingresar al sistema', error);
             this.toastr.error('Error al ingresar con el usuario.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
       })
       .catch(error => {
-        console.log(error); // error usuario incorrecto
+        console.log('Usuario incorrecto', error); // error usuario incorrecto
         this.toastr.error('Error usuario incorrecto.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     }
@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
   id_rolByUsuario(id: number) {
     this._serviceLogin.getRolByUsuario(id)
       .then(response => {
-        console.log(response);
+        // console.log(response);
       });
   }
   public onPasswordToggle(): void {

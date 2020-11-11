@@ -59,13 +59,40 @@ export class ConvArchivosService {
     return this._httpClient.get<any>(this.url + 'conv_archivos/' + id_convenio, options).toPromise()
     .then(res => res);
   }
-  // contar todos los conv_archivos by id_convenio
-  countConvArchivosByIdConvenio(id_convenio: number, token: string) {
+  // contar todos los conv_archivos by estado
+  countConvArchivosByEstado(estado: boolean, token: string) {
     let reqHeader = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
     const options = { headers: reqHeader };
-    return this._httpClient.get<any>(this.url + 'countConvArchivosByIdConvenio/' + id_convenio, options).toPromise()
+    return this._httpClient.get<any>(this.url + 'countConvArchivosByIdConvenio/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los conv_archivos by id_convenio
+  getConvArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'conv_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los conv_archivos by id_convenio
+  getConvArchivosByIdConvenioAndEstado(id_convenio: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'conv_archivosByIdConvenioAndEstado/' + id_convenio + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los conv_archivos by id_convenio
+  countConvArchivosByIdConvenioAndEstado(id_convenio: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countConvArchivosByIdConvenioAndEstado/' + id_convenio + '/' + estado, options).toPromise()
     .then(res => res);
   }
 

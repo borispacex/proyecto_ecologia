@@ -78,5 +78,23 @@ export class PetiArchivosService {
     return this._httpClient.get<any>(this.url + 'countPetiArchivosByIdPeticion/' + id_peticion, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los peti_archivos by id_peticion
+  getPetiArchivosByIdPeticionAndEstado(id_peticion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'peti_archivosByIdPeticionAndEstado/' + id_peticion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contador todos los peti_archivos by id_peticion
+  countPetiArchivosByIdPeticionAndEstado(id_peticion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countPetiArchivosByIdPeticionAndEstado/' + id_peticion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

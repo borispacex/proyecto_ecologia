@@ -80,7 +80,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let usuario_rol of result">
+								<tr *ngFor="let usuario_rol of result | paginate: { id: 'usuarios', itemsPerPage: 10, currentPage: page }">
 									<td>{{usuario_rol.adm_usuario.persona.nombres}}
 										{{usuario_rol.adm_usuario.persona.paterno}}
 										{{usuario_rol.adm_usuario.persona.materno}}</td>
@@ -111,6 +111,7 @@
 						</table>
 					</div>
 				</div>
+				<pagination-controls id="usuarios" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
 			</div>
 		</div>
 	</div>

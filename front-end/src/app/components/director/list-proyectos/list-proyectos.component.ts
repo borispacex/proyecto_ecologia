@@ -26,6 +26,7 @@ export class ListProyectosComponent implements OnInit {
   // search archivos
   search = new FormControl('');
   public valorBusqueda = '';
+  public page: number = 1;
 
   constructor(
     private sidebarService: SidebarService,

@@ -102,6 +102,27 @@ export class UsuariosService {
     return this._httpClient.get<any>(this.url + 'getByRolesIdUsuario/' + id, options).toPromise()
     .then(res => res);
   }
+
+  // obtener rol, atravez de un id_usuario
+  getRolesByIdUsuarioIdRolAndEstado(id_usuario: number, id_rol: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'adm_usuario_rolesByIdUsuarioIdRolAndEstado/' + id_usuario + '/' + id_rol + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtener rol, atravez de un id_usuario
+  getRolesByIdUsuarioAndEstado(id_usuario: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'adm_usuario_rolesByIdUsuarioAndEstado/' + id_usuario + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+
+
   // se obtiene todos los usuarios
   getUsuarios(token: string) {
     let reqHeader = new HttpHeaders({

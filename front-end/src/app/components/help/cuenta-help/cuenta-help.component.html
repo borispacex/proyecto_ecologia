@@ -8,7 +8,7 @@
 				</h2>
 				<ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['../../../']"><i class="icon-home"></i></a></li>
-					<li class="breadcrumb-item">Help</li>
+					<li class="breadcrumb-item">Ayuda</li>
 					<li class="breadcrumb-item active">Cuenta</li>
 				</ul>
 			</div>
@@ -19,15 +19,169 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="body">
-					<ng-container *ngFor="let post of posts">
-						<div class="timeline-item" ngClass='{{post.class}}' [attr.date-is]="post.date">
-							<h5>{{ post.header }}</h5>
-							<div class="msg">
-								<p>{{ post.message }}</p>
-								<a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
+					<p class="h6 p-10 bg-info text-light">¿Cómo acceder a una cuenta?</p>
+					<div class="accordion custom" id="accordion">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne')">
+										Paso 1: Dirigirse a dirección IE con sus datos personales (CI, email).
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne'}">
+								<div class="card-body">
+									Cualquier usuario que quiera acceder a una cuenta al SISTEMA DE SEGUIMIENTO Y CONTROL DE PROYECTOS INVESTIGACION debe apersonarse a instalaciones de la dirección del Instituto de Ecologia, ubicado en Campus Universitario: Calle 27 Cota - Cota, Zona sur.
+									Posteriormente debe apersonarse con el administrador del sistema con sus datos personales:
+									<ul>
+										<li>Fotocopia Cedula de identidad (Nombre completo, Mencion, CI)</li>
+										<li>Correo electronico </li>
+										<li>Tipo de usuario con el que desea acceder (Investigador Titular, Investigador asociado con proyecto o Investigador por invitación)</li>
+									</ul>
+									<strong>¿Podria hacer este proceso de manera online? </strong><br>
+									Enviando al correo electronico a: <span class="text-primary">dir.ie.umsa@gmail.com</span> los datos ya mencionados.
+								</div>
 							</div>
 						</div>
-					</ng-container>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo')">
+										Paso 2: Una vez el administrador creo su cuenta de usuario recibira un correo electronico.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo'}">
+								<div class="card-body">
+									Una vez que el administrador haya agregado sus datos personales al Sistema, el usuario recibira un correo electronico dandole la bienvenida al sistema, notificandole unas recomendaciones que debe hacer por seguridad una vez inicie sesion por primera vez.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree')">
+										Paso 3: Ingresar al sistema con su CI, se recomienda actualizar datos personales y contraseña.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree'}">
+								<div class="card-body">
+									La primera vez que ingrese al sistema el usuario debe cambiar la contraseña por seguridad y se recomienda que el usuario actualice sus datos personales para tener mejor comunicación con el Instituto de Ecologia.
+
+									Si el usuario quiere cambiar de correo electronico debe comunicarse con el administrador del sistema, porque el correo electronico es una parte fundamentalmente para el manejo y comunicacion con el sistema, por ejemplo con el correo electronico usted podra restaurar la contraseña en caso de que se le olvido.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-warning text-light">¿Cómo dar de baja mi cuenta?</p>
+					<div class="accordion custom" id="accordion1">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne1')">
+										Paso 1: Dirigirse a dirección IE para dar de baja su cuenta.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne1'}">
+								<div class="card-body">
+									Cualquier usuario que quiera dar de baja a una cuenta, debe apersonarse a instalaciones de la dirección del Instituto de Ecologia, ubicado en Campus Universitario: Calle 27 Cota - Cota, Zona sur.
+									Posteriormente debe apersonarse con el administrador del sistema con sus datos personales:
+									<ul>
+										<li>Fotocopia Cedula de identidad (Nombre completo, Mencion, CI)</li>
+									</ul>
+									<strong>¿Podria hacer este proceso de manera online? </strong><br>
+									Enviando al correo electronico a: <span class="text-primary">dir.ie.umsa@gmail.com</span> los datos ya mencionados.
+									<Strong>Nota: </Strong>El usuario no sera borrado del sistema, unicamente ya no tendra acceso. Todas sus publicaciónes estaran guardadas en el sistema.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo1')">
+										Paso 2: El administrador procede ir a su menu principal y elegir la opcion Lista Usuarios.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo1'}">
+								<div class="card-body">
+									El administrador con los datos del usuario que desea ser dado de baja, realizara la inhabilitación del usuario.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-secondary text-light">¿Qué hago si olvide mi contraseña?</p>
+					<div class="accordion custom" id="accordion3">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne2')">
+										Paso 1: Nos dirigimos a la pagina de inicio de sesion y damos click ¿Olvido su contraseña?.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne2'}">
+								<div class="card-body">
+									El usuario que olvido su contraseña debe dirigirle a la pagina principal de inicio de sesión, elegir la opción <span class="text-primary">¿Olvido su contraseña?</span>, posteriormente debe ingresar el correo electronico que esta registrado en el sistema.
+									<br>
+									En caso de que no tenga acceso a ese correo electronico, debe comunicarse con el administrador del sistema para hacer la posterior actualización del correo electronico.
+									<br>
+									Una vez que que introduzca el correo electronico, click RESTABLECER CONTRASEÑA. Recibira un correo electronico con un codigo y enlace para reestablecer la contraseña.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo2')">
+										Paso 2: Ingrese el correo electronico vinculado a su cuenta al sistema.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo2'}">
+								<div class="card-body">
+									Una vez haya recibido el correo electronico, debera ingresar al enlace que recibio del sistema para restablecer la contraseña.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree2')">
+										Paso 3: Recibira un correo electronico con un enlace de recuperación.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree2'}">
+								<div class="card-body">
+									Debe ingresar al enlace que recibio en el correo electronico, donde solo tiene tiempo limite para hacer el restablecimiento de contraseña, posteriormente el tiempo expire ya no tendra permitido acceder al enlace.
+									
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseFour2')">
+										Paso 4: Ingrese la contraseña nueva con la que desea ingresar.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseFour2'}">
+								<div class="card-body">
+									Una vez ingresado al enlace, usted tendra la opcion de cambiar la contraseña debe ingresar la contraseña siempre teniendo en cuenta MAY MINUSCULAS y SIMBOLOS. Una vez sea validado cuando ingrese nuevamente al sistema podra acceder con la nueva contraseña.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
 				</div>
 			</div>
 		</div>

@@ -25,6 +25,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatIconModule} from '@angular/material/icon';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import {MatIconModule} from '@angular/material/icon';
     MatButtonModule,
     MatProgressBarModule,
     MatIconModule,
+    NgxPaginationModule
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,

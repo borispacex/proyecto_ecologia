@@ -78,5 +78,41 @@ export class PublicacionesService {
     return this._httpClient.get<any>(this.url + 'countPublicacionesByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los publicaciones by estado
+  getPublicacionesByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publicacionesByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los publicaciones by id_coordinador
+  getPublicacionesByIdCoordinadorAndEstado(id_coordinador: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publicacionesByIdCoordinadorAndEstado/' + id_coordinador + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los publicaciones by id_proyecto
+  getPublicacionesByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publicacionesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contamos todos los publicaciones by id_proyecto
+  countPublicacionesByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countPublicacionesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

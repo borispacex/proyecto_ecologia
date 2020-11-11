@@ -34,23 +34,34 @@
                                 </li>
                             </ul>
                         </h5>
-                        <h5 class="colors"><strong>Investigadores: </strong>
-                            <ul>
-                                <li *ngFor="let inv of proyecto.investigadores">
-                                    <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
-                                </li>
-                            </ul>
-                        </h5>
-                        <hr>
-                        <p class="align-center">Basica general</p>
-                        <h5 class="price m-t-0" *ngIf="proyecto.carrera"><strong>Carrera: </strong> <span class="text-primary">{{proyecto.carrera}}</span></h5>
-                        <h5 class="price m-t-0" *ngIf="proyecto.n_instituto"><strong>Nombre del Instituto: </strong> <span class="text-primary">{{proyecto.n_instituto}}</span></h5>
-                        <hr>
-                        <p class="align-center">Basica tecnica</p>
-                        <h5 class="price m-t-0" *ngIf="proyecto.tipo"><strong>Tipo de investigación: </strong> <span class="text-primary">{{proyecto.tipo}}</span></h5>
-                        <h5 class="price m-t-0" *ngIf="proyecto.area"><strong>Linea o Area de investigación: </strong> <span class="text-primary">{{proyecto.area}}</span></h5>
-                        <h5 class="price m-t-0" *ngIf="proyecto.tipo_p"><strong>Tipo de proyecto: </strong> <span class="text-primary">{{proyecto.tipo_p}}</span></h5>
-                        <h5 class="price m-t-0" *ngIf="proyecto.carga_h"><strong>Carga horaria dedicada al proyecto: </strong> <span class="text-primary">{{proyecto.carga_h}}</span></h5>
+                        <section *ngIf="proyecto.investigadores">
+                            <h5 class="colors"><strong>Investigadores: </strong>
+                                <ul>
+                                    <li *ngFor="let inv of proyecto.investigadores">
+                                        <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
+                                    </li>
+                                </ul>
+                            </h5>
+                        </section>
+                        
+                        <section *ngIf="proyecto.carrera || proyecto.n_instituto || proyecto.n_instituto || proyecto.objetivo || proyecto.resumen">
+                            <hr>
+                            <p class="align-center">Basica general</p>
+                            <h5 class="price m-t-0" *ngIf="proyecto.carrera"><strong>Carrera: </strong> <span class="text-primary">{{proyecto.carrera}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.n_instituto"><strong>Nombre del Instituto: </strong> <span class="text-primary">{{proyecto.n_instituto}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.objetivo"><strong>Objetivo: </strong> <span class="text-primary">{{proyecto.objetivo | slice:0:300}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.resumen"><strong>Resumen: </strong> <span class="text-primary">{{proyecto.resumen | slice:0:400}}</span></h5>
+                        </section>
+                        
+                        <section *ngIf="proyecto.tipo || proyecto.area || proyecto.tipo_p || proyecto.carga_h">
+                            <hr>
+                            <p class="align-center">Basica tecnica</p>
+                            <h5 class="price m-t-0" *ngIf="proyecto.tipo"><strong>Tipo de investigación: </strong> <span class="text-primary">{{proyecto.tipo}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.area"><strong>Linea o Area de investigación: </strong> <span class="text-primary">{{proyecto.area}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.tipo_p"><strong>Tipo de proyecto: </strong> <span class="text-primary">{{proyecto.tipo_p}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.carga_h"><strong>Carga horaria dedicada al proyecto: </strong> <span class="text-primary">{{proyecto.carga_h}}</span></h5>
+                        </section>
+                        
                         <section *ngIf="proyecto.unidades">
                             <hr>
                             <h5 class="colors"><strong>Unidades: </strong>
@@ -295,7 +306,7 @@
                                                     class="badge badge-danger bg-danger text-white">False</span>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', 1)" data-toggle="tooltip" data-placement="right" title="Editar">
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', publicacion.id_publicacion)" data-toggle="tooltip" data-placement="right" title="Editar">
                                                     <i class="icon-pencil"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-outline-secondary" (click)="openModalEliminar(content9, 'sm', publicacion)" data-toggle="tooltip" data-placement="right" title="Borrar">
@@ -412,7 +423,7 @@
                                         <tr>
                                             <th>Titulo</th>
                                             <th data-breakpoints="sm xs">Objetivo</th>
-                                            <th>Lugar de realizacion</th>
+                                            <th>Lugar de realización</th>
                                             <th data-breakpoints="xs">Fecha</th>
                                             <th data-breakpoints="xs md">Archivos</th>
                                             <th data-breakpoints="xs md">Estado</th>
@@ -594,29 +605,23 @@
             <div class="form-group row">
                 <label class="col-12 col-md-3" for="carrera_inv">Carrera: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="basica_tecnica.carrera" class="form-control" name="carrera" #carrera="ngModel"
-                        [ngClass]="{'parsley-error':!carrera.valid && (carrera.touched || formBasicaTecnica.submitted)}" placeholder="Carrera ..."
-                        required />
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!carrera.valid && (carrera.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="carrera.hasError('required')">
-                            Carrera requerida.
-                        </li>
-                    </ul>
+                    <input [(ngModel)]="basica_tecnica.carrera" class="form-control" name="carrera" #carrera="ngModel" placeholder="Carrera ..." />
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="n_instituto">Nombre Instituto: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="basica_tecnica.n_instituto" class="form-control" name="n_instituto" #n_instituto="ngModel"
-                        [ngClass]="{'parsley-error':!n_instituto.valid && (n_instituto.touched || formBasicaTecnica.submitted)}" placeholder="Nombre Instituto ..."
-                        required />
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!n_instituto.valid && (n_instituto.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="n_instituto.hasError('required')">
-                            Nombre Instituto requerido.
-                        </li>
-                    </ul>
+                    <input [(ngModel)]="basica_tecnica.n_instituto" class="form-control" name="n_instituto" #n_instituto="ngModel" placeholder="Nombre Instituto ..." />
+                </div>
+                <label class="col-12 col-md-3" for="objetivo">Objetivo: </label>
+                <div class="col-12 col-md-9">
+                    <textarea [(ngModel)]="basica_tecnica.objetivo" rows="2" cols="30" class="form-control" name="objetivo"
+                        #objetivo="ngModel" placeholder="objetivo del proyecto de investigación">
+                    </textarea>
+                </div>
+                <label class="col-12 col-md-3" for="resumen">Resumen: </label>
+                <div class="col-12 col-md-9">
+                    <textarea [(ngModel)]="basica_tecnica.resumen" rows="3" cols="30" class="form-control" name="resumen"
+                        #resumen="ngModel" placeholder="resumen del proyecto de investigación">
+                    </textarea>
                 </div>
             </div>
             <hr>
@@ -624,9 +629,7 @@
             <div class="form-group row">
                 <label class="col-12 col-md-3" for="tipo_investigacion">Tipo de investigación: </label>
                 <div class="col-12 col-md-9">
-                    <select [(ngModel)]="basica_tecnica.tipo" class="form-control" name="tipo" #tipo="ngModel"
-                        [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || formBasicaTecnica.submitted)}"
-                        required>
+                    <select [(ngModel)]="basica_tecnica.tipo" class="form-control" name="tipo" #tipo="ngModel">
                         <option value=null> --Seleccionar-- </option>
                         <option value="basica">Basica</option>
                         <option value="aplicada">Aplicada</option>
@@ -634,56 +637,19 @@
                         <option value="aplicacion">Aplicacion</option>
                         <option value="Otro">Otros</option>
                     </select>
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!tipo.valid && (tipo.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="tipo.hasError('required')">Tipo de investigacion requerida.
-                        </li>
-                    </ul>
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="area_investigacion">Linea o Area de investigación: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="basica_tecnica.area" class="form-control" name="area" #area="ngModel"
-                        [ngClass]="{'parsley-error':!area.valid && (area.touched || formBasicaTecnica.submitted)}" placeholder="Area de investigacion ..."
-                        required />
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!area.valid && (area.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="area.hasError('required')">
-                            Area de investigacion requerida.
-                        </li>
-                    </ul>
+                    <input [(ngModel)]="basica_tecnica.area" class="form-control" name="area" #area="ngModel" placeholder="Area de investigacion ..." />
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="tipo_proyecto">Tipo de Proyecto: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="basica_tecnica.tipo_p" class="form-control" name="tipo_p" #tipo_p="ngModel"
-                        [ngClass]="{'parsley-error':!tipo_p.valid && (tipo_p.touched || formBasicaTecnica.submitted)}" placeholder="Tipo de proyecto ..."
-                        required />
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!tipo_p.valid && (tipo_p.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="tipo_p.hasError('required')">
-                            Tipo de proyecto requerida.
-                        </li>
-                    </ul>
+                    <input [(ngModel)]="basica_tecnica.tipo_p" class="form-control" name="tipo_p" #tipo_p="ngModel" placeholder="Tipo de proyecto ..." />
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="carga_h">Carga horaria dedicada al proyecto: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="basica_tecnica.carga_h" class="form-control" name="carga_h" #carga_h="ngModel" type="number"
-                        [ngClass]="{'parsley-error':!carga_h.valid && (carga_h.touched || formBasicaTecnica.submitted)}" placeholder="0"
-                        required />
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!carga_h.valid && (carga_h.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="carga_h.hasError('required')">
-                            Carga horaria dedicada al proyecto requerida.
-                        </li>
-                    </ul>
+                    <input [(ngModel)]="basica_tecnica.carga_h" class="form-control" name="carga_h" #carga_h="ngModel" type="number" placeholder="0" />
                 </div>
-            </div>
-            <div class="form-group row">
                 <div class="col-12 col-md-3">
                     <label for="unidad">Unidades involucradas: </label>
                     <button type="button" class="btn btn-outline-primary mb-1" (click)="addUnidad()">Agregar Unidad</button>
@@ -711,13 +677,9 @@
                 <label class="col-12 col-md-3" for="financia">Financiamiento: </label>
                 <div class="col-12 col-md-9">
                     <div class="input-group mb-1">
-                        <input [(ngModel)]="basica_tecnica.financiamiento" class="form-control" name="financiamiento" #financiamiento="ngModel" type="number" placeholder="0"
-                        [ngClass]="{'parsley-error':!financiamiento.valid && (financiamiento.touched || formBasicaTecnica.submitted)}"
-                        required/>
+                        <input [(ngModel)]="basica_tecnica.financiamiento" class="form-control" name="financiamiento" #financiamiento="ngModel" type="number" placeholder="0"/>
                         <div class="input-group-append">
-                            <select [(ngModel)]="basica_tecnica.moneda" class="form-control" name="moneda" #moneda="ngModel"
-                                [ngClass]="{'parsley-error':!moneda.valid && (moneda.touched || formBasicaTecnica.submitted)}"
-                                required>
+                            <select [(ngModel)]="basica_tecnica.moneda" class="form-control" name="moneda" #moneda="ngModel">
                                 <option value=null> --Moneda-- </option>
                                 <option value="Bs.">Bs.</option>
                                 <option value="USD">USD</option>
@@ -725,15 +687,7 @@
                             </select>
                         </div>
                     </div>
-                    <ul class="parsley-errors-list filled"
-                        *ngIf="!financiamiento.valid && (financiamiento.touched || formBasicaTecnica.submitted)">
-                        <li class="parsley-required" *ngIf="financiamiento.hasError('required')">
-                            Financiamiento requerida.
-                        </li>
-                    </ul>
                 </div>
-            </div>
-            <div class="form-group row">
                 <div class="col-12 col-md-3">
                     <label for="financiamiento">Fuentes Financiamiento: </label>
                     <button type="button" class="btn btn-outline-primary mb-1" (click)="addFinanciamiento()"><small>Agregar Financiamiento</small></button>
@@ -791,8 +745,6 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="provincia">Provincia: </label>
                 <div class="col-12 col-md-9">
                     <select [(ngModel)]="lugar_desarrollo.provincia" class="form-control" name="provincia"
@@ -808,8 +760,6 @@
                         <li class="parsley-required" *ngIf="provincia.hasError('required')">provincia requerida.</li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="municipio">Municipio: </label>
                 <div class="col-12 col-md-9">
                     <input [(ngModel)]="lugar_desarrollo.municipio" class="form-control" name="municipio"
@@ -823,8 +773,6 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="localidad">Localidad o comunidad: </label>
                 <div class="col-12 col-md-9">
                     <input [(ngModel)]="lugar_desarrollo.localidad" class="form-control" name="localidad"
@@ -842,8 +790,8 @@
             <hr>
             <h5 class="align-center">Georreferenciación</h5>
             <div class="form-group row">
-                <label class="col-12 col-md-3" for="latitud maxima">Latitud maxima: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-2" for="latitud maxima">Latitud maxima: </label>
+                <div class="col-12 col-md-4">
                     <input [(ngModel)]="lugar_desarrollo.latmax" class="form-control" name="latmax" #latmax="ngModel"
                         [ngClass]="{'parsley-error':!latmax.valid && (latmax.touched || formLugarDesarrollo.submitted)}" placeholder="1.00000"
                         required />
@@ -854,10 +802,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-12 col-md-3" for="longitud maxima">Longitud maxima: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-2" for="longitud maxima">Longitud maxima: </label>
+                <div class="col-12 col-md-4">
                     <input [(ngModel)]="lugar_desarrollo.lonmax" class="form-control" name="lonmax" #lonmax="ngModel"
                         [ngClass]="{'parsley-error':!lonmax.valid && (lonmax.touched || formLugarDesarrollo.submitted)}" placeholder="-1.00000"
                         required />
@@ -868,10 +814,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-12 col-md-3" for="latitud minima">Latitud minima: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-2" for="latitud minima">Latitud minima: </label>
+                <div class="col-12 col-md-4">
                     <input [(ngModel)]="lugar_desarrollo.latmin" class="form-control" name="latmin" #latmin="ngModel"
                         [ngClass]="{'parsley-error':!latmin.valid && (latmin.touched || formLugarDesarrollo.submitted)}" placeholder="180.00000"
                         required />
@@ -882,10 +826,8 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-12 col-md-3" for="longitud minima">Longitud minima: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-2" for="longitud minima">Longitud minima: </label>
+                <div class="col-12 col-md-4">
                     <input [(ngModel)]="lugar_desarrollo.lonmin" class="form-control" name="lonmin" #lonmin="ngModel"
                         [ngClass]="{'parsley-error':!lonmin.valid && (lonmin.touched || formLugarDesarrollo.submitted)}" placeholder="-180.00000"
                         required />
@@ -896,6 +838,38 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div>
+                <agm-map 
+                    [latitude]="lat"
+                    [longitude]="lng"
+                    [zoom]="zoom"
+                    [disableDefaultUI]="false"
+                    (mapClick)="mapClicked($event)">
+
+                    <agm-marker 
+                        *ngFor="let m of markers; let i = index"
+                        (markerClick)="clickedMarker(m.label, i)"
+                        [latitude]="m.lat"
+                        [longitude]="m.lng"
+                        [label]="m.label"
+                        [markerDraggable]="m.draggable"
+                        (dragEnd)="markerDragEnd(m, $event)">
+                        
+                        <agm-info-window>
+                        <strong>InfoWindow content</strong>
+                        </agm-info-window>
+                        
+                    </agm-marker>
+                    
+                    <agm-circle [latitude]="lat + 0.3" [longitude]="lng" 
+                        [radius]="5000"
+                        [fillColor]="'red'"
+                        [circleDraggable]="true"
+                        [editable]="true">
+                    </agm-circle>
+
+                </agm-map>
             </div>
             <div class="form-group">
                 <div class="form-check">
@@ -923,7 +897,7 @@
             <div class="form-group row">
                 <label class="col-12 col-md-3">Titulo: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="difusion.titulo" class="form-control" name="titulo" #titulo="ngModel"
+                    <input [(ngModel)]="difusion.titulo" class="form-control" name="titulo" #titulo="ngModel" placeholder="Titulo ..."
                         [ngClass]="{'parsley-error':!titulo.valid && (titulo.touched || formDifusion.submitted)}"
                         required />
                     <ul class="parsley-errors-list filled"
@@ -933,12 +907,10 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row" *ngIf="tipoDifusion===4">
-                <label class="col-12 col-md-3">Tema a presentar: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion===4">Tema a presentar: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion===4">
                     <input [(ngModel)]="difusion.tema" class="form-control" name="tema" #tema="ngModel"
-                        [ngClass]="{'parsley-error':!tema.valid && (tema.touched || formDifusion.submitted)}"
+                        [ngClass]="{'parsley-error':!tema.valid && (tema.touched || formDifusion.submitted)}" placeholder="Tema a presentar ..."
                         required />
                     <ul class="parsley-errors-list filled"
                         *ngIf="!tema.valid && (tema.touched || formDifusion.submitted)">
@@ -947,12 +919,9 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="form-group row">
                 <label class="col-12 col-md-3">Objetivo: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="difusion.objetivo" class="form-control" name="objetivo" #objetivo="ngModel"
+                    <input [(ngModel)]="difusion.objetivo" class="form-control" name="objetivo" #objetivo="ngModel" placeholder="Obtetivo ..."
                         [ngClass]="{'parsley-error':!objetivo.valid && (objetivo.touched || formDifusion.submitted)}"
                         required />
                     <ul class="parsley-errors-list filled"
@@ -962,11 +931,9 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-12 col-md-3">Lugar de realizacion: </label>
+                <label class="col-12 col-md-3">Lugar de realización: </label>
                 <div class="col-12 col-md-9">
-                    <input [(ngModel)]="difusion.lugar" class="form-control" name="lugar" #lugar="ngModel"
+                    <input [(ngModel)]="difusion.lugar" class="form-control" name="lugar" #lugar="ngModel" placeholder="Lugar de realización ..."
                         [ngClass]="{'parsley-error':!lugar.valid && (lugar.touched || formDifusion.submitted)}"
                         required />
                     <ul class="parsley-errors-list filled"
@@ -976,11 +943,9 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row" *ngIf="tipoDifusion===3">
-                <label class="col-12 col-md-3">Prensa: </label>
-                <div class="col-12 col-md-9">
-                    <input [(ngModel)]="difusion.prensa" class="form-control" name="prensa" #prensa="ngModel"
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion===3">Prensa: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion===3">
+                    <input [(ngModel)]="difusion.prensa" class="form-control" name="prensa" #prensa="ngModel" placeholder="Prensa ..."
                         [ngClass]="{'parsley-error':!prensa.valid && (prensa.touched || formDifusion.submitted)}"
                         required />
                     <ul class="parsley-errors-list filled"
@@ -990,20 +955,16 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="form-group row" *ngIf="tipoDifusion==1">
-                <div class="col-12 col-md-3">
+                <div class="col-12 col-md-3" *ngIf="tipoDifusion==1">
                     <label>Nombres de los expositores: </label>
                     <button type="button" class="btn btn-outline-primary mb-1" (click)="addExpositor()">Agregar
                         Expositor</button>
                 </div>
-                
-                <div class="col-12 col-md-9">
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion==1">
                     <section *ngFor="let expositor of expositores; let i = index">
                         <div class="input-group mb-1">
                             <input [(ngModel)]="expositor.nombres" class="form-control" name="expo{{i}}" #expo="ngModel" type="text"
-                            [ngClass]="{'parsley-error':!expo.valid && (expo.touched || formDifusion.submitted)}" placeholder="Expositor {{i+1}}"
+                            [ngClass]="{'parsley-error':!expo.valid && (expo.touched || formDifusion.submitted)}" placeholder="Nombre completo expositor {{i+1}}"
                             required />
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-outline-secondary" (click)="removeExpositor(i)"><i class="icon-trash"></i></button>
@@ -1014,14 +975,10 @@
                         </ul>
                     </section>
                 </div>
-            </div>
-
-
-            <div class="form-group row" *ngIf="tipoDifusion===1 || tipoDifusion===4">
-                <label class="col-12 col-md-3">Numero de asistentes: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion===1 || tipoDifusion===4">Numero de asistentes: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion===1 || tipoDifusion===4">
                     <input type="number" [(ngModel)]="difusion.asistentes" class="form-control" name="asistentes"
-                        #asistentes="ngModel"
+                        #asistentes="ngModel" placeholder="0"
                         [ngClass]="{'parsley-error':(!asistentes.valid || !(difusion && difusion.asistentes && difusion.asistentes >= 5)) && (asistentes.touched || formDifusion.submitted)}"
                         required />
                     <ul class="parsley-errors-list filled"
@@ -1033,11 +990,8 @@
                             El numero de asistentes debe ser mayor a 5</li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="form-group row" *ngIf="tipoDifusion===3">
-                <label class="col-12 col-md-3" for="fecha">Fecha: </label>
-                <div class="col-12 col-md-9">
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion===3">Fecha: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion===3">
                     <div class="input-group">
                         <input [(ngModel)]="difusion.fecha" class="form-control" placeholder="yyyy-mm-dd"
                             name="fechaNota" #fechaNota="ngModel" ngbDatepicker #dp="ngbDatepicker"
@@ -1055,60 +1009,46 @@
                         </li>
                     </ul>
                 </div>
-            </div>
-
-            <div class="form-group" *ngIf="tipoDifusion!==3">
-                <div class="form-group row">
-                    <label class="col-12 col-md-3" for="fecha_inicio">Fecha Inicio: </label>
-                    <div class="col-12 col-md-9">
-                        <div class="input-group">
-                            <input [(ngModel)]="fechainicio" class="form-control" placeholder="yyyy-mm-dd" name="fechaini"
-                                #fechaini="ngModel" ngbDatepicker #dp1="ngbDatepicker"
-                                [ngClass]="{'parsley-error':!fechaini.valid && (fechaini.touched || formDifusion.submitted)}"
-                                required>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
-                                    (click)="dp1.toggle()" type="button"><i class="icon-calendar"></i></button>
-                            </div>
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion!==3">Fecha Inicio: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion!==3">
+                    <div class="input-group">
+                        <input [(ngModel)]="fechainicio" class="form-control" placeholder="yyyy-mm-dd" name="fechaini"
+                            #fechaini="ngModel" ngbDatepicker #dp1="ngbDatepicker"
+                            [ngClass]="{'parsley-error':!fechaini.valid && (fechaini.touched || formDifusion.submitted)}"
+                            required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
+                                (click)="dp1.toggle()" type="button"><i class="icon-calendar"></i></button>
                         </div>
-                        <ul class="parsley-errors-list filled"
-                            *ngIf="!fechaini.valid && (fechaini.touched || formDifusion.submitted)">
-                            <li class="parsley-required" *ngIf="fechaini.hasError('required')">Fecha de inicio del curso
-                                requerido.
-                            </li>
-                        </ul>
                     </div>
-    
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="!fechaini.valid && (fechaini.touched || formDifusion.submitted)">
+                        <li class="parsley-required" *ngIf="fechaini.hasError('required')">Fecha de inicio del curso
+                            requerido.
+                        </li>
+                    </ul>
                 </div>
-    
-                <div class="form-group row">
-                    <label class="col-12 col-md-3" for="fecha_fin">Fecha Fin: </label>
-                    <div class="col-12 col-md-9">
-                        <div class="input-group">
-                            <input [(ngModel)]="fechafinal" class="form-control" placeholder="yyyy-mm-dd" name="fechafin"
-                                #fechafin="ngModel" ngbDatepicker #dp2="ngbDatepicker"
-                                [ngClass]="{'parsley-error':!fechafin.valid && (fechafin.touched || formDifusion.submitted)}"
-                                required>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
-                                    (click)="dp2.toggle()" type="button"><i class="icon-calendar"></i></button>
-                            </div>
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion!==3">Fecha Fin: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion!==3">
+                    <div class="input-group">
+                        <input [(ngModel)]="fechafinal" class="form-control" placeholder="yyyy-mm-dd" name="fechafin"
+                            #fechafin="ngModel" ngbDatepicker #dp2="ngbDatepicker"
+                            [ngClass]="{'parsley-error':!fechafin.valid && (fechafin.touched || formDifusion.submitted)}"
+                            required>
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
+                                (click)="dp2.toggle()" type="button"><i class="icon-calendar"></i></button>
                         </div>
-                        <ul class="parsley-errors-list filled"
-                            *ngIf="!fechafin.valid && (fechafin.touched || formDifusion.submitted)">
-                            <li class="parsley-required" *ngIf="fechafin.hasError('required')">Fecha de Fin del curso.
-                            </li>
-                        </ul>
                     </div>
+                    <ul class="parsley-errors-list filled"
+                        *ngIf="!fechafin.valid && (fechafin.touched || formDifusion.submitted)">
+                        <li class="parsley-required" *ngIf="fechafin.hasError('required')">Fecha de Fin del curso.
+                        </li>
+                    </ul>
                 </div>
-
-
-
-            </div>
-            <div class="form-group row" *ngIf="tipoDifusion===1">
-                <label class="col-12 col-md-3">Horas de participación y/o de aprobación: </label>
-                <div class="col-12 col-md-9">
-                    <input type="number" [(ngModel)]="difusion.horas" class="form-control" name="horas" #horas="ngModel"
+                <label class="col-12 col-md-3" *ngIf="tipoDifusion===1">Horas de participación y/o de aprobación: </label>
+                <div class="col-12 col-md-9" *ngIf="tipoDifusion===1">
+                    <input type="number" [(ngModel)]="difusion.horas" class="form-control" name="horas" #horas="ngModel" placeholder="0"
                         [ngClass]="{'parsley-error':(!horas.valid || !(difusion && difusion.horas && difusion.horas >= 5)) && (horas.touched || formDifusion.submitted)}"
                         required />
                     <ul class="parsley-errors-list filled"
@@ -1119,13 +1059,10 @@
                             El numero de horas debe ser mayor a 5</li>
                     </ul>
                 </div>
-            </div>
-            <div class="form-group row">
                 <label class="col-12 col-md-3" for="resumen">Resumen: </label>
                 <div class="col-12 col-md-9">
-                    <textarea [(ngModel)]="difusion.resumen" rows="3" cols="30" class="form-control" name="resumen"
-                        #resumen="ngModel"
-                        [ngClass]="{'parsley-error':!resumen.valid &&(resumen.touched || formDifusion.submitted)}"
+                    <textarea [(ngModel)]="difusion.resumen" rows="3" cols="30" class="form-control" name="resumen" placeholder="Resumen ..."
+                        #resumen="ngModel" [ngClass]="{'parsley-error':!resumen.valid &&(resumen.touched || formDifusion.submitted)}"
                         required></textarea>
                     <ul class="parsley-errors-list filled"
                         *ngIf="!resumen.valid && (resumen.touched || formDifusion.submitted)">
@@ -1288,6 +1225,7 @@
                             <option value="Reporte técnico">Reporte técnico</option>
                             <option value="Tesis">Tesis</option>
                             <option value="Investigación">Investigación</option>
+                            <option value="Propuesta">Propuesta</option>
                         </select>
                         <ul class="parsley-errors-list filled"
                             *ngIf="!tipo.valid && (tipo.touched || formPublicacion.submitted)">
@@ -1295,11 +1233,9 @@
                                 requerida.</li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
                     <label class="col-12 col-md-3">Titulo: </label>
                     <div class="col-12 col-md-9">
-                        <input [(ngModel)]="publicacion.titulo" class="form-control" name="titulo" #titulo="ngModel"
+                        <input [(ngModel)]="publicacion.titulo" class="form-control" name="titulo" #titulo="ngModel" placeholder="Titulo de publicación"
                             [ngClass]="{'parsley-error':!titulo.valid && (titulo.touched || formPublicacion.submitted)}"
                             required />
                         <ul class="parsley-errors-list filled"
@@ -1309,8 +1245,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
                     <label class="col-12 col-md-3" for="tipo">Autores: </label>
                     <div class="col-12 col-md-9">
                         <ng-multiselect-dropdown name="multiSelect" #multiSelect="ngModel" [placeholder]="'Seleccionar'"
@@ -1323,8 +1257,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
                     <label class="col-12 col-md-3">Fecha: </label>
                     <div class="col-12 col-md-9">
                         <div class="input-group">
@@ -1344,13 +1276,11 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-md-3">Contenido: </label>
+                    <label class="col-12 col-md-3">Cita bibliografica: </label>
                     <div class="col-12 col-md-9">
                         <textarea class="form-control" rows="3" cols="30" [(ngModel)]="publicacion.contenido"
                             name="contenido" #contenido="ngModel" required
-                            [ngClass]="{'parsley-error':!contenido.valid && (contenido.touched || formPublicacion.submitted)}"></textarea>
+                            [ngClass]="{'parsley-error':!contenido.valid && (contenido.touched || formPublicacion.submitted)}" placeholder="Cita bibliografica de publicación..."></textarea>
                         <ul class="parsley-errors-list filled"
                             *ngIf="!contenido.valid && (contenido.touched || formPublicacion.submitted)">
                             <li class="parsley-required" *ngIf="contenido.hasError('required')">Contenido es
@@ -1358,6 +1288,7 @@
                         </ul>
                     </div>
                 </div>
+                
             </section>
             <!-- archivo -->
             <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>
@@ -1491,7 +1422,7 @@
 			<div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Nombre: </label>
 				<div class="col-sm-9 col-12">
-					<input [(ngModel)]="archivo.nombre" class="form-control" name="nombre" #nombre="ngModel"
+					<input [(ngModel)]="archivo.nombre" class="form-control" name="nombre" #nombre="ngModel" placeholder="Nombre archivo .."
 						[ngClass]="{'parsley-error':!nombre.valid && (nombre.touched || archivoForm.submitted)}"
 						required>
 					<ul class="parsley-errors-list filled"
@@ -1504,7 +1435,7 @@
 			<div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Descripción: </label>
 				<div class="col-sm-9 col-12">
-					<textarea [(ngModel)]="archivo.descripcion" rows="3" cols="30" class="form-control" name="descripcion" #descripcion="ngModel"
+					<textarea [(ngModel)]="archivo.descripcion" rows="3" cols="30" class="form-control" name="descripcion" #descripcion="ngModel" placeholder="Descripción archivo..."
 						[ngClass]="{'parsley-error':!descripcion.valid && (descripcion.touched || archivoForm.submitted)}"
 						required></textarea>
 					<ul class="parsley-errors-list filled"
@@ -1561,7 +1492,7 @@
 			<div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Revisión: </label>
 				<div class="col-sm-9 col-12">
-					<textarea [(ngModel)]="seguimiento.revision" rows="3" cols="30" class="form-control" name="revision" #revision="ngModel" placeholder="Revision"
+					<textarea [(ngModel)]="seguimiento.revision" rows="3" cols="30" class="form-control" name="revision" #revision="ngModel" placeholder="Revision ..."
 						[ngClass]="{'parsley-error':!revision.valid && (revision.touched || seguimientoForm.submitted)}"
                         required>
                     </textarea>
@@ -1575,7 +1506,7 @@
             <div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Observaciones: </label>
 				<div class="col-sm-9 col-12">
-					<textarea [(ngModel)]="seguimiento.observaciones" rows="3" cols="30" class="form-control" name="observaciones" #observaciones="ngModel" placeholder="Observaciones"
+					<textarea [(ngModel)]="seguimiento.observaciones" rows="3" cols="30" class="form-control" name="observaciones" #observaciones="ngModel" placeholder="Observaciones ..."
 						[ngClass]="{'parsley-error':!observaciones.valid && (observaciones.touched || seguimientoForm.submitted)}"
                         required>
                     </textarea>
@@ -1609,7 +1540,7 @@
         <form class="container" #peticionForm="ngForm">
             
             <div class="form-group row">
-                <label class="col-12 col-md-3">Tipo de peticion: </label>
+                <label class="col-12 col-md-3">Tipo de petición: </label>
                 <div class="col-12 col-md-9">
                     <select [(ngModel)]="peticion.tipo" class="form-control" name="tipo" #tipo="ngModel"
                         [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || peticionForm.submitted)}"
@@ -1629,7 +1560,7 @@
 			<div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Motivos: </label>
 				<div class="col-sm-9 col-12">
-					<textarea [(ngModel)]="peticion.motivos" rows="3" cols="30" class="form-control" name="motivos" #motivos="ngModel" placeholder="motivos"
+					<textarea [(ngModel)]="peticion.motivos" rows="3" cols="30" class="form-control" name="motivos" #motivos="ngModel" placeholder="Motivos ..."
 						[ngClass]="{'parsley-error':!motivos.valid && (motivos.touched || peticionForm.submitted)}"
                         required>
                     </textarea>
@@ -1643,7 +1574,7 @@
             <div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Detalles: </label>
 				<div class="col-sm-9 col-12">
-					<textarea [(ngModel)]="peticion.detalle" rows="3" cols="30" class="form-control" name="detalle" #detalle="ngModel" placeholder="Detalles de la peticion"
+					<textarea [(ngModel)]="peticion.detalle" rows="3" cols="30" class="form-control" name="detalle" #detalle="ngModel" placeholder="Detalles de la petición ..."
 						[ngClass]="{'parsley-error':!detalle.valid && (detalle.touched || peticionForm.submitted)}"
                         required>
                     </textarea>

@@ -30,6 +30,8 @@ export class ListInvestigadoresComponent implements OnInit {
   // search archivos
   search = new FormControl('');
   public valorBusqueda = '';
+  public page: number = 1;
+
 
   constructor(
     private sidebarService: SidebarService,
@@ -47,7 +49,6 @@ export class ListInvestigadoresComponent implements OnInit {
   ngOnInit(): void {
     // this.vaciarUsuario();
     this.comprobarTipoUsuario();
-    console.log(this.investigadores);
     // buscador proyectos
     this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
   }
@@ -92,7 +93,7 @@ export class ListInvestigadoresComponent implements OnInit {
           }).catch(error => { console.log('Error al obtener investigador proyecto', error); })
         });
       })
-      .catch(error => { console.log(error); });
+      .catch(error => { console.log('Error al obtener usuarios investigadores', error); });
   }
   getUsuariosInvestigadoresByTipo(tipo: number) {
     this._serviceInvestigadores.getInvestigadoresByIdInvTipo(tipo, this.token)

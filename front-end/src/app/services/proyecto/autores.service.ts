@@ -86,4 +86,32 @@ export class AutoresService {
     return this._httpClient.delete<any>(this.url + 'autor/' + id_autor, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los autores by estado
+  getAutoresByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'autoresByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los autores by id_publicacion and estado
+  getAutoresByIdPublicacionAndEstado(id_publicacion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'autoresByIdPublicacionAndEstado/' + id_publicacion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los autores by id_investigador and estado
+  getAutoresByIdInvestigadorAndEstado(id_investigador: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'autoresByIdInvestigadorAndEstado/' + id_investigador + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+
 }

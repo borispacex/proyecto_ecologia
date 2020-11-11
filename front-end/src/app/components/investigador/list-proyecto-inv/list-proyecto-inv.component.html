@@ -58,7 +58,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let proyecto of result">
+								<tr *ngFor="let proyecto of result | paginate: { id: 'proyectos', itemsPerPage: 10, currentPage: page }">
 									<td>
 										<span *ngIf="proyecto.estado==='activo'" class="badge badge-success">Activo</span>
 										<span *ngIf="proyecto.estado==='inactivo'" class="badge badge-default">Inactivo</span>
@@ -90,6 +90,7 @@
 						</table>
 					</div>
 				</div>
+				<pagination-controls id="proyectos" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
 			</div>
 		</div>
 	</div>

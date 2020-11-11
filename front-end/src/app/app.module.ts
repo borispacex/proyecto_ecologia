@@ -19,6 +19,9 @@ import * as $ from 'jquery';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { HttpClientModule } from '@angular/common/http';
+import { AgmCoreModule } from '@agm/core';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +34,6 @@ import { HttpClientModule } from '@angular/common/http';
     HttpModule,
     RouterModule,
 
-
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
@@ -39,7 +41,13 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    ngfModule
+    ngfModule,
+    AgmCoreModule.forRoot({
+      // please get your own API key here:
+      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+      apiKey: 'AIzaSyDbODMpMlsAdluHdgW_ZxcllSz5WwvoPkc'
+    }),
+    NgxPaginationModule
   ],
   providers: [
     {

@@ -33,6 +33,7 @@ export class ListFotografiaComponent implements OnInit {
   public valorBusqueda = '';
 
   public id_fotografia = 0;
+  public page: number = 1;
 
   constructor(
     private _serviceFotografias: FotografiasService,
@@ -60,7 +61,7 @@ export class ListFotografiaComponent implements OnInit {
         this.fotografias = response.fotografias;
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error al obtener fotografias admin', error);
       });
   }
   getFotografiasTrue() {
@@ -69,7 +70,7 @@ export class ListFotografiaComponent implements OnInit {
         this.fotografias = response.fotografias;
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error al obtener Fotografias verdad', error);
       });
   }
   getFotografiasFalse() {
@@ -78,7 +79,7 @@ export class ListFotografiaComponent implements OnInit {
         this.fotografias = response.fotografias;
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error al obtener Fotografias falso', error);
       });
   }
 
@@ -97,7 +98,7 @@ export class ListFotografiaComponent implements OnInit {
         this.fotografia = response.fotografia;
       })
       .catch(error => {
-        console.log(error);
+        console.log('Error al obtener fotografia by id', error);
       });
   }
 

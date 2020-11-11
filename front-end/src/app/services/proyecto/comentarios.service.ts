@@ -68,5 +68,32 @@ export class ComentariosService {
     return this._httpClient.get<any>(this.url + 'countComentariosByIdPublicacion/' + id_publicacion, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los comentarios by id_publicacion
+  getComentariosByIdPublicacionAndEstado(id_publicacion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'comentariosByIdPublicacionAndEstado/' + id_publicacion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los comentarios by id_publicacion
+  getCountByIdPublicacionAndEstado(id_publicacion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countComentariosByIdPublicacionAndEstado/' + id_publicacion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los comentarios by id_publicacion
+  getComentariosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'comentariosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

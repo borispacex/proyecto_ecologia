@@ -454,10 +454,8 @@ export class ViewProyectoComponent implements OnInit {
   guardarPeticion() {
     // console.log('Archivos', this.files);
     // console.log('PROGRESO', this.progress);
-
     // console.log('peticion', this.peticion);
     // console.log(this.datosArchivo);
-
     this.peticion.id_proyecto = this.proyecto.id_proyecto;
     this._serviceInvestigadores.getInvestigadorByIdPersona(this.id_persona, this.token)
     .then(response => {
@@ -525,7 +523,6 @@ export class ViewProyectoComponent implements OnInit {
               this._servicePetiArchivos.save(peti_archivo, this.token)
               .then(responseArchivo => {
                 // console.log(responseArchivo);
-                console.log(responseArchivo);
                 this._uploadArchivo.uploadArchivo(this.url + 'upload-peti-archivo/' + responseArchivo.peti_archivo.id_peti_archivo, this.files[i], this.token)
                 .then(responseFile => {
                   contador++;
@@ -583,7 +580,7 @@ export class ViewProyectoComponent implements OnInit {
     this.files.length = 0; // llevamos todo a 0
     this.names.length = 0;
     if (this.httpEmitter) {
-      console.log('Cancelado');
+      // console.log('Cancelado');
       this.httpEmitter.unsubscribe();
     }
   }
@@ -700,7 +697,7 @@ export class ViewProyectoComponent implements OnInit {
               this.archivos.push(convArch);
             }).catch(error => { console.log('error al obtener convenio archivos', error); });
           });
-          console.log(this.archivos);
+          // console.log(this.archivos);
         }).catch(error => { console.log('error al obtener convenios', error); });
         break;
       case 3:
@@ -799,7 +796,7 @@ export class ViewProyectoComponent implements OnInit {
                   this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
                   .then(responseProyArch => {
                     this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
-                    console.log(responseProyArch);
+                    // console.log(responseProyArch);
                   }).catch(error => { console.log('error al obtener proy_archivos', error); });
                 }).catch(error => { console.log('error al obtener proy_archivos', error); });
               }).catch(error => { console.log('error al obtener contratados', error); });
@@ -883,7 +880,7 @@ export class ViewProyectoComponent implements OnInit {
         }).catch(error => {  console.log('Error al obtener expositores', error); });
       }).catch(error => { console.log('Error al obtener curso', error); });
     } else if (difusion.id_evento) {
-      console.log('actualizar evento', difusion);
+      // console.log('actualizar evento', difusion);
       this.tituloFormulario = 'Eventos cientificos - Actualizar';
       this.tipoDifusion = 2;
       this._serviceEventos.getEventoById(this.token, difusion.id_evento)
@@ -1315,7 +1312,7 @@ export class ViewProyectoComponent implements OnInit {
           this.seguimientos.push(segui);
         }).catch(error => { console.log('Error al obtener segui archivo', error); });
       });
-      console.log(this.seguimientos);
+      // console.log(this.seguimientos);
     }).catch(error => { console.log('Error al obtener seguimientos', error); });
   }
 

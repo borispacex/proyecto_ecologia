@@ -179,7 +179,7 @@ export class DetailsProyectoComponent implements OnInit {
   // Funcion para obtener los archivos de principales, permisos, convenios, contratos, proyecto final, otros
   getArchivosByTipo(tipo: number){
     this.archivos = [];
-    console.log(tipo);
+    // console.log(tipo);
     this.tipoArch = tipo;
     switch (tipo) {
       case 0:
@@ -258,7 +258,7 @@ export class DetailsProyectoComponent implements OnInit {
         this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
         .then(responseProyArch => {
           this.archivos = responseProyArch.proy_archivos;
-          console.log(responseProyArch);
+          // console.log(responseProyArch);
         }).catch(error => { console.log('error al obtener proy_archivos', error); });
         break;
       case 8:
@@ -316,7 +316,7 @@ export class DetailsProyectoComponent implements OnInit {
                   this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
                   .then(responseProyArch => {
                     this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
-                    console.log(responseProyArch);
+                    // console.log(responseProyArch);
                   }).catch(error => { console.log('error al obtener proy_archivos', error); });
                 }).catch(error => { console.log('error al obtener proy_archivos', error); });
               }).catch(error => { console.log('error al obtener contratados', error); });
@@ -938,7 +938,7 @@ export class DetailsProyectoComponent implements OnInit {
     this.datosArchivo.length = 0;
     this.antFileTam = 0;
     if (this.httpEmitter) {
-      console.log('Cancelado');
+      // console.log('Cancelado');
       this.httpEmitter.unsubscribe();
     }
   }
@@ -1028,7 +1028,7 @@ export class DetailsProyectoComponent implements OnInit {
     this.antFileTam = 0;
   }
   eliminarArchivo(archivo) {
-    console.log(archivo);
+    // console.log(archivo);
     if (archivo.id_proy_archivo && archivo.id_tipo === 1) {
       this._serviceProyArch.updateProy_archivo(archivo.id_proy_archivo, { estado: false }, this.token)
       .then(response => {

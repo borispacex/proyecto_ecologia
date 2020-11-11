@@ -596,7 +596,7 @@ export class ShowProyectoComponent implements OnInit {
               this.archivos.push(convArch);
             }).catch(error => { console.log('error al obtener convenio archivos', error); });
           });
-          console.log(this.archivos);
+          // console.log(this.archivos);
         }).catch(error => { console.log('error al obtener convenios', error); });
         break;
       case 3:
@@ -695,7 +695,7 @@ export class ShowProyectoComponent implements OnInit {
                   this._serviceProyArch.getProy_archivosByIdTipo(this.id, 7, this.token)
                   .then(responseProyArch => {
                     this.archivos = this.archivos.concat(responseProyArch.proy_archivos);
-                    console.log(responseProyArch);
+                    // console.log(responseProyArch);
                   }).catch(error => { console.log('error al obtener proy_archivos', error); });
                 }).catch(error => { console.log('error al obtener proy_archivos', error); });
               }).catch(error => { console.log('error al obtener contratados', error); });
@@ -779,7 +779,7 @@ export class ShowProyectoComponent implements OnInit {
         }).catch(error => {  console.log('Error al obtener expositores', error); });
       }).catch(error => { console.log('Error al obtener curso', error); });
     } else if (difusion.id_evento) {
-      console.log('actualizar evento', difusion);
+      // console.log('actualizar evento', difusion);
       this.tituloFormulario = 'Eventos cientificos - Actualizar';
       this.tipoDifusion = 2;
       this._serviceEventos.getEventoById(this.token, difusion.id_evento)
@@ -880,7 +880,7 @@ export class ShowProyectoComponent implements OnInit {
   }
 
   openModalArchivo(content, size, archivo: any) {
-    console.log(archivo);
+    // console.log(archivo);
     this.modalService.open(content, { size: size });
     if (archivo.id_permiso_archivo) {
       this._servicePermisoArchivos.getPermisoArchivoById(this.token, archivo.id_permiso_archivo)
@@ -893,7 +893,7 @@ export class ShowProyectoComponent implements OnInit {
     } else if (archivo.id_conv_archivo) {
       this._serviceConvArchivos.getConvArchivoById(this.token, archivo.id_conv_archivo)
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.archivo = response.conv_archivo;
       }).catch(error => { console.log('Error al obtener conv archivo', error); });
     } else if (archivo.id_contratado) {
@@ -901,7 +901,7 @@ export class ShowProyectoComponent implements OnInit {
     } else if (archivo.id_contra_archivo) {
       this._serviceContraArchivos.getContraArchivoById(this.token, archivo.id_contra_archivo)
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.archivo = response.contra_archivo;
       }).catch(error => { console.log('Error al obtener evento archivo', error); });
     } else if (archivo.id_publi_archivo) {
@@ -1402,14 +1402,13 @@ export class ShowProyectoComponent implements OnInit {
           this.seguimientos.push(segui);
         }).catch(error => { console.log('Error al obtener segui archivo', error); });
       });
-      console.log(this.seguimientos);
+      // console.log(this.seguimientos);
     }).catch(error => { console.log('Error al obtener seguimientos', error); });
   }
 
   public eliminarSeguimiento(idSeguimiento: number) {
     this._serviceSeguimientos.update(idSeguimiento, { estado: false }, this.token)
     .then(response => {
-      console.log(response);
       this.seguimiento = {};
       this.obtenerSeguimientos();
     }).catch(error => { console.log('Error al eliminar seguimiento', error); });

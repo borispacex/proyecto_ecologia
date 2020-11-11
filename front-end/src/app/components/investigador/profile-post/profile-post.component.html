@@ -21,11 +21,11 @@
 					<h2 class="title">{{publicacion.titulo}}</h2>
 					<ul class="list-unstyled instagram-plugin m-b-0">
 						<li *ngFor="let archivo of archivos">
-							<a href="{{url +'get-archivo/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
+							<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
 								<img class="img-fluid" src="{{who +'fotografias/'+ 'logo-pdf.jpg' + '/true'}}" alt="image description">
 							</a>
-							<a href="{{url +'get-archivo/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
-								<img class="img-fluid" src="{{url +'get-archivo/'+archivo.archivo}}" width="500px" alt="image description">
+							<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
+								<img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="500px" alt="image description">
 							</a>
 						</li>
 					</ul>

@@ -68,5 +68,32 @@ export class PubliArchivosService {
     return this._httpClient.get<any>(this.url + 'countPubliArchivosByIdPublicacion/' + id_publicacion, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los publi_archivos by estado
+  getPubliArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publi_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los publi_archivos by id_publicacion
+  getPubliArchivosByIdPublicacionAndEstado(id_publicacion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publi_archivosByIdPublicacionAndEstado/' + id_publicacion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contador todos los publi_archivos by id_publicacion
+  countPubliArchivosByIdPublicacionAndEstado(id_publicacion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countPubliArchivosByIdPublicacionAndEstado/' + id_publicacion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

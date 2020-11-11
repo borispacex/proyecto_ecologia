@@ -68,5 +68,32 @@ export class NotaArchivosService {
     return this._httpClient.get<any>(this.url + 'countNotaArchivosByIdNotaPrensa/' + id_nota_prensa, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los nota_archivos by estado
+  getNotaArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'nota_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los nota_archivos by estado
+  getNotaArchivosByIdNotaPrensaAndEstado(id_nota_prensa: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'nota_archivosByIdNotaPrensaAndEstado/' + id_nota_prensa + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los nota_archivos by id_nota_prensa
+  countNotaArchivosByIdNotaPrensaAndEstado(id_nota_prensa: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countNotaArchivosByIdNotaPrensaAndEstado/' + id_nota_prensa + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

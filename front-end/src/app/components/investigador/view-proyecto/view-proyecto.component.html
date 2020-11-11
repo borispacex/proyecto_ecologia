@@ -34,14 +34,62 @@
                                 </li>
                             </ul>
                         </h5>
-                        <h5 class="colors"><strong>Investigadores: </strong>
-                            <ul>
-                                <li *ngFor="let inv of proyecto.investigadores">
-                                    <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
-                                </li>
-                            </ul>
-                        </h5>
-                        <hr>
+                        <section *ngIf="proyecto.investigadores">
+                            <h5 class="colors"><strong>Investigadores: </strong>
+                                <ul>
+                                    <li *ngFor="let inv of proyecto.investigadores">
+                                        <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
+                                    </li>
+                                </ul>
+                            </h5>
+                        </section>
+                        
+                        <section *ngIf="proyecto.carrera || proyecto.n_instituto || proyecto.n_instituto || proyecto.objetivo || proyecto.resumen">
+                            <hr>
+                            <p class="align-center">Basica general</p>
+                            <h5 class="price m-t-0" *ngIf="proyecto.carrera"><strong>Carrera: </strong> <span class="text-primary">{{proyecto.carrera}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.n_instituto"><strong>Nombre del Instituto: </strong> <span class="text-primary">{{proyecto.n_instituto}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.objetivo"><strong>Objetivo: </strong> <span class="text-primary">{{proyecto.objetivo | slice:0:300}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.resumen"><strong>Resumen: </strong> <span class="text-primary">{{proyecto.resumen | slice:0:400}}</span></h5>
+                        </section>
+                        
+                        <section *ngIf="proyecto.tipo || proyecto.area || proyecto.tipo_p || proyecto.carga_h">
+                            <hr>
+                            <p class="align-center">Basica tecnica</p>
+                            <h5 class="price m-t-0" *ngIf="proyecto.tipo"><strong>Tipo de investigación: </strong> <span class="text-primary">{{proyecto.tipo}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.area"><strong>Linea o Area de investigación: </strong> <span class="text-primary">{{proyecto.area}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.tipo_p"><strong>Tipo de proyecto: </strong> <span class="text-primary">{{proyecto.tipo_p}}</span></h5>
+                            <h5 class="price m-t-0" *ngIf="proyecto.carga_h"><strong>Carga horaria dedicada al proyecto: </strong> <span class="text-primary">{{proyecto.carga_h}}</span></h5>
+                        </section>
+                        
+                        <section *ngIf="proyecto.unidades">
+                            <hr>
+                            <h5 class="colors"><strong>Unidades: </strong>
+                                <ul>
+                                    <li *ngFor="let uni of proyecto.unidades">
+                                        <a type="button">
+                                            <span class="text-primary">{{uni.nombre}}</span> &nbsp;
+                                            <span class="text-info">{{uni.observacion}}</span> &nbsp;
+                                        </a>
+                                    </li>
+                                </ul>
+                            </h5>
+                        </section>
+                        <section *ngIf="proyecto.financiamientos">
+                            <hr>
+                            <h5 class="price m-t-0" *ngIf="proyecto.financiamiento"><strong>Financiamiento: </strong> <span class="text-primary">{{proyecto.financiamiento}} {{proyecto.moneda}}</span></h5>
+                            <h5 class="colors"><strong>FInanciamientos: </strong>
+                                <ul>
+                                    <li *ngFor="let fina of proyecto.financiamientos">
+                                        <a type="button">
+                                            <span class="text-primary">{{fina.fuente}}</span> &nbsp;
+                                            <span class="text-success">{{fina.aporte}} {{proyecto.moneda}}</span> &nbsp;
+                                            <span class="text-info">{{fina.observacion}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </h5>
+                        </section>
                         <div class="action">
                             <p>
                                 <ngb-progressbar [showValue]="true" type="warning" [value]="proyecto.proceso" [max]="100">

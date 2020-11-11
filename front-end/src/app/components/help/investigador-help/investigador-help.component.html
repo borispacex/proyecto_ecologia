@@ -8,7 +8,7 @@
 				</h2>
 				<ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['../../../']"><i class="icon-home"></i></a></li>
-					<li class="breadcrumb-item">Help</li>
+					<li class="breadcrumb-item">Ayuda</li>
 					<li class="breadcrumb-item active">Investigador</li>
 				</ul>
 			</div>
@@ -19,15 +19,249 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="body">
-					<ng-container *ngFor="let post of posts">
-						<div class="timeline-item" ngClass='{{post.class}}' [attr.date-is]="post.date">
-							<h5>{{ post.header }}</h5>
-							<div class="msg">
-								<p>{{ post.message }}</p>
-								<a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
+					<p class="h6 p-10 bg-info text-light">¿Cómo administrar proyectos de investigación?</p>
+					<div class="accordion custom" id="accordion">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne')">
+										Paso 1: Dirigirse al menu principal de investigador.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como investigador, si tiene mas roles en el sistema debe elegir ingresar modo INVESTIGADOR, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Proyectos</li>
+										<li>Perfil de Investigador</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-					</ng-container>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo')">
+										Paso 2: Elegir la opcion Listar Proyectos.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo'}">
+								<div class="card-body">
+									Una vez se encuentre en el Menu principal usted debe elegir la opción Listar Proyectos, una vez se encuentre ahi, podra observar los proyectos de investigacion que forma parte, tendra dos formas:
+									<ul>
+										<li>Proyectos de investigación en el que es coordinador (ICONO OJO)</li>
+										<li>Proyectos de investigación en el que es investigador (ICONO LAPIZ)</li>
+									</ul>
+
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree')">
+										Paso 3: Elegir el proyecto de investigación que desea administrar (Coordinador ó Investigador).
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree'}">
+								<div class="card-body">
+									Como ya habiamos mencionado existen dos formas de acceder a un proyecto como investigador, cuando usted es coordinador o investigador.
+									<strong>Coordinador</strong>
+									Tendra las opciones de agregar los siguientes campos
+									<ul>
+										<li>Realizar publicación</li>
+										<li>Basica tecnica (Informacion del proyecto)</li>
+										<li>Lugar de desarrollo</li>
+										<li>Difusiones</li>
+										<ul>
+											<li>Cursos, Seminarios y Talleres</li>
+											<li>Eventos cientificos</li>
+											<li>Notas de prensa</li>
+											<li>Exposiciones y conferencias</li>
+										</ul>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-warning text-light">¿Cómo dar de concluido el proyecto?</p>
+					<div class="accordion custom" id="accordion1">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne1')">
+										Paso 1: Debe solicitar a Dirección un ultimo seguimiento.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne1'}">
+								<div class="card-body">
+									Para dar de concluido el proyecto de investigación y hacer cierre de proyecto debe comunicarse con el administrador para notificarle cierre de proyecto, el administrador subira un informe final, elaborado por el coordinador.
+									<br>
+									El Director debe hacer una revisión, es decir un seguimiento de etapa final, para verificar todo el avance y asi finalmente dejar el proceso de proyecto como 100%.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo1')">
+										Paso 2: Dirección ingresara a su proyecto de investigacion y subira el archivo final.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo1'}">
+								<div class="card-body">
+									El administrador debe ingresar a su proyecto de investigación y subir un archivo final elaborado por el coordinador.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-secondary text-light">¿Cómo realizar una publicación?</p>
+					<div class="accordion custom" id="accordion3">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne2')">
+										Paso 1: Elegir el proyecto de investigación.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne2'}">
+								<div class="card-body">
+									Unicamente el investigador Coordinador podra realizar publicaciones, si usted no es coordinador de algun proyecto de investigación no sera capaz de hacer publicaciónes.
+									<br>
+									Para realizar la publicación debe dirigirse a su lista de proyectos y seleccionar el proyecto de investigación que desea realizar la publicación.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo2')">
+										Paso 2: Elegir la opcion Realizar Publicación.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo2'}">
+								<div class="card-body">
+									Una vez elegido el proyecto de investigación, usted debe seleccionar el boton Realizar Publicación.
+									<strong>Nota: </strong> Debe realizar subir un archivo no mayor a 100MB
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree2')">
+										Paso 3: Llenar los campos requeridos y observar la publicacion en el perfil de investigador.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree2'}">
+								<div class="card-body">
+									Estos campos son muy importantes para el llenado de la publicación.
+									<ul>
+										<li>Tipo de publicación (Articulo, Libro, Poster, Metodo, Tesis, Investigación, Propuesta, etc)</li>
+										<li>Titulo</li>
+										<li>Autores</li>
+										<li>Fecha</li>
+										<li>Cita bibliografica</li>
+										<li>Campo para subir archivos (PDF o IMAGEN)</li>
+									</ul>
+									Usted podra editar la publicación, buscando en su listado de publicaciones y seleccionando el boton de Editar.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseFour2')">
+										Paso 4: El director podra comentar la publicación.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseFour2'}">
+								<div class="card-body">
+									El usuario Director es el unico que puede realizar un comentario a la publicación, para eso el director debe dirigirse al listado de proyectos o los proyectos de algun investigador y seleccionar alguno, donde podra realizar el comentario observando el listado de publicaciones y tendra acceso a realizar un comentario.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-danger text-light">¿Cómo realizar difusiones?</p>
+					<div class="accordion custom" id="accordion3">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne3')">
+										Paso 1: Elegir el proyecto de investigación.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne3'}">
+								<div class="card-body">
+									Unicamente el usuario Investigador de tipo coordinador podra realizar difusiones del proyectos de investigación, para eso debe dirigirse al listado de proyectos y seleccionar el proyecto de investigación, despues seleccionarlo y tendra muchas opciones.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo3')">
+										Paso 2: Elegir la opcion Realizar Difusión (Cursos, Eventos, Notas de prensa y Exposiciones).
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo3'}">
+								<div class="card-body">
+									Una vez seleccionado el proyecto de investigación usted debe realizar la opcion Difusiones donde sera capaz de realizar distintos tipos de difusion:
+									<ul>
+										<li>Cursos, Seminarios y Talleres</li>
+										<li>Eventos cientificos</li>
+										<li>Notas de prensa</li>
+										<li>Exposiciones o conferencias</li>
+									</ul>
+									Puede seleccionar cualquiera de ellos para realizar difusión.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree3')">
+										Paso 3: Llenar los campos requeridos.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree3'}">
+								<div class="card-body">
+									Una vez elegido el tipo de difusión, los campos principales que tenemos son:
+									<ul>
+										<li>Titulo</li>
+										<li>Objetivo</li>
+										<li>Lugar de realización</li>
+										<li>Fecha</li>
+										<li>Resumen</li>
+										<li>Campo para subir archivos</li>
+									</ul>
+									Una vez llenado los campos que son necesarios para la difusion, se subira al sistema. En la parte de abajo podra observar el listado de todas las difusiones que realizo.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
 				</div>
 			</div>
 		</div>

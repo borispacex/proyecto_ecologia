@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         id_adm: DataTypes.INTEGER,
         id_coordinador: DataTypes.INTEGER,
         titulo: DataTypes.STRING,
+        objetivo: DataTypes.STRING,
+        resumen: DataTypes.STRING,
         proceso: DataTypes.INTEGER,
         fechaini: DataTypes.DATE,
         fechafin: DataTypes.DATE,

@@ -8,7 +8,7 @@
 				</h2>
 				<ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['../../../']"><i class="icon-home"></i></a></li>
-					<li class="breadcrumb-item">Help</li>
+					<li class="breadcrumb-item">Ayuda</li>
 					<li class="breadcrumb-item active">Adminitrador</li>
 				</ul>
 			</div>
@@ -19,15 +19,223 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="body">
-					<ng-container *ngFor="let post of posts">
-						<div class="timeline-item" ngClass='{{post.class}}' [attr.date-is]="post.date">
-							<h5>{{ post.header }}</h5>
-							<div class="msg">
-								<p>{{ post.message }}</p>
-								<a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
+					<p class="h6 p-10 bg-info text-light">¿Cómo administrar cuentas?</p>
+					<div class="accordion custom" id="accordion">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne')">
+										Paso 1: Dirigirse al menu principal de administrador.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como administrador, si tiene mas roles en el sistema debe elegir ingresar modo ADMIN, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Fotografias</li>
+										<li>Listar Usuarios</li>
+										<li>Listar Proyectos</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-					</ng-container>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo')">
+										Paso 2: Elegir la opcion lista usuarios.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo'}">
+								<div class="card-body">
+									Una vez se encuentre en el Menu principal usted debe elegir la opción Listar Usuarios, una vez este ahi tendra las opciones de AGREGAR USUARIO y observar el listado de todos los usuarios del sistema, donde podra observar datos de cada uno y editar algunos campos del usuario.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree')">
+										Paso 3: Administrar usuarios (Agregar, Editar, Eliminar).
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree'}">
+								<div class="card-body">
+									Podra observar un listado de usuarios donde podra listarlos por Activos, Inactivos o Ambos.
+									Tambien podra Listar por roles Administrador, Director e Investigador.
+									<br>
+									Tiene la opcion de agregar usuarios con muchos roles (Admin, Director e Investigador), tambien la opción de quitar algun rol.									
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-warning text-light">¿Cómo crear proyectos de investigación?</p>
+					<div class="accordion custom" id="accordion1">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne1')">
+										Paso 1: Dirigirse al menu principal de administrador.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne1'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como administrador, si tiene mas roles en el sistema debe elegir ingresar modo ADMIN, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Fotografias</li>
+										<li>Listar Usuarios</li>
+										<li>Listar Proyectos</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo1')">
+										Paso 2: Elegir la opcion Listar Proyectos.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo1'}">
+								<div class="card-body">
+									Una vez se encuentre en el Menu principal usted debe elegir la opción Listar Proyectos, una vez este ahi tendra las opciones de AGREGAR PROYECTO y observar el listado de todos los proyectos de investigación del sistema, donde podra observar datos de cada uno y editar algunos campos del usuario.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree1')">
+										Paso 3: Elegir la opcion Agregar Proyecto.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree1'}">
+								<div class="card-body">
+									Para agregar el proyecto de grado tiene que tener los siguientes campos:
+									<ul>
+										<li>Titulo de proyecto</li>
+										<li>Fecha inicio (dd/mm/yyyy)</li>
+										<li>Fecha fin (dd/mm/yyyy/)</li>
+										<li>Nombre del coordinador (Debe estar registrado en el sistema)</li>
+										<li>Nombre de investigadores (Deben estar registrados en el sistema)</li>
+										<li>Archivos principales (Inextenso, Formulario o Resolución de proyecto)</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-secondary text-light">¿Cómo administrar proyectos de investigación?</p>
+					<div class="accordion custom" id="accordion3">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne2')">
+										Paso 1: Dirigirse al menu principal de administrador.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne2'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como administrador, si tiene mas roles en el sistema debe elegir ingresar modo ADMIN, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Fotografias</li>
+										<li>Listar Usuarios</li>
+										<li>Listar Proyectos</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo2')">
+										Paso 2: Elegir la opcion Listar Proyectos.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo2'}">
+								<div class="card-body">
+									Una vez se encuentre en el Menu principal usted debe elegir la opción Listar Proyectos, una vez este ahi tendra las opciones de AGREGAR PROYECTO y observar el listado de todos los proyectos de investigación del sistema, donde podra observar datos de cada uno y editar algunos campos del usuario.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree2')">
+										Paso 3: Administrar proyectos (Agregar, Editar, Eliminar).
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree2'}">
+								<div class="card-body">
+									Una vez que este en el listado de proyectos, podra observar los siguientes campos:
+									<ul>
+										<li>Estado</li>
+										<li>Titulo</li>
+										<li>Proceso</li>
+										<li>Grupo</li>
+										<li>Acciones (Editar, Eliminar)</li>
+									</ul>
+									Donde podras agregar proyectos de investigación, Editar el proyecto de investigación cambiando datos del proyecto.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseFour2')">
+										Paso 4: Elegir un proyecto de administración.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseFour2'}">
+								<div class="card-body">
+									Una vez este en el listado de proyectos de investigación, podra elegir algun proyecto de investigación y podra agregar mas campos a ese proyecto como por ejemplos documentos principales del proyectos.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseFive2')">
+										Paso 5: Administrar cualquier proyecto de investigación (Subir archivos, Permisos, Convenios, Personal contratado y Cierre de proyecto).
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseFive2'}">
+								<div class="card-body">
+									Una vez este en el menu o pagina del proyecto de investigación seleccionado, usted podra agregar los siguientes campos:
+									<ul>
+										<li>Subi archivos (Tipo de archivo: Principal u Otros)</li>
+										<li>Permiso (Tipo de nota: DGB, SERNAP, CITES, Bioetica, Cierre de Proyecto, Otros) (Tipo permiso: Solicitud u Otorgación)</li>
+										<li>Suscripción convenio</li>
+										<li>Personal contratado</li>
+										<li>Cierre de proyecto</li>
+									</ul>
+									En la parte de abajo podras observar el listado de todos estas opciones.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
 				</div>
 			</div>
 		</div>

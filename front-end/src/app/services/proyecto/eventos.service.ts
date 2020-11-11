@@ -68,5 +68,32 @@ export class EventosService {
     return this._httpClient.get<any>(this.url + 'countEventosByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los eventos by estado
+  getEventosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'eventosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los eventos by id_proyecto
+  getEventosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'eventosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los eventos by id_proyecto
+  countEventosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countEventosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

@@ -78,5 +78,23 @@ export class SeguiArchivosService {
     return this._httpClient.get<any>(this.url + 'countSeguiArchivosByIdSeguimiento/' + id_seguimiento, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los segui_archivos by id_seguimiento y estado
+  getSeguiArchivosByIdSeguimientoAndEstado(id_seguimiento: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'segui_archivosByIdSeguimientoAndEstado/' + id_seguimiento + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contador todos los segui_archivos by id_seguimiento y estado
+  countSeguiArchivosByIdSeguimientoAndEstado(id_seguimiento: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countSeguiArchivosByIdSeguimientoAndEstado/' + id_seguimiento + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
   
 }

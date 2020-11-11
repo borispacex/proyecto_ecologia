@@ -122,23 +122,23 @@
 						<option *ngFor="let provincia of provincias" value="{{provincia.provi}}">{{provincia.provi}}
 						</option>
 					</select>
-				</div>
-			
-
+				</div>	
+			</div>
+			<hr>
+			<div class="form-group row">
+				<label class="col-12 col-md-2 my-1" for="basica">Información proyecto: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect4" #multiSelect4="ngModel" [placeholder]="'Seleccionar Información proyecto'"
+					[settings]="dropdownSettings4" [data]="dropdownList4" [(ngModel)]="filtro.mostrarInformacion">
+				</ng-multiselect-dropdown>
 				<label class="col-12 col-md-2 my-1" for="basica">Basica tecnica: </label>
 				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect" #multiSelect="ngModel" [placeholder]="'Seleccionar basica tecnica'"
 					[settings]="dropdownSettings" [data]="dropdownList" [(ngModel)]="filtro.mostrarBasicaTecnica">
 				</ng-multiselect-dropdown>
 
 				<label class="col-12 col-md-2 my-1" for="basica">Lugar de desarrollo: </label>
-				<ng-multiselect-dropdown class="col-12 col-md-4 my-1" name="multiSelect3" #multiSelect3="ngModel" [placeholder]="'Seleccionar lugar desarrollo'"
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect3" #multiSelect3="ngModel" [placeholder]="'Seleccionar lugar desarrollo'"
 					[settings]="dropdownSettings3" [data]="dropdownList3" [(ngModel)]="filtro.mostrarLugarDesarrollo">
 				</ng-multiselect-dropdown>
-
-				<!-- <label class="fancy-checkbox col-12 col-md-3">
-					<input type="checkbox" id="mostrarLugarDesarrollo" name="mostrarLugarDesarrollo" [(ngModel)]="filtro.mostrarLugarDesarrollo">
-					<span>Mostrar lugar de desarrollo</span>
-				</label> -->
 				
 				<label class="fancy-checkbox col-auto my-1">
 					<input type="checkbox" id="mostrarCoordinador" name="mostrarCoordinador" [(ngModel)]="filtro.mostrarCoordinador">
@@ -149,10 +149,15 @@
 					<span>Mostrar investigadores</span>
 				</label>
 								
-				<label class="fancy-checkbox col-auto my-1">
-					<input type="checkbox" id="mostrarPublicacion" name="mostrarPublicacion" [(ngModel)]="filtro.mostrarPublicacion">
-					<span>Mostrar publicaciones</span>
-				</label>
+				
+				
+			</div>
+			<div class="form-group row">
+				<label class="col-12 col-md-2 my-1" for="basica">Publicaciones: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect5" #multiSelect5="ngModel" [placeholder]="'Seleccionar publicaciones'"
+					[settings]="dropdownSettings5" [data]="dropdownList5" [(ngModel)]="filtro.mostrarPublicacion">
+				</ng-multiselect-dropdown>
+
 				<label class="fancy-checkbox col-auto my-1">
 					<input type="checkbox" id="mostrarConvenio" name="mostrarConvenio" [(ngModel)]="filtro.mostrarConvenio">
 					<span>Mostrar convenios</span>
@@ -168,7 +173,6 @@
 					[settings]="dropdownSettings2" [data]="dropdownList2" [(ngModel)]="filtro.mostrarDifusion">
 				</ng-multiselect-dropdown>
 			
-
 				<label class="col-12 col-md-2 my-1" for="basica">Numero: </label>
 				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect1" #multiSelect1="ngModel" [placeholder]="'Seleccionar numero'"
 					[settings]="dropdownSettings1" [data]="dropdownList1" [(ngModel)]="filtro.mostrarNumero">
@@ -225,23 +229,17 @@
 					<h2 class="align-center">Lista de proyectos de investigación</h2>
 					<span><b>Proyectos en total: </b> {{this.proyectos.length}}</span>
 					<div class="table-responsive">
-						<table class="table-hover" mat-table matTableExporter matSort [dataSource]="dataSource"
-							#exporter="matTableExporter">
-
+						<table class="table-hover" mat-table matTableExporter matSort [dataSource]="dataSource" #exporter="matTableExporter">
 							<ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
 								<th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
 								<td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+								<!-- <td mat-cell *matCellDef="let element"> {{ (element[column].length>50)? (element[column] | slice:0:50)+'......':(element[column]) }} </td> -->
 							</ng-container>
-
 							<tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
 							<tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
-
 						</table>
-						<mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [pageIndex]="currentPage" (page)="handlePage($event)" [showFirstLastButtons]="true"></mat-paginator>
-						
-						<!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" (page)="handlePage($event)" showFirstLastButtons></mat-paginator> -->
+						<mat-paginator #paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" [pageIndex]="currentPage" [showFirstLastButtons]="true"></mat-paginator>						
 					</div>
-
 				</div>
 			</div>
 		</div>

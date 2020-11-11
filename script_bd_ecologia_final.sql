@@ -112,6 +112,8 @@ create table proyectos (
     id_adm integer not null,
     id_coordinador integer not null,
     titulo varchar(2000),
+    objetivo varchar(10000),
+    resumen varchar(20000),
     proceso integer default 0,
     fechaini timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
     fechafin timestamp with time zone,

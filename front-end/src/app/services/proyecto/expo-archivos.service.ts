@@ -68,5 +68,32 @@ export class ExpoArchivosService {
     return this._httpClient.get<any>(this.url + 'countExpoArchivosByIdExposicion/' + id_exposicion, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los expo_archivos by estado
+  getExpoArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expo_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los expo_archivos by id_exposicion y estado
+  getExpoArchivosByIdExposicionAndEstado(id_exposicion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expo_archivosByIdExposicionAndEstado/' + id_exposicion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los expo_archivos by id_exposicion y estado
+  countExpoArchivosByIdExposicionAndEstado(id_exposicion: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countExpoArchivosByIdExposicionAndEstado/' + id_exposicion + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
   
 }

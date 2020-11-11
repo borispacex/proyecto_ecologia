@@ -68,6 +68,33 @@ export class CursoArchivosService {
     return this._httpClient.get<any>(this.url + 'countCursoArchivosByIdCurso/' + id_curso, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los curso_archivos by estado
+  getCursoArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'curso_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los curso_archivos by id_curso
+  getCursoArchivosByIdCursoAndEstado(id_curso: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'curso_archivosByIdCursoAndEstado/' + id_curso + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los curso_archivos by id_curso
+  countCursoArchivosByIdCursoAndEstado(id_curso: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countCursoArchivosByIdCursoAndEstado/' + id_curso + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 
 }

@@ -28,6 +28,7 @@ export class ListProyectoInvComponent implements OnInit {
   // search proyectos
   search = new FormControl('');
   public valorBusqueda = '';
+  public page: number = 1;
 
   constructor(
     private sidebarService: SidebarService,
@@ -55,10 +56,11 @@ export class ListProyectoInvComponent implements OnInit {
     // --> abtenemos atraves del id_investigador -> id_coordinador
     this._serviceProyecto.getProyectosByIdCoordinador(this.id_investigador, this.token)
     .then(responseProyectos => {
-
+      // console.log(responseProyectos);
       responseProyectos.proyectos.forEach(proy => {
         this._serviceInvProyecto.getInv_proyectosByIdProyecto(proy.id_proyecto, this.token)
         .then(responseInvProy => {
+          // console.log(responseInvProy);
           fotos.push(proy.investigadore.persona.fotografia.imagen);
           var inv_proyectos = responseInvProy.inv_proyectos;
           inv_proyectos.forEach(inv_proy => {
@@ -150,7 +152,7 @@ export class ListProyectoInvComponent implements OnInit {
     this._serviceInvestigador.getInvestigadorByIdPersona(id_persona, this.token)
     .then(responseInvestigador => {
       this.id_investigador = responseInvestigador.investigador.id_investigador;
-      console.log(responseInvestigador);
+      // console.log(responseInvestigador);
       this._route.params.forEach((params: Params) => {
         switch (params.tipo) {
           case 'proyecto':

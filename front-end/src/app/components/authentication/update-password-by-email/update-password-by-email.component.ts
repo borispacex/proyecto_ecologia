@@ -47,15 +47,15 @@ export class UpdatePasswordByEmailComponent implements OnInit {
       this.usuario.password = this.password1;
       this._serviceForgotPassword.updatePasswordByEmail(this.usuario)
         .then(response => {
-          console.log('contraseña actualizada', response);
+          // console.log('contraseña actualizada', response);
           this.toastr.success('Contraseña actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           this._router.navigate(['/authentication/login']);
         }).catch(error => {
-          console.log('error', error);
+          console.log('Error al actualizar password', error);
           this.toastr.error('Error al actualizar contraseña', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
     } else {
-      console.log('contraseñas no coinciden');
+      // console.log('contraseñas no coinciden');
       this.toastr.error('Las contraseñas no coinciden', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
     }
   }
@@ -68,7 +68,7 @@ export class UpdatePasswordByEmailComponent implements OnInit {
           this.usuario = usuario.usuario; // ingresamos por medio del token y recibimos todo usuario
         })
         .catch(error => {
-          console.log('Fallo el token es incorrecto', error);
+          // console.log('Fallo el token es incorrecto', error);
           this._router.navigate(['/authentication/page-401']);
           this.toastr.error('Error con el token es incorrecto', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });

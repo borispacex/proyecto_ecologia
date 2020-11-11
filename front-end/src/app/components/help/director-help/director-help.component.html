@@ -19,15 +19,212 @@
 		<div class="col-lg-12">
 			<div class="card">
 				<div class="body">
-					<ng-container *ngFor="let post of posts">
-						<div class="timeline-item" ngClass='{{post.class}}' [attr.date-is]="post.date">
-							<h5>{{ post.header }}</h5>
-							<div class="msg">
-								<p>{{ post.message }}</p>
-								<a href="javascript:void(0);" class="m-r-20"><i class="icon-heart"></i> Like</a>
+					<p class="h6 p-10 bg-info text-light">¿Cómo administrar proyectos de investigación?</p>
+					<div class="accordion custom" id="accordion">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne')">
+										Paso 1: Dirigirse al menu principal de director.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como director, si tiene mas roles en el sistema debe elegir ingresar modo DIRECTOR, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Proyectos</li>
+										<li>Listar Investigadores</li>
+										<li>Generar Reportes</li>
+									</ul>
+								</div>
 							</div>
 						</div>
-					</ng-container>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo')">
+										Paso 2: Elegir la opcion Listar Proyectos o Listar Investigadores.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo'}">
+								<div class="card-body">
+									Tiene dos formas de acceder un proyecto como director:
+									<ul>
+										<li>Listar Proyectos: Ahi podra observar todos los proyectos de investigacion.</li>
+										<li>Listar Investigadores: Ahi podra observar todos los investigadores y con ello cada investigador tendra su lista de proyectos.</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree')">
+										Paso 3: Elegir algun proyecto de investigación para hacer su seguimiento.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree'}">
+								<div class="card-body">
+									Una vez que estes en la pagina del proyecto de investigación elegido, usted podra observar los datos del proyectos de investigación como datos, documentos etc.
+									<br>
+									Debe elegir el boton Realizar seguimiento, donde usted DIRECTOR debe llenar los siguientes datos:
+									<ul>
+										<li>Tipo de seguimiento (Inicio, Ejecucion o Finalización)</li>
+										<li>Revisión</li>
+										<li>Observaciones</li>
+										<li>Proceso</li>
+										<li>Subir archivos importantes para el seguimiento</li>
+									</ul>
+									Podra observar una lista de seguimientos, donde podras editar o eliminar el seguimiento si deseas.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-warning text-light">¿Cómo administrar investigadores?</p>
+					<div class="accordion custom" id="accordion1">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne1')">
+										Paso 1: Dirigirse al menu principal de director.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne1'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como director, si tiene mas roles en el sistema debe elegir ingresar modo DIRECTOR, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Proyectos</li>
+										<li>Listar Investigadores</li>
+										<li>Generar Reportes</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo1')">
+										Paso 2: Elegir la opcion Lista Investigadores.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo1'}">
+								<div class="card-body">
+									Debe elegir la opción elegir Listar Investigadores, donde usted observara una gran lista de investigadores.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree1')">
+										Paso 3: Observar lista de investigadores con sus proyectos de investigación
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree1'}">
+								<div class="card-body">
+									Podra observar los campos de investigador:.
+									<ul>
+										<li>Nombre completo</li>
+										<li>Cedula de identidad</li>
+										<li>Foto</li>
+										<li>Correo electronico</li>
+										<li>Tipo de investigador</li>
+										<li>Grado academico</li>
+										<li>Lista de proyectos de investigación</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
+					<p class="h6 p-10 bg-secondary text-light">¿Cómo generar reportes?</p>
+					<div class="accordion custom" id="accordion3">
+						<div>
+							<div class="card-header" id="headingOne">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseOne2')">
+										Paso 1: Dirigirse al menu principal de director.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseOne2'}">
+								<div class="card-body">
+									Para poder acceder como administrador usted debe tener acceso como director, si tiene mas roles en el sistema debe elegir ingresar modo DIRECTOR, una vez hecho este paso.
+									<br>
+									El primer menu que usted podra acceder sera el menu principal, donde tendra las siguinetes opciones:
+									<ul>
+										<li>Listar Proyectos</li>
+										<li>Listar Investigadores</li>
+										<li>Generar Reportes</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingTwo">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseTwo2')">
+										Paso 2: Elegir la opcion Generar Reportes.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseTwo2'}">
+								<div class="card-body">
+									Debe elegir la opción elegir Generar Reportes, donde usted observara un gran menu de opciones para generar reportes con muchos parametros.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseThree2')">
+										Paso 3: Generar reportes por muchas opciones posibles.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseThree2'}">
+								<div class="card-body">
+									Podra generar reportes de muchas maneras y observar en la tabla como sera exportado.
+								</div>
+							</div>
+						</div>
+						<div>
+							<div class="card-header" id="headingThree">
+								<h5 class="mb-0">
+									<button class="btn btn-link collapsed" type="button" (click)="toggleCollepseGeneral('collapseFour2')">
+										Paso 4: Generar reportes Impresion, Excel, CSV, JSON y TEXT.
+									</button>
+								</h5>
+							</div>
+							<div class="collapse" [ngClass]="{'show':collepse == 'collapseFour2'}">
+								<div class="card-body">
+									Podra generar reportes de muchas maneras y exportarlos en muchos formatos:
+									<ul>
+										<li>Impresión</li>
+										<li>Excel</li>
+										<li>CSV</li>
+										<li>JSON</li>
+										<li>TEXT</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="m-t-50"></div>
+	
 				</div>
 			</div>
 		</div>

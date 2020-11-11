@@ -57,7 +57,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr *ngFor="let investigador of result">
+								<tr *ngFor="let investigador of result | paginate: { id: 'investigadores', itemsPerPage: 10, currentPage: page }">
 									<td>{{investigador.persona.nombres}}
 										{{investigador.persona.paterno}}
 										{{investigador.persona.materno}}</td>
@@ -87,6 +87,7 @@
 						</table>
 					</div>
 				</div>
+				<pagination-controls id="investigadores" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
 			</div>
 		</div>
 	</div>

@@ -70,5 +70,32 @@ export class ContratadosService {
     return this._httpClient.get<any>(this.url + 'countContratadosByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los contratados by estado
+  getContratadosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'contratadosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los contratados by id_proyecto y estado
+  getContratadosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'contratadosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar contratados by id_proyecto y estado
+  countContratadosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countContratadosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

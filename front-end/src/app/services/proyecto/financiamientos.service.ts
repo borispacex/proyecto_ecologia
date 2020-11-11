@@ -76,5 +76,41 @@ export class FinanciamientosService {
     return this._httpClient.delete<any>(this.url + 'financiamiento/' + id_financiamiento, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los financiamientos by estado
+  getFinanciamientosByIEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'financiamientosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los financiamientos by id_proyecto y estado
+  getFinanciamientosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'financiamientosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los financiamientos by id_proyecto
+  countFinanciamientosByIdProyecto(id_proyecto: number, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countFinanciamientosByIdProyecto/' + id_proyecto, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los financiamientos by id_proyecto
+  countFinanciamientosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countFinanciamientosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

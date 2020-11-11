@@ -54,6 +54,7 @@ export class ListUsuarioComponent implements OnInit {
   tipo = '';
 
   public id_adm_usuario_rol = 0;
+  public page: number = 1;
 
   constructor(
     private _serviceUsuarios: UsuariosService,
@@ -358,10 +359,10 @@ export class ListUsuarioComponent implements OnInit {
           break;
       }
     } else if (estadoU === 'activo') {
-      console.log('activo');
+      // console.log('activo');
       this.comprobarTipoUsuarioByEstado(true, tipo);
     } else if (estadoU === 'inactivo') {
-      console.log('inactivo');
+      // console.log('inactivo');
       this.comprobarTipoUsuarioByEstado(false, tipo);
     } else {
       this.vaciarUsuario();

@@ -68,4 +68,31 @@ export class InvProyectosService {
     return this._httpClient.get<any>(this.url + 'inv_proyecto/' + id, options).toPromise()
     .then(res => res);
   }
+  // se obtiene todos las inv_proyectos, mediante el estado
+  getInv_proyectosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'inv_proyectosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // se obtiene todos las inv_proyectos, mediante el id investigador y estado
+  getInv_proyectosByIdInvestigadorAndEstado(id_investigador: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'inv_proyectosByIdInvestigadorAndEstado/' + id_investigador + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // se obtiene todos las inv_proyectos, mediante el id proyecto y estado
+  getInv_proyectosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'inv_proyectosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 }

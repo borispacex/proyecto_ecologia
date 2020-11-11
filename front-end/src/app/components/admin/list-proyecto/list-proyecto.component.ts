@@ -97,24 +97,24 @@ export class ListProyectoComponent implements OnInit {
   // tipo proyecto
   private tipo = '';
 
-    // MANEJO DE ARCHIVOS
-    accept = 'pdf'; // *
-    files: Array<File> = [];
-    progress: number;
-    hasBaseDropZoneOver: boolean = false;
-    httpEmitter: Subscription;
-    httpEvent: HttpEvent<{}>;
-    lastFileAt: Date;
-    sendableFormData: FormData; //populated via ngfFormData directive
-    dragFiles: any;
-    validComboDrag: any;
-    lastInvalids: any;
-    fileDropDisabled: any;
-    maxSize: any;
-    baseDropValid: any;
-    public datosArchivo: any = [];
-    public antFileTam = 0;
-
+  // MANEJO DE ARCHIVOS
+  accept = 'pdf'; // *
+  files: Array<File> = [];
+  progress: number;
+  hasBaseDropZoneOver: boolean = false;
+  httpEmitter: Subscription;
+  httpEvent: HttpEvent<{}>;
+  lastFileAt: Date;
+  sendableFormData: FormData; //populated via ngfFormData directive
+  dragFiles: any;
+  validComboDrag: any;
+  lastInvalids: any;
+  fileDropDisabled: any;
+  maxSize: any;
+  baseDropValid: any;
+  public datosArchivo: any = [];
+  public antFileTam = 0;
+  public page: number = 1;
 
   constructor(
     private sidebarService: SidebarService,
@@ -150,9 +150,7 @@ export class ListProyectoComponent implements OnInit {
       selectAllText: 'Seleccionar Todos',
       unSelectAllText: 'Deselecciona todo',
       searchPlaceholderText: 'Buscar',
-      itemsShowLimit: 3,
       allowSearchFilter: true,
-      limitSelection: 5,
       maxHeight: 70
     };
   }
@@ -287,7 +285,7 @@ export class ListProyectoComponent implements OnInit {
 
     this._serviceProyecto.saveProyecto(this.proyecto, this.token)
       .then(responseProy => {
-        console.log(responseProy);
+        // console.log(responseProy);
         // inv_proyectos
         this.seleccionados2.forEach(investigador => {
           var inv_proyecto: any = {};

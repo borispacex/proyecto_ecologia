@@ -14,4 +14,8 @@ module.exports = (app) => {
 
     app.get('/api/unidadesByIdProyectoAndEstado/:id_proyecto/:estado', unidadesController.getAllByIdProyectoAndEstado);
     app.get('/api/unidadesByEstado/:estado', unidadesController.getAllByEstado);
+    app.get('/api/countUnidadesByIdProyecto/:id_proyecto', unidadesController.countByIdProyecto);
+    app.get('/api/countUnidadesByIdProyectoAndEstado/:id_proyecto/:estado', unidadesController.countByIdProyectoAndEstado);
+
+
 }

@@ -76,5 +76,41 @@ export class ExpositoresService {
     return this._httpClient.delete<any>(this.url + 'expositor/' + id_expositor, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los expositores by estado
+  getExpositoresByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expositoresByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los expositores by estado
+  getExpositoresByIdCursoAndEstado(id_curso: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'expositoresByIdCursoAndEstado/' + id_curso + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los exposiciones by id_curso
+  countExpositoresByIdCurso(id_curso: number, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countExpositoresByIdCurso/' + id_curso, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los exposiciones by id_curso
+  countExpositoresByIdCursoAndEstado(id_curso: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countExpositoresByIdCursoAndEstado/' + id_curso + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

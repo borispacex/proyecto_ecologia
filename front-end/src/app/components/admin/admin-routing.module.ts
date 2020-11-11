@@ -35,7 +35,7 @@ const routes: Routes = [
             path: 'settings',
               children: [
                   { path: '', redirectTo: 'account', pathMatch: 'full' },
-                  { path: 'account', component: SetProfileComponent, data: { title: 'Configuracion Cuenta' } },
+                  { path: 'account', component: SetProfileComponent, data: { title: 'Configuración Cuenta' } },
               ]
           },
           {
@@ -43,9 +43,9 @@ const routes: Routes = [
               children: [
                   { path: '', redirectTo: 'cuenta', pathMatch: 'full' },
                   { path: 'cuenta/:tipo', component: CuentaHelpComponent, data: { title: 'Ayuda Cuenta' } },
-                  { path: 'admin/:tipo', component: AdminHelpComponent, data: { title: 'Ayuda Cuenta' } },
-                  { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda Cuenta' } },
-                  { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda Cuenta' } }
+                  { path: 'admin/:tipo', component: AdminHelpComponent, data: { title: 'Ayuda Administrador' } },
+                  { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda Director' } },
+                  { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda Investigador' } }
               ]
           },
           { path: '**', redirectTo: 'dashboard' },

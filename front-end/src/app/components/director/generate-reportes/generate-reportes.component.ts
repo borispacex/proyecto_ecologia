@@ -48,6 +48,7 @@ import { ToastrService } from 'ngx-toastr';
 import { InvProyectosService } from 'src/app/services/admin/inv-proyectos.service';
 import { FinanciamientosService } from 'src/app/services/proyecto/financiamientos.service';
 import { FormControl } from '@angular/forms';
+import { AutoresService } from 'src/app/services/proyecto/autores.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -120,7 +121,6 @@ export class GenerateReportesComponent
   pageSize = 10;
   pageSizeOptions: number[] = [10, 30, 50, 80, 100];
   currentPage = 0;
-
 
   // filtros
   public token: string;
@@ -327,6 +327,14 @@ export class GenerateReportesComponent
   public dropdownList3: Array<any>;
   public dropdownSettings3: any;
 
+  // informacion proyecto
+  public dropdownList4: Array<any>;
+  public dropdownSettings4: any;
+
+    // informacion publicacion
+    public dropdownList5: Array<any>;
+    public dropdownSettings5: any;
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -355,7 +363,8 @@ export class GenerateReportesComponent
     private _serviceUnidades: UnidadesService,
     private _serviceExpositores: ExpositoresService,
     private _serviceInvProyectos: InvProyectosService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private _serviceAutores: AutoresService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -369,7 +378,7 @@ export class GenerateReportesComponent
       { item_id: 7, item_text: 'Unidades' },
       { item_id: 8, item_text: 'Financiamiento' },
       { item_id: 9, item_text: 'FInanciamientos' },
-      { item_id: 10, item_text: 'FInanciamientos con Aporte' }
+      { item_id: 10, item_text: 'FInanciamientos con Aporte' },
     ];
     this.dropdownSettings = {
       singleSelection: false,
@@ -377,7 +386,7 @@ export class GenerateReportesComponent
       textField: 'item_text',
       selectAllText: 'Seleccionar Todos',
       unSelectAllText: 'Deseleccionar Todo',
-      maxHeight: 100
+      maxHeight: 100,
     };
     this.dropdownList1 = [
       { num_id: 1, num_text: 'Número Publicaciones' },
@@ -388,7 +397,7 @@ export class GenerateReportesComponent
       { num_id: 6, num_text: 'Número Eventos' },
       { num_id: 7, num_text: 'Número Unidades' },
       { num_id: 8, num_text: 'Número Notas de prensa' },
-      { num_id: 9, num_text: 'Número Exposiciones' }
+      { num_id: 9, num_text: 'Número Exposiciones' },
     ];
     this.dropdownSettings1 = {
       singleSelection: false,
@@ -396,7 +405,7 @@ export class GenerateReportesComponent
       textField: 'num_text',
       selectAllText: 'Seleccionar Todos',
       unSelectAllText: 'Deseleccionar Todo',
-      maxHeight: 100
+      maxHeight: 100,
     };
     this.dropdownList2 = [
       { difu_id: 1, difu_text: 'Difusión Cursos' },
@@ -410,14 +419,14 @@ export class GenerateReportesComponent
       textField: 'difu_text',
       selectAllText: 'Seleccionar Todos',
       unSelectAllText: 'Deseleccionar Todo',
-      maxHeight: 100
+      maxHeight: 100,
     };
     this.dropdownList3 = [
       { luga_id: 1, luga_text: 'Departamentos' },
       { luga_id: 2, luga_text: 'Provincias' },
       { luga_id: 3, luga_text: 'Municipio' },
       { luga_id: 4, luga_text: 'Localidad' },
-      { luga_id: 5, luga_text: 'Geolozalización' }
+      { luga_id: 5, luga_text: 'Geolozalización' },
     ];
     this.dropdownSettings3 = {
       singleSelection: false,
@@ -425,13 +434,61 @@ export class GenerateReportesComponent
       textField: 'luga_text',
       selectAllText: 'Seleccionar Todos',
       unSelectAllText: 'Deseleccionar Todo',
-      maxHeight: 100
+      maxHeight: 100,
+    };
+    this.dropdownList4 = [
+      { info_id: 1, info_text: 'Carrera' },
+      { info_id: 2, info_text: 'Nombre instituto' },
+      { info_id: 3, info_text: 'Titulo' },
+      { info_id: 4, info_text: 'Fecha inicio' },
+      { info_id: 5, info_text: 'Fecha fin' },
+      { info_id: 6, info_text: 'proceso' },
+      { info_id: 7, info_text: 'estado' },
+      { info_id: 8, info_text: 'Ojetivo' },
+      { info_id: 9, info_text: 'Resumen' },
+      { info_id: 10, info_text: 'Tipo de investigación' },
+      { info_id: 11, info_text: 'Linea o Area de investigación' },
+      { info_id: 12, info_text: 'Tipo de proyecto' },
+      { info_id: 13, info_text: 'Carga horaria' },
+      { info_id: 14, info_text: 'Financiamiento' },
+    ];
+    this.dropdownSettings4 = {
+      singleSelection: false,
+      idField: 'info_id',
+      textField: 'info_text',
+      selectAllText: 'Seleccionar Todos',
+      unSelectAllText: 'Deseleccionar Todo',
+      maxHeight: 100,
+    };
+    this.dropdownList5 = [
+      { publi_id: 1, publi_text: 'Tipo de publicación' },
+      { publi_id: 2, publi_text: 'Titulo' },
+      { publi_id: 3, publi_text: 'Fecha' },
+      { publi_id: 4, publi_text: 'Fecha año' },
+      { publi_id: 5, publi_text: 'Autores' },
+      { publi_id: 6, publi_text: 'Cita bibliografica' }
+    ];
+    this.dropdownSettings5 = {
+      singleSelection: false,
+      idField: 'publi_id',
+      textField: 'publi_text',
+      selectAllText: 'Seleccionar Todos',
+      unSelectAllText: 'Deseleccionar Todo',
+      maxHeight: 100,
     };
   }
+
 
   ngOnInit(): void {
     this.filtroInicial();
     this.vaciarFiltro();
+    this.filtro.mostrarInformacion = [
+      { info_id: 3, info_text: 'Titulo' },
+      { info_id: 4, info_text: 'Fecha inicio' },
+      { info_id: 5, info_text: 'Fecha fin' },
+      { info_id: 6, info_text: 'proceso' },
+      { info_id: 7, info_text: 'estado' }
+    ];
   }
 
   toggleFullWidth() {
@@ -476,7 +533,7 @@ export class GenerateReportesComponent
   }
 
   imprimir(exporter) {
-    const pageAnt = this.dataSource.paginator.pageSize;
+    // const pageAnt = this.dataSource.paginator.pageSize;
     this.dataSource.paginator._changePageSize(this.length);
 
     // console.log('exporter', exporter._cdkTable._data);
@@ -492,22 +549,25 @@ export class GenerateReportesComponent
   obtenerProyectos() { }
 
   filtroInicial() {
-    this._serviceProyectos.getProyectos(this.token)
+    this._serviceProyectos
+      .getProyectos(this.token)
       .then((response) => {
         this.proyectos = [];
         response.proyectos.forEach((proyecto) => {
           // 2020-05-31 T04:00:00.000Z
-          proyecto.fechaini = proyecto.fechaini.substring(0, 10);
-          proyecto.fechafin = proyecto.fechafin.substring(0, 10);
+          proyecto.fecha_inicio = proyecto.fechaini.substring(0, 10);
+          proyecto.fecha_fin = proyecto.fechafin.substring(0, 10);
+          // proyecto.fechaini = this.formatDateStringData(proyecto.fechaini);
+          // proyecto.fechafin = this.formatDateStringData(proyecto.fechafin);
           this.proyectos.push(proyecto);
         });
 
         this.displayedColumns = [
           'titulo',
-          'fechaini',
-          'fechafin',
+          'fecha_inicio',
+          'fecha_fin',
           'proceso',
-          'estado'
+          'estado',
         ];
         this.columnsToDisplay = this.displayedColumns.slice();
 
@@ -562,194 +622,493 @@ export class GenerateReportesComponent
       return null;
     }
     let anio = parseInt(d.substring(0, 4));
-    let mes = d.substring(5, 6) === '0' ? parseInt(d.substring(6, 7)) : parseInt(d.substring(5, 7));
-    let dia = d.substring(8, 9) === '0' ? parseInt(d.substring(9, 10)) : parseInt(d.substring(8, 10));
+    let mes =
+      d.substring(5, 6) === '0'
+        ? parseInt(d.substring(6, 7))
+        : parseInt(d.substring(5, 7));
+    let dia =
+      d.substring(8, 9) === '0'
+        ? parseInt(d.substring(9, 10))
+        : parseInt(d.substring(8, 10));
     let date = new NgbDate(anio, mes, dia);
     return date;
   }
 
   realizarFiltro() {
-    console.log(this.filtro);
+    // console.log(this.filtro);
     this.columnaInicial();
-    if ((this.filtro.tipoFecha === 'inicio' || this.filtro.tipoFecha === 'final') && !this.filtro.fechaini && !this.filtro.fechafin) {
-      this.toastr.error('Seleccionó fechas, debe llenar los campos', undefined, { closeButton: true, positionClass: 'toast-top-right' }); //bottom
-    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
+    if (
+      (this.filtro.tipoFecha === 'inicio' ||
+        this.filtro.tipoFecha === 'final') &&
+      !this.filtro.fechaini &&
+      !this.filtro.fechafin
+    ) {
+      this.toastr.error(
+        'Seleccionó fechas, debe llenar los campos',
+        undefined,
+        { closeButton: true, positionClass: 'toast-top-right' }
+      ); //bottom
+    } else if (
+      this.filtro.tipoFecha === 'inicio' &&
+      this.filtro.estado &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin &&
+      this.filtro.procesoini &&
+      this.filtro.procesofin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenProccessBetweenDatesIniAndStatus(
-        this.filtro.procesoini,
-        this.filtro.procesofin,
-        fechaini,
-        fechafin,
-        this.filtro.estado,
-        this.token
-      ).then(response => {
-        this.proyectos = response.proyectos;
-        this.filtroRecorrido();
-      }).catch(error => { console.log('Error al obtener proyectos', error); });
-    } else if (this.filtro.tipoFecha === 'final' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
+      this._serviceProyectos
+        .getProyectosBetweenProccessBetweenDatesIniAndStatus(
+          this.filtro.procesoini,
+          this.filtro.procesofin,
+          fechaini,
+          fechafin,
+          this.filtro.estado,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else if (
+      this.filtro.tipoFecha === 'final' &&
+      this.filtro.estado &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin &&
+      this.filtro.procesoini &&
+      this.filtro.procesofin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenProccessBetweenDatesFinAndStatus(
-        this.filtro.procesoini,
-        this.filtro.procesofin,
-        fechaini,
-        fechafin,
-        this.filtro.estado,
-        this.token
-      ).then(response => {
-        this.proyectos = response.proyectos;
-        this.filtroRecorrido();
-      }).catch(error => { console.log('Error al obtener proyectos', error); });
-    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
+      this._serviceProyectos
+        .getProyectosBetweenProccessBetweenDatesFinAndStatus(
+          this.filtro.procesoini,
+          this.filtro.procesofin,
+          fechaini,
+          fechafin,
+          this.filtro.estado,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else if (
+      this.filtro.tipoFecha === 'inicio' &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin &&
+      this.filtro.procesoini &&
+      this.filtro.procesofin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenProccessAndBetweenDatesIni(
-        this.filtro.procesoini,
-        this.filtro.procesofin,
-        fechaini,
-        fechafin,
-        this.token
-      ).then(response => {
-        this.proyectos = response.proyectos;
-        this.filtroRecorrido();
-      }).catch(error => { console.log('Error al obtener proyectos', error); });
-    } else if (this.filtro.tipoFecha === 'final' && this.filtro.fechaini && this.filtro.fechafin && this.filtro.procesoini && this.filtro.procesofin) {
+      this._serviceProyectos
+        .getProyectosBetweenProccessAndBetweenDatesIni(
+          this.filtro.procesoini,
+          this.filtro.procesofin,
+          fechaini,
+          fechafin,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else if (
+      this.filtro.tipoFecha === 'final' &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin &&
+      this.filtro.procesoini &&
+      this.filtro.procesofin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenProccessAndBetweenDatesFin(
-        this.filtro.procesoini,
-        this.filtro.procesofin,
-        fechaini,
-        fechafin,
-        this.token
-      ).then(response => {
-        this.proyectos = response.proyectos;
-        this.filtroRecorrido();
-      }).catch(error => { console.log('Error al obtener proyectos', error); });
-    } else if (this.filtro.estado && this.filtro.procesoini && this.filtro.procesofin) {
-      this._serviceProyectos.getProyectosBetweenProccessAndStatus(this.filtro.procesoini, this.filtro.procesofin, this.filtro.estado, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos', error); });
+      this._serviceProyectos
+        .getProyectosBetweenProccessAndBetweenDatesFin(
+          this.filtro.procesoini,
+          this.filtro.procesofin,
+          fechaini,
+          fechafin,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else if (
+      this.filtro.estado &&
+      this.filtro.procesoini &&
+      this.filtro.procesofin
+    ) {
+      this._serviceProyectos
+        .getProyectosBetweenProccessAndStatus(
+          this.filtro.procesoini,
+          this.filtro.procesofin,
+          this.filtro.estado,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
     } else if (this.filtro.procesoini && this.filtro.procesofin) {
-      this._serviceProyectos.getProyectosBetweenProccess(this.filtro.procesoini, this.filtro.procesofin, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos', error); });
-    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin) {
+      this._serviceProyectos
+        .getProyectosBetweenProccess(
+          this.filtro.procesoini,
+          this.filtro.procesofin,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else if (
+      this.filtro.tipoFecha === 'inicio' &&
+      this.filtro.estado &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenDatesIniAndStatus(fechaini, fechafin, this.filtro.estado, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos entre fechas y estado', error); });
-    } else if (this.filtro.tipoFecha === 'inicio' && this.filtro.fechaini && this.filtro.fechafin) {
+      this._serviceProyectos
+        .getProyectosBetweenDatesIniAndStatus(
+          fechaini,
+          fechafin,
+          this.filtro.estado,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log(
+            'Error al obtener proyectos entre fechas y estado',
+            error
+          );
+        });
+    } else if (
+      this.filtro.tipoFecha === 'inicio' &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenDatesIni(fechaini, fechafin, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos entre fechas', error); });
-    } else if (this.filtro.tipoFecha === 'final' && this.filtro.estado && this.filtro.fechaini && this.filtro.fechafin) {
+      this._serviceProyectos
+        .getProyectosBetweenDatesIni(fechaini, fechafin, this.token)
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos entre fechas', error);
+        });
+    } else if (
+      this.filtro.tipoFecha === 'final' &&
+      this.filtro.estado &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenDatesFinAndStatus(fechaini, fechafin, this.filtro.estado, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos entre fechas y estado', error); });
-    } else if (this.filtro.tipoFecha === 'final' && this.filtro.fechaini && this.filtro.fechafin) {
+      this._serviceProyectos
+        .getProyectosBetweenDatesFinAndStatus(
+          fechaini,
+          fechafin,
+          this.filtro.estado,
+          this.token
+        )
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log(
+            'Error al obtener proyectos entre fechas y estado',
+            error
+          );
+        });
+    } else if (
+      this.filtro.tipoFecha === 'final' &&
+      this.filtro.fechaini &&
+      this.filtro.fechafin
+    ) {
       let fechaini = this.formatDate(this.filtro.fechaini) + 'T00:00:00.000';
       let fechafin = this.formatDate(this.filtro.fechafin) + 'T00:00:00.000';
-      this._serviceProyectos.getProyectosBetweenDatesFin(fechaini, fechafin, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos entre fechas', error); });
+      this._serviceProyectos
+        .getProyectosBetweenDatesFin(fechaini, fechafin, this.token)
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos entre fechas', error);
+        });
     } else if (this.filtro.estado) {
-      this._serviceProyectos.getProyectosByEstado(this.filtro.estado, this.token)
-        .then(response => {
-          this.proyectos = response.proyectos
-          this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos por estado', error); });
-    } else {
+      this._serviceProyectos
+        .getProyectosByEstado(this.filtro.estado, this.token)
+        .then((response) => {
+          if (this.filtro.departamento || this.filtro.provincia) {
+            this.filtroLugarDesarrollo(response.proyectos);
+          } else {
+            this.proyectos = response.proyectos;
+            this.filtroRecorrido();
+          }
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos por estado', error);
+        });
+    } else if (this.filtro.departamento && this.filtro.provincia) {
       this._serviceProyectos.getProyectos(this.token)
-        .then(response => {
+        .then((response) => {
+          this.proyectos = [];
+          for (let i = 0; i < response.proyectos.length; i++) {
+            const proyecto = response.proyectos[i];
+            this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoProvinciaAndEstado(proyecto.id_proyecto, this.filtro.departamento, this.filtro.provincia, true, this.token)
+              .then(responseP => {
+                if (responseP.lugar_desarrollos.length > 0) {
+                  this.proyectos.push(proyecto);
+                }
+                if (i === response.proyectos.length - 1) {
+                  this.filtroRecorrido();
+                }
+              }).catch(error => { console.log('Erro al obtener lugar_desarrollos', error); });
+          }
+        }).catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else if (this.filtro.departamento) {
+      this._serviceProyectos.getProyectos(this.token)
+        .then((response) => {
+          this.proyectos = [];
+          for (let i = 0; i < response.proyectos.length; i++) {
+            const proyecto = response.proyectos[i];
+            this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoAndEstado(proyecto.id_proyecto, this.filtro.departamento, true, this.token)
+              .then(responseP => {
+                if (responseP.lugar_desarrollos.length > 0) {
+                  this.proyectos.push(proyecto);
+                }
+                if (i === response.proyectos.length - 1) {
+                  this.filtroRecorrido();
+                }
+              }).catch(error => { console.log('Erro al obtener lugar_desarrollos', error); });
+          }
+        }).catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
+    } else {
+      this._serviceProyectos
+        .getProyectos(this.token)
+        .then((response) => {
           this.proyectos = response.proyectos;
           this.filtroRecorrido();
-        }).catch(error => { console.log('Error al obtener proyectos', error); });
+        })
+        .catch((error) => {
+          console.log('Error al obtener proyectos', error);
+        });
     }
   }
   filtroRecorrido() {
-    console.log(this.proyectos);
+    // console.log(this.proyectos);
     let proys: any = [];
-    this.proyectos.forEach(proyecto => {
+    this.displayedColumns = [];
+    this.proyectos.forEach((proyecto) => {
       // buscando departamento o provincia
+      if (this.filtro.mostrarInformacion) {
+        this.filtro.mostrarInformacion.forEach((info) => {
+          switch (info.info_id) {
+            case 2:
+              proyecto.nombre_instituto = proyecto.n_instituto;
+              break;
+            case 4:
+              proyecto.fecha_inicio = proyecto.fechaini;
+              break;
+            case 5:
+              proyecto.fecha_fin = proyecto.fechafin;
+              break;
+            case 10:
+              proyecto.tipo_investigacion = proyecto.tipo;
+              break;
+            case 11:
+              proyecto.area_investigacion = proyecto.area;
+              break;
+            case 12:
+              proyecto.tipo_proyecto = proyecto.tipo_p;
+              break;
+            case 13:
+              proyecto.carga_horaria = proyecto.carga_h;
+              break;
+            default:
+              break;
+          }
+        });
+      } else if (this.filtro.mostrarUnidades) {
+        this._serviceUnidades.getUnidadesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then(responseU => {
+            // console.log(responseU);
+            proyecto.unidades = '';
+            var contador = 0;
+            responseU.unidades.forEach(unidad => {
+              contador++;
+              if (contador === responseU.unidades.length) {
+                proyecto.unidades = proyecto.unidades + unidad.nombre;
+              } else {
+                proyecto.unidades = proyecto.unidades + unidad.nombre + ', ';
+              }
+            });
+          }).catch(error => { console.log('Error al obtener unidades por id', error); });
+      } else if (this.filtro.mostrarFinanciamientos) {
+        this._serviceFinanciamientos.getFinanciamientosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then(responseF => {
+            proyecto.financiamientos = '';
+            var contador = 0;
+            // console.log(responseF);
+            responseF.financiamientos.forEach(financiamiento => {
+              contador++;
+              if (contador === responseF.financiamientos.length) {
+                proyecto.financiamientos = proyecto.financiamientos + financiamiento.fuente;
+              } else {
+                proyecto.financiamientos = proyecto.financiamientos + financiamiento.fuente + ', ';
+              }
+            });
+          }).catch(error => { console.log('Error al obtener financiamientos por id ', error); });
+      }
       if (this.filtro.departamento && this.filtro.provincia) {
         // tslint:disable-next-line:max-line-length
-        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoAndProvincia(proyecto.id_proyecto, this.filtro.departamento, this.filtro.provincia, this.token)
-          .then(response => {
+        this._serviceLugarDesarrollo
+          .getLugarDesarrollosByIdProyectoDepartamentoProvinciaAndEstado(
+            proyecto.id_proyecto,
+            this.filtro.departamento,
+            this.filtro.provincia,
+            true,
+            this.token
+          )
+          .then((response) => {
             // console.log(response);
             let depa = '';
-            response.lugar_desarrollos.forEach(lugar_desarrollo => {
-              depa = depa + ' - ' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia;
+            var contador = 0;
+            response.lugar_desarrollos.forEach((lugar_desarrollo) => {
+              contador++;
+              if (contador === response.lugar_desarrollos.length) {
+                depa = depa + lugar_desarrollo.departamento + ' - ' + lugar_desarrollo.provincia;
+              } else {
+                depa = depa + lugar_desarrollo.departamento + ' - ' + lugar_desarrollo.provincia + ', ';
+              }
             });
-            proyecto.departamento = depa;
-          }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+            proyecto.departamento_provincia = depa;
+          })
+          .catch((error) => {
+            console.log('Error al obtener lugar de desarrollos', error);
+          });
       } else if (this.filtro.departamento) {
-        // tslint:disable-next-line:max-line-length
-        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoAndDepartamento(proyecto.id_proyecto, this.filtro.departamento, this.token)
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoAndEstado(proyecto.id_proyecto, this.filtro.departamento, true, this.token)
           .then(response => {
-            // console.log(response);
             let depa = '';
-            response.lugar_desarrollos.forEach(lugar_desarrollo => {
-              depa = depa + ' - ' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia;
+            var contador = 0;
+            response.lugar_desarrollos.forEach((lugar_desarrollo) => {
+              contador++;
+              if (contador === response.lugar_desarrollos.length) {
+                depa = depa + lugar_desarrollo.departamento + ' - ' + lugar_desarrollo.provincia;
+              } else {
+                depa = depa + lugar_desarrollo.departamento + ' - ' + lugar_desarrollo.provincia + ', ';
+              }
             });
             proyecto.departamento = depa;
-          }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
-      } else if (this.filtro.provincia) {
-        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoAndProvincia(proyecto.id_proyecto, this.filtro.provincia, this.token)
-          .then(response => {
-            // console.log(response);
-            let depa = '';
-            response.lugar_desarrollos.forEach(lugar_desarrollo => {
-              depa = depa + ' - ' + lugar_desarrollo.departamento + ', ' + lugar_desarrollo.provincia;
-            });
-            proyecto.departamento = depa;
-          }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+          }).catch(error => { console.log('Error al obtener lugar desarrollos por departamento', error); });
       }
+
       // buscando coordinador
       if (this.filtro.mostrarCoordinador) {
         proyecto.coordinador = `${proyecto.investigadore.persona.grado_academico} ${proyecto.investigadore.persona.nombres} ${proyecto.investigadore.persona.paterno} ${proyecto.investigadore.persona.materno}`;
       }
       // buscando investigadores
       if (this.filtro.mostrarInvestigador) {
-        console.log(proyecto);
         proyecto.investigadores = '';
-        this._serviceInvProyectos.getInv_proyectosByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
+        this._serviceInvProyectos
+          .getInv_proyectosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then((response) => {
             // console.log(response.inv_proyectos);
             var contador = 0;
-            response.inv_proyectos.forEach(inv_proyecto => {
+            response.inv_proyectos.forEach((inv_proyecto) => {
               contador++;
               if (response.inv_proyectos.length === contador) {
-                proyecto.investigadores = proyecto.investigadores + `${inv_proyecto.investigadore.persona.grado_academico} ${inv_proyecto.investigadore.persona.nombres} ${inv_proyecto.investigadore.persona.paterno} ${inv_proyecto.investigadore.persona.materno}`;
+                proyecto.investigadores =
+                  proyecto.investigadores +
+                  `${inv_proyecto.investigadore.persona.grado_academico} ${inv_proyecto.investigadore.persona.nombres} ${inv_proyecto.investigadore.persona.paterno} ${inv_proyecto.investigadore.persona.materno}`;
               } else {
-                proyecto.investigadores = proyecto.investigadores + `${inv_proyecto.investigadore.persona.grado_academico} ${inv_proyecto.investigadore.persona.nombres} ${inv_proyecto.investigadore.persona.paterno} ${inv_proyecto.investigadore.persona.materno}, `;
+                proyecto.investigadores =
+                  proyecto.investigadores +
+                  `${inv_proyecto.investigadore.persona.grado_academico} ${inv_proyecto.investigadore.persona.nombres} ${inv_proyecto.investigadore.persona.paterno} ${inv_proyecto.investigadore.persona.materno}, `;
               }
             });
-          }).catch(error => { console.log('Error al obtener inv proyectos', error); });
+          })
+          .catch((error) => {
+            console.log('Error al obtener inv proyectos', error);
+          });
       }
       // buscando basica tecnicas
       if (this.filtro.mostrarBasicaTecnica) {
         proyecto.basica_tecnicas = '';
-        console.log('Basica tecnicas');
-        this.filtro.mostrarBasicaTecnica.forEach(basica => {
+        this.filtro.mostrarBasicaTecnica.forEach((basica) => {
           switch (basica.item_id) {
             case 2:
               proyecto.nombre_instituto = proyecto.n_instituto;
@@ -769,19 +1128,25 @@ export class GenerateReportesComponent
             case 7:
               // unidades
               proyecto.unidades = '';
-              this._serviceUnidades.getUnidadesByIdProyecto(proyecto.id_proyecto, this.token)
-              .then(responseP => {
-                var contador = 0;
-                proyecto.unidades = '';
-                responseP.unidades.forEach(unidad => {
-                  contador++;
-                  if (responseP.unidades.length === contador) {
-                    proyecto.unidades = proyecto.unidades + `${unidad.nombre}`;
-                  } else {
-                    proyecto.unidades = proyecto.unidades + `${unidad.nombre}, `;
-                  }
+              this._serviceUnidades.getUnidadesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((responseP) => {
+                  var contador = 0;
+                  proyecto.unidades = '';
+                  responseP.unidades.forEach((unidad) => {
+                    contador++;
+                    if (responseP.unidades.length === contador) {
+                      proyecto.unidades = proyecto.unidades + `${unidad.nombre}`;
+                    } else {
+                      proyecto.unidades = proyecto.unidades + `${unidad.nombre}, `;
+                    }
+                  });
+                })
+                .catch((error) => {
+                  console.log(
+                    'Error al obtener unidades por id_proyecto',
+                    error
+                  );
                 });
-              }).catch(error => { console.log('Error al obtener unidades por id_proyecto', error); });
               break;
             case 8:
               if (proyecto.financiamiento && proyecto.moneda) {
@@ -790,33 +1155,56 @@ export class GenerateReportesComponent
               break;
             case 9:
               proyecto.financiamientos = '';
-              this._serviceFinanciamientos.getFinanciamientosByIdProyecto(proyecto.id_proyecto, this.token)
-              .then(responseF => {
-                var contador = 0;
-                responseF.financiamientos.forEach(financiamiento => {
-                  contador++;
-                  if (responseF.financiamientos.length === contador) {
-                    proyecto.financiamientos = proyecto.financiamientos + `${financiamiento.fuente}`;
-                  } else {
-                    proyecto.financiamientos = proyecto.financiamientos + `${financiamiento.fuente}, `;
-                  }
+              this._serviceFinanciamientos
+                .getFinanciamientosByIdProyectoAndEstado(
+                  proyecto.id_proyecto,
+                  true,
+                  this.token
+                )
+                .then((responseF) => {
+                  var contador = 0;
+                  responseF.financiamientos.forEach((financiamiento) => {
+                    contador++;
+                    if (responseF.financiamientos.length === contador) {
+                      proyecto.financiamientos =
+                        proyecto.financiamientos + `${financiamiento.fuente}`;
+                    } else {
+                      proyecto.financiamientos =
+                        proyecto.financiamientos + `${financiamiento.fuente}, `;
+                    }
+                  });
+                })
+                .catch((error) => {
+                  console.log(
+                    'Error al obtener financiamientos por id_proyecto',
+                    error
+                  );
                 });
-              }).catch(error => { console.log('Error al obtener financiamientos por id_proyecto', error); });
               break;
             case 10:
               proyecto.financiamientos_aporte = '';
-              this._serviceFinanciamientos.getFinanciamientosByIdProyecto(proyecto.id_proyecto, this.token)
-              .then(responseF => {
-                var contador = 0;
-                responseF.financiamientos.forEach(financiamiento => {
-                  contador++;
-                  if (responseF.financiamientos.length === contador) {
-                    proyecto.financiamientos_aporte = proyecto.financiamientos_aporte + `${financiamiento.fuente}: ${ financiamiento.aporte }${ proyecto.moneda }`;
-                  } else {
-                    proyecto.financiamientos_aporte = proyecto.financiamientos_aporte + `${financiamiento.fuente}: ${ financiamiento.aporte }${ proyecto.moneda }, `;
-                  }
+              this._serviceFinanciamientos.getFinanciamientosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((responseF) => {
+                  var contador = 0;
+                  responseF.financiamientos.forEach((financiamiento) => {
+                    contador++;
+                    if (responseF.financiamientos.length === contador) {
+                      proyecto.financiamientos_aporte =
+                        proyecto.financiamientos_aporte +
+                        `${financiamiento.fuente}: ${financiamiento.aporte}${proyecto.moneda}`;
+                    } else {
+                      proyecto.financiamientos_aporte =
+                        proyecto.financiamientos_aporte +
+                        `${financiamiento.fuente}: ${financiamiento.aporte}${proyecto.moneda}, `;
+                    }
+                  });
+                })
+                .catch((error) => {
+                  console.log(
+                    'Error al obtener financiamientos por id_proyecto',
+                    error
+                  );
                 });
-              }).catch(error => { console.log('Error al obtener financiamientos por id_proyecto', error); });
               break;
 
             default:
@@ -826,180 +1214,437 @@ export class GenerateReportesComponent
       }
       // buscando lugar_desarrollo
       if (this.filtro.mostrarLugarDesarrollo) {
-        proyecto.lugar_desarrollos = '';
-        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
+        this._serviceLugarDesarrollo
+          .getLugarDesarrollosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then((response) => {
             // console.log(response);
-            response.lugar_desarrollos.forEach(lugar_desarrollo => {
-              proyecto.lugar_desarrollos = proyecto.lugar_desarrollos + ' - ' + `${lugar_desarrollo.departamento}, ${lugar_desarrollo.provincia}`;
+            proyecto.departamentos = '';
+            proyecto.provincias = '';
+            proyecto.municipios = '';
+            proyecto.localidades = '';
+            proyecto.geolocalizaciones = '';
+            var contador = 0;
+            response.lugar_desarrollos.forEach((lugar_desarrollo) => {
+              contador++;
+              // proyecto.lugar_desarrollos = proyecto.lugar_desarrollos + ' - ' + `${lugar_desarrollo.departamento}, ${lugar_desarrollo.provincia}`;
+              this.filtro.mostrarLugarDesarrollo.forEach((lugar) => {
+                switch (lugar.luga_id) {
+                  case 1:
+                    if (contador === response.lugar_desarrollos.length) {
+                      proyecto.departamentos = proyecto.departamentos + lugar_desarrollo.departamento;
+                    } else {
+                      proyecto.departamentos = proyecto.departamentos + lugar_desarrollo.departamento + ', ';
+                    }
+                    break;
+                  case 2:
+                    if (contador === response.lugar_desarrollos.length) {
+                      proyecto.provincias = proyecto.provincias + lugar_desarrollo.provincia;
+                    } else {
+                      proyecto.provincias = proyecto.provincias + lugar_desarrollo.provincia + ', ';
+                    }
+                    break;
+                  case 3:
+                    if (contador === response.lugar_desarrollos.length) {
+                      proyecto.municipios = proyecto.municipios + lugar_desarrollo.municipio;
+                    } else {
+                      proyecto.municipios = proyecto.municipios + lugar_desarrollo.municipio + ', ';
+                    }
+                    break;
+                  case 4:
+                    if (contador === response.lugar_desarrollos.length) {
+                      proyecto.localidades = proyecto.localidades + lugar_desarrollo.localidad;
+                    } else {
+                      proyecto.localidades = proyecto.localidades + lugar_desarrollo.localidad + ', ';
+                    }
+                    break;
+                  case 5:
+                    if (contador === response.lugar_desarrollos.length) {
+                      proyecto.geolocalizaciones = proyecto.geolocalizaciones + `(${lugar_desarrollo.latmax}, ${lugar_desarrollo.lonmax})`;
+                    } else {
+                      proyecto.geolocalizaciones = proyecto.geolocalizaciones + `(${lugar_desarrollo.latmax}, ${lugar_desarrollo.lonmax}), `;
+                    }
+                    break;
+                  default:
+                    break;
+                }
+              });
             });
-          }).catch(error => { console.log('Error al obtener lugar de desarrollos', error); });
+          })
+          .catch((error) => {
+            console.log('Error al obtener lugar de desarrollos', error);
+          });
       }
       //  buscando publicacines
       if (this.filtro.mostrarPublicacion) {
-        proyecto.publicaciones = '';
-        this._servicePublicaciones.getPublicacionesByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
+        proyecto.titulo_publicacion = '';
+        proyecto.tipo_publicacion = '';
+        proyecto.fecha_publicacion = '';
+        proyecto.fecha_publicacion_anio = '';
+        proyecto.autores_publicacion = '';
+        proyecto.cita_bibliografica = '';
+        this._servicePublicaciones
+          .getPublicacionesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then((response) => {
             // console.log(response);
-            response.publicaciones.forEach(publicacion => {
-              proyecto.publicaciones = proyecto.publicaciones + ' - ' + publicacion.titulo;
+            var contador = 0;
+            response.publicaciones.forEach((publicacion) => {
+              contador++;
+              this.filtro.mostrarPublicacion.forEach(publi => {
+                switch (publi.publi_id) {
+                  case 1:
+                    if (contador === response.publicaciones.length) {
+                      proyecto.tipo_publicacion = proyecto.tipo_publicacion + publicacion.tipo + '.';
+                    } else {
+                      proyecto.tipo_publicacion = proyecto.tipo_publicacion + publicacion.tipo + ', ';
+                    }
+                    break;
+                  case 2:
+                    if (contador === response.publicaciones.length) {
+                      proyecto.titulo_publicacion = proyecto.titulo_publicacion + publicacion.titulo;
+                    } else {
+                      proyecto.titulo_publicacion = proyecto.titulo_publicacion + publicacion.titulo + ', ';
+                    }
+                    break;
+                  case 3:
+                    if (contador === response.publicaciones.length) {
+                      proyecto.fecha_publicacion = proyecto.fecha_publicacion + publicacion.fecha.substring(0, 10);
+                    } else {
+                      proyecto.fecha_publicacion = proyecto.fecha_publicacion + publicacion.fecha.substring(0, 10) + ', ';
+                    }
+                    break;
+                  case 4:
+                    if (contador === response.publicaciones.length) {
+                      proyecto.fecha_publicacion_anio = proyecto.fecha_publicacion_anio + publicacion.fecha.substring(0, 4);
+                    } else {
+                      proyecto.fecha_publicacion_anio = proyecto.fecha_publicacion_anio + publicacion.fecha.substring(0, 4) + ', ';
+                    }
+                    break;
+                  case 5:
+                    this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
+                    .then(responseA => {
+                      var contadorA = 0;
+                      responseA.autores.forEach(autor => {
+                        contadorA++;
+                        if (contadorA === responseA.autores.length) {
+                          if (contador === response.publicaciones.length) {
+                            proyecto.autores_publicacion = proyecto.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} - `;
+                          } else {
+                            proyecto.autores_publicacion = proyecto.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno}`;
+                          }
+                        } else {
+                          proyecto.autores_publicacion = proyecto.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno}, `;
+                        }
+                      });
+                    }).catch(error => { console.log('Error al obtener autores', error); });
+                    break;
+                  case 6:
+                    if (contador === response.publicaciones.length) {
+                      proyecto.cita_bibliografica = proyecto.cita_bibliografica + publicacion.contenido;
+                    } else {
+                      proyecto.cita_bibliografica = proyecto.cita_bibliografica + publicacion.contenido + ', ';
+                    }
+                    break;
+                  default:
+                    break;
+                }
+              });
             });
-          }).catch(error => { console.log('Error al obtener publicaciones', error); });
+          })
+          .catch((error) => {
+            console.log('Error al obtener publicaciones', error);
+          });
       }
       // buscando convenios
       if (this.filtro.mostrarConvenio) {
         proyecto.convenios = '';
-        this._serviceConvenios.getConveniosByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
+        this._serviceConvenios
+          .getConveniosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then((response) => {
             // console.log(response);
-            response.convenios.forEach(convenio => {
+            response.convenios.forEach((convenio) => {
               proyecto.convenios = proyecto.convenios + ' - ' + convenio.titulo;
             });
-          }).catch(error => { console.log('Error al obtener convenios', error); });
+          })
+          .catch((error) => {
+            console.log('Error al obtener convenios', error);
+          });
       }
       // buscando contratados
       if (this.filtro.mostrarContratado) {
         proyecto.contratados = '';
-        this._serviceContratados.getContratadosByIdProyecto(proyecto.id_proyecto, this.token)
-          .then(response => {
+        this._serviceContratados
+          .getContratadosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+          .then((response) => {
             // console.log(response);
-            response.contratados.forEach(contratado => {
-              proyecto.contratados = proyecto.contratados + ' - ' + contratado.nombrecompleto;
+            response.contratados.forEach((contratado) => {
+              proyecto.contratados =
+                proyecto.contratados + ' - ' + contratado.nombrecompleto;
             });
-          }).catch(error => { console.log('Error al obtener contratados', error); });
+          })
+          .catch((error) => {
+            console.log('Error al obtener contratados', error);
+          });
       }
       // difusion
       if (this.filtro.mostrarDifusion) {
-        this.filtro.mostrarDifusion.forEach(difusion => {
+        this.filtro.mostrarDifusion.forEach((difusion) => {
           switch (difusion.difu_id) {
             case 1:
               proyecto.cursos = '';
-              this._serviceCursos.getCursosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceCursos
+                .getCursosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   // console.log(response);
-                  response.cursos.forEach(curso => {
+                  response.cursos.forEach((curso) => {
                     proyecto.cursos = proyecto.cursos + ' - ' + curso.titulo;
                   });
-                }).catch(error => { console.log('Error al obtener cursos', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener cursos', error);
+                });
               break;
             case 2:
               proyecto.eventos = '';
-              this._serviceEventos.getEventosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceEventos
+                .getEventosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   // console.log(response);
-                  response.eventos.forEach(evento => {
+                  response.eventos.forEach((evento) => {
                     proyecto.eventos = proyecto.eventos + ' - ' + evento.titulo;
                   });
-                }).catch(error => { console.log('Error al obtener eventos', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener eventos', error);
+                });
               break;
             case 3:
               proyecto.nota_prensas = '';
-              this._serviceNotaPrensas.getNotaPrensasByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceNotaPrensas
+                .getNotaPrensasByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   // console.log(response);
-                  response.nota_prensas.forEach(nota_prensa => {
-                    proyecto.nota_prensas = proyecto.nota_prensas + ' - ' + nota_prensa.titulo;
+                  response.nota_prensas.forEach((nota_prensa) => {
+                    proyecto.nota_prensas =
+                      proyecto.nota_prensas + ' - ' + nota_prensa.titulo;
                   });
-                }).catch(error => { console.log('Error al obtener notas de prensas', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener notas de prensas', error);
+                });
               break;
             case 4:
               proyecto.exposiciones = '';
-              this._serviceExposiciones.getExposicionesByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceExposiciones
+                .getExposicionesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   // console.log(response);
-                  response.exposiciones.forEach(exposicion => {
-                    proyecto.exposiciones = proyecto.exposiciones + ' - ' + exposicion.titulo;
+                  response.exposiciones.forEach((exposicion) => {
+                    proyecto.exposiciones =
+                      proyecto.exposiciones + ' - ' + exposicion.titulo;
                   });
-                }).catch(error => { console.log('Error al obtener exposiciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener exposiciones', error);
+                });
               break;
             default:
               break;
           }
         });
       }
-      // Numero 
+      // Numero
       if (this.filtro.mostrarNumero) {
-        console.log(this.filtro.mostrarNumero);
-
-        this.filtro.mostrarNumero.forEach(numero => {
+        this.filtro.mostrarNumero.forEach((numero) => {
           switch (numero.num_id) {
             case 1:
               proyecto.nro_publicaciones = 0;
-              this._servicePublicaciones.countPublicacionesByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._servicePublicaciones
+                .countPublicacionesByIdProyectoAndEstado(
+                  proyecto.id_proyecto,
+                  true,
+                  this.token
+                )
+                .then((response) => {
                   proyecto.nro_publicaciones = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 2:
               proyecto.nro_lugares_desarrollo = 0;
-              this._serviceLugarDesarrollo.countLugarDesarrollosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceLugarDesarrollo
+                .countLugarDesarrollosByIdProyectoAndEstado(
+                  proyecto.id_proyecto,
+                  true,
+                  this.token
+                )
+                .then((response) => {
                   proyecto.nro_lugares_desarrollo = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 3:
               proyecto.nro_convenios = 0;
-              this._serviceConvenios.countConveniosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceConvenios
+                .countConveniosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   proyecto.nro_convenios = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 4:
               proyecto.nro_contratados = 0;
-              this._serviceContratados.countContratadosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceContratados
+                .countContratadosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   proyecto.nro_contratados = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 5:
               proyecto.nro_curso = 0;
-              this._serviceCursos.countCursosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceCursos
+                .countCursosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   proyecto.nro_curso = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 6:
               proyecto.nro_eventos = 0;
-              this._serviceEventos.countEventosByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceEventos
+                .countEventosByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   proyecto.nro_eventos = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 7:
               proyecto.nro_unidades = 0;
-              // falta
+              this._serviceUnidades.countUnidadesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then(response => {
+                  proyecto.nro_unidades = response.contador;
+                }).catch(error => { console.log('Error al obtener contador unidades', error); });
               break;
             case 8:
               proyecto.nro_notas_prensa = 0;
-              this._serviceNotaPrensas.countNotaPrensasByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceNotaPrensas
+                .countNotaPrensasByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   proyecto.nro_notas_prensa = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             case 9:
               proyecto.nro_exposiciones = 0;
-              this._serviceExposiciones.countExposicionesByIdProyecto(proyecto.id_proyecto, this.token)
-                .then(response => {
+              this._serviceExposiciones
+                .countExposicionesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+                .then((response) => {
                   proyecto.nro_exposiciones = response.contador;
-                }).catch(error => { console.log('Error al obtener contador publicaciones', error); });
+                })
+                .catch((error) => {
+                  console.log('Error al obtener contador publicaciones', error);
+                });
               break;
             default:
               break;
           }
         });
       }
-      proyecto.fechaini = this.formatDateStringData(proyecto.fechaini);
-      proyecto.fechafin = this.formatDateStringData(proyecto.fechafin);
+      // proyecto.fecha_inicio = this.formatDateStringData(proyecto.fechaini);
+      // proyecto.fecha_fin = this.formatDateStringData(proyecto.fechafin);
+      proyecto.fecha_inicio = proyecto.fechaini.substring(0, 10);
+      proyecto.fecha_fin = proyecto.fechafin.substring(0, 10);
+
       proys.push(proyecto);
     });
-    console.log(proys);
+    // console.log(proys);
     this.proyectos = proys;
     let dataS = new MatTableDataSource(this.proyectos);
     this.dataSource = dataS;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
-    if (this.filtro.departamento || this.filtro.provincia) {
+    if (this.filtro.mostrarInformacion) {
+      this.filtro.mostrarInformacion.forEach((info) => {
+        switch (info.info_id) {
+          case 1:
+            this.displayedColumns.push('carrera');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 2:
+            this.displayedColumns.push('nombre_instituto');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 3:
+            this.displayedColumns.push('titulo');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 4:
+            this.displayedColumns.push('fecha_inicio');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 5:
+            this.displayedColumns.push('fecha_fin');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 6:
+            this.displayedColumns.push('proceso');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 7:
+            this.displayedColumns.push('estado');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 8:
+            this.displayedColumns.push('objetivo');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 9:
+            this.displayedColumns.push('resumen');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 10:
+            this.displayedColumns.push('tipo_investigacion');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 11:
+            this.displayedColumns.push('area_investigacion');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 12:
+            this.displayedColumns.push('tipo_proyecto');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 13:
+            this.displayedColumns.push('carga_horaria');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 14:
+            this.displayedColumns.push('financiamiento');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          default:
+            break;
+        }
+      });
+    }
+    if (this.filtro.departamento && this.filtro.provincia) {
+      this.displayedColumns.push('departamento_provincia');
+      this.columnsToDisplay = this.displayedColumns.slice();
+    } else if (this.filtro.departamento) {
       this.displayedColumns.push('departamento');
       this.columnsToDisplay = this.displayedColumns.slice();
     }
@@ -1014,7 +1659,7 @@ export class GenerateReportesComponent
     if (this.filtro.mostrarBasicaTecnica) {
       // this.displayedColumns.push('basica_tecnicas');
       // this.columnsToDisplay = this.displayedColumns.slice();
-      this.filtro.mostrarBasicaTecnica.forEach(basica => {
+      this.filtro.mostrarBasicaTecnica.forEach((basica) => {
         switch (basica.item_id) {
           case 1:
             this.displayedColumns.push('carrera');
@@ -1062,12 +1707,65 @@ export class GenerateReportesComponent
       });
     }
     if (this.filtro.mostrarLugarDesarrollo) {
-      this.displayedColumns.push('lugar_desarrollos');
-      this.columnsToDisplay = this.displayedColumns.slice();
+      this.filtro.mostrarLugarDesarrollo.forEach((lugar) => {
+        switch (lugar.luga_id) {
+          case 1:
+            this.displayedColumns.push('departamentos');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 2:
+            this.displayedColumns.push('provincias');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 3:
+            this.displayedColumns.push('municipios');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 4:
+            this.displayedColumns.push('localidades');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 5:
+            this.displayedColumns.push('geolocalizaciones');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          default:
+            break;
+        }
+      });
     }
     if (this.filtro.mostrarPublicacion) {
-      this.displayedColumns.push('publicaciones');
-      this.columnsToDisplay = this.displayedColumns.slice();
+      this.filtro.mostrarPublicacion.forEach(publi => {
+        switch (publi.publi_id) {
+          case 1:
+            this.displayedColumns.push('tipo_publicacion');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 2:
+            this.displayedColumns.push('titulo_publicacion');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 3:
+            this.displayedColumns.push('fecha_publicacion');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 4:
+            this.displayedColumns.push('fecha_publicacion_anio');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 5:
+            this.displayedColumns.push('autores_publicacion');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+          case 6:
+            this.displayedColumns.push('cita_bibliografica');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
+        
+          default:
+            break;
+        }
+      });
     }
     if (this.filtro.mostrarConvenio) {
       this.displayedColumns.push('convenios');
@@ -1078,7 +1776,7 @@ export class GenerateReportesComponent
       this.columnsToDisplay = this.displayedColumns.slice();
     }
     if (this.filtro.mostrarDifusion) {
-      this.filtro.mostrarDifusion.forEach(difusion => {
+      this.filtro.mostrarDifusion.forEach((difusion) => {
         switch (difusion.difu_id) {
           case 1:
             this.displayedColumns.push('cursos');
@@ -1102,7 +1800,7 @@ export class GenerateReportesComponent
       });
     }
     if (this.filtro.mostrarNumero) {
-      this.filtro.mostrarNumero.forEach(numero => {
+      this.filtro.mostrarNumero.forEach((numero) => {
         switch (numero.num_id) {
           case 1:
             this.displayedColumns.push('nro_publicaciones');
@@ -1155,7 +1853,39 @@ export class GenerateReportesComponent
         this.pageSizeOptions.push(i);
       }
     }
-    console.log(this.proyectos);
+    // console.log(this.proyectos);
+  }
+
+  filtroLugarDesarrollo(proyectos: any) {
+    if (this.filtro.departamento && this.filtro.provincia) {
+      this.proyectos = [];
+      for (let i = 0; i < proyectos; i++) {
+        const proyecto = proyectos[i];
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoProvinciaAndEstado(proyecto.id_proyecto, this.filtro.departamento, this.filtro.provincia, true, this.token)
+          .then(responseP => {
+            if (responseP.lugar_desarrollos.length > 0) {
+              this.proyectos.push(proyecto);
+            }
+            if (i === proyectos.length - 1) {
+              this.filtroRecorrido();
+            }
+          }).catch(error => { console.log('Erro al obtener lugar_desarrollos', error); });
+      }
+    } else if (this.filtro.departamento) {
+      this.proyectos = [];
+      for (let i = 0; i < proyectos.length; i++) {
+        const proyecto = proyectos[i];
+        this._serviceLugarDesarrollo.getLugarDesarrollosByIdProyectoDepartamentoAndEstado(proyecto.id_proyecto, this.filtro.departamento, true, this.token)
+          .then(responseP => {
+            if (responseP.lugar_desarrollos.length > 0) {
+              this.proyectos.push(proyecto);
+            }
+            if (i === proyectos.length - 1) {
+              this.filtroRecorrido();
+            }
+          }).catch(error => { console.log('Erro al obtener lugar_desarrollos', error); });
+      }
+    }
   }
 
   columnaInicial() {
@@ -1164,7 +1894,7 @@ export class GenerateReportesComponent
       'fechaini',
       'fechafin',
       'proceso',
-      'estado'
+      'estado',
     ];
     this.columnsToDisplay = this.displayedColumns.slice();
   }
@@ -1199,7 +1929,7 @@ export class GenerateReportesComponent
       mostrarExposicion: false,
       procesoini: '',
       procesofin: '',
-      tipoFecha: 'ninguna'
+      tipoFecha: 'ninguna',
     };
   }
   comprobarDepartamento(depart: string) {
@@ -1248,9 +1978,11 @@ export class GenerateReportesComponent
       return null;
     }
     return [
+      d.getDate() < 10 ? '0' + d.getDate() : d.getDate(),
+      d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1,
       d.getFullYear(),
-      ((d.getMonth() + 1) < 10 ? ('0' + (d.getMonth() + 1)) : (d.getMonth() + 1)),
-      (d.getDate() < 10 ? ('0' + d.getDate()) : d.getDate())
     ].join('-');
   }
+
+
 }

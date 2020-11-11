@@ -26,12 +26,12 @@ export class ForgotPasswordComponent implements OnInit {
       .then(response => {
         // satisfactorio se envio al correo, tarda un poco
         this.toastr.success('Enviado, por favor revise su correo.', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-        console.log('correo de recuperacion enviado', response);
+        // console.log('correo de recuperacion enviado', response);
         this._router.navigate(['/authentication/login']);
       }).catch(error => {
         this.toastr.error('Error correo no existe', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         this._router.navigate(['/authentication/login']);
-        console.log('error', error);
+        console.log('Error no existe el correo electronico', error);
       });
     }
   }

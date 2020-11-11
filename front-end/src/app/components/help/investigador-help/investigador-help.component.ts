@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
@@ -9,50 +10,46 @@ import { SidebarService } from 'src/app/services/sidebar.service';
 export class InvestigadorHelpComponent implements OnInit {
 
   public sidebarVisible: boolean = true;
-  public posts: Array<any> = new Array<any>();
+  public collepse: string;
 
   constructor(
     private sidebarService: SidebarService,
-    private cdr: ChangeDetectorRef
-  ) {
-    this.posts = [
-      {
-        class: 'green',
-        date: '20-04-2018 - Today',
-        header: 'Administrar proyecto',
-        message:
-          "I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web card she has is the Lorem card.",
-      },
-      {
-        class: 'blue',
-        date: '19-04-2018 - Yesterday',
-        header: 'Como dar de concluido el proyecto',
-        message:
-          "I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. on the web by far... While that's mock-ups and this is politics, are they really so different? I think the only card she has is the Lorem card.",
-      },
-      {
-        class: 'warning',
-        date: '21-02-2018',
-        header: 'Como hacer una publicacion',
-        message:
-          "I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web by far... While that's mock-ups and this is politics, is the Lorem card.",
-      },
-      {
-        class: 'red',
-        date: '21-02-2020',
-        header: 'Sobre difusion',
-        message:
-          "I'm speaking with myself, number one, because I have a very good brain and I've said a lot of things. I write the best placeholder text, and I'm the biggest developer on the web by far... While that's mock-ups and this is politics, is the Lorem card lalalalalalalallaalaalalal lalal  uno dos tres cuatro.",
-      }
-    ];
-  }
+    private cdr: ChangeDetectorRef,
+    private _route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._route.params.forEach((params: Params) => {
+      console.log(params);
+      switch (params.tipo) {
+        case '1':
+          this.collepse = 'collapseOne';
+          break;
+        case '2':
+          this.collepse = 'collapseOne1';
+          break;
+        case '3':
+          this.collepse = 'collapseOne2';
+          break;
+        case '4':
+          this.collepse = 'collapseOne3';
+          break;
+        default:
+          break;
+      }
+    });
+  }
 
   toggleFullWidth() {
     this.sidebarService.toggle();
     this.sidebarVisible = this.sidebarService.getStatus();
     this.cdr.detectChanges();
   }
-
+  toggleCollepseGeneral(collepse: string) {
+    if (this.collepse !== collepse) {
+      this.collepse = collepse;
+    } else {
+      this.collepse = '';
+    }
+  }
 }

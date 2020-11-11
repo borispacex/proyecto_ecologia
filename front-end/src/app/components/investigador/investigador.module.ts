@@ -19,6 +19,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { MenuComponent } from './menu/menu.component';
+import { AgmCoreModule } from '@agm/core';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -37,13 +39,19 @@ import { MenuComponent } from './menu/menu.component';
     PipesModule,
     LayoutModule,
     SettingsModule,
+    AgmCoreModule.forRoot({
+      // please get your own API key here:
+      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+      apiKey: 'AIzaSyDbODMpMlsAdluHdgW_ZxcllSz5WwvoPkc'
+    }),
 
     NgbModule,
     FormsModule,
     ngfModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPaginationModule
   ]
 })
 export class InvestigadorModule { }

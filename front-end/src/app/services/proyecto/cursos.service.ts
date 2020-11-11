@@ -68,5 +68,32 @@ export class CursosService {
     return this._httpClient.get<any>(this.url + 'countCursosByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los cursos by estado
+  getCursosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'cursosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los cursos by id_proyecto
+  getCursosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'cursosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar los cursos by id_proyecto
+  countCursosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countCursosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

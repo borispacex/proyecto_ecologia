@@ -96,4 +96,60 @@ export class LugarDesarrollosService {
     .then(res => res);
   }
 
+
+  // obtenemos todos los lugar_desarrollos by estado
+  getLugarDesarrollosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'lugar_desarrollosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los lugar_desarrollos by id_proyecto
+  getLugarDesarrollosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'lugar_desarrollosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+      .then(res => res);
+  }
+  // obtenemos todos los lugar_desarrollos by departamento y provincia
+  getLugarDesarrollosByIdProyectoDepartamentoProvinciaAndEstado(id_proyecto: number, departamento: string, provincia: string, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'lugar_desarrollosByIdProyectoDepartamentoAndProvinciaAndEstado/' + id_proyecto + '/' + departamento + '/' + provincia + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los lugar_desarrollos by departamento y provincia
+  getLugarDesarrollosByIdProyectoDepartamentoAndEstado(id_proyecto: number, departamento: string, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'lugar_desarrollosByIdProyectoAndDepartamentoAndEstado/' + id_proyecto + '/' + departamento + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los lugar_desarrollos by departamento y provincia
+  getLugarDesarrollosByIdProyectoProvinciaAndEstado(id_proyecto: number, provincia: string, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'lugar_desarrollosByIdProyectoAndProvinciaAndEstado/' + id_proyecto + '/' + provincia + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los lugar_desarrollos by id_proyecto
+  countLugarDesarrollosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countLugarDesarrollosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+
 }

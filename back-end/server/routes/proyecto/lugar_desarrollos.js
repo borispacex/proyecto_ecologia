@@ -21,4 +21,8 @@ module.exports = (app) => {
     app.get('/api/lugar_desarrollosByIdProyectoAndProvinciaAndEstado/:id_proyecto/:provincia/:estado', md_auth.auth, lugar_desarrollosController.getAllByIdProyectoAndProvinciaAndEstado);
     app.get('/api/countLugarDesarrollosByIdProyectoAndEstado/:id_proyecto/:estado', md_auth.auth, lugar_desarrollosController.countByIdProyectoAndEstado);
 
+    app.get('/api/lugar_desarrollosByDepartamentoAndProvinciaAndEstado/:departamento/:provincia/:estado', md_auth.auth, lugar_desarrollosController.getAllByDepartamentoProvinciaAndEstado);
+    app.get('/api/lugar_desarrollosByDepartamentoAndEstado/:departamento/:estado', md_auth.auth, lugar_desarrollosController.getAllByDepartamentoAndEstado);
+    app.get('/api/lugar_desarrollosByProvinciaAndEstado/:provincia/:estado', md_auth.auth, lugar_desarrollosController.getAllByProvinciaAndEstado);
+        
 }

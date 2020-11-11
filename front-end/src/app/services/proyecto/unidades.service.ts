@@ -76,5 +76,41 @@ export class UnidadesService {
     return this._httpClient.delete<any>(this.url + 'unidad/' + id_unidad, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los unidades by estado
+  getUnidadesByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'unidadesByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los unidades by id_proyecto
+  getUnidadesByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'unidadesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contamos todos los unidades by id_proyecto
+  countUnidadesByIdProyecto(id_proyecto: number, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countUnidadesByIdProyecto/' + id_proyecto, options).toPromise()
+    .then(res => res);
+  }
+  // contamos todos los unidades by id_proyecto
+  countUnidadesByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countUnidadesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

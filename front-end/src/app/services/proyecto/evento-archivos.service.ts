@@ -68,5 +68,32 @@ export class EventoArchivosService {
     return this._httpClient.get<any>(this.url + 'countEventoArchivosByIdEvento/' + id_evento, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los evento_archivos by estado
+  getEventoArchivosByEstado(estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'evento_archivosByEstado/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los evento_archivos by id_evento
+  getEventoArchivosByIdEventoAndEstado(id_evento: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'evento_archivosByIdEventoAndEstado/' + id_evento + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contar todos los evento_archivos by id_evento
+  countEventoArchivosByIdEventoAndEstado(id_evento: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countEventoArchivosByIdEventoAndEstado/' + id_evento + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

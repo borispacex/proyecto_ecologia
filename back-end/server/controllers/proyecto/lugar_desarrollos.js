@@ -126,6 +126,24 @@ function getAllByIdProyectoDepartamentoAndProvinciaAndEstado(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
     })
 }
+// funcion para mostrar todos lugar_desarrollos, cuando sea departamento y provincia
+function getAllByDepartamentoProvinciaAndEstado(req, res) {
+    var department = req.params.departamento;
+    var province = req.params.provincia;
+    var status = req.params.estado;
+    lugar_desarrollos.findAll({
+        where: { departamento: department, provincia: province, estado: status },
+        include: [
+            { model: proyectos }
+        ]
+    })
+    .then(lugar_desarrollos => {
+        res.status(200).send({ lugar_desarrollos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
+    })
+}
 // funcion para mostrar todos lugar_desarrollos, cuando sea departamento
 function getAllByIdProyectoAndDepartamento(req, res) {
     var id = req.params.id_proyecto;
@@ -155,6 +173,23 @@ function getAllByIdProyectoAndDepartamentoAndEstado(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
     })
 }
+// funcion para mostrar todos lugar_desarrollos, cuando sea departamento
+function getAllByDepartamentoAndEstado(req, res) {
+    var department = req.params.departamento;
+    var status = req.params.estado;
+    lugar_desarrollos.findAll({
+        where: { departamento: department, estado: status },
+        include: [
+            { model: proyectos }
+        ]
+    })
+    .then(lugar_desarrollos => {
+        res.status(200).send({ lugar_desarrollos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
+    })
+}
 // funcion para mostrar todos lugar_desarrollos, cuando sea provincia
 function getAllByIdProyectoAndProvincia(req, res) {
     var id = req.params.id_proyecto;
@@ -176,6 +211,23 @@ function getAllByIdProyectoAndProvinciaAndEstado(req, res) {
     var status = req.params.estado;
     lugar_desarrollos.findAll({
         where: { id_proyecto: id, provincia: province, estado: status }
+    })
+    .then(lugar_desarrollos => {
+        res.status(200).send({ lugar_desarrollos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar las lugar_desarrollos', err });
+    })
+}
+// funcion para mostrar todos lugar_desarrollos, cuando sea provincia
+function getAllByProvinciaAndEstado(req, res) {
+    var province = req.params.provincia;
+    var status = req.params.estado;
+    lugar_desarrollos.findAll({
+        where: { provincia: province, estado: status },
+        include: [
+            { model: proyectos }
+        ]
     })
     .then(lugar_desarrollos => {
         res.status(200).send({ lugar_desarrollos });
@@ -228,5 +280,9 @@ module.exports = {
     getAllByIdProyectoDepartamentoAndProvinciaAndEstado,
     getAllByIdProyectoAndDepartamentoAndEstado,
     getAllByIdProyectoAndProvinciaAndEstado,
-    countByIdProyectoAndEstado
+    countByIdProyectoAndEstado,
+
+    getAllByDepartamentoProvinciaAndEstado,
+    getAllByDepartamentoAndEstado,
+    getAllByProvinciaAndEstado,
 }

@@ -85,5 +85,32 @@ export class SeguimientosService {
     return this._httpClient.get<any>(this.url + 'countSeguimientosByIdProyecto/' + id_proyecto, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los seguimientos by id_director
+  getSeguimientosByIdDirectorAndEstado(id_director: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientosByIdDirectorAndEstado/' + id_director + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los seguimientos by id_proyecto
+  getSeguimientosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+  // contamos todos los seguimientos by id_proyecto
+  countSeguimientosByIdProyectoAndEstado(id_proyecto: number, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'countSeguimientosByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
 
 }

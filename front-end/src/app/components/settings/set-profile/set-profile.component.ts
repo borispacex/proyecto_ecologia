@@ -82,6 +82,9 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   public image_selected: string;
   public filesToUpload: Array<File>;
 
+  // intereses
+  public intereses: any = {};
+
 
   constructor(
     private sidebarService: SidebarService,
@@ -121,7 +124,11 @@ export class SetProfileComponent implements OnInit, OnDestroy {
         this._serviceFotografias.getImagen().subscribe((value: string) => {
           this.imagen = value;
         });
-        var date = new Date(this.persona.fec_nacimiento);
+        if (this.persona.fec_nacimiento) {
+          var date = new Date(this.persona.fec_nacimiento);
+        } else {
+          var date = new Date();
+        }
         this.id_persona = this.persona.id_persona;
         this.formacion_pro = this.persona.formacion_pro;
         this.formacion_adi = this.persona.formacion_adi;
@@ -134,7 +141,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
           nombres: this.persona.nombres,
           ci: this.persona.ci,
           sexo: this.persona.sexo,
-          fec_nacimiento: {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1},
+          fec_nacimiento: null,
           url: this.persona.url,
           direccion1: this.persona.direccion1,
           direccion2: this.persona.direccion2,
@@ -142,6 +149,9 @@ export class SetProfileComponent implements OnInit, OnDestroy {
           provincia: this.persona.provincia,
           pais: this.persona.pais,
         };
+        if (this.persona.fec_nacimiento) {
+          this.basica.fec_nacimiento = {year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() + 1}
+        }
         this.cuenta = {
           id_persona: this.persona.id_persona,
           usuario: this.usuario.usuario,
@@ -170,8 +180,10 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   }
 
   editarInfBasica() {
-    console.log(this.basica);
-    this.basica.fec_nacimiento = this.formatDate(this.basica.fec_nacimiento) + 'T00:00:00.000';
+    // console.log(this.basica);
+    if (this.basica.fec_nacimiento) {
+      this.basica.fec_nacimiento = this.formatDate(this.basica.fec_nacimiento) + 'T00:00:00.000';
+    }
     this._serviceUsuario.updatePersona(this.basica.id_persona, this.basica, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -182,7 +194,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     });
   }
   editarDateCuenta() {
-    console.log(this.cuenta);
+    // console.log(this.cuenta);
     this._serviceUsuario.updatePersona(this.cuenta.id_persona, this.cuenta, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -193,14 +205,13 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     });
   }
   editarPassword() {
-    console.log(this.cuenta_pass);
+    // console.log(this.cuenta_pass);
     this._serviceUsuario.verificarPassword(this.cuenta_pass, this.token)
     .then(responseVeri => {
-      console.log(responseVeri.respuesta);
+      // console.log(responseVeri.respuesta);
       if (responseVeri.respuesta) {
-        console.log(this.cuenta_pass.pass1.length);
+        // console.log(this.cuenta_pass.pass1.length);
         if ((this.cuenta_pass.pass1 === this.cuenta_pass.pass2) && this.cuenta_pass.pass1.length !== 0 && this.cuenta_pass.pass2.length !== 0) {
-          console.log('si');
           this.cuenta_pass.password = this.cuenta_pass.pass2;
           this._serviceUsuario.updateUsuario(this.cuenta_pass.id_usuario, this.cuenta_pass, this.token)
           .then(responseUsuario => {
@@ -211,16 +222,19 @@ export class SetProfileComponent implements OnInit, OnDestroy {
             this.toastr.error('Error al actualizar contraseña', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
         } else {
-          console.log('Los passwords no son iguales');
+          // console.log('Los passwords no son iguales');
+          this.toastr.error('Error las contraseñas no son iguales', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
       } else {
-        console.log('Contraseña incorrecta');
+        // console.log('Contraseña incorrecta');
+        this.toastr.error('Error al contraseña incorrecta', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+
       }
     })
     .catch(error => { console.log('Error al verificar password', error); });
   }
   editarInfGeneral() {
-    console.log(this.info);
+    // console.log(this.info);
     this._serviceUsuario.updatePersona(this.info.id_persona, this.info, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -243,7 +257,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   }
 
   guardarFormacion() {
-    console.log(this.formacion_pro);
+    // console.log(this.formacion_pro);
     this._serviceUsuario.updatePersona(this.id_persona, { formacion_pro: this.formacion_pro }, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -254,7 +268,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     });
   }
   guardarFormacionAdi() {
-    console.log(this.formacion_adi);
+    // console.log(this.formacion_adi);
     this._serviceUsuario.updatePersona(this.id_persona, { formacion_adi: this.formacion_adi }, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -265,7 +279,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     });
   }
   guardarHabilidades() {
-    console.log(this.habilidades);
+    // console.log(this.habilidades);
     this._serviceUsuario.updatePersona(this.id_persona, { habilidades: this.habilidades }, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -276,7 +290,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     });
   }
   guardarConclusion() {
-    console.log(this.conclusion);
+    // console.log(this.conclusion);
     this._serviceUsuario.updatePersona(this.id_persona, { conclusion: this.conclusion }, this.token)
     .then(responsePersona => {
       this.obtenerDatos();
@@ -339,5 +353,35 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     this.sidebarService.toggle();
     this.sidebarVisible = this.sidebarService.getStatus();
     this.cdr.detectChanges();
+  }
+  editarIntereses() {
+    console.log('editar', this.intereses);
+  }
+  limpiarInfBasica() {
+    console.log(this.basica);
+  }
+  limpiarDateCuenta() {
+    console.log(this.cuenta);
+  }
+  limpiarPassword() {
+    console.log(this.cuenta_pass);
+  }
+  limpiarInfGeneral() {
+    console.log(this.info);
+  }
+  limpiarIntereses() {
+    console.log(this.intereses);
+  }
+  limpiarFormacion() {
+    console.log(this.formacion_pro);
+  }
+  limpiarFomacionAdi() {
+    console.log(this.formacion_adi);
+  }
+  limpiarHabilidades() {
+    console.log(this.habilidades);
+  }
+  limpiarConclusion() {
+    console.log(this.conclusion);
   }
 }

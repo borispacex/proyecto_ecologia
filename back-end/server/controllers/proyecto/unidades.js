@@ -121,6 +121,33 @@ function deleteUnidadesByIdProyecto(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al buscar una unidad por id_proyecto', err});
     })
 }
+// funcion contar unidades por id_proyecto
+function countByIdProyecto(req, res) {
+    var id = req.params.id_proyecto;
+    unidades.count({
+        where: { id_proyecto: id }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar unidades por id_proyecto', err });
+    })
+}
+// funcion contar unidades por id_proyecto
+function countByIdProyectoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var status = req.params.estado;
+    unidades.count({
+        where: { id_proyecto: id, estado: status }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar unidades por id_proyecto', err });
+    })
+}
 
 module.exports = {
     create,
@@ -132,5 +159,7 @@ module.exports = {
     deleteUnidadesByIdProyecto,
 
     getAllByIdProyectoAndEstado,
-    getAllByEstado
+    getAllByEstado,
+    countByIdProyecto,
+    countByIdProyectoAndEstado
 }

@@ -18,9 +18,9 @@
 		<div class="col-lg-4 col-md-12">
 			<div class="card profile-header">
 				<div class="body">
-					<div class="profile-image rounded-circle"> <img src="{{who +'fotografias/'+ imagen + '/true'}}" alt="fotografia"> </div>
+					<div class="profile-image"> <img src="{{who +'fotografias/'+ imagen + '/true'}}" class="rounded-circle" alt="fotografia"> </div>
 					<div>
-						<h4 class="m-b-0"><strong>{{persona.nombres}}</strong> {{persona.paterno}} {{persona.materno}}</h4>
+						<h4 class="m-b-0"><strong>{{persona.grado_academico}}</strong> {{persona.nombres}} {{persona.paterno}} {{persona.materno}}</h4>
 						<span>{{persona.ciudad}}, {{persona.pais}}</span>
 					</div>
 				</div>
@@ -34,9 +34,10 @@
 					<small class="text-muted">Direccion: </small>
 					<p>{{persona.direccion1}}</p>
 					<div>
-						<iframe
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3824.766504186264!2d-68.06978108512372!3d-16.537881546085497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f2192074626e7%3A0x94b64ad0dc9f22a4!2sInstituto%20de%20Ecolog%C3%ADa%20(IE)%20-%20Carrera%20de%20Biolog%C3%ADa!5e0!3m2!1ses-419!2sbo!4v1604522758499!5m2!1ses-419!2sbo" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+						<!-- <iframe
 							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1923731.7533500232!2d-120.39098936853455!3d37.63767091877441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan+Francisco%2C+CA%2C+USA!5e0!3m2!1sen!2sin!4v1522391841133"
-							width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe>
+							width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe> -->
 					</div>
 					<hr>
 					<small class="text-muted">Correo electronico: </small>
@@ -81,12 +82,12 @@
 						<small class="text-muted">Conclusion: </small>
 						<p class="m-b-0">{{persona.conclusion}}</p>
 					</div>
-					<hr>
+					<!-- <hr>
 					<small class="text-muted">Social: </small>
 					<p><i class="fa fa-twitter m-r-5"></i> twitter.com/example</p>
 					<p><i class="fa fa-facebook  m-r-5"></i> facebook.com/example</p>
 					<p><i class="fa fa-github m-r-5"></i> github.com/example</p>
-					<p><i class="fa fa-instagram m-r-5"></i> instagram.com/example</p>
+					<p><i class="fa fa-instagram m-r-5"></i> instagram.com/example</p> -->
 				</div>
 			</div>
 
@@ -101,7 +102,7 @@
 
 		</div>
 
-		<div class="col-lg-8 col-md-12">
+		<div class="col-lg-6 col-md-12">
 			<div class="tab-content padding-0">
 				<div class="card" *ngIf="publicaciones.length === 0">
 					<div class="body text-center">
@@ -110,27 +111,45 @@
 						</div>
 					</div>
 				</div>
-				<div *ngFor="let publicacion of publicaciones" class="card single_post">
-					<div class="body">
-						<div class="img-post">
-							<img class="d-block img-fluid" src="{{who +'fotografias/'+ 'logo-pdf.jpg' + '/false'}}" alt="publicacion">
-						</div>
-						<h3><a [routerLink]="['../profile-post/', publicacion.id_publicacion]">{{publicacion.titulo}}</a></h3>
-						<small>{{publicacion.fecha | date}}</small>
-						<p>{{publicacion.contenido}}</p>
-						<a *ngFor="let archivo of publicacion.archivos" href="{{url +'get-archivo/'+archivo.archivo}}" target="_blank">{{url +'get-archivo/'+archivo.archivo}}</a>
-					</div>
-					<div class="footer">
-						<div class="actions">
-							<a type="button" class="btn btn-outline-secondary" [routerLink]="['../profile-post/', publicacion.id_publicacion]">Continuar leyendo</a>
-						</div>
-						<ul class="stats">
-							<li><a type="button">Comentarios</a></li>
-							<li><a type="button" class="icon-bubbles">{{publicacion.nroComentarios}}</a></li>
+				<div class="card single_post" *ngFor="let publicacion of publicaciones | paginate: { id: 'publicaciones', itemsPerPage: 3, currentPage: page }">
+					<div class="body pb-0">
+						<h3 class="m-t-0 m-b-5"><a [routerLink]="['../profile-post/', publicacion.id_publicacion]">{{publicacion.titulo}}</a></h3>
+						<ul class="meta">
+							<li><a href="javascript:void(0);"><i class="icon-user text-primary"></i>Publicado por: {{publicacion.autores}}</a>
+							</li>
+							<li><a href="javascript:void(0);"><i class="icon-tag text-success"></i>{{publicacion.tipo}}</a></li>
+							<li><a href="javascript:void(0);"><i class="icon-bubbles text-warning"></i>Comentarios: {{publicacion.nroComentarios}}</a></li>
 						</ul>
 					</div>
+					<div class="body">
+						<div class="img-post m-b-15" *ngFor="let archivo of publicacion.archivos">
+							<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
+								<img class="img-fluid" src="{{who +'fotografias/'+ 'logo-pdf.jpg' + '/true'}}" alt="image description">
+							</a>
+							<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
+								<img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="500px" alt="image description">
+							</a>
+						</div>
+						<p>{{publicacion.contenido}}</p>
+						<!-- <a [routerLink]="['../profile-post/', publicacion.id_publicacion]" title="read more" class="btn btn-info m-t-20">Continuar leyendo</a> -->
+					</div>
 				</div>
+				<pagination-controls id="publicaciones" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
 			</div>
 		</div>
+		<div class="col-lg-2 col-md-12">
+			<div class="card">
+				<ul class="profile_state list-unstyled">
+					<li>
+						<div class="body">
+							<i class="fa fa-file-text text-warning"></i>
+							<h5 class="m-b-0 number count-to" data-from="0" data-to="52" data-speed="1000" data-fresh-interval="700">{{nroPublicaciones}}</h5>
+							<small>Número publicaciones</small>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
 	</div>
 </div>

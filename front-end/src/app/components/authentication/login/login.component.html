@@ -66,6 +66,14 @@
       </div>
     </div>
   </div>
+
+  <div style="position: relative;">
+    <div style="position: absolute; top: 0; right: 0; padding-right: 10px;">
+        <div class="bottom">
+            <a [routerLink]="['/home/dashboard/stories']">Lista de publicaciones</a>
+        </div>
+    </div>
+  </div>
   
   <!-- MODAL -->
   <button style="visibility:hidden;" type="button" class="btn btn-success" #btnOpen data-toggle="modal"
@@ -75,18 +83,37 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <p class="modal-title h5" id="exampleModalLabel" *ngIf="roles.length > 0">Elegir rol de usuario que desea ingresar</p>
+          <p class="modal-title h5" id="exampleModalLabel" *ngIf="roles.length > 0">Usted tiene los siguienes permisos.</p>
           <p class="modal-title h5" id="exampleModalLabel" *ngIf="roles.length === 0">Sus cuenta(s) estan desactivadas</p>
           <button type="button" #btnClose class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body" *ngIf="roles.length === 0">
-          <p>Debe comunicarse con dirección del Instituto de Ecologia.</p>
+          <p>Debe comunicarse con Dirección IE, no tiene acceso al sistema</p>
         </div>
-        <div class="modal-body" *ngFor="let rol of roles">
-          <button *ngIf="roles.length != null" class="btn btn-success" (click)="ingresar(rol.id_rol)">{{rol.adm_role.rol}}</button>
+        <div class="modal-body product_item" *ngFor="let rol of roles">
+          
+            <div *ngIf="roles.length != null">
+              <div class="cp_img">
+                <img *ngIf="rol.id_rol === 1" src="assets/images/users/user_admin.png" alt="admin" class="img-fluid">
+                <img *ngIf="rol.id_rol === 2" src="assets/images/users/user_director.png" alt="director" class="img-fluid">
+                <img *ngIf="rol.id_rol === 3" src="assets/images/users/user_investigador.png" alt="investigador" class="img-fluid">
+                <div class="hover">
+                  <!-- <a type="button" (click)="ingresar(rol.id_rol)" class="btn btn-primary mr-1"><i class="icon-login"></i></a> -->
+                  <span class="h5"><a type="button" (click)="ingresar(rol.id_rol)">{{rol.adm_role.rol}}</a></span>
+                  
+                </div>
+              </div>
+              <div class="product_details">
+                <ul class="product_price list-unstyled">
+                  <li class="old_price">{{rol.adm_role.descripcion}}</li>
+                </ul>
+              </div>
+            </div>
         </div>
       </div>
     </div>
   </div>
+
+  

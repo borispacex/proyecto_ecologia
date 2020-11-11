@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-10-23 17:31:00 -04
+-- Started on 2020-11-11 10:07:33 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1422,7 +1422,9 @@ CREATE TABLE public.proyectos (
     financiamiento integer,
     estado character varying(100) DEFAULT 'activo'::character varying NOT NULL,
     "createdAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
-    "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL
+    "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
+    objetivo character varying(10000),
+    resumen character varying(20000)
 );
 
 
@@ -2096,6 +2098,7 @@ COPY public.adm_usuario_roles (id_adm_usuario_rol, id_usuario, id_rol, estado, "
 59	56	3	t	2020-10-23 19:08:49.486+00	2020-10-23 19:08:49.486+00
 60	57	3	t	2020-10-23 19:11:44.059+00	2020-10-23 19:11:44.059+00
 4	2	3	f	2020-10-23 13:32:01.213+00	2020-10-23 19:14:19.415+00
+61	58	3	t	2020-10-26 21:50:48.883+00	2020-10-26 21:50:48.883+00
 \.
 
 
@@ -2163,6 +2166,7 @@ COPY public.adm_usuarios (id_usuario, id_persona, usuario, password, recordatori
 55	55	1827036	$2b$10$I47.ky4PVifXRbATxZo6bO3BGxx41xSK9lyiQ.OcnAMyjb6c2wFVq	\N	t	\N	\N	2020-10-23 19:08:22.851+00	2020-10-23 19:08:22.851+00
 56	56	6826037	$2b$10$5xCB0pSYYK9KOJ7M2HlgremeUxLub7uBHqpITbcKHmSLdSxxmKGTi	\N	t	\N	\N	2020-10-23 19:08:49.402+00	2020-10-23 19:08:49.402+00
 57	57	8928038	$2b$10$fs07ZBGepqnmOHJNJwjxFe/lUCDUQPHLgCotVv6EHnIvdBuFIfRB6	\N	t	\N	\N	2020-10-23 19:11:43.966+00	2020-10-23 19:11:43.966+00
+58	58	327132	$2b$10$nHRUboljZL90rSG9JwC00O/S03uvokAZQ2CFaQi5s3vbUxhuAVxbe	\N	t	\N	\N	2020-10-26 21:50:48.781+00	2020-10-26 21:50:48.781+00
 \.
 
 
@@ -2180,6 +2184,26 @@ COPY public.autores (id_autor, id_investigador, id_publicacion, estado, "created
 5	12	5	t	2020-10-23 20:50:27.265+00	2020-10-23 20:50:27.265+00
 6	16	5	t	2020-10-23 20:50:27.273+00	2020-10-23 20:50:27.273+00
 7	10	6	t	2020-10-23 21:00:12.044+00	2020-10-23 21:00:12.044+00
+8	10	7	t	2020-10-26 02:39:08.26+00	2020-10-26 02:39:08.26+00
+9	5	8	t	2020-10-26 16:17:39.016+00	2020-10-26 16:17:39.016+00
+10	5	9	t	2020-10-26 18:51:46.607+00	2020-10-26 18:51:46.607+00
+11	43	9	t	2020-10-26 18:51:46.611+00	2020-10-26 18:51:46.611+00
+12	16	10	t	2020-10-26 21:28:17.13+00	2020-10-26 21:28:17.13+00
+13	13	10	t	2020-10-26 21:28:17.132+00	2020-10-26 21:28:17.132+00
+14	48	11	t	2020-10-26 21:40:34.213+00	2020-10-26 21:40:34.213+00
+15	26	11	t	2020-10-26 21:40:34.214+00	2020-10-26 21:40:34.214+00
+16	16	11	t	2020-10-26 21:40:34.218+00	2020-10-26 21:40:34.218+00
+17	49	11	t	2020-10-26 21:40:34.225+00	2020-10-26 21:40:34.225+00
+18	50	11	t	2020-10-26 21:40:34.225+00	2020-10-26 21:40:34.225+00
+19	29	12	t	2020-10-26 22:02:06.094+00	2020-10-26 22:02:06.094+00
+20	18	12	t	2020-10-26 22:02:06.097+00	2020-10-26 22:02:06.097+00
+21	57	12	t	2020-10-26 22:02:06.101+00	2020-10-26 22:02:06.101+00
+22	51	12	t	2020-10-26 22:02:06.106+00	2020-10-26 22:02:06.106+00
+23	5	13	t	2020-10-27 13:33:53.413+00	2020-10-27 13:33:53.413+00
+24	52	13	t	2020-10-27 13:33:53.414+00	2020-10-27 13:33:53.414+00
+25	53	13	t	2020-10-27 13:33:53.417+00	2020-10-27 13:33:53.417+00
+26	19	14	t	2020-10-27 14:11:16.76+00	2020-10-27 14:11:16.76+00
+27	9	15	t	2020-10-27 14:30:10.836+00	2020-10-27 14:30:10.836+00
 \.
 
 
@@ -2320,6 +2344,15 @@ COPY public.expositores (id_expositor, id_curso, nombres, apellidos, estado, "cr
 --
 
 COPY public.financiamientos (id_financiamiento, id_proyecto, fuente, aporte, observacion, estado, "createdAt", "updatedAt") FROM stdin;
+1	11	IDH	350000		t	2020-10-29 01:42:05.844+00	2020-10-29 01:43:03.926+00
+2	2	UMSA	85714		t	2020-10-29 01:49:13.035+00	2020-10-29 01:50:10.879+00
+3	2	Exterior	284285	\N	t	2020-10-29 01:49:13.035+00	2020-10-29 01:50:10.884+00
+4	3	Contraparte	23800	Salarios personal y apoyo logistico	t	2020-10-29 01:53:50.826+00	2020-10-29 01:55:50.149+00
+5	3	Apoyo directo a UMSA	94080		t	2020-10-29 01:53:50.829+00	2020-10-29 01:55:50.148+00
+6	3	Apoyo a traves de la Red de Parques Naturales	67320		t	2020-10-29 01:55:09.484+00	2020-10-29 01:55:50.15+00
+7	3	Contraparte	11800	Salario personal y apoyo logistico	t	2020-10-29 01:55:09.484+00	2020-10-29 01:55:50.159+00
+8	15	IFM	0	\N	t	2020-10-29 02:12:53.597+00	2020-10-29 02:12:53.597+00
+9	15	CIPAM	0		t	2020-10-29 02:12:53.602+00	2020-10-29 02:12:53.602+00
 \.
 
 
@@ -2336,6 +2369,9 @@ COPY public.fotografias (id_fotografia, imagen, descripcion, numero, estado, tip
 4	H5DK77geluxQpOsynNwk5Ypg.jpg	Fotografia de Mónica Graciela Moraes	1	t	foto	2020-10-23 21:03:30.679+00	2020-10-23 21:03:30.717+00
 5	-bKTzUw4En_3i0syFPOmbubh.jpeg	Fotografia de Luis Álvaro Garitano-Zavala	1	t	foto	2020-10-23 21:05:27.294+00	2020-10-23 21:05:27.326+00
 6	x8h6PMscLvGKKabSFP0BlAK7.jpeg	Fotografia de Darío Achá	1	t	foto	2020-10-23 21:07:12.681+00	2020-10-23 21:07:12.709+00
+7	7wZ2mxo96DamrLnou2kWRyoP.png	Fotografia de Adriana Rico	1	t	foto	2020-10-27 15:12:48.207+00	2020-10-27 15:12:48.245+00
+8	1N5_pr_xHkx2Ykt1NsO3vTj6.jpeg	Fotografia de Guillermina Miranda	1	t	foto	2020-10-27 15:20:43.968+00	2020-10-27 15:20:43.992+00
+9	lRwVQm5r2m9cW8Cn9GsZSExF.jpeg	Fotografia de Eddy Octavio Martinez	1	t	foto	2020-10-27 15:23:41.323+00	2020-10-27 15:23:41.364+00
 \.
 
 
@@ -2359,6 +2395,46 @@ COPY public.inv_proyectos (id_inv_proyecto, id_proyecto, id_investigador, estado
 11	4	28	t	2020-10-23 20:44:43.422+00	2020-10-23 20:44:43.422+00
 12	5	29	t	2020-10-23 20:53:55.627+00	2020-10-23 20:53:55.627+00
 13	5	30	t	2020-10-23 20:53:55.628+00	2020-10-23 20:53:55.628+00
+14	6	31	t	2020-10-26 00:30:06.825+00	2020-10-26 00:30:06.825+00
+15	6	32	t	2020-10-26 00:30:06.836+00	2020-10-26 00:30:06.836+00
+16	6	33	t	2020-10-26 00:30:06.843+00	2020-10-26 00:30:06.843+00
+17	6	34	t	2020-10-26 00:30:06.846+00	2020-10-26 00:30:06.846+00
+18	6	30	t	2020-10-26 00:30:06.85+00	2020-10-26 00:30:06.85+00
+19	6	36	t	2020-10-26 00:30:06.863+00	2020-10-26 00:30:06.863+00
+20	6	35	t	2020-10-26 00:30:06.847+00	2020-10-26 00:30:06.847+00
+21	6	37	t	2020-10-26 00:30:06.876+00	2020-10-26 00:30:06.876+00
+22	7	38	t	2020-10-26 02:43:28.051+00	2020-10-26 02:43:28.051+00
+23	8	39	t	2020-10-26 04:02:33.303+00	2020-10-26 04:02:33.303+00
+24	8	40	t	2020-10-26 04:02:33.312+00	2020-10-26 04:02:33.312+00
+25	9	41	t	2020-10-26 04:31:14.314+00	2020-10-26 04:31:14.314+00
+26	9	42	t	2020-10-26 04:31:14.314+00	2020-10-26 04:31:14.314+00
+28	10	43	t	2020-10-26 16:30:03.871+00	2020-10-26 16:30:03.871+00
+29	11	13	t	2020-10-26 21:21:18.038+00	2020-10-26 21:21:18.038+00
+30	11	44	t	2020-10-26 21:21:18.049+00	2020-10-26 21:21:18.049+00
+31	11	45	t	2020-10-26 21:21:18.05+00	2020-10-26 21:21:18.05+00
+32	11	46	t	2020-10-26 21:21:18.051+00	2020-10-26 21:21:18.051+00
+33	11	47	t	2020-10-26 21:21:18.051+00	2020-10-26 21:21:18.051+00
+34	12	16	t	2020-10-26 21:32:56.943+00	2020-10-26 21:32:56.943+00
+35	12	26	t	2020-10-26 21:32:56.943+00	2020-10-26 21:32:56.943+00
+36	12	49	t	2020-10-26 21:32:56.945+00	2020-10-26 21:32:56.945+00
+37	12	50	t	2020-10-26 21:32:56.946+00	2020-10-26 21:32:56.946+00
+38	13	29	t	2020-10-26 21:53:33.83+00	2020-10-26 21:53:33.83+00
+39	13	51	t	2020-10-26 21:53:33.831+00	2020-10-26 21:53:33.831+00
+40	13	57	t	2020-10-26 21:53:33.832+00	2020-10-26 21:53:33.832+00
+41	15	52	t	2020-10-27 13:28:29.49+00	2020-10-27 13:28:29.49+00
+42	15	53	t	2020-10-27 13:28:29.491+00	2020-10-27 13:28:29.491+00
+43	16	11	t	2020-10-27 13:39:03.749+00	2020-10-27 13:39:03.749+00
+45	18	12	t	2020-10-27 14:15:45.75+00	2020-10-27 14:15:45.75+00
+46	18	26	t	2020-10-27 14:15:45.751+00	2020-10-27 14:15:45.751+00
+47	18	45	t	2020-10-27 14:15:45.751+00	2020-10-27 14:15:45.751+00
+48	18	55	t	2020-10-27 14:15:45.758+00	2020-10-27 14:15:45.758+00
+49	19	2	t	2020-10-27 14:24:54.747+00	2020-10-27 14:24:54.747+00
+50	19	56	t	2020-10-27 14:24:54.753+00	2020-10-27 14:24:54.753+00
+51	20	2	t	2020-10-27 14:45:26.662+00	2020-10-27 14:45:26.662+00
+52	20	9	t	2020-10-27 14:45:26.665+00	2020-10-27 14:45:26.665+00
+53	20	24	t	2020-10-27 14:45:26.679+00	2020-10-27 14:45:26.679+00
+54	21	2	t	2020-10-27 14:49:30.21+00	2020-10-27 14:49:30.21+00
+55	21	9	t	2020-10-27 14:49:30.217+00	2020-10-27 14:49:30.217+00
 \.
 
 
@@ -2438,6 +2514,7 @@ COPY public.investigadores (id_investigador, id_persona, id_inv_tipo, estado, "c
 54	55	3	t	2020-10-23 19:08:22.931+00	2020-10-23 19:08:22.931+00
 55	56	3	t	2020-10-23 19:08:49.486+00	2020-10-23 19:08:49.486+00
 56	57	3	t	2020-10-23 19:11:44.058+00	2020-10-23 19:11:44.058+00
+57	58	3	t	2020-10-26 21:50:48.872+00	2020-10-26 21:50:48.872+00
 \.
 
 
@@ -2448,6 +2525,8 @@ COPY public.investigadores (id_investigador, id_persona, id_inv_tipo, estado, "c
 --
 
 COPY public.lugar_desarrollos (id_lugar_desarrollo, id_proyecto, departamento, provincia, municipio, localidad, latmax, lonmax, latmin, lonmin, estado, "createdAt", "updatedAt") FROM stdin;
+2	15	La Paz	Aroma	La Paz	La Paz	-16.53788100	-68.06840500	-16.53788100	-68.06840500	t	2020-10-29 02:14:03.926+00	2020-10-29 02:14:03.926+00
+1	3	La Paz	Pedro Domingo Murillo	La Paz	La Paz	-16.53797250	-68.06823938	-16.53798170	-68.06823000	t	2020-10-29 01:32:27.507+00	2020-11-04 18:41:20.097+00
 \.
 
 
@@ -2481,6 +2560,19 @@ COPY public.permiso_archivos (id_permiso_archivo, id_proyecto, tipo, archivo, no
 1	1	solicitud	kysS55m9gccjtl3zBEwEfmwq.pdf	SolicitudRefrendarResolucionBiologia	solicitud a Biologia	5	t	2020-10-23 20:07:22.266+00	2020-10-23 20:07:22.331+00
 2	1	otorgacion	WSzDZx9oAbxPbICjtGTi7GDZ.pdf	AprobacionRefrendarResolucionBiologia	otorgacion Biologia	5	t	2020-10-23 20:08:32.865+00	2020-10-23 20:08:32.92+00
 3	3	solicitud	l4XI2cfrp-pU0sdKryRwijKX.pdf	Solicitud Subvension	resumen de solicitud subvension	7	t	2020-10-23 20:38:57.424+00	2020-10-23 20:38:57.481+00
+4	10	solicitud	2CPJB9J_LIwNKhj7QPhZGhRl.pdf	SolicitudRefrendarResolucion	documento Solicitud	5	t	2020-10-26 18:31:22.718+00	2020-10-26 18:31:22.771+00
+5	10	otorgacion	js-3R6cZwd9CtkjhK6fdPt3u.pdf	AprobacionRefrendarResolucion	documento de otorgación de aprobación	5	t	2020-10-26 18:32:11.374+00	2020-10-26 18:32:11.417+00
+7	12	otorgacion	UYyKrJf5VmJfmyLVpBYQuMjC.pdf	OtorgacionRefrendarResolucion	documento Aprobacion	5	t	2020-10-26 21:34:45.891+00	2020-10-26 21:34:45.958+00
+6	12	solicitud	f9vlHNum4KqayJxspgfeEST1.pdf	SolicitudRefrendarResolucion	documento solicitud	5	t	2020-10-26 21:34:16.913+00	2020-10-26 21:35:01.133+00
+8	12	solicitud	Uzf-H7styl2XrwD5JolmedcK.pdf	SolicitudAprobacionProyectosDeInvestigacion	documento solicitud de cierre de proyecto	6	t	2020-10-26 21:36:41.588+00	2020-10-26 21:36:41.642+00
+9	13	solicitud	TtJwqfvrSXn_HPFFFh8wJiBn.pdf	SolicitudRefrendarResolucion	Solicitud	5	t	2020-10-26 21:57:28.245+00	2020-10-26 21:57:28.291+00
+10	13	otorgacion	AEsbWXmNn0O-9fGoS3E7pyZh.pdf	OtorgacionRefrendarResolucion	Aprobacion de Refrendar Resolucion	5	t	2020-10-26 21:57:54.75+00	2020-10-26 21:57:54.823+00
+11	16	solicitud	LG8Fcm9gbfC9uxCjsiJQI8uf.pdf	SolicitudRefrensarResolucion	documento solicitud	5	t	2020-10-27 13:57:42.286+00	2020-10-27 13:57:42.331+00
+12	16	otorgacion	zvL2OlT1Mtaf07R704DMcYw8.pdf	OtorgacionRefrensarResolucion	documento aprobación	5	t	2020-10-27 13:58:17.748+00	2020-10-27 13:58:17.857+00
+13	19	solicitud	dgRH7h1P7id2qobQA1Tx--AO.pdf	SolicitudRefrendarResolucion	documento solicitud	5	t	2020-10-27 14:26:42.61+00	2020-10-27 14:26:42.658+00
+14	19	otorgacion	YM4ESXfQI57iFSveulyuHejl.pdf	OtorgacionRefrendarResolucion	documento de aprobacion	5	t	2020-10-27 14:27:05.443+00	2020-10-27 14:27:05.489+00
+15	22	solicitud	W1JDtPVCTdD_1WG6LCvJJAUx.pdf	SolicitudaprobarEjecucion	documento solicitud bioetica	5	t	2020-10-27 15:36:01.334+00	2020-10-27 15:36:01.377+00
+16	22	otorgacion	HjQHSwXfWld6aRPL4l0AGd25.pdf	OtorgacionAprobarEjecucion	aprobacion de biotetica	5	t	2020-10-27 15:36:16.781+00	2020-10-27 15:36:16.83+00
 \.
 
 
@@ -2491,21 +2583,18 @@ COPY public.permiso_archivos (id_permiso_archivo, id_proyecto, tipo, archivo, no
 --
 
 COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, sexo, estado_civil, url, fec_nacimiento, ciudad, provincia, pais, direccion1, direccion2, correo, telefono, celular, lenguaje, grado_academico, formacion_pro, formacion_adi, habilidades, conclusion, tema, color, estado, "createdAt", "updatedAt") FROM stdin;
-1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-10-23 13:16:53.813598+00
 4	1	Amurrio	Ordoñez	Patricia Janneth	333225	\N	\N	\N	\N	\N	\N	\N	\N	\N	pamurrio@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:08:13.296+00	2020-10-23 14:08:13.296+00
 5	1	García	Estigarribia	Emilia	221242	\N	\N	\N	\N	\N	\N	\N	\N	\N	egarciae@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:09:00.189+00	2020-10-23 14:09:00.189+00
 7	1	Maldonado	Goyzueta	Carla Brenda	4746052	\N	\N	\N	\N	\N	\N	\N	\N	\N	cmaldonado@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:11:09.377+00	2020-10-23 14:11:09.377+00
 8	1	Marín	Pantoja	Rubén Reynaldo	464519	\N	\N	\N	\N	\N	\N	\N	\N	\N	rmarin@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:11:59.911+00	2020-10-23 14:11:59.911+00
-9	1	Miranda	Torrez	Guillermina	1316562	\N	\N	\N	\N	\N	\N	\N	\N	\N	gmiranda@umsa.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:14:02.946+00	2020-10-23 14:14:02.946+00
 10	1	Molina	Arzabe	Carlos Israel	4805941	\N	\N	\N	\N	\N	\N	\N	\N	\N	cmolinaa@fcpn.edu.bo	\N	\N	\N	D. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:18:46.433+00	2020-10-23 14:18:46.433+00
 12	1	Naoki		Kázuya	E0024263	\N	\N	\N	\N	\N	\N	\N	\N	\N	knaoki@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:20:36.537+00	2020-10-23 14:20:36.537+00
 13	1	Osorio	Zamora	Francisco Gerardo	2227535	\N	\N	\N	\N	\N	\N	\N	\N	\N	fosorio@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:21:19.047+00	2020-10-23 14:21:19.047+00
 14	1	Pacheco	Acosta	Luis Fernando	2017842	\N	\N	\N	\N	\N	\N	\N	\N	\N	lpacheco@fcpn.edu.bo	\N	\N	\N	D. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:22:08.173+00	2020-10-23 14:22:08.173+00
 15	1	Pérez	Béjar	María Esther	3368666	\N	\N	\N	\N	\N	\N	\N	\N	\N	eperez@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:23:11.632+00	2020-10-23 14:23:11.632+00
 16	1	Pinto	Mendieta	Julio Jorge	489921	\N	\N	\N	\N	\N	\N	\N	\N	\N	jpinto@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:24:13.953+00	2020-10-23 14:24:13.953+00
-17	1	Rico	Adriana	Cernohorska	2726683-1J	\N	\N	\N	\N	\N	\N	\N	\N	\N	arico@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:25:50.72+00	2020-10-23 14:25:50.72+00
 18	1	Valenzuela	Celis	Julieta Esther	467484	\N	\N	\N	\N	\N	\N	\N	\N	\N	evalenzuela@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:26:43.822+00	2020-10-23 14:26:43.822+00
-2	3	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-10-23 14:27:54.289+00
+2	3	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-10-25 02:39:55.513+00
 19	1	Lopez	Calderon	Ramiro	1356193	\N	\N	\N	\N	\N	\N	\N	\N	\N	rlopez@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:39:20.484+00	2020-10-23 18:39:20.484+00
 20	1	Saavedra	Agramont	Francisco	3820243	\N	\N	\N	\N	\N	\N	\N	\N	\N	fsaavedra@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:40:01.428+00	2020-10-23 18:40:01.428+00
 21	1	Tognelli		Marcelo	9999001	\N	\N	\N	\N	\N	\N	\N	\N	\N	001@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:44:41.878+00	2020-10-23 18:44:41.878+00
@@ -2538,7 +2627,6 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 48	1	Arteaga		Luis	5827028	\N	\N	\N	\N	\N	\N	\N	\N	\N	028@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:03:03.128+00	2020-10-23 19:03:03.128+00
 49	1	Porter		Leila	5820029	\N	\N	\N	\N	\N	\N	\N	\N	\N	029@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:03:37.201+00	2020-10-23 19:03:37.201+00
 50	1	Duran	Toledo	Pamela	4820030	\N	\N	\N	\N	\N	\N	\N	\N	\N	030@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:01.142+00	2020-10-23 19:05:01.142+00
-51	1	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-23 19:05:31.963+00
 52	1	Larrea		Daniel	4927033	\N	\N	\N	\N	\N	\N	\N	\N	\N	033@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:56.693+00	2020-10-23 19:05:56.693+00
 53	1	Altimiras		Jordi	1828034	\N	\N	\N	\N	\N	\N	\N	\N	\N	034@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:06:24.496+00	2020-10-23 19:06:24.496+00
 54	1	Arce		Orlando	5820035	\N	\N	\N	\N	\N	\N	\N	\N	\N	035@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:07:36.386+00	2020-10-23 19:07:36.386+00
@@ -2546,8 +2634,13 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 56	1	Salazar-Brazo		Jorge	6826037	\N	\N	\N	\N	\N	\N	\N	\N	\N	037@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:49.378+00	2020-10-23 19:08:49.378+00
 57	1	Bravo		Raiza	8928038	\N	\N	\N	\N	\N	\N	\N	\N	\N	038@fcpn.edu.bo	\N	\N	\N	Dipl.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:11:43.939+00	2020-10-23 19:11:43.939+00
 11	4	Moraes	Ramírez	Mónica Graciela	476807	\N	\N	\N	\N	\N	\N	\N	\N	\N	mmoraes@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:19:37.912+00	2020-10-23 21:03:30.946+00
-6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	\N	\N	\N	\N	\N	\N	\N	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-10-23 21:05:27.543+00
 3	6	Achá	Cordero	Darío	3374109	\N	\N	\N	\N	\N	\N	\N	\N	\N	dacha@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:07:23.745+00	2020-10-23 21:07:12.954+00
+58	1	Roque		Natalio	327132	\N	\N	\N	\N	\N	\N	\N	\N	\N	032@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-26 21:50:48.751+00	2020-10-26 21:50:48.751+00
+9	8	Miranda	Torrez	Guillermina	1316562	\N	\N	\N	\N	\N	\N	\N	\N	\N	gmiranda@umsa.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:14:02.946+00	2020-10-27 15:20:44.34+00
+17	7	Rico	Cernohorska	Adriana	2726683-1J	\N	\N	\N	\N	\N	\N	\N	\N	\N	arico@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:25:50.72+00	2020-10-27 15:12:48.407+00
+51	9	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-27 15:23:41.59+00
+6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-11-06 15:51:23.392+00
+1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-10 14:24:41.444+00
 \.
 
 
@@ -2597,6 +2690,76 @@ COPY public.proy_archivos (id_proy_archivo, id_proyecto, archivo, nombre, descri
 16	5	_2Q3TM7WOCmD2EVyoK5rcVqL.pdf	formulario	documento formulario	1	t	2020-10-23 20:55:47.792+00	2020-10-23 20:55:47.86+00
 18	5	9KJGMEr924RFuuN350NmxeXX.pdf	Titulo	caratula de proyecto	7	t	2020-10-23 20:56:37.096+00	2020-10-23 20:56:37.155+00
 19	5	aFb4nPIiUwTir9TWoPkJr2hP.pdf	memorandum	memorandum	7	t	2020-10-23 21:01:29.633+00	2020-10-23 21:01:29.689+00
+20	6	JV2MjAWZGxPIaWPFRa09CONr.pdf	Titulo	Caratula proyecto	7	t	2020-10-26 02:09:03.334+00	2020-10-26 02:09:03.419+00
+21	6	s9SQ36Xir6oeKu_4EKo5pmV5.pdf	Inextenso	documento inextenso	1	t	2020-10-26 02:09:29.576+00	2020-10-26 02:09:29.624+00
+22	6	FK5v8XHwJSxF2QQDbMJjHRMt.pdf	formulario	documento formulario	1	t	2020-10-26 02:09:52.072+00	2020-10-26 02:09:52.148+00
+23	7	TkVyXL3CQB5A5ewnafQUJs5K.pdf	Formulario información	documento formulario	1	t	2020-10-26 02:46:02.185+00	2020-10-26 02:46:02.257+00
+24	7	Sx2YQHePX7A3NWfwjLaJhbcg.pdf	Titulo	Carátula de proyecto	7	t	2020-10-26 02:46:31.28+00	2020-10-26 02:46:31.324+00
+25	7	xUD7g6yVJAFseOoDr_zwrxKI.pdf	Inextenso	documento inextenso	1	t	2020-10-26 02:47:22.112+00	2020-10-26 02:47:22.156+00
+26	8	5TnuED0DsflX9JCFJWWp40CM.pdf	Titulo	Carátula proyecto	7	t	2020-10-26 04:05:17.713+00	2020-10-26 04:05:17.754+00
+27	8	MINOGiIWsUqsrc-MXW93lXD8.pdf	formulario	documento formulario	1	t	2020-10-26 04:06:00.721+00	2020-10-26 04:06:00.788+00
+28	8	RFCM4eewdBpotnTxVJFGaArw.pdf	FormularioInformacionProyecto	documento información formulario	1	t	2020-10-26 04:06:00.721+00	2020-10-26 04:06:00.794+00
+29	8	rQ_9T5HLSJlensa3obtPE80N.pdf	inextenso	documento inextenso	1	t	2020-10-26 04:06:16.972+00	2020-10-26 04:06:17.012+00
+30	9	67xsgwrQiflpLdxN8xpfpaVM.pdf	Titulo	Carátula de proyecto	7	t	2020-10-26 16:01:50.496+00	2020-10-26 16:01:50.542+00
+31	9	3ZBrRxOfauNP1siZyB3E4XBW.pdf	Inextenso	documento inextenso	1	t	2020-10-26 16:02:20.405+00	2020-10-26 16:02:20.473+00
+32	9	92F92gLJKqq2eURHEni-HB7X.pdf	formulario	documento formulario	1	t	2020-10-26 16:02:20.407+00	2020-10-26 16:02:20.479+00
+33	10	QgOyHorvSjqyN_t1pjcSnVjD.pdf	Titulo	 Carátula de proyecto	7	t	2020-10-26 18:29:38.854+00	2020-10-26 18:29:38.897+00
+34	10	pAMZ1b51NR4374BaZZwjVADi.pdf	Inextenso	documento inextenso	1	t	2020-10-26 18:30:13.707+00	2020-10-26 18:30:13.774+00
+35	10	JSumJJsncea5nHJOc3abmfNI.pdf	formulario	documento formulario	1	t	2020-10-26 18:30:13.714+00	2020-10-26 18:30:13.782+00
+36	10	kjiLEy0VkoSxU7bQxPSTvEYv.pdf	Resolución	Resolución de ejecución de proyecto	1	t	2020-10-26 18:30:58.65+00	2020-10-26 18:30:58.693+00
+37	11	i6LoUmlW8yjbbZxfZPho19Lf.pdf	Inextenso	documento inextenso	1	t	2020-10-26 21:22:19.187+00	2020-10-26 21:22:19.255+00
+38	11	fyrw4Ta6vHUGNjE1nAByT61x.pdf	formulario	documento formulario final	1	t	2020-10-26 21:22:19.191+00	2020-10-26 21:22:19.265+00
+39	11	U8-3Pw8Cuqw6aUbJpp51RHvf.pdf	Titulo	Carátula de proyecto	7	t	2020-10-26 21:22:40.372+00	2020-10-26 21:22:40.412+00
+40	11	u7MNZ1Jp7KcQOP5nkVeHUa4u.pdf	correoSolicitudInformeFinal	correo electrónico para pedir informe final	7	t	2020-10-26 21:23:36.676+00	2020-10-26 21:23:36.725+00
+41	11	YZRwjAIkcHHBTuCIOi4FTrjX.pdf	InformaFinal	documento informe tecnico final	6	t	2020-10-26 21:30:04.683+00	2020-10-26 21:30:04.807+00
+42	12	NnqK4LbKPeqEFZ6huxXxM7YC.pdf	Titulo	Carátula de proyecto	7	t	2020-10-26 21:33:28.488+00	2020-10-26 21:33:28.528+00
+43	12	-Vtfz6Rp7QeYsA1fVrmrQfOT.pdf	Inextenso	documento inextenso	1	t	2020-10-26 21:33:55.672+00	2020-10-26 21:33:55.754+00
+44	12	w0scUd4Vy1QvfKBMIR4eG92f.pdf	formulario	documento formulario	1	t	2020-10-26 21:33:55.675+00	2020-10-26 21:33:55.778+00
+45	12	ZdUS_RmtkgeSiJwSr_MFKzuL.pdf	Resolucion	Documento Resolucion Ejecucion Proyecto	1	t	2020-10-26 21:35:36.391+00	2020-10-26 21:35:36.439+00
+46	13	lljN8kwTGkZWYnzyyAsHemE5.pdf	Inextenso	documento inextenso	1	t	2020-10-26 21:54:44.143+00	2020-10-26 21:54:44.213+00
+47	13	XoC75mYn9CylAOwkFQhHxUFj.pdf	formulario	documento formulario	1	t	2020-10-26 21:54:44.15+00	2020-10-26 21:54:44.216+00
+48	13	ZlTXfENAqsfIuUe6ku06RN3l.pdf	Titulo	carátula de proyecto	7	t	2020-10-26 21:55:19.76+00	2020-10-26 21:55:19.823+00
+49	13	tNZzWSA1bnNB73XppAv5qVQT.pdf	Resolucion	Documento Resolución Ejecución de Proyecto	1	t	2020-10-26 21:57:03.84+00	2020-10-26 21:57:03.881+00
+50	14	j1PsziPouIFbo9BPniC0YvJe.pdf	Titulo	Carátula de proyecto	7	t	2020-10-26 22:22:10.254+00	2020-10-26 22:22:10.297+00
+53	14	LF-ljW-18kCRKrYYRUAnTeRd.pdf	formulario	documento formulario	1	t	2020-10-26 22:23:05.96+00	2020-10-26 22:23:06.04+00
+51	14	DrzBgX4UDV0o7yONBAFE8DgS.pdf	Inextenso	documento inextenso	1	t	2020-10-26 22:23:05.955+00	2020-10-26 22:23:06.04+00
+52	14	Gw0A7XHG68715Pnh7yVZcNiO.pdf	formulario2	documento formulario mejorado	1	t	2020-10-26 22:23:05.957+00	2020-10-26 22:23:06.044+00
+54	14	suegbX2HidO1QUZw45qloUIb.pdf	correoElectronico	revision	7	t	2020-10-26 22:23:52.804+00	2020-10-26 22:23:52.853+00
+55	14	F6YyNqoZ8G0XxLACFd8mucHM.pdf	Informe Final	documento del informe final	6	t	2020-10-27 13:22:39.515+00	2020-10-27 13:22:39.596+00
+56	15	e5uT2l-G3VKTPmCYuHnHVU32.pdf	Inextenso	documento inextenso	1	t	2020-10-27 13:29:08.655+00	2020-10-27 13:29:08.713+00
+57	15	eB-quITd3fZbbmCoxeFVFkfe.pdf	formulario	documento formulario	1	t	2020-10-27 13:29:08.648+00	2020-10-27 13:29:08.731+00
+58	15	OuMz9xP1Ni7HrJ8wQoUaYXRO.pdf	Titulo	carátula de proyecto	7	t	2020-10-27 13:29:29.826+00	2020-10-27 13:29:29.882+00
+59	15	08yOvX-bhsVvU1pQA_SkeZoH.pdf	Informe final	documento final	6	t	2020-10-27 13:30:07.809+00	2020-10-27 13:30:07.871+00
+60	16	PUBbGc6aIFsefzTU3XWSFU3k.pdf	formulario	documento formulario	1	t	2020-10-27 13:55:54.917+00	2020-10-27 13:55:54.992+00
+61	16	8sN0o5-WmD4q87wQFjLFGHza.pdf	Inextenso	documento inextenso	1	t	2020-10-27 13:55:54.922+00	2020-10-27 13:55:54.996+00
+62	16	eEQxvwJj0abdQLB9zCPQRwgv.pdf	Titulo	Carátula de proyecto	7	t	2020-10-27 13:56:15.749+00	2020-10-27 13:56:15.793+00
+63	16	VsYyCGwmsBU3m7b3io9Utxjw.pdf	ResolucionCierreProyecto	documento resolución de cierre de proyecto	1	t	2020-10-27 13:57:22.502+00	2020-10-27 13:57:22.567+00
+64	16	kGa1J5AQ93I9Qv9PDxrbaBuO.pdf	ResolucionEjecucionProyecto	documento resolución de ejecución de proyecto	1	t	2020-10-27 13:57:22.495+00	2020-10-27 13:57:22.57+00
+65	16	eyJ_uiY6UsZpbdE1y5GTpNTB.pdf	Informe final	documento informe final	6	t	2020-10-27 14:08:40.8+00	2020-10-27 14:08:40.874+00
+67	18	2PxE7VOhH1-vvKm4lJW_uH0e.pdf	Titulo	carátula de proyecto	7	t	2020-10-27 14:17:06.622+00	2020-10-27 14:17:06.662+00
+66	18	glBg4dFG9aWe0cJJR6luqTsm.pdf	Titulo	carátula de proyecto	7	f	2020-10-27 14:16:04.362+00	2020-10-27 14:17:17.245+00
+69	18	3DvlmwEdoo5tZ3_YknLtI25U.pdf	Inextenso	documento inextenso	1	t	2020-10-27 14:18:47.511+00	2020-10-27 14:18:47.588+00
+68	18	e7ah_86Ww0nOHsziAXhtkzC6.pdf	formularioFinal	documento formulario final	1	t	2020-10-27 14:18:47.503+00	2020-10-27 14:18:47.617+00
+70	18	DhYTt23xU09lyrThy7TsrR7u.pdf	formulariofInicio	documento formulario inicia	1	t	2020-10-27 14:18:47.502+00	2020-10-27 14:18:47.621+00
+71	18	yLwymgqMuZtuPc3uCjmvWO6G.pdf	ResolucionInformeFinal	Resolución de cierre de proyecto	1	t	2020-10-27 14:19:21.763+00	2020-10-27 14:19:21.809+00
+72	18	MC9YUX7X3auCa7_gIwb7voe3.pdf	InformeFinal	documento informe final	6	t	2020-10-27 14:19:43.256+00	2020-10-27 14:19:43.371+00
+73	19	OuyvveH762rHthtPfhkPgtLk.pdf	Inextenso	documento inextenso	1	t	2020-10-27 14:25:33.417+00	2020-10-27 14:25:33.475+00
+74	19	ouIa12sEC7rVAf3nPkygq4C0.pdf	formulario	documento formulario	1	t	2020-10-27 14:25:33.413+00	2020-10-27 14:25:33.478+00
+75	19	xozZ0TGXTE0BREknJ_dLwxiU.pdf	Titulo	carátula de proyecto	7	t	2020-10-27 14:25:47.708+00	2020-10-27 14:25:47.756+00
+76	19	I9nObyhZpM6IuP0ZAnkV186J.pdf	ResolucionEjecucionProyecto	documento resolución para el inicio del proyecto de investigación	1	t	2020-10-27 14:26:23.042+00	2020-10-27 14:26:23.104+00
+77	20	k9JrkM0xgjV-TS7qM8DIXW_v.pdf	Inextenso	documento inextenso	1	t	2020-10-27 14:45:55.056+00	2020-10-27 14:45:55.129+00
+78	20	a2pfVprxt75BAqG4OuGYR-1F.pdf	Formulario	documento formulario	1	t	2020-10-27 14:45:55.061+00	2020-10-27 14:45:55.133+00
+79	20	bx6Y-9_FnxwdyPvoBcT3seym.pdf	Caratula	carátula de proyecto	7	t	2020-10-27 14:46:21.882+00	2020-10-27 14:46:21.926+00
+80	20	ZMuHI8eDhOaubN_i66vDzdcY.pdf	libro	informe fina	6	t	2020-10-27 14:47:13.518+00	2020-10-27 14:47:13.753+00
+81	21	r46v-YaO1IGUXXr_JYSOMdRD.pdf	Inextenso	documento inextenso	1	t	2020-10-27 14:50:06.816+00	2020-10-27 14:50:06.88+00
+82	21	vYNEz79PedPeagcs7BO4b56V.pdf	Formulario	documento formulario	1	t	2020-10-27 14:50:06.822+00	2020-10-27 14:50:06.888+00
+83	21	yjiiLhvfL8fKVA7d1N54cmMV.pdf	Titulo	carátula de proyecto	7	t	2020-10-27 14:50:23.225+00	2020-10-27 14:50:23.273+00
+84	21	5mpE-6jg6Hc17sJrjGacUHfL.pdf	libro	documento final	6	t	2020-10-27 14:50:33.044+00	2020-10-27 14:50:33.177+00
+85	22	SxDLM8YdDolPomQILNJwWdgY.pdf	Titulo	carátula de proyecto	7	t	2020-10-27 15:31:23.094+00	2020-10-27 15:31:23.138+00
+86	22	RX0q_KhMfl9MhW0YJG6tkXBl.pdf	inextenso	documento inextenso	1	t	2020-10-27 15:35:07.699+00	2020-10-27 15:35:07.747+00
+87	22	cOedsGvrMHADHSKIeXBL44mb.pdf	resolucionAprobacionProyecto	documento resolucion	1	t	2020-10-27 15:35:35.532+00	2020-10-27 15:35:35.581+00
+88	22	uljBsdb1zEhqqg8wxX8wxIO8.pdf	libro	informe	6	t	2020-10-27 15:37:02.347+00	2020-10-27 15:37:02.463+00
+89	22	Hk60SkNsVFZnWYXUP6zXK15E.pdf	libro2	informe revisado	6	t	2020-10-27 15:37:16.691+00	2020-10-27 15:37:16.809+00
 \.
 
 
@@ -2606,12 +2769,28 @@ COPY public.proy_archivos (id_proy_archivo, id_proyecto, archivo, nombre, descri
 -- Data for Name: proyectos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, proceso, fechaini, fechafin, carrera, n_instituto, tipo, area, tipo_p, carga_h, moneda, financiamiento, estado, "createdAt", "updatedAt") FROM stdin;
-4	1	16	Construccion y validacion de un metodo de capacitacion sobre el manejo del conflicto con micromamiferos y sus implicancias en la salud publica, dirigido a instituciones tecnicas y academicas del Departamento de La Paz	100	2016-08-10 04:00:00+00	2018-10-30 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 20:44:43.353+00	2020-10-23 20:44:43.353+00
-1	1	6	Assesing the risk of extinction of plants and updating Key Biodiversity Areas in the Tropical Andes	65	2018-01-01 04:00:00+00	2020-06-01 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 19:31:09.505+00	2020-10-23 19:31:09.505+00
-2	1	2	Bioremediacion de las zonas de huatajata y bahia Cohana del lago Titicaca y revalorizacion cultural economica de la totora	15	2018-10-03 04:00:00+00	2021-10-06 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 20:23:59.149+00	2020-10-23 20:23:59.149+00
-3	1	5	Cooperacion tecnica ambiental para la planificacion de la conservacion de los espacios naturales del municipio de La Paz	70	2018-11-02 04:00:00+00	2020-04-16 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 20:32:26.491+00	2020-10-23 20:32:26.491+00
-5	1	10	Conservacion de especie endemica Syagrus yungasensis: Practicas de propagacion (Proyecto Plantas Endemicas)	40	2018-03-03 04:00:00+00	2021-03-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 20:53:55.581+00	2020-10-23 20:53:55.581+00
+COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, proceso, fechaini, fechafin, carrera, n_instituto, tipo, area, tipo_p, carga_h, moneda, financiamiento, estado, "createdAt", "updatedAt", objetivo, resumen) FROM stdin;
+1	1	6	Assesing the risk of extinction of plants and updating Key Biodiversity Areas in the Tropical Andes	65	2018-01-01 04:00:00+00	2020-06-01 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 19:31:09.505+00	2020-10-23 19:31:09.505+00	\N	\N
+7	1	13	Crecimiento y supervivencia de caimanes en el sistema del lago Moa. Bases para el manejo en sistemas de granjas de levante	80	2019-06-01 04:00:00+00	2019-12-01 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 02:43:27.991+00	2020-10-26 02:43:27.991+00	\N	\N
+5	1	10	Conservacion de especie endemica Syagrus yungasensis: Practicas de propagacion (Proyecto Plantas Endemicas)	40	2018-03-03 04:00:00+00	2021-03-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-23 20:53:55.581+00	2020-10-23 20:53:55.581+00	\N	\N
+6	1	10	Cultivos marginados en Iberoamérica: Red CultIVA CYTED	0	2018-02-09 04:00:00+00	2022-02-09 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 00:30:06.731+00	2020-10-26 00:30:06.731+00	\N	\N
+8	1	15	Diagnóstico de la biodiversidad acuática laguna Moa, La Paz Bolivia	90	2019-09-01 04:00:00+00	2020-03-02 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 04:02:33.256+00	2020-10-26 04:02:33.256+00	\N	\N
+22	1	12	Propuesta para la formulación y gestión de la pesquería en comunidades Tsimane, Estación Biológica del Beni	95	2019-02-06 04:00:00+00	2030-11-01 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 15:06:58.669+00	2020-10-27 15:06:58.669+00	\N	\N
+9	1	5	Dieta, tiempo de tránsito intestinal, consistencia feca y contenido en materia seca de las heces en Ateles chamek en semilibertad. ¿Cómo influye la evanta en estos parámetros?	90	2019-04-01 04:00:00+00	2019-12-05 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 04:31:14.274+00	2020-10-26 04:31:14.274+00	\N	\N
+10	1	5	Dinámica estacional de las comunidades de aves y el temor de las aves en parques urbanos y cementerios de América Latina 	80	2019-03-01 04:00:00+00	2020-12-03 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 16:30:03.814+00	2020-10-26 16:30:03.814+00	\N	\N
+12	1	48	Efectos de los transtornos antropogénicos en la salud de pequeños mamíferos en Bolivia y el riesgo de enfermedades zoonóticas	90	2019-06-05 04:00:00+00	2019-12-20 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 21:32:56.88+00	2020-10-26 21:32:56.88+00	\N	\N
+19	1	9	Fortalecimiento de la colección científica de invertebrados	100	2018-02-06 04:00:00+00	2100-10-01 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	cerrado	2020-10-27 14:24:54.676+00	2020-10-30 13:33:38.871+00	\N	\N
+4	1	16	Construccion y validacion de un metodo de capacitacion sobre el manejo del conflicto con micromamiferos y sus implicancias en la salud publica, dirigido a instituciones tecnicas y academicas del Departamento de La Paz	100	2016-08-10 04:00:00+00	2018-10-30 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	cerrado	2020-10-23 20:44:43.353+00	2020-10-30 13:35:31.378+00	\N	\N
+3	1	5	Cooperacion tecnica ambiental para la planificacion de la conservacion de los espacios naturales del municipio de La Paz	70	2018-11-02 04:00:00+00	2020-04-16 04:00:00+00	Biologia	Carrera de Biologia	\N	\N	\N	224	EURO	197000	inactivo	2020-10-23 20:32:26.491+00	2020-10-29 01:55:50.03+00	Promover la cooperación internacional entre la Gerencia de Servicios de Espacios Naturales de la Diputación de Barcelona, la Universidad Mayor de San Andrés y el Gobierno Autónomo Municipal de la Paz, para mejorar las capacidades de conservación del patrimonio natural de los dos gobiernos municipales en interacción con entidades académicas, para contribuir a la consecución de los “Objetivos de Desarrollo Sostenible de la ONU (2015 – 2030)” en el marco de los objetivos establecidos por la Red mundial de Ciudades y Gobiernos Locales y Regionales (CGLU).	La ciudad de La Paz ha experimentado un enorme y desordenado crecimiento en las últimas décadas, situación, se ha expandido horizontalmente en el orden del 100% desde los 1950s. con la acelerada transformación de los ambientes periurbanos, toda la ciudadanía está perdiendo los irremplazables valores de patrimonio natural y cultural como la biodiversidad local, los agro ecosistemas, los servicios eco sistémicos de regulación, el acceso a la naturaleza, los testimonios de asentamientos prehispánicos y el valor del paisaje circundante entre otros, haciendo a la ciudad menos resiliente y más vulnerable, y arrebatando a los ciudadanos el derecho de vivir en una ciudad más sana , habitable, sostenible y ecoficiente. El GAMLP declaró como patrimonio natural paisajístico a 21 áreas, sitios y monumentos del municipio de diferente superficie tanto dentro de la marcha urbana como en la periferia, para su conservación y protección, que en total suman 3.778 ha. Pero de estas áreas protegidas apenas tres cuentan con cierto nivel de gestión municipal. El GAMLP intenta encarar el manejo de los mismos con muy pocos instrumentos técnicos de gestión y con limitados recursos humanos y financieros. El presente proyecto se basa en el concepto del intercambio de experiencias de manejo de espacios protegidos entre el GAMLP y la Red de Parques Naturales de la Diputación de Barcelona. A través de la movilización de personal técnico del GAMLP, así como estudiantes de la UMSA hacia Barcelona, y de técnicos especializados la XPN hacia La Paz, se espera brindar las bases técnicas para que el GAMLP, en el marco de un trabajo colaborativo con la UMSA, inicie una gestión adecuada de conservación del patrimonio natural y cultural de los espacios naturales municipales. La implementación de los mecanismos de gestión se enmarcará en la estructura de gobernanza del GAMLP.
+11	1	16	Evaluación del riesgo de conflicto entre silvestre y actividad ganadera en los Municipios de Ixiamas y San Buenaventura	100	2016-08-01 04:00:00+00	2018-12-15 04:00:00+00	Biologia	Instituto de Ecologia	aplicada	\N	\N	232	Bs.	350000	cerrado	2020-10-26 21:21:17.98+00	2020-10-30 13:35:03.286+00	Evaluar el riesgo de conflicto de la actividad ganadera con la fauna silvestre en los municipios de San Buenaventura e Ixiamas, y definir recomendaciones para su manejo.	Cuando las interacciones entre actividades humanas y animales silvestres resultan en daños socioeconómicos o afectan la seguridad o salud de las personas se establecen los llamados conflictos. Como respuesta a estos conflictos es común que los pobladores utilicen técnicas inapropiadas de control de las poblaciones afectando la permanencia de las especies silvestres. Estos conflictos van a variar en intensidad de una región a otra, lo que se traduce en que el riesgo de que un conflicto se establezca en una zona o la seriedad del mismo, va a depender de diversas variables. En Bolivia, la actividad ganadera presenta permanente conflicto con especies silvestres. En los Municipios de Ixiamas y San Buenaventura es común el reporte de pérdida de animales por jaguares y daño por murciélagos vampiros. En este sentido para encontrar alternativas de manejo que mitiguen y reduzcan el conflicto entre ganaderos y vida silvestre, se propone evaluar las interacciones entre vida silvestre y actividad ganadera analizando el riesgo de conflicto a partir de la evaluación de las vulnerabilidades de los ganaderos y la presencia de las especies silvestres que causan daños al ganado. 
+2	1	2	Bioremediacion de las zonas de huatajata y bahia Cohana del lago Titicaca y revalorizacion cultural economica de la totora	15	2018-10-03 04:00:00+00	2021-10-06 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	192	USD	370000	activo	2020-10-23 20:23:59.149+00	2020-10-29 01:50:10.779+00	Establecer una plataforma de monitoreo permanente, para identificar las fluctuaciones naturales diarias, estacionales y anuales en el Lago Titicaca	El Lago Titicaca es el último de los grandes lagos del mundo que no tiene un sistema de seguimiento y monitoreo continuo a largo plazo, ni un Observatorio de Investigaciones del Medio Ambiente. Esto a pesar de que regionalmente es el lago más grande de América del Sur y a que tiene características únicas en el mundo. El presente proyecto plantea establecer una plataforma de monitoreo permanente en el Lago Titicaca. La misma que contará con una serie de sensores automáticos para proporcionar datos de alta resolución que permitan identificar las fluctuaciones naturales diarias, estacionales y anuales del sistema. Además, se identificarán fenómenos peculiares u ocasionales, como la explosión demográfica de algas y otros cambios. Se colectarán datos climatológicos y muestras periódicas (cada 15 días) para determinar si el clima o los niveles de contaminación son responsables de las alteraciones observadas. Con todo ello se espera identificar los indicadores claves del funcionamiento del ecosistema, así como también los factores clave que controlan su buen funcionamiento o condicionan fenómenos como los “blooms” o explosiones demográficas de algas. Estos fenómenos son de particular relevancia ya que podrían constituirse en un problema serio para la conservación de la diversidad y los servicios ambientales que presta este ecosistema único en el mundo e invaluable para las sociedades boliviana y peruana. Con los datos generados se podrá construir el esquema final del diseño de las otras estaciones de monitoreo permanente del Lago Titicaca. También se identificará la periodicidad y tipos de datos necesarios para dichas nuevas estaciones. Esta experiencia permitirá también capacitar personal técnico del Ministerio de Medio Ambiente y Agua para que eventualmente puedan replicar estas estaciones.
+13	1	18	Estrategias adaptativas de las anuales de verano de las regiones semiáridas de Bolivia	60	2018-01-03 04:00:00+00	2021-01-06 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-26 21:53:33.786+00	2020-10-26 21:53:33.786+00	\N	\N
+15	1	5	Extensión del proyecto: Límite aeróbico en aves primitivas, distinción entre efectos filogenéticos y adaptativos en la pisacca (Nothoprocta ornata) a nivel metabólico y cardiovascular	95	2017-05-03 04:00:00+00	2019-12-05 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	256	\N	\N	activo	2020-10-27 13:28:29.439+00	2020-10-29 02:12:53.479+00	Caracterizar la respuesta de la Pisacca a situaciones de ejercicio sostenido a nivel metabólico, cardiovascular y respiratorio	Desde el año 2010 nuestro equipo de investigación ha ido trabajando con varios aspectos de la morfología cardiaca y fisiológica cardiaca y ventilatoria de la Pisacca (Nothoprocta ornata). Se han obtenido resultados que apuntan a la enorme influencia que tiene la morfología cardiaca sobre el metabolismo general de los tinamúes. Las diferentes investigaciones están completando cada vez mejor la compresión del escenario general de lo que un corazón pequeño en un ave voladora representa en su fisiología endoterma, y a partir de esto seleccionamos la importancia de estudiar la fisiología “en marcha” del corazón mediante ecocardiografía, y la relación de los parámetros fisiológicos con la actividad en tejidos clave de enzimas involucradas con la fisiología en condiciones de hipoxia. Al mismo tiempo hemos descubierto que el tamaño del corazón difiere de otras especies de aves solo a partir de estadios juveniles, lo que interpretamos como indicador que la capacidad proliferativa en el corazón de la Pisacca es inferior al de otras especies de aves, hecho que pretendemos investigar también. Finalmente un aspecto que no fue posible determinar en las investigaciones precedentes, fue la tasa metabólica en ejercicio progresivo medido en tiempo real, debido a que no pudo optimizarse la determinación de la tasa de consumo de oxígeno en flujo abierto, en esta ocasión consideramos que podremos optimizar el sistema de medición en flujo abierto para lograrlo. Para esto, establecemos una nueva alianza con el Centro de Investigación y Producción de Animales Menores (CIPAM), Departamento de Ciencia Animal, Facultad de Ciencias Agrarias y Naturales (FCAN) de la Universidad Técnica de Oruro (UTO), logrando sinergias entre su interés de experimentar con la crianza de esta especie, y las actuales dificultades por falta de personal y financiamiento para mantener Pisaccas en la UMSA.
+16	1	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	95	2017-09-06 04:00:00+00	2019-09-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 13:39:03.711+00	2020-10-27 14:07:53.822+00	\N	\N
+20	1	22	Tracing trigger mechanisms of eutrophication and contamination of Andean aquatic ecosystems (Bolivia), Titicaca	25	2019-10-17 04:00:00+00	2021-10-15 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 14:45:26.619+00	2020-10-27 14:45:26.619+00	\N	\N
+21	1	22	Observatorio permanente del lago Titicaca	30	2018-10-11 04:00:00+00	2021-10-08 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 14:49:30.15+00	2020-10-27 14:49:30.15+00	\N	\N
+14	1	3	Evaluación de la aptitud de la tierra para tipos de utilización actual en la sub-cuenca del rio Sasanta Mayu, Ravelo Potosi	95	2018-04-03 04:00:00+00	2019-04-03 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	pendiente	2020-10-26 22:20:54.509+00	2020-10-30 13:34:39.07+00	\N	\N
+18	1	16	Fortalecimiento del Programa Boliviano sobre ecologia y evolucion de enfermedades emergentes - PBE4 - Fase II	95	2016-08-01 04:00:00+00	2018-12-15 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	inactivo	2020-10-27 14:15:45.693+00	2020-10-30 13:46:14.279+00	\N	\N
 \.
 
 
@@ -2628,6 +2807,15 @@ COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, d
 4	4	FUcAdBip8hyBPmRdCeo_rJdp.pdf	MemoriaDetalladaDeLaActividad	actividad	14	t	2020-10-23 20:37:20.801+00	2020-10-23 20:37:21.01+00
 5	5	yfgL3BoB6SvFhqsLBoU-JiPD.pdf	ConvocatoriaDefondos2015	resumen	14	t	2020-10-23 20:50:27.277+00	2020-10-23 20:50:27.441+00
 6	6	83fQqMid9eJURezp0RsTzJrK.pdf	InformeProyectoInvestigacion	investigacion	14	t	2020-10-23 21:00:12.051+00	2020-10-23 21:00:12.246+00
+7	7	_EDy8AkerIqNtxzT86Rbu9Fq.pdf	TituloPropuesta	documento de propuesta	14	t	2020-10-26 02:39:08.272+00	2020-10-26 02:39:08.395+00
+8	8	W6wKz8Z7arFkPWwrRJle5Xk_.pdf	Avance	documento de trabajo	14	t	2020-10-26 16:17:39.018+00	2020-10-26 16:17:39.075+00
+9	9	GFNTTAEZ64H5YbfvdyHcjEU2.pdf	avance	documento propuesta	14	t	2020-10-26 18:51:46.619+00	2020-10-26 18:51:46.683+00
+10	10	u7IVvhjUy_KwSEhBM6fY4aRH.pdf	ProyectoInvestigacionCientificaConvocatoriaFondosConcursables	resumen	14	t	2020-10-26 21:28:17.138+00	2020-10-26 21:28:17.304+00
+11	11	SuZrNEQI1Rif36bPs52uzI84.pdf	InformeProyectosDeInvestigacion	documento final	14	t	2020-10-26 21:40:34.232+00	2020-10-26 21:40:34.333+00
+12	12	izaSmXiozT-2kHyceez4XfUT.pdf	InformeProyectoInvestigacion	documento investigación	14	t	2020-10-26 22:02:06.109+00	2020-10-26 22:02:06.165+00
+13	13	l3claB9kh_AbK6nRtqerlscf.pdf	InformeInvestigacion	documento de investigacion	14	t	2020-10-27 13:33:53.425+00	2020-10-27 13:33:53.511+00
+14	14	nu3WVfqgpU-BdtqEY5lPJfsN.pdf	InformeProyectoInvestigacion	documento investigacion	14	t	2020-10-27 14:11:16.761+00	2020-10-27 14:11:16.826+00
+15	15	0gy4tfKTuaWbRN79-eBxf7tq.pdf	InformePropuestaDeInvestigacion	documento propuesta	14	t	2020-10-27 14:30:10.85+00	2020-10-27 14:30:10.895+00
 \.
 
 
@@ -2644,6 +2832,15 @@ COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, 
 4	3	5	Memoria detallada de la actividad	2019-05-31 04:00:00+00	detalles de investigacion y financiamiento...	Datos	t	2020-10-23 20:37:20.753+00	2020-10-23 20:37:20.753+00
 5	4	16	Defondos concursables	2018-01-18 04:00:00+00	Información de proyecto, mas detalles de los financiamientos..	Datos	t	2020-10-23 20:50:27.207+00	2020-10-23 20:50:27.207+00
 6	5	10	Informe 2018 Plantas amenazadas de Bolivia	2019-04-03 04:00:00+00	Especies en estado critico: syagrus yunganesis y magnolia madidiensis	Investigación	t	2020-10-23 21:00:12.002+00	2020-10-23 21:00:12.002+00
+7	6	10	RED IBEROAMERICANA DE CULTIVOS INFRAUTILIZADOS Y MARGINADOS CON VALOR AGROLIMENTARIO	2019-10-11 04:00:00+00	CultIVA	Propuesta	t	2020-10-26 02:39:08.22+00	2020-10-26 02:39:08.22+00
+8	9	5	Dieta, tiempo de tránsito intestinal, consistencia feca y contenido en materia seca de las heces en Ateles chamek en semilibertad. ¿Cómo influye la evanta en estos parámetros?	2019-12-01 04:00:00+00	Introducción, Metodologia y Referencias.	Investigación	t	2020-10-26 16:17:38.978+00	2020-10-26 16:17:38.978+00
+9	10	5	Dinámica estacional de las comunidades de aves y el temor de las aves en parques urbanos y cementerios de América Latina 	2019-12-05 04:00:00+00	Resumen Ejecutivo, Introducción, Metodos, Vegetación herbácea no manejada y Bibliografia.	Propuesta	t	2020-10-26 18:51:46.567+00	2020-10-26 18:51:46.567+00
+10	11	16	Evaluación del riesgo de conflicto entre silvestre y actividad ganadera en los Municipios de Ixiamas y San Buenaventura	2018-08-31 04:00:00+00	Las interacciones entre actividades humanas y animales silvestres pueden presentarse en cualquier medio donde ellos coexistan ...	Investigación	t	2020-10-26 21:28:17.094+00	2020-10-26 21:28:17.094+00
+11	12	48	Efectos de los transtornos antropogénicos en la salud de pequeños mamíferos en Bolivia y el riesgo de enfermedades zoonóticas	2019-12-11 04:00:00+00	Los mamíferos sirven como hospedadores para una amplia variedad de patógenos infecciosos ...	Investigación	t	2020-10-26 21:40:34.146+00	2020-10-26 21:40:34.146+00
+12	13	18	Estrategias adaptativas de las anuales de verano de las regiones semiáridas de Bolivia	2020-10-20 04:00:00+00	Introducción, Antecedentes, Area de estudio, Requerimientos, Calendario, Personas que participaron 	Investigación	t	2020-10-26 22:02:06.055+00	2020-10-26 22:02:06.055+00
+13	15	5	Límite aeróbico en aves primitivas, distinción entre efectos filogenéticos y adaptativos en la pisacca (Nothoprocta ornata) a nivel metabólico y cardiovascular	2019-10-17 04:00:00+00	Introducción, Objetivo general y específicos, Antecedentes para la solicitud de extension del proyecto, Diseño de investigación, Descripción detallada de los procedimientos de investigación, Resultados operados, Referencias.	Investigación	t	2020-10-27 13:33:53.367+00	2020-10-27 13:33:53.367+00
+14	16	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	2019-08-15 04:00:00+00	Introducción, Hipotesis, Predicciones, Objetivos, Metodos, Análisis estadísticos, Resultados esperados, Presupuesto y Bibliografia.	Investigación	t	2020-10-27 14:11:16.709+00	2020-10-27 14:11:16.709+00
+15	19	9	Fortalecimiento de la colección científica de invertebrados	2019-10-24 04:00:00+00	Resumen especifico, Introducción, Antecedentes, Justificativo, Objetivos, Metodología y Referencias.	Propuesta	t	2020-10-27 14:30:10.802+00	2020-10-27 14:30:10.802+00
 \.
 
 
@@ -2701,6 +2898,16 @@ COPY public.tipos (id_tipo, nombre, descripcion, estado, "createdAt", "updatedAt
 --
 
 COPY public.unidades (id_unidad, id_proyecto, nombre, observacion, estado, "createdAt", "updatedAt") FROM stdin;
+2	11	Museo Nacional de Historia Natural	\N	t	2020-10-29 01:42:05.802+00	2020-10-29 01:43:03.871+00
+1	11	Colección Boliviana de Fauna	\N	t	2020-10-29 01:42:05.795+00	2020-10-29 01:43:03.87+00
+3	11	Programa para la Conservación de Murciélagos de Bolivia	\N	t	2020-10-29 01:42:05.82+00	2020-10-29 01:43:03.879+00
+4	11	Asociación para la Conservación de los Ecosistemas Andino Amazónicos (ACEAA)	\N	t	2020-10-29 01:42:05.825+00	2020-10-29 01:43:03.88+00
+5	2	Unidad de Calidad Ambiental del Instituto de Ecologia	\N	t	2020-10-29 01:49:13.006+00	2020-10-29 01:50:10.853+00
+6	2	Instituto de Biologia Molecular y Biotecnologia	\N	t	2020-10-29 01:49:13.007+00	2020-10-29 01:50:10.862+00
+8	3	Gobierno Autónomo Municipal de La Paz (GAMLP)	\N	t	2020-10-29 01:53:50.815+00	2020-10-29 01:55:50.114+00
+7	3	Red de Parques Naturales (XPN) de la diputación de Barcelona (DiBa)	\N	t	2020-10-29 01:53:50.806+00	2020-10-29 01:55:50.113+00
+9	15	Colección Boliviana de Fauna	\N	t	2020-10-29 02:12:53.553+00	2020-10-29 02:12:53.553+00
+10	15	Instituto de Física, Química y Biología de la Universidad de Linkoping (Suecia)	\N	t	2020-10-29 02:12:53.557+00	2020-10-29 02:12:53.557+00
 \.
 
 
@@ -2719,7 +2926,7 @@ SELECT pg_catalog.setval('public.adm_roles_id_rol_seq', 3, true);
 -- Name: adm_usuario_roles_id_adm_usuario_rol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.adm_usuario_roles_id_adm_usuario_rol_seq', 60, true);
+SELECT pg_catalog.setval('public.adm_usuario_roles_id_adm_usuario_rol_seq', 61, true);
 
 
 --
@@ -2728,7 +2935,7 @@ SELECT pg_catalog.setval('public.adm_usuario_roles_id_adm_usuario_rol_seq', 60, 
 -- Name: adm_usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.adm_usuarios_id_usuario_seq', 57, true);
+SELECT pg_catalog.setval('public.adm_usuarios_id_usuario_seq', 58, true);
 
 
 --
@@ -2737,7 +2944,7 @@ SELECT pg_catalog.setval('public.adm_usuarios_id_usuario_seq', 57, true);
 -- Name: autores_id_autor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.autores_id_autor_seq', 7, true);
+SELECT pg_catalog.setval('public.autores_id_autor_seq', 27, true);
 
 
 --
@@ -2863,7 +3070,7 @@ SELECT pg_catalog.setval('public.expositores_id_expositor_seq', 1, false);
 -- Name: financiamientos_id_financiamiento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 1, false);
+SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 9, true);
 
 
 --
@@ -2872,7 +3079,7 @@ SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 1, fals
 -- Name: fotografias_id_fotografia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 6, true);
+SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 9, true);
 
 
 --
@@ -2881,7 +3088,7 @@ SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 6, true);
 -- Name: inv_proyectos_id_inv_proyecto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.inv_proyectos_id_inv_proyecto_seq', 13, true);
+SELECT pg_catalog.setval('public.inv_proyectos_id_inv_proyecto_seq', 55, true);
 
 
 --
@@ -2899,7 +3106,7 @@ SELECT pg_catalog.setval('public.inv_tipos_id_inv_tipo_seq', 3, true);
 -- Name: investigadores_id_investigador_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.investigadores_id_investigador_seq', 56, true);
+SELECT pg_catalog.setval('public.investigadores_id_investigador_seq', 57, true);
 
 
 --
@@ -2908,7 +3115,7 @@ SELECT pg_catalog.setval('public.investigadores_id_investigador_seq', 56, true);
 -- Name: lugar_desarrollos_id_lugar_desarrollo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.lugar_desarrollos_id_lugar_desarrollo_seq', 1, false);
+SELECT pg_catalog.setval('public.lugar_desarrollos_id_lugar_desarrollo_seq', 2, true);
 
 
 --
@@ -2935,7 +3142,7 @@ SELECT pg_catalog.setval('public.nota_prensas_id_nota_prensa_seq', 1, false);
 -- Name: permiso_archivos_id_permiso_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.permiso_archivos_id_permiso_archivo_seq', 3, true);
+SELECT pg_catalog.setval('public.permiso_archivos_id_permiso_archivo_seq', 16, true);
 
 
 --
@@ -2944,7 +3151,7 @@ SELECT pg_catalog.setval('public.permiso_archivos_id_permiso_archivo_seq', 3, tr
 -- Name: personas_id_persona_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.personas_id_persona_seq', 57, true);
+SELECT pg_catalog.setval('public.personas_id_persona_seq', 58, true);
 
 
 --
@@ -2971,7 +3178,7 @@ SELECT pg_catalog.setval('public.peticiones_id_peticion_seq', 1, false);
 -- Name: proy_archivos_id_proy_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 19, true);
+SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 89, true);
 
 
 --
@@ -2980,7 +3187,7 @@ SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 19, true);
 -- Name: proyectos_id_proyecto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 5, true);
+SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 22, true);
 
 
 --
@@ -2989,7 +3196,7 @@ SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 5, true);
 -- Name: publi_archivos_id_publi_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 6, true);
+SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 15, true);
 
 
 --
@@ -2998,7 +3205,7 @@ SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 6, true);
 -- Name: publicaciones_id_publicacion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 6, true);
+SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 15, true);
 
 
 --
@@ -3034,7 +3241,7 @@ SELECT pg_catalog.setval('public.tipos_id_tipo_seq', 17, true);
 -- Name: unidades_id_unidad_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.unidades_id_unidad_seq', 1, false);
+SELECT pg_catalog.setval('public.unidades_id_unidad_seq', 10, true);
 
 
 --
@@ -3919,7 +4126,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-10-23 17:31:02 -04
+-- Completed on 2020-11-11 10:07:35 -04
 
 --
 -- PostgreSQL database dump complete

@@ -8,6 +8,7 @@ import { InvestigadoresService } from 'src/app/services/admin/investigadores.ser
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
 import { FotografiasService } from 'src/app/services/upload/fotografias.service';
 import { ComentariosService } from 'src/app/services/proyecto/comentarios.service';
+import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +33,8 @@ export class ProfileComponent implements OnInit {
   private id_persona;
   public publicaciones: any = [];
   public nroComentarios = 0;
+  public nroPublicaciones = 0;
+  public page: number = 1;
 
   constructor(
     private sidebarService: SidebarService,
@@ -42,7 +45,8 @@ export class ProfileComponent implements OnInit {
     private _serviceInvestigadores: InvestigadoresService,
     private _servicePubliArchivos: PubliArchivosService,
     private _serviceFotografia: FotografiasService,
-    private _serviceComentarios: ComentariosService
+    private _serviceComentarios: ComentariosService,
+    private _servicePublicaciones: PublicacionesService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -88,6 +92,7 @@ export class ProfileComponent implements OnInit {
       .then(responseA => {
         // console.log(responseA);
         this.publicaciones = [];
+        this.nroPublicaciones = responseA.autores.length;
         responseA.autores.forEach(autor => {
           var publi = autor.publicacione;
           this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publi.id_publicacion, this.token)
@@ -96,7 +101,20 @@ export class ProfileComponent implements OnInit {
             this._serviceComentarios.getCountByIdPublicacion(publi.id_publicacion, this.token)
             .then(response => {
               publi.nroComentarios = response.contador;
-              this.publicaciones.push(publi);
+              publi.autores = '';
+              this._serviceAutores.getAutoresByIdPublicacionAndEstado(publi.id_publicacion, true, this.token)
+              .then(responseA => {
+                var contadorA = 0;
+                responseA.autores.forEach(autor => {
+                  contadorA++;
+                  if (contadorA === responseA.autores.length) {
+                    publi.autores = publi.autores + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} `;
+                    this.publicaciones.push(publi);
+                  } else {
+                    publi.autores = publi.autores + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno}, `;
+                  }
+                });
+              }).catch(error => { console.log('Error al obtener autores', error); });
             }).catch(error => { console.log('Error al obtener nro comentarios by id', error); });
           }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
         });
@@ -105,4 +123,13 @@ export class ProfileComponent implements OnInit {
     }).catch(error => { console.log('Error al obtener investigador por id_persona', error); });
   }
 
+  isPdf(url: string) {
+    var tam = url.length;
+    var ext = url.substring(tam - 3, tam);
+    if (ext === 'pdf') {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
