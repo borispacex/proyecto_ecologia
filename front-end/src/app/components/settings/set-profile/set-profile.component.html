@@ -43,7 +43,19 @@
 								{{image_selected}}
 							</div>
 							<button class="btn btn-primary mt-1" type="submit">Subir Fotografia</button>
+							<div class="progress mt-1" *ngIf="filesToUpload">
+								<div
+								  class="progress-bar progress-bar-info progress-bar-striped"
+								  role="progressbar"
+								  attr.aria-valuenow="{{ progress }}"
+								  aria-valuemin="0"
+								  aria-valuemax="100"
+								  [ngStyle]="{ width: progress + '%' }">
+								  {{ progress }}%
+								</div>
+							</div>
 						</form>
+						
 
 						<form class="body" #formInfBasica="ngForm" (ngSubmit)="editarInfBasica()">
 							<h6>Información basica</h6>

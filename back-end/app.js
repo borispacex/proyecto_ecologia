@@ -1,26 +1,29 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
-//CREATE EXPRESS APP
 const app = express();
 
-// middlewares
-app.use(bodyParser.json({ limit: '100mb' }));
-app.use(cors({origin: '*'}));
-app.use(bodyParser.urlencoded({ limit: '100mb', extended: true }));
+global.__basedir = __dirname;
 
-// cors permite el uso de servidores de diferentes orígenes solo para desarrollo
-app.use(cors());
-// app.use(express.static(__dirname + '/dist/front-end'));
+var corsOptions = {
+    // origin: "www.proyectosecologia.net.bo"
+    origin: "http://localhost:4200"
+};
+
+app.use(cors(corsOptions));
+
+// middlewares
+app.use(bodyParser.json({ limit: '101mb' }));
+// app.use(cors({origin: '*'}));
+app.use(bodyParser.urlencoded({ extended: true, limit: '101mb' }));
 
 // cabeceras
 app.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', 'Content-Type');
+    // res.header('Access-Control-Allow-Credentials', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    // res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
 

@@ -7,15 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class UploadArchivoService {
 
-  // BehaviorSubject se usa para obtener el valor de la barra de progreso cuando cambia
-  private _progress: BehaviorSubject<number> = new BehaviorSubject(0);
-
   constructor() {
-  }
-
-  // Devuelve el estado de progreso como observable
-  get progress(): Observable<number> {
-    return this._progress.asObservable();
   }
 
   uploadArchivo(url: string, file: File, token: string){
@@ -25,6 +17,10 @@ export class UploadArchivoService {
 
       formData.append('documento', file, file.name);
 
+      xhr.upload.onprogress = (event: ProgressEvent) => {
+        console.log('upload', Math.round((event.loaded / event.total) * 100));
+      };
+
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           if (xhr.status === 200) {
@@ -33,11 +29,6 @@ export class UploadArchivoService {
             reject(JSON.parse(xhr.response));
           }
         }
-      };
-
-      // Emitir el progreso actual en porcentaje
-      xhr.upload.onprogress = (event: ProgressEvent) => {
-        this._progress.next(Math.round((event.loaded / event.total) * 100));
       };
 
       xhr.open('POST', url, true);

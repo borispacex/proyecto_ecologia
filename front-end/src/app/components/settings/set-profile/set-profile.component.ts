@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UploadService } from 'src/app/services/upload/upload.service';
 import { FotografiasService } from 'src/app/services/upload/fotografias.service';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { HttpEventType, HttpResponse } from '@angular/common/http';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -84,7 +85,8 @@ export class SetProfileComponent implements OnInit, OnDestroy {
 
   // intereses
   public intereses: any = {};
-
+  // proceso de subida
+  public progress = 0;
 
   constructor(
     private sidebarService: SidebarService,
@@ -330,6 +332,14 @@ export class SetProfileComponent implements OnInit, OnDestroy {
             .then(responsePersona => {
               // console.log(responsePersona);
               this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+              this.progress = 100;
+              let interval = setInterval(() => {
+                this.progress = this.progress + Math.floor(Math.random() * 10) + 1;
+                if(this.progress >= 100) {
+                    this.progress = 100;
+                    clearInterval(interval);
+                }
+              }, 2000);
               this.filesToUpload = null;
               this.obtenerDatos();
               // AQUI SE TIENE QUE ACTUALIZAR LA FOTO DE SIDEBAR, esta en obtenerDatos()
