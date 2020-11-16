@@ -7,7 +7,18 @@ import { Observable } from 'rxjs';
 })
 export class UploadService {
 
+    private progress$: Observable<number>;
+    private progress: number = 0;
+    private progressObserver: any;
+
     constructor(private http: HttpClient) {
+        this.progress$ = new Observable(observer => {
+            this.progressObserver = observer;
+        });
+    }
+
+    public getObserver(): Observable<number> {
+        return this.progress$;
     }
 
     upload(url: string, files: Array<File>, token: string) {
@@ -21,6 +32,8 @@ export class UploadService {
 
             xhr.upload.onprogress = (event: ProgressEvent) => {
                 console.log('upload', Math.round((event.loaded / event.total) * 100));
+                this.progress = Math.round((event.loaded / event.total) * 100);
+                this.progressObserver.next(this.progress);
             };
 
             xhr.onreadystatechange = () => {

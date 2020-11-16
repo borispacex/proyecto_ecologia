@@ -461,7 +461,9 @@ export class DetailsProyectoComponent implements OnInit {
   guardar() {
     // console.log(this.files);
     // console.log(this.tipoModal);
-    let sw = true;
+    this._uploadArchivo.getObserver().subscribe(progress => {
+      this.progress = progress;
+    });
     switch (this.tipoModal) {
       case 1:
         // Otros
@@ -478,6 +480,8 @@ export class DetailsProyectoComponent implements OnInit {
               contador++;
               if (contador === this.files.length) {
                 this.toastr.success('Archivos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                this.progress = 0;
+                this.modalService.dismissAll();
                 this.getArchivosByTipo(7);
                 if (this.proy_archivo.id_tipo === '7') {
                   this.getArchivosByTipo(7);
@@ -494,7 +498,6 @@ export class DetailsProyectoComponent implements OnInit {
             this.toastr.error('Error al guardar proyecto ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
         }
-        this.modalService.dismissAll();
         break;
       case 2:
         // Permisos
@@ -515,6 +518,8 @@ export class DetailsProyectoComponent implements OnInit {
               if (contador === this.files.length) {
                 this.toastr.success('Permisos guardados', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                 this.getArchivosByTipo(1);
+                this.progress = 0;
+                this.modalService.dismissAll();
               }
             }).catch(error => {
                console.log('error al subir archivo', error);
@@ -525,7 +530,6 @@ export class DetailsProyectoComponent implements OnInit {
             this.toastr.error('Error al guardar proyecto ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
         }
-        this.modalService.dismissAll();
         break;
       case 3:
         this.convenio.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
@@ -570,6 +574,8 @@ export class DetailsProyectoComponent implements OnInit {
                             if (contador === this.files.length) { 
                               this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                               this.getArchivosByTipo(2);
+                              this.progress = 0;
+                              this.modalService.dismissAll();
                             }
                           }).catch(error => {
                             console.log('error al subir el archivo', error);
@@ -583,6 +589,8 @@ export class DetailsProyectoComponent implements OnInit {
                     } else {
                       this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                       this.getArchivosByTipo(2);
+                      this.progress = 0;
+                      this.modalService.dismissAll();
                     }
                   }).catch(error => {
                     console.log('error al subir archivo principal', error);
@@ -624,6 +632,8 @@ export class DetailsProyectoComponent implements OnInit {
                     if (contador === this.files.length) { 
                       this.toastr.success('Convenio actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                       this.getArchivosByTipo(2);
+                      this.progress = 0;
+                      this.modalService.dismissAll();
                     }
                   }).catch(error => {
                     console.log('error al subir el archivo', error);
@@ -637,13 +647,14 @@ export class DetailsProyectoComponent implements OnInit {
             } else {
               this.toastr.success('Convenio actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               this.getArchivosByTipo(2);
+              this.progress = 0;
+              this.modalService.dismissAll();
             }
           }).catch(error => {
             console.log('Error al actualizar convenio', error);
             this.toastr.error('Error al actualizar convenio ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
         }
-        this.modalService.dismissAll();
         break;
       case 4:
         this.personal_rrhh.fechaini = this.formatDate(this.fechainicio) + 'T00:00:00.000';
@@ -689,6 +700,8 @@ export class DetailsProyectoComponent implements OnInit {
                             if (contador === this.files.length) { 
                               this.toastr.success('Personal contratado guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                               this.getArchivosByTipo(3);
+                              this.progress = 0;
+                              this.modalService.dismissAll();
                             }
                           }).catch(error => {
                             console.log('error al subir el archivo', error);
@@ -702,6 +715,8 @@ export class DetailsProyectoComponent implements OnInit {
                     } else {
                       this.toastr.success('Personal contratado guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                       this.getArchivosByTipo(3);
+                      this.progress = 0;
+                      this.modalService.dismissAll();
                     }
                   }).catch(error => {
                     console.log('error al subir archivo principal', error);
@@ -722,9 +737,9 @@ export class DetailsProyectoComponent implements OnInit {
               this._uploadArchivo.uploadArchivo(this.url + 'upload-contratado/' + responseContra.contratado.id_contratado, this.filesToUpload[0], this.token)
               .then((responseArchivo: any) => {
                 this.getArchivosByTipo(3);
+                // sin porcentaje
               }).catch(error => { console.log('Error al subir contratado archivo', error); });
             }
-
             if (this.files.length > 0) {
               var contador = 0;
               for (let i = 0; i < this.files.length; i++) {
@@ -745,6 +760,8 @@ export class DetailsProyectoComponent implements OnInit {
                     if (contador === this.files.length) {
                       this.toastr.success('Personal contratado actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                       this.getArchivosByTipo(3);
+                      this.progress = 0;
+                      this.modalService.dismissAll();
                     }
                   }).catch(error => {
                     console.log('error al subir el archivo', error);
@@ -758,13 +775,14 @@ export class DetailsProyectoComponent implements OnInit {
             } else {
               this.toastr.success('Personal contratado actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               this.getArchivosByTipo(3);
+              this.progress = 0;
+              this.modalService.dismissAll();
             }
           }).catch(error => {
             console.log('Error al actualizar contratado', error);
             this.toastr.error('Error al actualizar personal contratado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
         }
-        this.modalService.dismissAll();
         break;
       case 5:
         // Cierre de proyecto, Proyecto final
@@ -781,6 +799,8 @@ export class DetailsProyectoComponent implements OnInit {
               if (contador === this.files.length) {
                 this.toastr.success('Proyecto final guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                 this.getArchivosByTipo(6);
+                this.progress = 0;
+                this.modalService.dismissAll();
               }
             }).catch(error => {
               console.log('Error al crear archivo del Inv_proyecto', error);
@@ -791,7 +811,6 @@ export class DetailsProyectoComponent implements OnInit {
             this.toastr.error('Error al guardar proyecto final', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           });
         }
-        this.modalService.dismissAll();
         break;
       default:
         console.log('Error funcion guardar');

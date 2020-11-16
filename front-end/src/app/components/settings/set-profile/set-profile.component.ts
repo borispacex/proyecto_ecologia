@@ -319,6 +319,9 @@ export class SetProfileComponent implements OnInit, OnDestroy {
         numero: this.fotografia.numero + 1,
         tipo: 'foto'
       };
+      this._upload.getObserver().subscribe(progress => {
+        this.progress = progress;
+      });
       this._serviceFotografias.save(foto, this.token)
       .then(responseFoto => {
         this._upload.upload(this.url + 'upload-fotografia/' + responseFoto.fotografias.id_fotografia, this.filesToUpload, this.token)
@@ -332,14 +335,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
             .then(responsePersona => {
               // console.log(responsePersona);
               this.toastr.success('Fotografia actualizada', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-              this.progress = 100;
-              let interval = setInterval(() => {
-                this.progress = this.progress + Math.floor(Math.random() * 10) + 1;
-                if(this.progress >= 100) {
-                    this.progress = 100;
-                    clearInterval(interval);
-                }
-              }, 2000);
+              this.progress = 0;
               this.filesToUpload = null;
               this.obtenerDatos();
               // AQUI SE TIENE QUE ACTUALIZAR LA FOTO DE SIDEBAR, esta en obtenerDatos()
