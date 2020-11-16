@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-11 10:07:33 -04
+-- Started on 2020-11-16 12:15:09 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2364,7 +2364,6 @@ COPY public.financiamientos (id_financiamiento, id_proyecto, fuente, aporte, obs
 
 COPY public.fotografias (id_fotografia, imagen, descripcion, numero, estado, tipo, "createdAt", "updatedAt") FROM stdin;
 2	logo-pdf.jpg	Archivo PDF por default	0	t	imagen	2020-10-23 13:23:56.99004+00	2020-10-23 13:23:56.99004+00
-3	pWY0LZa7CcyEtAdnN6u0TU24.jpg	Fotografia de Boris Vargas	1	t	foto	2020-10-23 14:27:53.887+00	2020-10-23 14:27:53.947+00
 1	photo_default.png	Fotografia por default	0	f	foto	2020-10-23 13:16:53.813598+00	2020-10-23 14:27:54.261+00
 4	H5DK77geluxQpOsynNwk5Ypg.jpg	Fotografia de Mónica Graciela Moraes	1	t	foto	2020-10-23 21:03:30.679+00	2020-10-23 21:03:30.717+00
 5	-bKTzUw4En_3i0syFPOmbubh.jpeg	Fotografia de Luis Álvaro Garitano-Zavala	1	t	foto	2020-10-23 21:05:27.294+00	2020-10-23 21:05:27.326+00
@@ -2372,6 +2371,9 @@ COPY public.fotografias (id_fotografia, imagen, descripcion, numero, estado, tip
 7	7wZ2mxo96DamrLnou2kWRyoP.png	Fotografia de Adriana Rico	1	t	foto	2020-10-27 15:12:48.207+00	2020-10-27 15:12:48.245+00
 8	1N5_pr_xHkx2Ykt1NsO3vTj6.jpeg	Fotografia de Guillermina Miranda	1	t	foto	2020-10-27 15:20:43.968+00	2020-10-27 15:20:43.992+00
 9	lRwVQm5r2m9cW8Cn9GsZSExF.jpeg	Fotografia de Eddy Octavio Martinez	1	t	foto	2020-10-27 15:23:41.323+00	2020-10-27 15:23:41.364+00
+3	pWY0LZa7CcyEtAdnN6u0TU24.jpg	Fotografia de Boris Vargas	1	f	foto	2020-10-23 14:27:53.887+00	2020-11-16 15:21:20.326+00
+13	ij6ljxeieYWb23PDRbJRhMe1.jpg	Fotografia de Boris Vargas	3	t	foto	2020-11-16 15:59:54.989+00	2020-11-16 15:59:55.061+00
+12	hGIehFguR46a1gByn5ovCgxH.jpeg	Fotografia de Boris Vargas	2	f	foto	2020-11-16 15:21:19.981+00	2020-11-16 15:59:55.308+00
 \.
 
 
@@ -2594,7 +2596,7 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 15	1	Pérez	Béjar	María Esther	3368666	\N	\N	\N	\N	\N	\N	\N	\N	\N	eperez@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:23:11.632+00	2020-10-23 14:23:11.632+00
 16	1	Pinto	Mendieta	Julio Jorge	489921	\N	\N	\N	\N	\N	\N	\N	\N	\N	jpinto@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:24:13.953+00	2020-10-23 14:24:13.953+00
 18	1	Valenzuela	Celis	Julieta Esther	467484	\N	\N	\N	\N	\N	\N	\N	\N	\N	evalenzuela@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:26:43.822+00	2020-10-23 14:26:43.822+00
-2	3	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-10-25 02:39:55.513+00
+2	13	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-16 15:59:55.352+00
 19	1	Lopez	Calderon	Ramiro	1356193	\N	\N	\N	\N	\N	\N	\N	\N	\N	rlopez@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:39:20.484+00	2020-10-23 18:39:20.484+00
 20	1	Saavedra	Agramont	Francisco	3820243	\N	\N	\N	\N	\N	\N	\N	\N	\N	fsaavedra@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:40:01.428+00	2020-10-23 18:40:01.428+00
 21	1	Tognelli		Marcelo	9999001	\N	\N	\N	\N	\N	\N	\N	\N	\N	001@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:44:41.878+00	2020-10-23 18:44:41.878+00
@@ -2760,6 +2762,7 @@ COPY public.proy_archivos (id_proy_archivo, id_proyecto, archivo, nombre, descri
 87	22	cOedsGvrMHADHSKIeXBL44mb.pdf	resolucionAprobacionProyecto	documento resolucion	1	t	2020-10-27 15:35:35.532+00	2020-10-27 15:35:35.581+00
 88	22	uljBsdb1zEhqqg8wxX8wxIO8.pdf	libro	informe	6	t	2020-10-27 15:37:02.347+00	2020-10-27 15:37:02.463+00
 89	22	Hk60SkNsVFZnWYXUP6zXK15E.pdf	libro2	informe revisado	6	t	2020-10-27 15:37:16.691+00	2020-10-27 15:37:16.809+00
+90	14	eB-quITd3fZbbmCoxeFVFkfe.pdf	pdf-prueba	pdf de prueba	7	t	2020-11-16 16:09:09.458+00	2020-11-16 16:09:10.481+00
 \.
 
 
@@ -2789,8 +2792,8 @@ COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, proceso, fec
 16	1	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	95	2017-09-06 04:00:00+00	2019-09-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 13:39:03.711+00	2020-10-27 14:07:53.822+00	\N	\N
 20	1	22	Tracing trigger mechanisms of eutrophication and contamination of Andean aquatic ecosystems (Bolivia), Titicaca	25	2019-10-17 04:00:00+00	2021-10-15 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 14:45:26.619+00	2020-10-27 14:45:26.619+00	\N	\N
 21	1	22	Observatorio permanente del lago Titicaca	30	2018-10-11 04:00:00+00	2021-10-08 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 14:49:30.15+00	2020-10-27 14:49:30.15+00	\N	\N
-14	1	3	Evaluación de la aptitud de la tierra para tipos de utilización actual en la sub-cuenca del rio Sasanta Mayu, Ravelo Potosi	95	2018-04-03 04:00:00+00	2019-04-03 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	pendiente	2020-10-26 22:20:54.509+00	2020-10-30 13:34:39.07+00	\N	\N
 18	1	16	Fortalecimiento del Programa Boliviano sobre ecologia y evolucion de enfermedades emergentes - PBE4 - Fase II	95	2016-08-01 04:00:00+00	2018-12-15 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	inactivo	2020-10-27 14:15:45.693+00	2020-10-30 13:46:14.279+00	\N	\N
+14	1	3	Evaluación de la aptitud de la tierra para tipos de utilización actual en la sub-cuenca del rio Sasanta Mayu, Ravelo Potosi	95	2018-04-03 04:00:00+00	2019-04-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	pendiente	2020-10-26 22:20:54.509+00	2020-11-16 14:30:07.041+00	\N	\N
 \.
 
 
@@ -3079,7 +3082,7 @@ SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 9, true
 -- Name: fotografias_id_fotografia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 9, true);
+SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 13, true);
 
 
 --
@@ -3178,7 +3181,7 @@ SELECT pg_catalog.setval('public.peticiones_id_peticion_seq', 1, false);
 -- Name: proy_archivos_id_proy_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 89, true);
+SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 90, true);
 
 
 --
@@ -4126,7 +4129,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-11 10:07:35 -04
+-- Completed on 2020-11-16 12:15:11 -04
 
 --
 -- PostgreSQL database dump complete
