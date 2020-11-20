@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-16 12:15:09 -04
+-- Started on 2020-11-20 07:52:32 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -575,7 +575,7 @@ ALTER SEQUENCE public.cursos_id_curso_seq OWNED BY public.cursos.id_curso;
 --
 
 CREATE TABLE public.evento_archivos (
-    id_evento_archivos integer NOT NULL,
+    id_evento_archivo integer NOT NULL,
     id_evento integer NOT NULL,
     archivo character varying(100),
     nombre character varying(1000),
@@ -611,7 +611,7 @@ ALTER TABLE public.evento_archivos_id_evento_archivos_seq OWNER TO postgres;
 -- Name: evento_archivos_id_evento_archivos_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.evento_archivos_id_evento_archivos_seq OWNED BY public.evento_archivos.id_evento_archivos;
+ALTER SEQUENCE public.evento_archivos_id_evento_archivos_seq OWNED BY public.evento_archivos.id_evento_archivo;
 
 
 --
@@ -1515,7 +1515,8 @@ CREATE TABLE public.publicaciones (
     tipo character varying(100),
     estado boolean DEFAULT true NOT NULL,
     "createdAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
-    "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL
+    "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
+    autores character varying(1000)
 );
 
 
@@ -1820,10 +1821,10 @@ ALTER TABLE ONLY public.cursos ALTER COLUMN id_curso SET DEFAULT nextval('public
 
 --
 -- TOC entry 3135 (class 2604 OID 19587)
--- Name: evento_archivos id_evento_archivos; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: evento_archivos id_evento_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.evento_archivos ALTER COLUMN id_evento_archivos SET DEFAULT nextval('public.evento_archivos_id_evento_archivos_seq'::regclass);
+ALTER TABLE ONLY public.evento_archivos ALTER COLUMN id_evento_archivo SET DEFAULT nextval('public.evento_archivos_id_evento_archivos_seq'::regclass);
 
 
 --
@@ -2097,8 +2098,8 @@ COPY public.adm_usuario_roles (id_adm_usuario_rol, id_usuario, id_rol, estado, "
 58	55	3	t	2020-10-23 19:08:22.934+00	2020-10-23 19:08:22.934+00
 59	56	3	t	2020-10-23 19:08:49.486+00	2020-10-23 19:08:49.486+00
 60	57	3	t	2020-10-23 19:11:44.059+00	2020-10-23 19:11:44.059+00
-4	2	3	f	2020-10-23 13:32:01.213+00	2020-10-23 19:14:19.415+00
 61	58	3	t	2020-10-26 21:50:48.883+00	2020-10-26 21:50:48.883+00
+4	2	3	t	2020-10-23 13:32:01.213+00	2020-11-20 10:00:57.308+00
 \.
 
 
@@ -2204,6 +2205,8 @@ COPY public.autores (id_autor, id_investigador, id_publicacion, estado, "created
 25	53	13	t	2020-10-27 13:33:53.417+00	2020-10-27 13:33:53.417+00
 26	19	14	t	2020-10-27 14:11:16.76+00	2020-10-27 14:11:16.76+00
 27	9	15	t	2020-10-27 14:30:10.836+00	2020-10-27 14:30:10.836+00
+28	1	16	t	2020-11-20 10:04:54.272+00	2020-11-20 10:04:54.272+00
+29	1	17	t	2020-11-20 10:47:11.924+00	2020-11-20 10:47:11.924+00
 \.
 
 
@@ -2234,6 +2237,8 @@ COPY public.comentarios (id_comentario, id_persona, id_publicacion, comentario, 
 --
 
 COPY public.contra_archivos (id_contra_archivo, id_contratado, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
+1	1	p_Dqdc-QIAzuASaGTu0kSYda.pdf	diploma-ingles-basico	des1	9	t	2020-11-17 02:54:47.72+00	2020-11-17 02:54:47.781+00
+2	1	8bZa1-4FuwteQx-MfPt4_eZ0.pdf	diploma-ingles-2	des2	9	t	2020-11-17 02:54:47.72+00	2020-11-17 02:54:47.789+00
 \.
 
 
@@ -2244,6 +2249,7 @@ COPY public.contra_archivos (id_contra_archivo, id_contratado, archivo, nombre, 
 --
 
 COPY public.contratados (id_contratado, id_proyecto, archivo, nombre_archivo, descripcion_archivo, id_tipo, tipo, nombrecompleto, ci, fechaini, fechafin, descripcion, estado, "createdAt", "updatedAt") FROM stdin;
+1	23	poFbjZJ0dXOsuTVBS0p8d3AB.pdf	Contrado de Juanito Perez	descripcion del documento: descripcion contrato	9	01	Juanito Perez	00001	2020-11-16 04:00:00+00	2020-11-19 04:00:00+00	descripcion contrato	t	2020-11-17 02:54:47.623+00	2020-11-17 02:54:47.689+00
 \.
 
 
@@ -2254,6 +2260,12 @@ COPY public.contratados (id_contratado, id_proyecto, archivo, nombre_archivo, de
 --
 
 COPY public.conv_archivos (id_conv_archivo, id_convenio, archivo, nombre, descripcion, id_tipo, tipo, estado, "createdAt", "updatedAt") FROM stdin;
+1	2	VEhH5ZqQjTbyUr_pMn-Gq46w.pdf	diploma-fundamentos-google	des1	8	\N	t	2020-11-17 02:53:34.62+00	2020-11-17 02:53:34.686+00
+2	2	KmBXI_W-HC77FloLI3joC6wI.pdf	diploma-fundamentos-circuitos	des2	8	\N	t	2020-11-17 02:53:34.621+00	2020-11-17 02:53:34.691+00
+3	3	0yQItVA7q0OLmvA3M9yFR5nV.pdf	diploma-lavarse-manos-correctamente	des1	8	\N	t	2020-11-17 14:53:38.225+00	2020-11-17 14:53:38.282+00
+4	3	uWbJdNTcVmWCiLGZ5_fewmmz.pdf	diploma-iot	des2	8	\N	t	2020-11-17 14:53:38.228+00	2020-11-17 14:53:38.361+00
+5	4	XYtqkqfrJmNQSMkh9mGDne18.pdf	diploma-ingles	des1	8	\N	t	2020-11-17 15:00:49.199+00	2020-11-17 15:00:49.316+00
+6	4	mTmKzjhVpLxG7JAr_OjevClv.pdf	diploma-ingles-gramatica	des2	8	\N	t	2020-11-17 15:00:49.206+00	2020-11-17 15:00:49.352+00
 \.
 
 
@@ -2264,6 +2276,10 @@ COPY public.conv_archivos (id_conv_archivo, id_convenio, archivo, nombre, descri
 --
 
 COPY public.convenios (id_convenio, id_proyecto, archivo, nombre_archivo, descripcion_archivo, id_tipo, tipo, titulo, objetivo, fechaini, fechafin, descripcion, estado, "createdAt", "updatedAt") FROM stdin;
+1	23		Convenio de titulo convenio prueba	descripcion de convenio: descripcion	8	convenio marco	titulo convenio prueba	objetivo convenio	2020-11-16 04:00:00+00	2020-11-13 04:00:00+00	descripcion	t	2020-11-17 02:52:59.951+00	2020-11-17 02:52:59.951+00
+2	23	aEVbHRuYp0F3ese-Y9MkmPiw.pdf	Convenio de titulo convenio prueba	descripcion de convenio: descripcion	8	convenio marco	titulo convenio prueba	objetivo convenio	2020-11-16 04:00:00+00	2020-11-13 04:00:00+00	descripcion	t	2020-11-17 02:53:34.499+00	2020-11-17 02:53:34.586+00
+3	23	QAv0E5EnQGUxBs0r72kuahh7.pdf	Convenio de titulo prueba	descripcion de convenio: descri	8	convenio marco	titulo prueba	objetivo	2020-11-17 04:00:00+00	2020-11-19 04:00:00+00	descri	t	2020-11-17 14:53:38.107+00	2020-11-17 14:53:38.188+00
+4	23	iGoy_rB1r6e6qd69ZLA4LKI8.pdf	Convenio de titulo prueab 4	descripcion de convenio: descripcion	8	convenio bilateral	titulo prueab 4	objetivo 5	2020-11-17 04:00:00+00	2020-11-18 04:00:00+00	descripcion	t	2020-11-17 15:00:49.156+00	2020-11-17 15:00:49.276+00
 \.
 
 
@@ -2293,7 +2309,7 @@ COPY public.cursos (id_curso, id_proyecto, titulo, objetivo, lugar, resumen, asi
 -- Data for Name: evento_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.evento_archivos (id_evento_archivos, id_evento, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
+COPY public.evento_archivos (id_evento_archivo, id_evento, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
 \.
 
 
@@ -2372,8 +2388,10 @@ COPY public.fotografias (id_fotografia, imagen, descripcion, numero, estado, tip
 8	1N5_pr_xHkx2Ykt1NsO3vTj6.jpeg	Fotografia de Guillermina Miranda	1	t	foto	2020-10-27 15:20:43.968+00	2020-10-27 15:20:43.992+00
 9	lRwVQm5r2m9cW8Cn9GsZSExF.jpeg	Fotografia de Eddy Octavio Martinez	1	t	foto	2020-10-27 15:23:41.323+00	2020-10-27 15:23:41.364+00
 3	pWY0LZa7CcyEtAdnN6u0TU24.jpg	Fotografia de Boris Vargas	1	f	foto	2020-10-23 14:27:53.887+00	2020-11-16 15:21:20.326+00
-13	ij6ljxeieYWb23PDRbJRhMe1.jpg	Fotografia de Boris Vargas	3	t	foto	2020-11-16 15:59:54.989+00	2020-11-16 15:59:55.061+00
 12	hGIehFguR46a1gByn5ovCgxH.jpeg	Fotografia de Boris Vargas	2	f	foto	2020-11-16 15:21:19.981+00	2020-11-16 15:59:55.308+00
+13	ij6ljxeieYWb23PDRbJRhMe1.jpg	Fotografia de Boris Vargas	3	f	foto	2020-11-16 15:59:54.989+00	2020-11-16 18:42:03.974+00
+15	S1EZ7lbgX72BP06-PxgympiS.jpg	Fotografia de Boris Vargas	5	t	foto	2020-11-16 18:43:25.862+00	2020-11-16 18:43:26.017+00
+14	z2KfB51w0JSXFM5OwXpSBGtH.jpeg	Fotografia de Boris Vargas	4	f	foto	2020-11-16 18:42:03.573+00	2020-11-16 18:43:26.067+00
 \.
 
 
@@ -2437,6 +2455,7 @@ COPY public.inv_proyectos (id_inv_proyecto, id_proyecto, id_investigador, estado
 53	20	24	t	2020-10-27 14:45:26.679+00	2020-10-27 14:45:26.679+00
 54	21	2	t	2020-10-27 14:49:30.21+00	2020-10-27 14:49:30.21+00
 55	21	9	t	2020-10-27 14:49:30.217+00	2020-10-27 14:49:30.217+00
+56	23	21	t	2020-11-17 01:23:57.907+00	2020-11-17 01:23:57.907+00
 \.
 
 
@@ -2596,7 +2615,7 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 15	1	Pérez	Béjar	María Esther	3368666	\N	\N	\N	\N	\N	\N	\N	\N	\N	eperez@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:23:11.632+00	2020-10-23 14:23:11.632+00
 16	1	Pinto	Mendieta	Julio Jorge	489921	\N	\N	\N	\N	\N	\N	\N	\N	\N	jpinto@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:24:13.953+00	2020-10-23 14:24:13.953+00
 18	1	Valenzuela	Celis	Julieta Esther	467484	\N	\N	\N	\N	\N	\N	\N	\N	\N	evalenzuela@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:26:43.822+00	2020-10-23 14:26:43.822+00
-2	13	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-16 15:59:55.352+00
+2	15	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-20 11:26:44.491+00
 19	1	Lopez	Calderon	Ramiro	1356193	\N	\N	\N	\N	\N	\N	\N	\N	\N	rlopez@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:39:20.484+00	2020-10-23 18:39:20.484+00
 20	1	Saavedra	Agramont	Francisco	3820243	\N	\N	\N	\N	\N	\N	\N	\N	\N	fsaavedra@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:40:01.428+00	2020-10-23 18:40:01.428+00
 21	1	Tognelli		Marcelo	9999001	\N	\N	\N	\N	\N	\N	\N	\N	\N	001@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:44:41.878+00	2020-10-23 18:44:41.878+00
@@ -2763,6 +2782,12 @@ COPY public.proy_archivos (id_proy_archivo, id_proyecto, archivo, nombre, descri
 88	22	uljBsdb1zEhqqg8wxX8wxIO8.pdf	libro	informe	6	t	2020-10-27 15:37:02.347+00	2020-10-27 15:37:02.463+00
 89	22	Hk60SkNsVFZnWYXUP6zXK15E.pdf	libro2	informe revisado	6	t	2020-10-27 15:37:16.691+00	2020-10-27 15:37:16.809+00
 90	14	eB-quITd3fZbbmCoxeFVFkfe.pdf	pdf-prueba	pdf de prueba	7	t	2020-11-16 16:09:09.458+00	2020-11-16 16:09:10.481+00
+91	14	Q-QG7Vp2SR1CYH7MqJz9Vu05.pdf	pdf-prueba	prueba de subida	7	t	2020-11-16 18:50:16.332+00	2020-11-16 18:50:17.992+00
+92	14	jtYGvGlnyZlYBZCHFi8M6c6p.pdf	docker	descri docker	6	t	2020-11-16 18:56:54.119+00	2020-11-16 18:56:54.454+00
+93	23	WctPmpMhWp-7_N0euwDg4oos.pdf	Formulario	documento formulario	1	t	2020-11-17 01:23:57.92+00	2020-11-17 01:23:58.022+00
+94	23	COjwBkzJzgJ0nc9sxSIHnfQa.pdf	Inextenso	documento inextenso	1	t	2020-11-17 01:23:57.921+00	2020-11-17 01:23:58.023+00
+95	23	i1TBbxV_SqfH1HAoAu6cMnh2.pdf	diploma-algoritmos	prueba	1	t	2020-11-17 01:24:26.957+00	2020-11-17 01:24:27.01+00
+96	23	Ng-zc1xHwJFwlwKqL_d03eka.pdf	diploma-angular	prueba	7	t	2020-11-17 01:25:02.946+00	2020-11-17 01:25:02.991+00
 \.
 
 
@@ -2794,6 +2819,7 @@ COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, proceso, fec
 21	1	22	Observatorio permanente del lago Titicaca	30	2018-10-11 04:00:00+00	2021-10-08 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 14:49:30.15+00	2020-10-27 14:49:30.15+00	\N	\N
 18	1	16	Fortalecimiento del Programa Boliviano sobre ecologia y evolucion de enfermedades emergentes - PBE4 - Fase II	95	2016-08-01 04:00:00+00	2018-12-15 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	inactivo	2020-10-27 14:15:45.693+00	2020-10-30 13:46:14.279+00	\N	\N
 14	1	3	Evaluación de la aptitud de la tierra para tipos de utilización actual en la sub-cuenca del rio Sasanta Mayu, Ravelo Potosi	95	2018-04-03 04:00:00+00	2019-04-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	pendiente	2020-10-26 22:20:54.509+00	2020-11-16 14:30:07.041+00	\N	\N
+23	1	1	Proyecto de prueba	0	2020-11-16 04:00:00+00	2020-11-19 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-11-17 01:23:57.846+00	2020-11-17 01:23:57.846+00	\N	\N
 \.
 
 
@@ -2819,6 +2845,9 @@ COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, d
 13	13	l3claB9kh_AbK6nRtqerlscf.pdf	InformeInvestigacion	documento de investigacion	14	t	2020-10-27 13:33:53.425+00	2020-10-27 13:33:53.511+00
 14	14	nu3WVfqgpU-BdtqEY5lPJfsN.pdf	InformeProyectoInvestigacion	documento investigacion	14	t	2020-10-27 14:11:16.761+00	2020-10-27 14:11:16.826+00
 15	15	0gy4tfKTuaWbRN79-eBxf7tq.pdf	InformePropuestaDeInvestigacion	documento propuesta	14	t	2020-10-27 14:30:10.85+00	2020-10-27 14:30:10.895+00
+17	16	ygIXfaFlFttDzg6e7Nzfg6a6.pdf	diploma-ingles-2	des2	14	t	2020-11-20 10:04:54.278+00	2020-11-20 10:04:54.359+00
+16	16	CE46fWjRjdsdKXoy9OqxuLWP.pdf	diploma-ingles-1	des1	14	t	2020-11-20 10:04:54.276+00	2020-11-20 10:04:54.361+00
+18	17	p-VMK3TAYzDQWA2ji6oRIT4q.pdf	diploma-redes	des	14	t	2020-11-20 10:47:11.929+00	2020-11-20 10:47:11.99+00
 \.
 
 
@@ -2828,22 +2857,24 @@ COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, d
 -- Data for Name: publicaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, fecha, contenido, tipo, estado, "createdAt", "updatedAt") FROM stdin;
-1	1	6	Reconstructing South American mosoon sensitivity to interval and external forcing	2020-05-13 04:00:00+00	Resumen de la investigación ...	Datos	t	2020-10-23 20:12:49.344+00	2020-10-23 20:12:49.344+00
-2	1	6	Assesing the risk of extinction of plants and updating Key Biodiversity Areas in the Tropical Andes	2019-10-10 04:00:00+00	Informacion de la investigacion, financiamientos, gastos ...	Investigación	t	2020-10-23 20:21:18.586+00	2020-10-23 20:21:18.586+00
-3	2	2	Bioremediacion de las zonas de huatajata y bahia Cohana del lago Titicaca y revalorizacion cultural economica de la totora	2019-10-10 04:00:00+00	Resumen y detalles de financiamiento	Artículo	t	2020-10-23 20:28:53.2+00	2020-10-23 20:28:53.2+00
-4	3	5	Memoria detallada de la actividad	2019-05-31 04:00:00+00	detalles de investigacion y financiamiento...	Datos	t	2020-10-23 20:37:20.753+00	2020-10-23 20:37:20.753+00
-5	4	16	Defondos concursables	2018-01-18 04:00:00+00	Información de proyecto, mas detalles de los financiamientos..	Datos	t	2020-10-23 20:50:27.207+00	2020-10-23 20:50:27.207+00
-6	5	10	Informe 2018 Plantas amenazadas de Bolivia	2019-04-03 04:00:00+00	Especies en estado critico: syagrus yunganesis y magnolia madidiensis	Investigación	t	2020-10-23 21:00:12.002+00	2020-10-23 21:00:12.002+00
-7	6	10	RED IBEROAMERICANA DE CULTIVOS INFRAUTILIZADOS Y MARGINADOS CON VALOR AGROLIMENTARIO	2019-10-11 04:00:00+00	CultIVA	Propuesta	t	2020-10-26 02:39:08.22+00	2020-10-26 02:39:08.22+00
-8	9	5	Dieta, tiempo de tránsito intestinal, consistencia feca y contenido en materia seca de las heces en Ateles chamek en semilibertad. ¿Cómo influye la evanta en estos parámetros?	2019-12-01 04:00:00+00	Introducción, Metodologia y Referencias.	Investigación	t	2020-10-26 16:17:38.978+00	2020-10-26 16:17:38.978+00
-9	10	5	Dinámica estacional de las comunidades de aves y el temor de las aves en parques urbanos y cementerios de América Latina 	2019-12-05 04:00:00+00	Resumen Ejecutivo, Introducción, Metodos, Vegetación herbácea no manejada y Bibliografia.	Propuesta	t	2020-10-26 18:51:46.567+00	2020-10-26 18:51:46.567+00
-10	11	16	Evaluación del riesgo de conflicto entre silvestre y actividad ganadera en los Municipios de Ixiamas y San Buenaventura	2018-08-31 04:00:00+00	Las interacciones entre actividades humanas y animales silvestres pueden presentarse en cualquier medio donde ellos coexistan ...	Investigación	t	2020-10-26 21:28:17.094+00	2020-10-26 21:28:17.094+00
-11	12	48	Efectos de los transtornos antropogénicos en la salud de pequeños mamíferos en Bolivia y el riesgo de enfermedades zoonóticas	2019-12-11 04:00:00+00	Los mamíferos sirven como hospedadores para una amplia variedad de patógenos infecciosos ...	Investigación	t	2020-10-26 21:40:34.146+00	2020-10-26 21:40:34.146+00
-12	13	18	Estrategias adaptativas de las anuales de verano de las regiones semiáridas de Bolivia	2020-10-20 04:00:00+00	Introducción, Antecedentes, Area de estudio, Requerimientos, Calendario, Personas que participaron 	Investigación	t	2020-10-26 22:02:06.055+00	2020-10-26 22:02:06.055+00
-13	15	5	Límite aeróbico en aves primitivas, distinción entre efectos filogenéticos y adaptativos en la pisacca (Nothoprocta ornata) a nivel metabólico y cardiovascular	2019-10-17 04:00:00+00	Introducción, Objetivo general y específicos, Antecedentes para la solicitud de extension del proyecto, Diseño de investigación, Descripción detallada de los procedimientos de investigación, Resultados operados, Referencias.	Investigación	t	2020-10-27 13:33:53.367+00	2020-10-27 13:33:53.367+00
-14	16	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	2019-08-15 04:00:00+00	Introducción, Hipotesis, Predicciones, Objetivos, Metodos, Análisis estadísticos, Resultados esperados, Presupuesto y Bibliografia.	Investigación	t	2020-10-27 14:11:16.709+00	2020-10-27 14:11:16.709+00
-15	19	9	Fortalecimiento de la colección científica de invertebrados	2019-10-24 04:00:00+00	Resumen especifico, Introducción, Antecedentes, Justificativo, Objetivos, Metodología y Referencias.	Propuesta	t	2020-10-27 14:30:10.802+00	2020-10-27 14:30:10.802+00
+COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, fecha, contenido, tipo, estado, "createdAt", "updatedAt", autores) FROM stdin;
+1	1	6	Reconstructing South American mosoon sensitivity to interval and external forcing	2020-05-13 04:00:00+00	Resumen de la investigación ...	Datos	t	2020-10-23 20:12:49.344+00	2020-10-23 20:12:49.344+00	\N
+2	1	6	Assesing the risk of extinction of plants and updating Key Biodiversity Areas in the Tropical Andes	2019-10-10 04:00:00+00	Informacion de la investigacion, financiamientos, gastos ...	Investigación	t	2020-10-23 20:21:18.586+00	2020-10-23 20:21:18.586+00	\N
+3	2	2	Bioremediacion de las zonas de huatajata y bahia Cohana del lago Titicaca y revalorizacion cultural economica de la totora	2019-10-10 04:00:00+00	Resumen y detalles de financiamiento	Artículo	t	2020-10-23 20:28:53.2+00	2020-10-23 20:28:53.2+00	\N
+4	3	5	Memoria detallada de la actividad	2019-05-31 04:00:00+00	detalles de investigacion y financiamiento...	Datos	t	2020-10-23 20:37:20.753+00	2020-10-23 20:37:20.753+00	\N
+5	4	16	Defondos concursables	2018-01-18 04:00:00+00	Información de proyecto, mas detalles de los financiamientos..	Datos	t	2020-10-23 20:50:27.207+00	2020-10-23 20:50:27.207+00	\N
+6	5	10	Informe 2018 Plantas amenazadas de Bolivia	2019-04-03 04:00:00+00	Especies en estado critico: syagrus yunganesis y magnolia madidiensis	Investigación	t	2020-10-23 21:00:12.002+00	2020-10-23 21:00:12.002+00	\N
+7	6	10	RED IBEROAMERICANA DE CULTIVOS INFRAUTILIZADOS Y MARGINADOS CON VALOR AGROLIMENTARIO	2019-10-11 04:00:00+00	CultIVA	Propuesta	t	2020-10-26 02:39:08.22+00	2020-10-26 02:39:08.22+00	\N
+8	9	5	Dieta, tiempo de tránsito intestinal, consistencia feca y contenido en materia seca de las heces en Ateles chamek en semilibertad. ¿Cómo influye la evanta en estos parámetros?	2019-12-01 04:00:00+00	Introducción, Metodologia y Referencias.	Investigación	t	2020-10-26 16:17:38.978+00	2020-10-26 16:17:38.978+00	\N
+9	10	5	Dinámica estacional de las comunidades de aves y el temor de las aves en parques urbanos y cementerios de América Latina 	2019-12-05 04:00:00+00	Resumen Ejecutivo, Introducción, Metodos, Vegetación herbácea no manejada y Bibliografia.	Propuesta	t	2020-10-26 18:51:46.567+00	2020-10-26 18:51:46.567+00	\N
+10	11	16	Evaluación del riesgo de conflicto entre silvestre y actividad ganadera en los Municipios de Ixiamas y San Buenaventura	2018-08-31 04:00:00+00	Las interacciones entre actividades humanas y animales silvestres pueden presentarse en cualquier medio donde ellos coexistan ...	Investigación	t	2020-10-26 21:28:17.094+00	2020-10-26 21:28:17.094+00	\N
+11	12	48	Efectos de los transtornos antropogénicos en la salud de pequeños mamíferos en Bolivia y el riesgo de enfermedades zoonóticas	2019-12-11 04:00:00+00	Los mamíferos sirven como hospedadores para una amplia variedad de patógenos infecciosos ...	Investigación	t	2020-10-26 21:40:34.146+00	2020-10-26 21:40:34.146+00	\N
+12	13	18	Estrategias adaptativas de las anuales de verano de las regiones semiáridas de Bolivia	2020-10-20 04:00:00+00	Introducción, Antecedentes, Area de estudio, Requerimientos, Calendario, Personas que participaron 	Investigación	t	2020-10-26 22:02:06.055+00	2020-10-26 22:02:06.055+00	\N
+13	15	5	Límite aeróbico en aves primitivas, distinción entre efectos filogenéticos y adaptativos en la pisacca (Nothoprocta ornata) a nivel metabólico y cardiovascular	2019-10-17 04:00:00+00	Introducción, Objetivo general y específicos, Antecedentes para la solicitud de extension del proyecto, Diseño de investigación, Descripción detallada de los procedimientos de investigación, Resultados operados, Referencias.	Investigación	t	2020-10-27 13:33:53.367+00	2020-10-27 13:33:53.367+00	\N
+14	16	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	2019-08-15 04:00:00+00	Introducción, Hipotesis, Predicciones, Objetivos, Metodos, Análisis estadísticos, Resultados esperados, Presupuesto y Bibliografia.	Investigación	t	2020-10-27 14:11:16.709+00	2020-10-27 14:11:16.709+00	\N
+15	19	9	Fortalecimiento de la colección científica de invertebrados	2019-10-24 04:00:00+00	Resumen especifico, Introducción, Antecedentes, Justificativo, Objetivos, Metodología y Referencias.	Propuesta	t	2020-10-27 14:30:10.802+00	2020-10-27 14:30:10.802+00	\N
+16	23	1	articulo prueba	1996-01-17 04:00:00+00	cita biblio	Artículo	t	2020-11-20 10:04:54.214+00	2020-11-20 10:04:54.214+00	Juanito, Perez
+17	23	1	titulo publi	2000-01-17 04:00:00+00	ninguna	Artículo	f	2020-11-20 10:47:11.869+00	2020-11-20 10:47:20.366+00	Boris, Juanito, Carito
 \.
 
 
@@ -2947,7 +2978,7 @@ SELECT pg_catalog.setval('public.adm_usuarios_id_usuario_seq', 58, true);
 -- Name: autores_id_autor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.autores_id_autor_seq', 27, true);
+SELECT pg_catalog.setval('public.autores_id_autor_seq', 29, true);
 
 
 --
@@ -2974,7 +3005,7 @@ SELECT pg_catalog.setval('public.comentarios_id_comentario_seq', 1, false);
 -- Name: contra_archivos_id_contra_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.contra_archivos_id_contra_archivo_seq', 1, false);
+SELECT pg_catalog.setval('public.contra_archivos_id_contra_archivo_seq', 2, true);
 
 
 --
@@ -2983,7 +3014,7 @@ SELECT pg_catalog.setval('public.contra_archivos_id_contra_archivo_seq', 1, fals
 -- Name: contratados_id_contratado_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.contratados_id_contratado_seq', 1, false);
+SELECT pg_catalog.setval('public.contratados_id_contratado_seq', 1, true);
 
 
 --
@@ -2992,7 +3023,7 @@ SELECT pg_catalog.setval('public.contratados_id_contratado_seq', 1, false);
 -- Name: conv_archivos_id_conv_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.conv_archivos_id_conv_archivo_seq', 1, false);
+SELECT pg_catalog.setval('public.conv_archivos_id_conv_archivo_seq', 6, true);
 
 
 --
@@ -3001,7 +3032,7 @@ SELECT pg_catalog.setval('public.conv_archivos_id_conv_archivo_seq', 1, false);
 -- Name: convenios_id_convenio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.convenios_id_convenio_seq', 1, false);
+SELECT pg_catalog.setval('public.convenios_id_convenio_seq', 4, true);
 
 
 --
@@ -3082,7 +3113,7 @@ SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 9, true
 -- Name: fotografias_id_fotografia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 13, true);
+SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 15, true);
 
 
 --
@@ -3091,7 +3122,7 @@ SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 13, true);
 -- Name: inv_proyectos_id_inv_proyecto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.inv_proyectos_id_inv_proyecto_seq', 55, true);
+SELECT pg_catalog.setval('public.inv_proyectos_id_inv_proyecto_seq', 56, true);
 
 
 --
@@ -3181,7 +3212,7 @@ SELECT pg_catalog.setval('public.peticiones_id_peticion_seq', 1, false);
 -- Name: proy_archivos_id_proy_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 90, true);
+SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 96, true);
 
 
 --
@@ -3190,7 +3221,7 @@ SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 90, true);
 -- Name: proyectos_id_proyecto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 22, true);
+SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 23, true);
 
 
 --
@@ -3199,7 +3230,7 @@ SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 22, true);
 -- Name: publi_archivos_id_publi_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 15, true);
+SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 18, true);
 
 
 --
@@ -3208,7 +3239,7 @@ SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 15, true)
 -- Name: publicaciones_id_publicacion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 15, true);
+SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 17, true);
 
 
 --
@@ -3379,7 +3410,7 @@ ALTER TABLE ONLY public.cursos
 --
 
 ALTER TABLE ONLY public.evento_archivos
-    ADD CONSTRAINT evento_archivos_pkey PRIMARY KEY (id_evento_archivos);
+    ADD CONSTRAINT evento_archivos_pkey PRIMARY KEY (id_evento_archivo);
 
 
 --
@@ -4129,7 +4160,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-16 12:15:11 -04
+-- Completed on 2020-11-20 07:52:34 -04
 
 --
 -- PostgreSQL database dump complete

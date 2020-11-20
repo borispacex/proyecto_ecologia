@@ -520,7 +520,6 @@ export class GenerateReportesComponent
     while (0 !== currentIndex) {
       let randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-
       // Swap
       let temp = this.columnsToDisplay[currentIndex];
       this.columnsToDisplay[currentIndex] = this.columnsToDisplay[randomIndex];
@@ -534,8 +533,11 @@ export class GenerateReportesComponent
 
   imprimir(exporter) {
     // const pageAnt = this.dataSource.paginator.pageSize;
-    this.dataSource.paginator._changePageSize(this.length);
-
+    // this.dataSource.paginator._changePageSize(this.length);
+    this.dataSource.paginator._changePageSize(this.dataSource.paginator.pageSize);
+    // console.log(this.dataSource.paginator.pageSize);
+    // console.log(this.length);
+    // console.log('exporter', exporter);
     // console.log('exporter', exporter._cdkTable._data);
     // console.log('dataSource', this.dataSource.data);
     let data: any = exporter._cdkTable._data;
@@ -543,7 +545,6 @@ export class GenerateReportesComponent
 
     printJS({ printable: data, properties: propiedades, type: 'json' });
 
-    // this.dataSource.paginator._changePageSize(pageAnt);
   }
 
   obtenerProyectos() { }
@@ -1275,100 +1276,98 @@ export class GenerateReportesComponent
           });
       }
       //  buscando publicacines
-      if (this.filtro.mostrarPublicacion) {
-        // this.filtro.tipoFecha = 'ninguna';
-        // this.filtro.fechaini = null;
-        // this.filtro.fechafin = null;
-        // this.filtro.estado = '';
-        // this.filtro.procesoini = '';
-        // this.filtro.procesofin = '';
-        // this.filtro.departamento = '';
-        // this.filtro.provincia = '';
-        // this.filtro.mostrarInformacion = null;
-        // this.filtro.mostrarBasicaTecnica = null;
-        // this.filtro.mostrarLugarDesarrollo = null;
-        // this.filtro.mostrarCoordinador = null;
-        // this.filtro.mostrarInvestigador = null;
+      if (this.filtro.mostrarPublicacion.length > 0) {
+        this.filtro.tipoFecha = 'ninguna';
+        this.filtro.fechaini = null;
+        this.filtro.fechafin = null;
+        this.filtro.estado = '';
+        this.filtro.procesoini = '';
+        this.filtro.procesofin = '';
+        this.filtro.departamento = '';
+        this.filtro.provincia = '';
+        this.filtro.mostrarInformacion = null;
+        this.filtro.mostrarBasicaTecnica = null;
+        this.filtro.mostrarLugarDesarrollo = null;
+        this.filtro.mostrarCoordinador = null;
+        this.filtro.mostrarInvestigador = null;
+        this.filtro.mostrarConvenio = null;
+        this.filtro.mostrarContratado = null;
+        this.filtro.mostrarDifusion = null;
+        this.filtro.mostrarNumero = null;
 
-        // this.filtro.mostrarConvenio = null;
-        // this.filtro.mostrarContratado = null;
-        // this.filtro.mostrarDifusion = null;
-        // this.filtro.mostrarNumero = null;
-
-
-        proyecto.titulo_publicacion = '';
-        proyecto.tipo_publicacion = '';
-        proyecto.fecha_publicacion = '';
-        proyecto.fecha_publicacion_anio = '';
-        proyecto.autores_publicacion = '';
-        proyecto.cita_bibliografica = '';
-        this._servicePublicaciones
-          .getPublicacionesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
+        this._servicePublicaciones.getPublicacionesByIdProyectoAndEstado(proyecto.id_proyecto, true, this.token)
           .then((response) => {
-            // console.log(response);
-            var contador = 0;
-            response.publicaciones.forEach((publicacion) => {
-              contador++;
-              this.filtro.mostrarPublicacion.forEach(publi => {
-                switch (publi.publi_id) {
-                  case 1:
-                    if (contador === response.publicaciones.length) {
-                      proyecto.tipo_publicacion = proyecto.tipo_publicacion + publicacion.tipo + '.';
-                    } else {
-                      proyecto.tipo_publicacion = proyecto.tipo_publicacion + publicacion.tipo + ', ';
-                    }
-                    break;
-                  case 2:
-                    if (contador === response.publicaciones.length) {
-                      proyecto.titulo_publicacion = proyecto.titulo_publicacion + publicacion.titulo;
-                    } else {
-                      proyecto.titulo_publicacion = proyecto.titulo_publicacion + publicacion.titulo + ', ';
-                    }
-                    break;
-                  case 3:
-                    if (contador === response.publicaciones.length) {
-                      proyecto.fecha_publicacion = proyecto.fecha_publicacion + publicacion.fecha.substring(0, 10);
-                    } else {
-                      proyecto.fecha_publicacion = proyecto.fecha_publicacion + publicacion.fecha.substring(0, 10) + ', ';
-                    }
-                    break;
-                  case 4:
-                    if (contador === response.publicaciones.length) {
-                      proyecto.fecha_publicacion_anio = proyecto.fecha_publicacion_anio + publicacion.fecha.substring(0, 4);
-                    } else {
-                      proyecto.fecha_publicacion_anio = proyecto.fecha_publicacion_anio + publicacion.fecha.substring(0, 4) + ', ';
-                    }
-                    break;
-                  case 5:
-                    this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
-                    .then(responseA => {
-                      var contadorA = 0;
-                      responseA.autores.forEach(autor => {
-                        contadorA++;
-                        if (contadorA === responseA.autores.length) {
-                          if (contador === response.publicaciones.length) {
-                            proyecto.autores_publicacion = proyecto.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} - `;
-                          } else {
-                            proyecto.autores_publicacion = proyecto.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno}`;
-                          }
-                        } else {
-                          proyecto.autores_publicacion = proyecto.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno}, `;
-                        }
-                      });
-                    }).catch(error => { console.log('Error al obtener autores', error); });
-                    break;
-                  case 6:
-                    if (contador === response.publicaciones.length) {
-                      proyecto.cita_bibliografica = proyecto.cita_bibliografica + publicacion.contenido;
-                    } else {
-                      proyecto.cita_bibliografica = proyecto.cita_bibliografica + publicacion.contenido + ', ';
-                    }
-                    break;
-                  default:
-                    break;
-                }
-              });
-            });
+            for (let i = 0; i < response.publicaciones.length; i++) {
+              const publicacion = response.publicaciones[i];
+              var proy = {
+                titulo_publicacion: '',
+                tipo_publicacion: '',
+                fecha_publicacion: '',
+                fecha_publicacion_anio: '',
+                autores_publicacion: '',
+                cita_bibliografica: ''
+              };
+              proy.tipo_publicacion = publicacion.tipo;
+
+              proy.titulo_publicacion = publicacion.titulo;
+
+              proy.fecha_publicacion = publicacion.fecha.substring(0, 10);
+
+              proy.fecha_publicacion_anio = publicacion.fecha.substring(0, 4);
+
+              proy.autores_publicacion = '';
+              this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
+                .then(responseA => {
+                  responseA.autores.forEach(autor => {
+                    proy.autores_publicacion = proy.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} `;
+                  });
+                }).catch(error => { console.log('Error al obtener autores', error); });
+
+              proy.cita_bibliografica = publicacion.contenido;
+              proys.push(proy);
+            }
+            // console.log(publicaciones);
+            // response.publicaciones.forEach((publicacion) => {
+            //         console.log(publicacion);
+            //   // proyecto.titulo_publicacion = '';
+            //   // proyecto.tipo_publicacion = '';
+            //   // proyecto.fecha_publicacion = '';
+            //   // proyecto.fecha_publicacion_anio = '';
+            //   // proyecto.autores_publicacion = '';
+            //   // proyecto.cita_bibliografica = '';
+            //   // this.filtro.mostrarPublicacion.forEach(publi => {
+            //   //   switch (publi.publi_id) {
+            //   //     case 1:
+            //         proyecto.tipo_publicacion = publicacion.tipo;
+            //         // break;
+            //       // case 2:
+            //         proyecto.titulo_publicacion = publicacion.titulo;
+            //         // break;
+            //       // case 3:
+            //         proyecto.fecha_publicacion = publicacion.fecha.substring(0, 10);
+            //         // break;
+            //       // case 4:
+            //         proyecto.fecha_publicacion_anio = publicacion.fecha.substring(0, 4);
+            //       //   break;
+            //       // case 5:
+            //         this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
+            //         .then(responseA => {
+            //           responseA.autores.forEach(autor => {
+            //               proyecto.autores_publicacion = `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno}`;
+            //           });
+            //         }).catch(error => { console.log('Error al obtener autores', error); });
+            //       //   break;
+            //       // case 6:
+            //         proyecto.cita_bibliografica = publicacion.contenido;
+            //       //   break;
+            //       // default:
+            //       //   break;
+            //     // }
+            //   // });
+            //   // console.log(proyecto);
+            //         console.log(proyecto);
+            //         proys.push(proyecto);
+            // });
           })
           .catch((error) => {
             console.log('Error al obtener publicaciones', error);
@@ -1588,11 +1587,14 @@ export class GenerateReportesComponent
       // proyecto.fecha_fin = this.formatDateStringData(proyecto.fechafin);
       proyecto.fecha_inicio = proyecto.fechaini.substring(0, 10);
       proyecto.fecha_fin = proyecto.fechafin.substring(0, 10);
-
-      proys.push(proyecto);
+      if (!(this.filtro.mostrarPublicacion.length > 0)) {
+        proys.push(proyecto);
+      }
+      // proys.push(proyecto);
     });
     // console.log(proys);
     this.proyectos = proys;
+    // console.log(this.proyectos);
     let dataS = new MatTableDataSource(this.proyectos);
     this.dataSource = dataS;
     this.dataSource.paginator = this.paginator;
@@ -1781,7 +1783,6 @@ export class GenerateReportesComponent
             this.displayedColumns.push('cita_bibliografica');
             this.columnsToDisplay = this.displayedColumns.slice();
             break;
-        
           default:
             break;
         }
