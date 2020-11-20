@@ -1276,6 +1276,26 @@ export class GenerateReportesComponent
       }
       //  buscando publicacines
       if (this.filtro.mostrarPublicacion) {
+        // this.filtro.tipoFecha = 'ninguna';
+        // this.filtro.fechaini = null;
+        // this.filtro.fechafin = null;
+        // this.filtro.estado = '';
+        // this.filtro.procesoini = '';
+        // this.filtro.procesofin = '';
+        // this.filtro.departamento = '';
+        // this.filtro.provincia = '';
+        // this.filtro.mostrarInformacion = null;
+        // this.filtro.mostrarBasicaTecnica = null;
+        // this.filtro.mostrarLugarDesarrollo = null;
+        // this.filtro.mostrarCoordinador = null;
+        // this.filtro.mostrarInvestigador = null;
+
+        // this.filtro.mostrarConvenio = null;
+        // this.filtro.mostrarContratado = null;
+        // this.filtro.mostrarDifusion = null;
+        // this.filtro.mostrarNumero = null;
+
+
         proyecto.titulo_publicacion = '';
         proyecto.tipo_publicacion = '';
         proyecto.fecha_publicacion = '';

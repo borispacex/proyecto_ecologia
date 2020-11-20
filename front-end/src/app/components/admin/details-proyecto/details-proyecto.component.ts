@@ -552,54 +552,61 @@ export class DetailsProyectoComponent implements OnInit {
               .then(response => {
                 // console.log(response);
                 this._uploadArchivo.uploadArchivo(this.url + 'upload-convenio/' + response.convenios.id_convenio, this.filesToUpload[0], this.token)
-                  .then((responseArchivo: any) => {
-                    // aqui crear los demas archivos
-                    if (this.files.length > 0) {
-                      var contador = 0;
-                      for (let i = 0; i < this.files.length; i++) {
-                        var conv_archivo = {
-                          id_convenio: response.convenios.id_convenio,
-                          archivo: '',
-                          nombre: this.datosArchivo[i].nombre,
-                          descripcion: this.datosArchivo[i].descripcion,
-                          id_tipo: 8
-                        };
-                        // console.log(conv_archivo);
-                        this._serviceConvArchivos.save(conv_archivo, this.token)
-                        .then(responseArchivo => {
-                          // console.log(responseArchivo);
-                          this._uploadArchivo.uploadArchivo(this.url + 'upload-conv-archivo/' + responseArchivo.conv_archivos.id_conv_archivo, this.files[i], this.token)
-                          .then(responseFile => {
-                            contador++;
-                            if (contador === this.files.length) { 
-                              this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                              this.getArchivosByTipo(2);
-                              this.progress = 0;
-                              this.modalService.dismissAll();
-                            }
-                          }).catch(error => {
-                            console.log('error al subir el archivo', error);
-                            this.toastr.error('Error al subir archivo', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                          });
+                .then((responseArchivo: any) => {
+                  // aqui crear los demas archivos
+                  if (this.files.length > 0) {
+                    this.progress = 0;
+                    var contador = 0;
+                    this._uploadArchivo.getObserver().subscribe(progress => {
+                      this.progress = progress;
+                    });
+                    for (let i = 0; i < this.files.length; i++) {
+                      var conv_archivo = {
+                        id_convenio: response.convenios.id_convenio,
+                        archivo: '',
+                        nombre: this.datosArchivo[i].nombre,
+                        descripcion: this.datosArchivo[i].descripcion,
+                        id_tipo: 8
+                      };
+                      // console.log(conv_archivo);
+                      this._serviceConvArchivos.save(conv_archivo, this.token)
+                      .then(responseArchivo => {
+                        // console.log(responseArchivo);
+                        this._uploadArchivo.uploadArchivo(this.url + 'upload-conv-archivo/' + responseArchivo.conv_archivos.id_conv_archivo, this.files[i], this.token)
+                        .then(responseFile => {
+                          contador++;
+                          if (contador === this.files.length) { 
+                            this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                            this.getArchivosByTipo(2);
+                            this.progress = 0;
+                            this.modalService.dismissAll();
+                          }
                         }).catch(error => {
-                          console.log('error al crear conv archivo', error);
-                          this.toastr.error('Error al guardar archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                          console.log('error al subir el archivo', error);
+                          this.toastr.error('Error al subir archivo', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                         });
-                      }
-                    } else {
-                      this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                      this.getArchivosByTipo(2);
-                      this.progress = 0;
-                      this.modalService.dismissAll();
+                      }).catch(error => {
+                        console.log('error al crear conv archivo', error);
+                        this.toastr.error('Error al guardar archivo ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                      });
                     }
-                  }).catch(error => {
-                    console.log('error al subir archivo principal', error);
-                    this.toastr.error('Error al subir archivo convenio', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
-                  });
+                  } else {
+                    this.toastr.success('Convenio guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                    this.getArchivosByTipo(2);
+                    this.progress = 0;
+                    this.modalService.dismissAll();
+                  }
+                }).catch(error => {
+                  console.log('error al subir archivo principal', error);
+                  this.toastr.error('Error al subir archivo convenio', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+                });
               }).catch(error => {
                 console.log('error al crear convenio', error);
                 this.toastr.error('Error al guardar convenio ', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               });
+          } else {
+            this.toastr.error('Error al guardar convenio, debe agregar archivo convenio', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+            this.progress = 0;
           }
         } else {
           // actualizar convenio
@@ -614,6 +621,10 @@ export class DetailsProyectoComponent implements OnInit {
             }
             if (this.files.length > 0) {
               var contador = 0;
+              this.progress = 0;
+              this._uploadArchivo.getObserver().subscribe(progress => {
+                this.progress = progress;
+              });
               for (let i = 0; i < this.files.length; i++) {
                 var conv_archivo = {
                   id_convenio: responseConv.convenio.id_convenio,
@@ -726,6 +737,8 @@ export class DetailsProyectoComponent implements OnInit {
                 console.log('error al crear contratados', error);
                 this.toastr.error('Error al guardar personal contratado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
               });
+          } else {
+            this.toastr.error('Error al guardar personal contratado, falta archivo convenio', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           }
         } else {
           // actualizar contratado

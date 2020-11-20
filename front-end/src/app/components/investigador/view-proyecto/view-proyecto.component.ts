@@ -460,7 +460,6 @@ export class ViewProyectoComponent implements OnInit {
     this._serviceInvestigadores.getInvestigadorByIdPersona(this.id_persona, this.token)
     .then(response => {
       this.peticion.id_investigador = response.investigador.id_investigador;
-
       if (this.peticion.id_peticion) {
         // console.log('actualizar');
         this._servicePeticiones.update(this.peticion.id_peticion, this.peticion, this.token)
@@ -469,6 +468,9 @@ export class ViewProyectoComponent implements OnInit {
           var contador = 0;
           // añadir archivos
           if (this.files.length > 0) {
+            this._uploadArchivo.getObserver().subscribe(progress => {
+              this.progress = progress;
+            });
             for (let i = 0; i < this.files.length; i++) {
               var peti_archivo = {
                 id_peticion: response.peticion.id_peticion,
@@ -488,6 +490,8 @@ export class ViewProyectoComponent implements OnInit {
                   if (contador === this.files.length) {
                     this.toastr.success('peticion actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                     this.peticion = {};
+                    this.progress = 0;
+                    this.modalService.dismissAll();
                     this.obtenerPeticiones();
                   }
                 }).catch(error => { console.log('error al subir el archivo', error); });
@@ -497,6 +501,8 @@ export class ViewProyectoComponent implements OnInit {
           } else {
             this.toastr.success('peticion actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
             this.peticion = {};
+            this.progress = 0;
+            this.modalService.dismissAll();
             this.obtenerPeticiones();
           }
           // actualizar autores
@@ -511,6 +517,9 @@ export class ViewProyectoComponent implements OnInit {
           var contador = 0;
           // guardar peti_archivo
           if (this.files.length > 0) {
+            this._uploadArchivo.getObserver().subscribe(progress => {
+              this.progress = progress;
+            });
             for (let i = 0; i < this.files.length; i++) {
               var peti_archivo = {
                 id_peticion: response.peticion.id_peticion,
@@ -529,6 +538,8 @@ export class ViewProyectoComponent implements OnInit {
                   if (contador === this.files.length) {
                     this.obtenerPeticiones();
                     this.peticion = {};
+                    this.progress = 0;
+                    this.modalService.dismissAll();
                     this.toastr.success('peticion guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                   }
                 }).catch(error => { console.log('error al subir el archivo', error); });
@@ -538,6 +549,8 @@ export class ViewProyectoComponent implements OnInit {
           } else {
             this.obtenerPeticiones();
             this.peticion = {};
+            this.progress = 0;
+            this.modalService.dismissAll();
             this.toastr.success('peticion guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           }
         }).catch(error => {
@@ -545,9 +558,6 @@ export class ViewProyectoComponent implements OnInit {
           this.toastr.error('Error al guardar peticion', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         });
       }
-      this.modalService.dismissAll();
-
-
     }).catch(error => { console.log('Error al buscar investigador', error); });
   }
   fileChangeEvent(fileInput: any, pos: number) {
@@ -817,7 +827,6 @@ export class ViewProyectoComponent implements OnInit {
     if (id) {
       this.unidades = [];
       // obtener datos
-
     } else {
       this.unidades = [{
         nombre: ''

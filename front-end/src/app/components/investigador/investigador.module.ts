@@ -22,7 +22,6 @@ import { MenuComponent } from './menu/menu.component';
 import { AgmCoreModule } from '@agm/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-
 @NgModule({
   declarations: [
     InvestigadorComponent,

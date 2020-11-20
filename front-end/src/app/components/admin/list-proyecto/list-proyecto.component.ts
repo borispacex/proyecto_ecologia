@@ -300,6 +300,9 @@ export class ListProyectoComponent implements OnInit {
         });
 
         if (this.files.length > 0) {
+          this._uploadArchivo.getObserver().subscribe(progress => {
+            this.progress = progress;
+          });
           var contador = 0;
           for (let pos = 0; pos < this.files.length; pos++) {
             this.datosArchivo[pos].id_proyecto = responseProy.proyecto.id_proyecto;
@@ -313,6 +316,7 @@ export class ListProyectoComponent implements OnInit {
                 if (contador === this.files.length) {
                   this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                   this.modalService.dismissAll();
+                  this.progress = 0;
                   this.comprobarTipoProyecto();
                   this.vaciarProyecto();
                 }
@@ -328,6 +332,7 @@ export class ListProyectoComponent implements OnInit {
         } else {
           this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           this.modalService.dismissAll();
+          this.progress = 0;
           this.comprobarTipoProyecto();
           this.vaciarProyecto();
         }

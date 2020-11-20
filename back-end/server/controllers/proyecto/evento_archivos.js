@@ -3,7 +3,7 @@ const eventos = require("../../models").eventos;
 const fs = require('fs');
 const path = require('path');
 
-evento_archivos.belongsTo(eventos, { foreignKey: 'id_evento' });
+// evento_archivos.belongsTo(eventos, { foreignKey: 'id_evento' });
 
 // crear evento_archivo
 function create(req, res) {
@@ -134,7 +134,7 @@ function getAllByIdEvento(req, res) {
         res.status(200).send({ evento_archivos });
     })
     .catch(err => {
-        res.status(500).send({ message: 'Ocurrio un error al buscar un evento_archivos por id_evento', err });
+        res.status(500).send({ message: 'Ocurrio un error al buscar evento_archivos por id_evento', err });
     })
 }
 // mostrar un evento_archivos por id_evento

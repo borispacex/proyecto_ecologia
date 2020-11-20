@@ -364,7 +364,7 @@ create table eventos(
 );
 -- TABLA EVENTO_ARCHIVOS
 create table evento_archivos(
-    id_evento_archivos serial primary key,
+    id_evento_archivo serial primary key,
     id_evento integer not null,
     -- archivo
     archivo varchar(100),
@@ -447,6 +447,7 @@ create table publicaciones(
     titulo varchar(2000),
     fecha timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null,
     contenido varchar(2000),
+    autores varchar(1000),
     tipo varchar(100),
     estado boolean not null default true,
     "createdAt" timestamp with time zone default ('now'::text)::timestamp(6) with time zone not null, 

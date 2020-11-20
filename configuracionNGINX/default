@@ -1,0 +1,71 @@
+## Configuracion
+server {
+
+	server_name proyectosecologia.net.bo www.proyectosecologia.net.bo;
+
+        index index.html index.htm index.nginx-debian.html;
+
+	location / {
+		client_max_body_size 101M;
+		# index.html
+                # root /var/www/proyecto_ecologia/back-end/dist/front-end;
+                root /var/www/uploadFile/frontend-angular/dist/frontend-angular;
+		try_files $uri $uri/ /index.html;
+	}
+
+	location /v1/ {
+		client_max_body_size 101M;
+		# proxy_pass http://localhost:8012/;
+                proxy_pass http://localhost:8080/;
+                proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                # Following is necessary for Websocket support
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		# Follwing is neccessary for limit files                
+		proxy_connect_timeout 1200s;
+		proxy_send_timeout 1200s;
+		proxy_read_timeout 1200s;
+		proxy_redirect off;
+		# Define buffers, necessary for proper communication to prevent 502s
+		proxy_buffer_size 128k;
+		proxy_buffers 4 256k;
+		proxy_busy_buffers_size 256k;
+		# Required for HTTP-based CLI to work over SSL
+		proxy_buffering off;
+	}
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/proyectosecologia.net.bo/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/proyectosecologia.net.bo/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+	
+	client_max_body_size 101M;
+}
+
+server {
+	client_max_body_size 101M;
+    if ($host = www.proyectosecologia.net.bo) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = proyectosecologia.net.bo) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+	listen 80 default_server;
+	listen [::]:80 default_server;
+
+	server_name proyectosecologia.net.bo www.proyectosecologia.net.bo;
+    return 404; # managed by Certbot
+
+
+
+
+}

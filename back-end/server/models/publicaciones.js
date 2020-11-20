@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
         tipo: DataTypes.STRING,
         titulo: DataTypes.STRING,
         fecha: DataTypes.DATE,
+        autores: DataTypes.STRING,
         contenido: DataTypes.STRING,
         estado: DataTypes.BOOLEAN
     });

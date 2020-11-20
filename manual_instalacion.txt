@@ -1,8 +1,3 @@
-
-ssh -i mi-llave bvargas7@35.226.114.61
-
-*********************************** APUNTES DE INSTALACION AL SERVIDOR ***********************************
-
 1. Comprobar SERVIDOR
     sudo apt-get upgrade
     sudo apt-get update
@@ -30,7 +25,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
 7. Instalamos PostgreSQL
     sudo apt install postgresql postgresql-contrib
 
-7. Clonamos el repositorio
+7. Clonamos el repositorio o carpeta de proyecto
     cd /var/www/
     sudo git clone https://github.com/borisvargas/proyecto_ecologia.git
     sudo chmod -R 777 proyecto_ecologia
@@ -46,7 +41,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
     \dt                             // mostrar tablas
     \q                              // salir consola
     cd /var/www/proyecto_ecologia/
-    psql -U postgres bd_ecologia < bd_ecologia.sql
+    psql -U postgres bd_ecologia < bd_ecologia_final.sql
         -- Verificamos la BD
     psql -U postgres -W             // ingresar consola postgres
     \c bd_ecologia                  // ingresar a la BD
@@ -68,13 +63,15 @@ ssh -i mi-llave bvargas7@35.226.114.61
 
 10. Preparamos nginx
     cd /etc/nginx/sites-available/
-    sudo nano default  
+    sudo nano default
+
+    sudo nano /etc/nginx/nginx.conf
 
 11. Preparamos Frontend
         -- primero creamos dist
     ng build --prod
         -- Copiamos la carpeta dist al servidor
-    scp -rp -i "mi-llave" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargas7@35.226.114.61:/var/www/proyecto_ecologia/back-end
+    scp -rp -i "/Users/boris/Documents/angular-projects/proyecto_ecologia/llaves-ecologia/llaves-ecologia" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargasp@35.199.66.1:/var/www/proyecto_ecologia/back-end
     
 
 12. Instalar llaves SSL con Cerbot
@@ -96,25 +93,8 @@ ssh -i mi-llave bvargas7@35.226.114.61
         -- paso 5
     sudo systemctl status certbot.timer
 
-13. Hacer cambios en el servidor
-    
-14. Estoy usando docker
-    docker run -p 5432:5432  --name postgres12 -e POSTGRES_PASSWORD=postgres -d -v /Users/boris/Documents/data-docker/postgres12:/data postgres
-    docker exec -it postgres12 bash
-
-16. Servidor de prueba
-    -- conectarte
-    ssh -i /Users/boris/Documents/angular-projects/proyecto_ecologia/llaves-ecologia/llaves-ecologia bvargasp@35.199.66.1
-    -- primero creamos dist
-    ng build --prod
-    -- Copiamos la carpeta dist al servidor
-scp -rp -i "/Users/boris/Documents/angular-projects/proyecto_ecologia/llaves-ecologia/llaves-ecologia" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargasp@35.199.66.1:/var/www/proyecto_ecologia/back-end
-
 
 NODEMAILER gmail
-
-Funciona para mí después de hacer esto:
-
 Habilite aplicaciones menos seguras: https://www.google.com/settings/security/lesssecureapps
 Desactive Captcha temporalmente para que pueda conectar el nuevo dispositivo servidor: https://accounts.google.com/b/0/displayunlockcaptcha
 

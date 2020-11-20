@@ -1309,6 +1309,9 @@ export class ShowProyectoComponent implements OnInit {
           this.getProyecto(this.id);
         }).catch(error => { console.log('Error al actualizar proyecto proceso', error); });
         if (this.files.length > 0) {
+          this._uploadArchivo.getObserver().subscribe(progress => {
+            this.progress = progress;
+          });
           var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var segui_archivo = {
@@ -1329,6 +1332,8 @@ export class ShowProyectoComponent implements OnInit {
                 if (contador === this.files.length) {
                   this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                   this.obtenerSeguimientos();
+                  this.progress = 0;
+                  this.modalService.dismissAll();
                 }
               }).catch(error => { console.log('error al subir el archivo', error); });
             }).catch(error => { console.log('error al crear evento archivo', error); });
@@ -1336,6 +1341,8 @@ export class ShowProyectoComponent implements OnInit {
         } else {
           this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           this.obtenerSeguimientos();
+          this.progress = 0;
+          this.modalService.dismissAll();
         }
         // actualizar autores
       }).catch(error => {
@@ -1352,6 +1359,9 @@ export class ShowProyectoComponent implements OnInit {
           this.getProyecto(this.id);
         }).catch(error => { console.log('Error al actualizar proyecto proceso', error); });
         if (this.files.length > 0) {
+          this._uploadArchivo.getObserver().subscribe(progress => {
+            this.progress = progress;
+          });
           var contador = 0;
           for (let i = 0; i < this.files.length; i++) {
             var segui_archivo = {
@@ -1371,6 +1381,8 @@ export class ShowProyectoComponent implements OnInit {
                 contador++;
                 if (contador === this.files.length) {
                   this.obtenerSeguimientos();
+                  this.progress = 0;
+                  this.modalService.dismissAll();
                   this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                 }
               }).catch(error => { console.log('error al subir el archivo', error); });
@@ -1378,6 +1390,8 @@ export class ShowProyectoComponent implements OnInit {
           }
         } else {
           this.obtenerSeguimientos();
+          this.progress = 0;
+          this.modalService.dismissAll();
           this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }
       }).catch(error => {
@@ -1385,7 +1399,6 @@ export class ShowProyectoComponent implements OnInit {
         this.toastr.error('Error al guardar seguimiento', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
       });
     }
-    this.modalService.dismissAll();
   }
 
   public obtenerSeguimientos() {

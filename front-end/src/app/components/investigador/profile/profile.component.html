@@ -115,10 +115,18 @@
 					<div class="body pb-0">
 						<h3 class="m-t-0 m-b-5"><a [routerLink]="['../profile-post/', publicacion.id_publicacion]">{{publicacion.titulo}}</a></h3>
 						<ul class="meta">
-							<li><a href="javascript:void(0);"><i class="icon-user text-primary"></i>Publicado por: {{publicacion.autores}}</a>
+							<li><a type="button"><i class="icon-user text-primary"></i><strong>Publicado por:</strong> {{publicacion.autores}}</a>
 							</li>
-							<li><a href="javascript:void(0);"><i class="icon-tag text-success"></i>{{publicacion.tipo}}</a></li>
-							<li><a href="javascript:void(0);"><i class="icon-bubbles text-warning"></i>Comentarios: {{publicacion.nroComentarios}}</a></li>
+							<li><a type="button"><i class="icon-tag text-success"></i>{{publicacion.tipo}}</a></li>
+							<li><a type="button"><i class="icon-bubbles text-warning"></i><strong>Comentarios:</strong> {{publicacion.nroComentarios}}</a></li>
+						</ul>
+						<ul class="meta">
+							<li>
+								<a type="button"><strong>Año de publicación: </strong> {{publicacion.fecha | date: 'yyyy'}}</a>
+							</li>
+							<li>
+								<a type="button"><strong>Autores: </strong> {{publicacion.autor}}</a>
+							</li>
 						</ul>
 					</div>
 					<div class="body">
