@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-20 07:52:32 -04
+-- Started on 2020-11-20 10:31:12 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2874,7 +2874,7 @@ COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, 
 14	16	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	2019-08-15 04:00:00+00	Introducción, Hipotesis, Predicciones, Objetivos, Metodos, Análisis estadísticos, Resultados esperados, Presupuesto y Bibliografia.	Investigación	t	2020-10-27 14:11:16.709+00	2020-10-27 14:11:16.709+00	\N
 15	19	9	Fortalecimiento de la colección científica de invertebrados	2019-10-24 04:00:00+00	Resumen especifico, Introducción, Antecedentes, Justificativo, Objetivos, Metodología y Referencias.	Propuesta	t	2020-10-27 14:30:10.802+00	2020-10-27 14:30:10.802+00	\N
 16	23	1	articulo prueba	1996-01-17 04:00:00+00	cita biblio	Artículo	t	2020-11-20 10:04:54.214+00	2020-11-20 10:04:54.214+00	Juanito, Perez
-17	23	1	titulo publi	2000-01-17 04:00:00+00	ninguna	Artículo	f	2020-11-20 10:47:11.869+00	2020-11-20 10:47:20.366+00	Boris, Juanito, Carito
+17	23	1	titulo publi	2000-01-17 04:00:00+00	ninguna	Artículo	t	2020-11-20 10:47:11.869+00	2020-11-20 10:47:20.366+00	Boris, Juanito, Carito
 \.
 
 
@@ -4160,7 +4160,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-20 07:52:34 -04
+-- Completed on 2020-11-20 10:31:14 -04
 
 --
 -- PostgreSQL database dump complete
