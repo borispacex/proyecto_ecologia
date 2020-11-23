@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-20 10:31:12 -04
+-- Started on 2020-11-23 11:41:02 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2227,6 +2227,8 @@ COPY public.basica_tecnicas (id_basica_tecnica, id_proyecto, tipo, area, tipo_p,
 --
 
 COPY public.comentarios (id_comentario, id_persona, id_publicacion, comentario, estado, "createdAt", "updatedAt") FROM stdin;
+1	2	9	Comentario de prueba	t	2020-11-23 03:51:16.024+00	2020-11-23 03:51:16.024+00
+2	6	9	comentario prueba 2	t	2020-11-23 14:29:23.964+00	2020-11-23 14:29:23.964+00
 \.
 
 
@@ -2660,8 +2662,8 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 9	8	Miranda	Torrez	Guillermina	1316562	\N	\N	\N	\N	\N	\N	\N	\N	\N	gmiranda@umsa.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:14:02.946+00	2020-10-27 15:20:44.34+00
 17	7	Rico	Cernohorska	Adriana	2726683-1J	\N	\N	\N	\N	\N	\N	\N	\N	\N	arico@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:25:50.72+00	2020-10-27 15:12:48.407+00
 51	9	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-27 15:23:41.59+00
-6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-11-06 15:51:23.392+00
-1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-10 14:24:41.444+00
+6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-11-23 00:02:03.657+00
+1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-23 01:49:35.659+00
 \.
 
 
@@ -2996,7 +2998,7 @@ SELECT pg_catalog.setval('public.basica_tecnicas_id_basica_tecnica_seq', 1, fals
 -- Name: comentarios_id_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.comentarios_id_comentario_seq', 1, false);
+SELECT pg_catalog.setval('public.comentarios_id_comentario_seq', 2, true);
 
 
 --
@@ -4160,7 +4162,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-20 10:31:14 -04
+-- Completed on 2020-11-23 11:41:05 -04
 
 --
 -- PostgreSQL database dump complete
