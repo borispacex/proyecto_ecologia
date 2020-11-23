@@ -82,6 +82,7 @@ export class StoriesComponent implements OnInit {
           .then(responseP => {
             investigador.inv_proyectos = responseP.inv_proyectos;
             investigador.nombreCompleto = `${investigador.persona.nombres} ${investigador.persona.paterno} ${investigador.persona.materno}`;
+            investigador.grado_academico = investigador.persona.grado_academico;
             this.investigadores.push(investigador);
           }).catch(error => { console.log('Error al obtener investigador proyecto', error); })
         });
@@ -97,6 +98,7 @@ export class StoriesComponent implements OnInit {
           .then(response => {
             investigador.inv_proyectos = response.inv_proyectos;
             investigador.nombreCompleto = `${investigador.persona.nombres} ${investigador.persona.paterno} ${investigador.persona.materno}`;
+            investigador.grado_academico = investigador.persona.grado_academico;
             this.investigadores.push(investigador);
           }).catch(error => { console.log('Error al obtener investigador proyecto', error); })
         });
@@ -116,44 +118,33 @@ export class StoriesComponent implements OnInit {
   obtenerPublicaciones() {
     this._servicePublicaciones.getPublicacionesByEstado(true, this.token)
     .then(response => {
-      // this.publicaciones = response.publicaciones;
-      // console.log(this.publicaciones);
+      this.publicaciones = [];
       response.publicaciones.forEach(publicacion => {
-        this._serviceAutores.getAutoresByIdInvestigador(publicacion.id_coordinador, this.token)
-        .then(responseA => {
-          // console.log(responseA);
-          this.publicaciones = [];
-          // this.nroPublicaciones = responseA.autores.length;
-          responseA.autores.forEach(autor => {
-            var publi = autor.publicacione;
-            this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publi.id_publicacion, this.token)
-            .then(responsePubliA => {
-              publi.archivos = responsePubliA.publi_archivos;
-              this._serviceComentarios.getCountByIdPublicacion(publi.id_publicacion, this.token)
+        var publi = publicacion;
+        publi.autor = publicacion.autores;
+        this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publi.id_publicacion, this.token)
+          .then(responsePubliA => {
+            publi.archivos = responsePubliA.publi_archivos;
+            this._serviceComentarios.getCountByIdPublicacion(publi.id_publicacion, this.token)
               .then(response => {
                 publi.nroComentarios = response.contador;
-                publi.autor = autor.publicacione.autores;
                 publi.autores = '';
                 this._serviceAutores.getAutoresByIdPublicacionAndEstado(publi.id_publicacion, true, this.token)
-                .then(responseA => {
-                  var contadorA = 0;
-                  responseA.autores.forEach(autor => {
-                    contadorA++;
-                    if (contadorA === responseA.autores.length) {
-                      publi.autores = publi.autores + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} `;
-                      this.publicaciones.push(publi);
-                    } else {
-                      publi.autores = publi.autores + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno}, `;
-                    }
-                  });
-                }).catch(error => { console.log('Error al obtener autores', error); });
+                  .then(responseAutor => {
+                    var contadorAutor = 0;
+                    responseAutor.autores.forEach(au => {
+                      contadorAutor++;
+                      if (contadorAutor === responseAutor.autores.length) {
+                        publi.autores = publi.autores + `${au.investigadore.persona.grado_academico} ${au.investigadore.persona.nombres} ${au.investigadore.persona.paterno} `;
+                        this.publicaciones.push(publi);
+                      } else {
+                        publi.autores = publi.autores + `${au.investigadore.persona.grado_academico} ${au.investigadore.persona.nombres} ${au.investigadore.persona.paterno}, `;
+                      }
+                    });
+                  }).catch(error => { console.log('Error al obtener autores', error); });
               }).catch(error => { console.log('Error al obtener nro comentarios by id', error); });
-            }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
-          });
-          // console.log(this.publicaciones);
-        }).catch(error => { console.log('Error al obtener Autores por id_investigador', error); });
+          }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
       });
-
     }).catch(error => { console.log('al obtener publicaciones', error); });
   }
   obtenerPublicacionesInvestigador(idPersona: number) {
@@ -208,4 +199,36 @@ export class StoriesComponent implements OnInit {
     }
   }
 
+  obtenerPublicacionesByTipo(tipo: string) {
+    this._servicePublicaciones.getPublicacionesByTipoEstado(tipo, true, this.token)
+    .then(response => {
+      this.publicaciones = [];
+      response.publicaciones.forEach(publicacion => {
+        var publi = publicacion;
+        publi.autor = publicacion.autores;
+        this._servicePubliArchivos.getPubliArchivosByIdPublicacion(publi.id_publicacion, this.token)
+          .then(responsePubliA => {
+            publi.archivos = responsePubliA.publi_archivos;
+            this._serviceComentarios.getCountByIdPublicacion(publi.id_publicacion, this.token)
+              .then(response => {
+                publi.nroComentarios = response.contador;
+                publi.autores = '';
+                this._serviceAutores.getAutoresByIdPublicacionAndEstado(publi.id_publicacion, true, this.token)
+                  .then(responseAutor => {
+                    var contadorAutor = 0;
+                    responseAutor.autores.forEach(au => {
+                      contadorAutor++;
+                      if (contadorAutor === responseAutor.autores.length) {
+                        publi.autores = publi.autores + `${au.investigadore.persona.grado_academico} ${au.investigadore.persona.nombres} ${au.investigadore.persona.paterno} `;
+                        this.publicaciones.push(publi);
+                      } else {
+                        publi.autores = publi.autores + `${au.investigadore.persona.grado_academico} ${au.investigadore.persona.nombres} ${au.investigadore.persona.paterno}, `;
+                      }
+                    });
+                  }).catch(error => { console.log('Error al obtener autores', error); });
+              }).catch(error => { console.log('Error al obtener nro comentarios by id', error); });
+          }).catch(error => { console.log('Error al obtener publi archivos by id_publicacion', error); });
+      });
+    }).catch(error => { console.log('al obtener publicaciones', error); });
+  }
 }

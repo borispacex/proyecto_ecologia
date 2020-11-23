@@ -30,7 +30,7 @@
                         <h5 class="sizes"><strong>Investigador coordinador: </strong>
                             <ul>
                                 <li>
-                                    <a type="button" class="text-primary">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a>
+                                    <a [routerLink]="['../../../profiles/inv-profile/', proyecto.investigadore.persona.id_persona]" class="text-primary">{{proyecto.investigadore.persona.nombres}} {{proyecto.investigadore.persona.paterno}} {{proyecto.investigadore.persona.materno}}</a>
                                 </li>
                             </ul>
                         </h5>
@@ -38,7 +38,7 @@
                             <h5 class="colors"><strong>Investigadores: </strong>
                                 <ul>
                                     <li *ngFor="let inv of proyecto.investigadores">
-                                        <a type="button" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
+                                        <a [routerLink]="['../../../profiles/inv-profile/', inv.investigadore.persona.id_persona]" class="text-primary">{{inv.investigadore.persona.nombres}} {{inv.investigadore.persona.paterno}} {{inv.investigadore.persona.materno}}</a>
                                     </li>
                                 </ul>
                             </h5>

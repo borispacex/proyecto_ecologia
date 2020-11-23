@@ -13,6 +13,8 @@ import { DirectorHelpComponent } from '../help/director-help/director-help.compo
 import { InvestigadorHelpComponent } from '../help/investigador-help/investigador-help.component';
 import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { MenuComponent } from './menu/menu.component';
+import { InvProfileComponent } from '../profiles/inv-profile/inv-profile.component';
+import { InvProfilePostComponent } from '../profiles/inv-profile-post/inv-profile-post.component';
 
 
 const routes: Routes = [
@@ -51,6 +53,14 @@ const routes: Routes = [
                   { path: 'admin/:tipo', component: AdminHelpComponent, data: { title: 'Ayuda Administrador' } },
                   { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda Director' } },
                   { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda Investigador' } }
+              ]
+          },
+          {
+            path: 'profiles',
+              children: [
+                  { path: '', redirectTo: 'cuenta', pathMatch: 'full' },
+                  { path: 'inv-profile/:id_persona', component: InvProfileComponent, data: { title: 'Investigador' } },
+                  { path: 'inv-profile-post/:id_persona/:id_publicacion', component: InvProfilePostComponent, data: { title: 'Publicación' } }
               ]
           },
           { path: '**', redirectTo: 'dashboard' }

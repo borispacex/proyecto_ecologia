@@ -16,4 +16,7 @@ module.exports = (app) => {
     app.get('/api/publicacionesByIdCoordinadorAndEstado/:id_coordinador/:estado', publicacionesController.getAllByIdCoordinadorAndEstado);
     app.get('/api/publicacionesByIdProyectoAndEstado/:id_proyecto/:estado', publicacionesController.getAllByIdProyectoAndEstado);
     app.get('/api/countPublicacionesByIdProyectoAndEstado/:id_proyecto/:estado', publicacionesController.countByIdProyectoAndEstado);
+
+    app.get('/api/publicacionesByTipo/:tipo', publicacionesController.getAllByTipo);
+    app.get('/api/publicacionesByTipoEstado/:tipo/:estado', publicacionesController.getAllByTipoAndEstado);
 }

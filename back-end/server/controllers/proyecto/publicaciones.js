@@ -149,6 +149,33 @@ function countByIdProyectoAndEstado(req, res) {
         res.status(500).send({ message: 'Ocurrio un error al contar publicaciones true por id_proyecto', err });
     })
 }
+// funcion para buscar y mostrar un publicaciones por id_proyecto
+function getAllByTipo(req, res) {
+    var tipoP = req.params.tipo;
+    publicaciones.findAll({
+        where: { tipo: tipoP }
+    })
+    .then(publicaciones => {
+        res.status(200).send({ publicaciones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por tipo y estado', err });
+    })
+}
+// funcion para buscar y mostrar un publicaciones por id_proyecto
+function getAllByTipoAndEstado(req, res) {
+    var tipoP = req.params.tipo;
+    var status = req.params.estado;
+    publicaciones.findAll({
+        where: { tipo: tipoP, estado: status }
+    })
+    .then(publicaciones => {
+        res.status(200).send({ publicaciones });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un publicaciones por tipo y estado', err });
+    })
+}
 
 module.exports = {
     create,
@@ -162,5 +189,8 @@ module.exports = {
     getAllByEstado,
     getAllByIdCoordinadorAndEstado,
     getAllByIdProyectoAndEstado,
-    countByIdProyectoAndEstado
+    countByIdProyectoAndEstado,
+
+    getAllByTipo,
+    getAllByTipoAndEstado
 }

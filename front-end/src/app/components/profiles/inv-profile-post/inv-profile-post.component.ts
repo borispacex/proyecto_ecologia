@@ -1,26 +1,30 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { SidebarService } from 'src/app/services/sidebar.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { GLOBAL } from 'src/app/services/global';
+import { AutoresService } from 'src/app/services/proyecto/autores.service';
 import { ComentariosService } from 'src/app/services/proyecto/comentarios.service';
 import { PubliArchivosService } from 'src/app/services/proyecto/publi-archivos.service';
-import { InvestigadoresService } from 'src/app/services/admin/investigadores.service';
-import { GLOBAL } from 'src/app/services/global';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { AutoresService } from 'src/app/services/proyecto/autores.service';
+import { PublicacionesService } from 'src/app/services/proyecto/publicaciones.service';
+import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
-  selector: 'app-profile-post',
-  templateUrl: './profile-post.component.html',
-  styleUrls: ['./profile-post.component.css']
+  selector: 'app-inv-profile-post',
+  templateUrl: './inv-profile-post.component.html',
+  styleUrls: ['./inv-profile-post.component.css']
 })
-export class ProfilePostComponent implements OnInit {
+export class InvProfilePostComponent implements OnInit {
 
   public sidebarVisible: boolean = true;
   public id_publicacion: number;
   private token: string;
   public url: string;
   public who: string;
+
+  public comentario: any = {};
 
   public publicacion: any = {};
   public archivos: any = [];
@@ -31,7 +35,7 @@ export class ProfilePostComponent implements OnInit {
     }
   };
 
-  private id_persona: number;
+  public id_persona: number;
 
   constructor(
     private sidebarService: SidebarService,
@@ -42,16 +46,20 @@ export class ProfilePostComponent implements OnInit {
     private _servicePubliArchivos: PubliArchivosService,
     private _serviceInvestigador: InvestigadoresService,
     private _serviceAutores: AutoresService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private toastr: ToastrService,
+    private modalService: NgbModal
+    
     ) {
       this.token = this._auth.getToken();
       this.url = GLOBAL.url;
       this.who = GLOBAL.who;
-      this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
+      // this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
   }
 
   ngOnInit(): void {
     this._route.params.forEach((params: Params) => {
+      this.id_persona = params.id_persona;
       this.id_publicacion = params.id_publicacion;
     });
     this.obtenerPublicacion();
@@ -97,7 +105,7 @@ export class ProfilePostComponent implements OnInit {
     }).catch(error => { console.log('Error al obtener publicacion por id', error); });
   }
   obtenerComentarios() {
-    this._serviceComentarios.getcomentariosByIdPublicacion(this.id_publicacion, this.token)
+    this._serviceComentarios.getComentariosByIdPublicacionAndEstado(this.id_publicacion, true, this.token)
     .then(response => {
       this.comentarios = response.comentarios;
       // console.log(this.comentarios);
@@ -116,6 +124,41 @@ export class ProfilePostComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  openModalNuevoComentario(content, size, publicacion: any) {
+    this.modalService.open(content, { size: size });
+    this.publicacion = publicacion;
+  }
+  guardarComentario() {
+    this.comentario.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
+    this.comentario.id_publicacion = this.publicacion.id_publicacion;
+    if (this.comentario.id_comentario) {
+      // actualizar
+      this._serviceComentarios.update(this.comentario.id_comentario, this.comentario, this.token)
+        .then(response => {
+          // console.log(response);
+          this.obtenerComentarios();
+          this.modalService.dismissAll();
+          this.toastr.success('Comentario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }).catch(error => {
+          console.log('Error al actualizar comentario', error);
+          this.toastr.error('Error al actualizar comentario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
+    } else {
+      if (this.publicacion.id_publicacion) {
+        this._serviceComentarios.save(this.comentario, this.token)
+        .then(response => {
+          // console.log(response);
+          this.obtenerComentarios();
+          this.modalService.dismissAll();
+          this.toastr.success('Comentario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }).catch(error => {
+          console.log('Error al guardar comentario', error);
+          this.toastr.error('Error al guardar comentario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
+      }
     }
   }
 

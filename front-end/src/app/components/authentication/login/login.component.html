@@ -3,8 +3,6 @@
       <div class="vertical-align-middle auth-main">
         <div class="auth-box">
           <div class="top">
-            <!-- <h2>SISTEMA DE SEGUIMIENTO Y CONTROL DE PROYECTOS DE INVESTIGACIÓN</h2> -->
-            <!-- <img src="assets/images/logo_ie.png" width="10px" alt="logo ie"> -->
           </div>
           <div class="card">
             <div class="header">
@@ -46,14 +44,14 @@
           <p class="align-center h1">Instituto de Ecología</p>
           <p class="align-center h5">Facultad de Ciencias Puras y Naturales - Universidad Mayor de San Andrés</p>
           <div class="row">
-            <div class="col-4 align-center">
-              <img src="assets/images/umsa-logo.png" height="200px" alt="logo umsa">
+            <div class="col-4 align-center flex-center">
+              <img src="assets/images/logo_ie_1.png" height="186px" alt="logo umsa">
             </div>
             <div class="col-4 align-center">
-              <img src="assets/images/fcpn.png" height="180px" alt="logo fcpn">
+              <img src="assets/images/umsa-logo.png" height="200px" alt="logo fcpn">
             </div>
             <div class="col-4 align-center"> 
-              <img src="assets/images/biologias.png" height="200px" alt="logo biologia">
+              <img src="assets/images/fcpn.png" height="200px" alt="logo biologia">
             </div>
           </div>
           <hr>
@@ -95,13 +93,13 @@
         <div class="modal-body product_item" *ngFor="let rol of roles">
           
             <div *ngIf="roles.length != null">
-              <div class="cp_img">
+              <div class="cp_img" (click)="ingresar(rol.id_rol)">
                 <img *ngIf="rol.id_rol === 1" src="assets/images/users/user_admin.png" alt="admin" class="img-fluid">
                 <img *ngIf="rol.id_rol === 2" src="assets/images/users/user_director.png" alt="director" class="img-fluid">
                 <img *ngIf="rol.id_rol === 3" src="assets/images/users/user_investigador.png" alt="investigador" class="img-fluid">
                 <div class="hover">
                   <!-- <a type="button" (click)="ingresar(rol.id_rol)" class="btn btn-primary mr-1"><i class="icon-login"></i></a> -->
-                  <span class="h5"><a type="button" (click)="ingresar(rol.id_rol)">{{rol.adm_role.rol}}</a></span>
+                  <span class="h5"><a type="button">{{rol.adm_role.rol}}</a></span>
                   
                 </div>
               </div>

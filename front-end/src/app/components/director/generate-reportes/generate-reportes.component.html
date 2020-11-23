@@ -148,16 +148,6 @@
 					<input type="checkbox" id="mostrarInvestigador" name="mostrarInvestigador" [(ngModel)]="filtro.mostrarInvestigador">
 					<span>Mostrar investigadores</span>
 				</label>
-								
-				
-				
-			</div>
-			<div class="form-group row">
-				<label class="col-12 col-md-2 my-1" for="basica">Publicaciones: </label>
-				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect5" #multiSelect5="ngModel" [placeholder]="'Seleccionar publicaciones'"
-					[settings]="dropdownSettings5" [data]="dropdownList5" [(ngModel)]="filtro.mostrarPublicacion">
-				</ng-multiselect-dropdown>
-
 				<label class="fancy-checkbox col-auto my-1">
 					<input type="checkbox" id="mostrarConvenio" name="mostrarConvenio" [(ngModel)]="filtro.mostrarConvenio">
 					<span>Mostrar convenios</span>
@@ -167,6 +157,7 @@
 					<span>Mostrar contratados</span>
 				</label>
 			</div>
+
 			<div class="form-group row">
 				<label class="col-12 col-md-2 mb-1" for="basica">Difusión: </label>
 				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect2" #multiSelect2="ngModel" [placeholder]="'Seleccionar difusión'"
@@ -176,6 +167,13 @@
 				<label class="col-12 col-md-2 my-1" for="basica">Numero: </label>
 				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect1" #multiSelect1="ngModel" [placeholder]="'Seleccionar numero'"
 					[settings]="dropdownSettings1" [data]="dropdownList1" [(ngModel)]="filtro.mostrarNumero">
+				</ng-multiselect-dropdown>
+			</div>
+			<hr>
+			<div class="form-group row">
+				<label class="col-12 col-md-2 my-1" for="basica">Publicaciones: </label>
+				<ng-multiselect-dropdown class="col-12 col-md-10 my-1" name="multiSelect5" #multiSelect5="ngModel" [placeholder]="'Seleccionar publicaciones'"
+					[settings]="dropdownSettings5" [data]="dropdownList5" [(ngModel)]="filtro.mostrarPublicacion">
 				</ng-multiselect-dropdown>
 			</div>
 			<div class="form-group row navbar-form search-form" id="navbar-search">
@@ -217,17 +215,19 @@
 	</div>
 
 	<!-- <div class="mb-1">
-		<button mat-raised-button (click)="addColumn()"> Add column </button>
-		<button mat-raised-button (click)="removeColumn()"> Remove column </button>
-		<button mat-raised-button (click)="shuffle()"> Shuffle </button>
+		<button type="button" (click)="addColumn()"> Add column </button>
+		<button type="button" (click)="removeColumn()"> Remove column </button>
+		<button type="button" (click)="shuffle()"> Shuffle </button>
 	</div> -->
 
 	<div class="row clearfix">
 		<div class="col-lg-12 col-md-12">
 			<div class="card planned_task">
 				<div class="body">
-					<h2 class="align-center">Lista de proyectos de investigación</h2>
-					<span><b>Proyectos en total: </b> {{this.proyectos.length}}</span>
+					<h2 class="align-center" *ngIf="!this.filtro.mostrarPublicacion">Lista de proyectos de investigación</h2>
+					<h2 class="align-center" *ngIf="this.filtro.mostrarPublicacion">Lista de publicaciones</h2>
+					<span *ngIf="!this.filtro.mostrarPublicacion"><b>Proyectos en total: </b> {{this.proyectos.length}}</span>
+					<span *ngIf="this.filtro.mostrarPublicacion"><b>Publicaciones en total: </b> {{this.proyectos.length}}</span>
 					<div class="table-responsive">
 						<table class="table-hover" mat-table matTableExporter matSort [dataSource]="dataSource" #exporter="matTableExporter">
 							<ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">

@@ -46,7 +46,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
     \dt                             // mostrar tablas
     \q                              // salir consola
     cd /var/www/proyecto_ecologia/
-    psql -U postgres bd_ecologia < bd_ecologia.sql
+    psql -U postgres bd_ecologia < bd_ecologia_final.sql
         -- Verificamos la BD
     psql -U postgres -W             // ingresar consola postgres
     \c bd_ecologia                  // ingresar a la BD

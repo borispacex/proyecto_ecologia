@@ -1,4 +1,4 @@
-<div id="left-sidebar" class="sidebar" *ngIf="sidebarVisible" style="overflow-y:scroll;">
+<div class="sidebar" id="left-sidebar" *ngIf="sidebarVisible" style="overflow-y:scroll;">
     <div class="sidebar-scroll">
         <div class="user-account">
             <img src="{{who +'fotografias/'+ imagen + '/true'}}" class="rounded-circle user-photo" alt="User Profile Picture">
@@ -35,10 +35,10 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'profile-inv'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('profile-inv')"><i class="icon-layers"></i>
-                                <span>Perfil</span></a>
+                            <a class="has-arrow" (click)="activeInactiveMenu('profile-inv')"><i class="icon-user"></i>
+                                <span>Mi perfil</span></a>
                             <ul *ngIf="currentActiveMenu == 'profile-inv'">
-                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/profile']">Perfil Investigador</a></li>
+                                <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/investigador/dashboard/profile']">Mi perfil</a></li>
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'proyectos-inv'}">

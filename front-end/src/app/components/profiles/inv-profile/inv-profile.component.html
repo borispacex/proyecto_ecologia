@@ -4,21 +4,22 @@
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
 				<h2>
-					Mi perfil
+					Investigador
 				</h2>
 				<ul class="breadcrumb">
-					<li class="breadcrumb-item"><a [routerLink]="['../menu']"><i class="icon-home"></i></a></li>
+					<li class="breadcrumb-item"><a [routerLink]="['../../../']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
-					<li class="breadcrumb-item active">Mi perfil</li>
+					<li class="breadcrumb-item">Investigador</li>
+					<li class="breadcrumb-item active">{{ id_persona }}</li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="row clearfix">
-		<div class="col-lg-3 col-md-12">
+		<div class="col-lg-4 col-md-12">
 			<div class="card profile-header">
 				<div class="body">
-					<div class="profile-image"> <img src="{{who +'fotografias/'+ imagen + '/true'}}" class="rounded-circle" alt="fotografia"> </div>
+					<div class="profile-image"> <img src="{{who +'fotografias/'+ persona.fotografia.imagen + '/true'}}" class="rounded-circle" alt="fotografia"> </div>
 					<div>
 						<h4 class="m-b-0"><strong>{{persona.grado_academico}}</strong> {{persona.nombres}} {{persona.paterno}} {{persona.materno}}</h4>
 						<div *ngIf="persona.ciudad && persona.pais">
@@ -109,7 +110,7 @@
 				</div>
 				<div class="card single_post" *ngFor="let publicacion of publicaciones | paginate: { id: 'publicaciones', itemsPerPage: 4, currentPage: page }">
 					<div class="body pb-0">
-						<h4 class="m-t-0 m-b-5 text-dark"><b><a [routerLink]="['../profile-post/', publicacion.id_publicacion]">{{publicacion.titulo}}</a></b></h4>
+						<h4 class="m-t-0 m-b-5 text-dark"><b><a [routerLink]="['../../inv-profile-post/', id_persona, publicacion.id_publicacion]">{{publicacion.titulo}}</a></b></h4>
 						<ul class="meta">
 							<li>
 								<a type="button"><i class="icon-tag text-success"></i>{{publicacion.tipo}}</a>
@@ -149,7 +150,7 @@
 				<pagination-controls id="publicaciones" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
 			</div>
 		</div>
-		<div class="col-lg-3 col-md-12">
+		<div class="col-lg-2 col-md-12">
 			<div class="card">
 				<ul class="profile_state list-unstyled">
 					<li>
@@ -161,49 +162,6 @@
 					</li>
 				</ul>
 			</div>
-			<div class="card">
-				<div class="header">
-					<h2>Investigadores</h2>
-				</div>
-				<div class="body">
-					<form>
-						<!-- <div>
-							<select class="form-control form-control-sm" (change)="changeInvestigadores($event)" id="selectInvestigadores">
-                                <option value="" disabled>Seleccionar tipo Investigador</option>
-                                <option value="investigador">Todos</option>
-                                <option value="inv-titular">Titulares</option>
-                                <option value="inv-asociado-proyecto">Asociados con proyecto</option>
-                                <option value="inv-asociado-invitacion">Asociados con invitación</option>
-                            </select>
-						</div> -->
-						<div class="input-group m-b-20">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="icon-magnifier"></i></span>
-                            </div>
-							<input [formControl]="search" type="text" class="form-control" placeholder="Buscar investigador ...">
-						</div>
-					</form>
-					<ul class="right_chat list-unstyled" *ngIf="(investigadores | searchInvestigadores: valorBusqueda) as result">
-						<li [ngClass]="{'online': investigador.estado, 'offline': investigador.estado}" *ngFor="let investigador of result | paginate: { id: 'investigadores', itemsPerPage: 10, currentPage: pageInv }">
-							<a type="button" [routerLink]="['../../profiles/inv-profile/', investigador.persona.id_persona]">
-								<div class="media">
-									<img class="media-object" src="{{who +'fotografias/'+ investigador.persona.fotografia.imagen + '/true'}}" alt="usuario" width="10px" height="40px">
-									<div class="media-body">
-										<span class="text-muted"><b>{{investigador.grado_academico}}</b> {{investigador.nombreCompleto}}</span>
-                                        <!-- <span class="message" *ngIf="investigador.id_inv_tipo===1">Titular</span>
-										<span class="message" *ngIf="investigador.id_inv_tipo===2">Asociado con proyecto</span>
-										<span class="message" *ngIf="investigador.id_inv_tipo===3">Asociado con invitación</span> -->
-										<span class="badge badge-outline status"></span>
-									</div>
-								</div>
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div class="footer">
-					<pagination-controls id="investigadores" (pageChange)="pageInv = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
-				</div>
-            </div>
 		</div>
 		
 	</div>

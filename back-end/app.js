@@ -5,12 +5,11 @@ const app = express();
 
 global.__basedir = __dirname;
 
-var corsOptions = {
-    // origin: "www.proyectosecologia.net.bo"
-    origin: "http://localhost:4200"
-};
-
-app.use(cors(corsOptions));
+// var corsOptions = {
+//     origin: "www.proyectosecologia.net.bo"
+//     // origin: "http://localhost:4200"
+// };
+// app.use(cors(corsOptions));
 
 // middlewares
 app.use(bodyParser.json({ limit: '101mb' }));

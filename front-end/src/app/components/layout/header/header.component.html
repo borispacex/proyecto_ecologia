@@ -1,13 +1,15 @@
-<nav class="navbar navbar-fixed-top">
+<nav class="navbar navbar-fixed-top" style="height: 60px;">
     <div class="container-fluid">
         <div class="navbar-btn">
             <button type="button" class="btn-toggle-offcanvas" (click)="toggleSideMenu()"><i
                     class="lnr lnr-menu fa fa-bars"></i></button>
         </div>
+
         <div class="navbar-brand">
-            <a *ngIf="!darkClass" [ngStyle]="{'color': '#5A5A5A'}" [routerLink]="['./']"><b>I</b>nstituto <b>E</b>cologia</a>
-            <a *ngIf="darkClass" [ngStyle]="{'color': '#92929C'}" [routerLink]="['./']"><b>I</b>nstituto <b>E</b>cologia</a>
+            <a class="ml-0 ml-sm-2" style="font-size: 25px;" *ngIf="!darkClass" [ngStyle]="{'color': '#5A5A5A'}" [routerLink]="['./']"><b>I</b>nstituto <b>E</b>cologia</a>
+            <a class="ml-0 ml-sm-2" style="font-size: 25px;" *ngIf="darkClass" [ngStyle]="{'color': '#92929C'}" [routerLink]="['./']"><b>I</b>nstituto <b>E</b>cologia</a>
         </div>
+
         <div class="navbar-right">
             <div id="navbar-menu">
                 <ul class="nav navbar-nav">

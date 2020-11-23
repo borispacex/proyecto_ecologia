@@ -463,9 +463,9 @@ export class GenerateReportesComponent
     this.dropdownList5 = [
       { publi_id: 1, publi_text: 'Tipo de publicación' },
       { publi_id: 2, publi_text: 'Titulo' },
-      { publi_id: 3, publi_text: 'Fecha' },
+      { publi_id: 3, publi_text: 'Autores' },
       { publi_id: 4, publi_text: 'Fecha año' },
-      { publi_id: 5, publi_text: 'Autores' },
+      { publi_id: 5, publi_text: 'Publicado por' },
       { publi_id: 6, publi_text: 'Cita bibliografica' }
     ];
     this.dropdownSettings5 = {
@@ -972,6 +972,7 @@ export class GenerateReportesComponent
     // console.log(this.proyectos);
     let proys: any = [];
     this.displayedColumns = [];
+    console.log(this.proyectos);
     this.proyectos.forEach((proyecto) => {
       // buscando departamento o provincia
       if (this.filtro.mostrarInformacion) {
@@ -1302,72 +1303,30 @@ export class GenerateReportesComponent
               var proy = {
                 titulo_publicacion: '',
                 tipo_publicacion: '',
-                fecha_publicacion: '',
-                fecha_publicacion_anio: '',
                 autores_publicacion: '',
+                fecha_publicacion_anio: '',
+                publicado_por: '',
                 cita_bibliografica: ''
               };
               proy.tipo_publicacion = publicacion.tipo;
 
               proy.titulo_publicacion = publicacion.titulo;
 
-              proy.fecha_publicacion = publicacion.fecha.substring(0, 10);
+              proy.autores_publicacion = publicacion.autores;
 
               proy.fecha_publicacion_anio = publicacion.fecha.substring(0, 4);
 
-              proy.autores_publicacion = '';
+              proy.publicado_por = '';
               this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
                 .then(responseA => {
                   responseA.autores.forEach(autor => {
-                    proy.autores_publicacion = proy.autores_publicacion + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} `;
+                    proy.publicado_por = proy.publicado_por + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} `;
                   });
                 }).catch(error => { console.log('Error al obtener autores', error); });
 
               proy.cita_bibliografica = publicacion.contenido;
               proys.push(proy);
             }
-            // console.log(publicaciones);
-            // response.publicaciones.forEach((publicacion) => {
-            //         console.log(publicacion);
-            //   // proyecto.titulo_publicacion = '';
-            //   // proyecto.tipo_publicacion = '';
-            //   // proyecto.fecha_publicacion = '';
-            //   // proyecto.fecha_publicacion_anio = '';
-            //   // proyecto.autores_publicacion = '';
-            //   // proyecto.cita_bibliografica = '';
-            //   // this.filtro.mostrarPublicacion.forEach(publi => {
-            //   //   switch (publi.publi_id) {
-            //   //     case 1:
-            //         proyecto.tipo_publicacion = publicacion.tipo;
-            //         // break;
-            //       // case 2:
-            //         proyecto.titulo_publicacion = publicacion.titulo;
-            //         // break;
-            //       // case 3:
-            //         proyecto.fecha_publicacion = publicacion.fecha.substring(0, 10);
-            //         // break;
-            //       // case 4:
-            //         proyecto.fecha_publicacion_anio = publicacion.fecha.substring(0, 4);
-            //       //   break;
-            //       // case 5:
-            //         this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
-            //         .then(responseA => {
-            //           responseA.autores.forEach(autor => {
-            //               proyecto.autores_publicacion = `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno}`;
-            //           });
-            //         }).catch(error => { console.log('Error al obtener autores', error); });
-            //       //   break;
-            //       // case 6:
-            //         proyecto.cita_bibliografica = publicacion.contenido;
-            //       //   break;
-            //       // default:
-            //       //   break;
-            //     // }
-            //   // });
-            //   // console.log(proyecto);
-            //         console.log(proyecto);
-            //         proys.push(proyecto);
-            // });
           })
           .catch((error) => {
             console.log('Error al obtener publicaciones', error);
@@ -1595,10 +1554,12 @@ export class GenerateReportesComponent
     // console.log(proys);
     this.proyectos = proys;
     // console.log(this.proyectos);
-    let dataS = new MatTableDataSource(this.proyectos);
-    this.dataSource = dataS;
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+
+    // let dataS = new MatTableDataSource(this.proyectos);
+    // this.dataSource = dataS;
+    // this.dataSource.paginator = this.paginator;
+    // this.dataSource.sort = this.sort;
+
     if (this.filtro.mostrarInformacion) {
       this.filtro.mostrarInformacion.forEach((info) => {
         switch (info.info_id) {
@@ -1768,7 +1729,7 @@ export class GenerateReportesComponent
             this.columnsToDisplay = this.displayedColumns.slice();
             break;
           case 3:
-            this.displayedColumns.push('fecha_publicacion');
+            this.displayedColumns.push('autores_publicacion');
             this.columnsToDisplay = this.displayedColumns.slice();
             break;
           case 4:
@@ -1776,7 +1737,7 @@ export class GenerateReportesComponent
             this.columnsToDisplay = this.displayedColumns.slice();
             break;
           case 5:
-            this.displayedColumns.push('autores_publicacion');
+            this.displayedColumns.push('publicado_por');
             this.columnsToDisplay = this.displayedColumns.slice();
             break;
           case 6:
@@ -1787,6 +1748,7 @@ export class GenerateReportesComponent
             break;
         }
       });
+
     }
     if (this.filtro.mostrarConvenio) {
       this.displayedColumns.push('convenios');
@@ -1865,6 +1827,12 @@ export class GenerateReportesComponent
       });
     }
 
+    this.columnsToDisplay = this.displayedColumns.slice();
+
+    this.dataSource = new MatTableDataSource(this.proyectos);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
     this.length = this.dataSource.data.length;
     let ini = Math.ceil(this.length / 3);
     for (let i = ini; i < this.length + ini; i = i + ini) {
@@ -1875,6 +1843,7 @@ export class GenerateReportesComponent
       }
     }
     // console.log(this.proyectos);
+
   }
 
   filtroLugarDesarrollo(proyectos: any) {
@@ -1952,6 +1921,14 @@ export class GenerateReportesComponent
       procesofin: '',
       tipoFecha: 'ninguna',
     };
+    this.filtroInicial();
+    this.filtro.mostrarInformacion = [
+      { info_id: 3, info_text: 'Titulo' },
+      { info_id: 4, info_text: 'Fecha inicio' },
+      { info_id: 5, info_text: 'Fecha fin' },
+      { info_id: 6, info_text: 'proceso' },
+      { info_id: 7, info_text: 'estado' }
+    ];
   }
   comprobarDepartamento(depart: string) {
     let depa = '';

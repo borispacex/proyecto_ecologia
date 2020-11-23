@@ -81,9 +81,18 @@
 							</thead>
 							<tbody>
 								<tr *ngFor="let usuario_rol of result | paginate: { id: 'usuarios', itemsPerPage: 10, currentPage: page }">
-									<td>{{usuario_rol.adm_usuario.persona.nombres}}
-										{{usuario_rol.adm_usuario.persona.paterno}}
-										{{usuario_rol.adm_usuario.persona.materno}}</td>
+									<td>
+										<span *ngIf="!usuario_rol.inv_tipo">
+											{{usuario_rol.adm_usuario.persona.nombres}}
+											{{usuario_rol.adm_usuario.persona.paterno}}
+											{{usuario_rol.adm_usuario.persona.materno}}
+										</span>
+										<a *ngIf="usuario_rol.inv_tipo" [routerLink]="['../../../profiles/inv-profile/', usuario_rol.adm_usuario.persona.id_persona]">
+											{{usuario_rol.adm_usuario.persona.nombres}}
+											{{usuario_rol.adm_usuario.persona.paterno}}
+											{{usuario_rol.adm_usuario.persona.materno}}
+										</a>
+									</td>
 									<td>{{usuario_rol.adm_usuario.persona.ci}}</td>
 									<td><img src="{{who +'fotografias/'+ usuario_rol.adm_usuario.persona.fotografia.imagen + '/true'}}"
 											width="48" alt="usr img"></td>

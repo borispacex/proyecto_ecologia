@@ -58,9 +58,13 @@
 							</thead>
 							<tbody>
 								<tr *ngFor="let investigador of result | paginate: { id: 'investigadores', itemsPerPage: 10, currentPage: page }">
-									<td>{{investigador.persona.nombres}}
-										{{investigador.persona.paterno}}
-										{{investigador.persona.materno}}</td>
+									<td>
+										<a [routerLink]="['../../../profiles/inv-profile/', investigador.persona.id_persona]">
+											{{investigador.persona.nombres}}
+											{{investigador.persona.paterno}}
+											{{investigador.persona.materno}}
+										</a>
+									</td>
 									<td>{{investigador.persona.ci}}</td>
 									<td><img src="{{who +'fotografias/'+ investigador.persona.fotografia.imagen + '/true'}}"
 											width="48" alt="usr img"></td>
@@ -79,7 +83,7 @@
 									</td>
 									<td>
 										<small *ngFor="let inv_proyecto of investigador.inv_proyectos; index as i">
-										<span class="text-primary">{{i+1}}.- </span><a [routerLink]="['../../show-proyecto', inv_proyecto.id_proyecto]">{{inv_proyecto.proyecto.titulo | slice:0:15}}</a><br/>
+										<span class="text-primary">{{i+1}}.- </span><a [routerLink]="['../../show-proyecto', inv_proyecto.id_proyecto]">{{inv_proyecto.proyecto.titulo | slice:0:25}}</a><br/>
                                         </small>
 									</td>
 								</tr>

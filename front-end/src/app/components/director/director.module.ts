@@ -27,6 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ngfModule } from 'angular-file';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ProfilesModule } from '../profiles/profiles.module';
 
 
 
@@ -47,6 +48,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
     LayoutModule,
     SettingsModule,
+    ProfilesModule,
+
     RouterModule,
     NgxEchartsModule.forRoot({ echarts }),
     FormsModule,

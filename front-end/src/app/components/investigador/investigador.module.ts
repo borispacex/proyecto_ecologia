@@ -21,6 +21,7 @@ import { ProfilePostComponent } from './profile-post/profile-post.component';
 import { MenuComponent } from './menu/menu.component';
 import { AgmCoreModule } from '@agm/core';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ProfilesModule } from '../profiles/profiles.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     PipesModule,
     LayoutModule,
     SettingsModule,
+    ProfilesModule,
     AgmCoreModule.forRoot({
       // please get your own API key here:
       // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en

@@ -114,5 +114,24 @@ export class PublicacionesService {
     return this._httpClient.get<any>(this.url + 'countPublicacionesByIdProyectoAndEstado/' + id_proyecto + '/' + estado, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los publicaciones by tipo
+  getPublicacionesByTipo(tipo: string, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publicacionesByTipo/' + tipo, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los publicaciones by tipo y estado
+  getPublicacionesByTipoEstado(tipo: string, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'publicacionesByTipoEstado/' + tipo + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+
 
 }
