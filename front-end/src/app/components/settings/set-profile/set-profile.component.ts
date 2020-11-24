@@ -12,6 +12,7 @@ import { UploadService } from 'src/app/services/upload/upload.service';
 import { FotografiasService } from 'src/app/services/upload/fotografias.service';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
+import { UploadArchivoService } from 'src/app/services/upload/upload-archivo.service';
 
 // datapicker spanish
 const I18N_VALUES = {
@@ -83,10 +84,15 @@ export class SetProfileComponent implements OnInit, OnDestroy {
   public image_selected: string;
   public filesToUpload: Array<File>;
 
+  public curriculum: any = {};
+  public pdf_selected: string;
+  public filesToUpload1: Array<File>;
+
   // intereses
   public intereses: any = {};
   // proceso de subida
   public progress = 0;
+  public progress1 = 0;
 
   constructor(
     private sidebarService: SidebarService,
@@ -97,6 +103,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     public _upload: UploadService,
     private _serviceFotografias: FotografiasService,
+    private _uploadArchivo: UploadArchivoService
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
@@ -174,6 +181,7 @@ export class SetProfileComponent implements OnInit, OnDestroy {
           grado_academico: this.persona.grado_academico
         };
         this.image_selected = this.fotografia.imagen;
+        this.pdf_selected = this.persona.archivo;
       }).catch((error) => { console.log('error al obtener usuario', error); });
   }
   ngOnDestroy() {
@@ -312,6 +320,38 @@ export class SetProfileComponent implements OnInit, OnDestroy {
       ? fileInput.target.files[0].name
       : '';
   }
+
+  fileChangeEvent1(fileInput: any) {
+    this.filesToUpload1 =
+      fileInput.target.files.length > 0
+        ? <Array<File>>fileInput.target.files
+        : null;
+    this.pdf_selected = this.filesToUpload1
+      ? fileInput.target.files[0].name
+      : '';
+  }
+
+  editarCurriculum() {
+    if (this.filesToUpload1) {
+      this._uploadArchivo.getObserver().subscribe(progress => {
+        this.progress1 = progress;
+      });
+      this._uploadArchivo.uploadArchivo(this.url + 'upload-persona-archivo/' + this.id_persona, this.filesToUpload1[0], this.token)
+        .then( (responseArchivo: any) => {
+          // actualizamos fotografia y pasamos a falso
+          this.toastr.success('curriculum actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+          this.progress1 = 0;
+          this.filesToUpload1 = null;
+          this.obtenerDatos();
+        }).catch(error => {
+          console.log('Error al subir curriculum actualizada', error);
+          this.toastr.error('Error al subir curriculum', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
+    } else {
+        this.toastr.error('Error no hay pdf seleccionado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    }
+  }
+
   editarFotografia() {
     if (this.filesToUpload) {
       const foto = {

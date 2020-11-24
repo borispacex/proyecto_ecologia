@@ -55,7 +55,6 @@
 								</div>
 							</div>
 						</form>
-						
 
 						<form class="body" #formInfBasica="ngForm" (ngSubmit)="editarInfBasica()">
 							<h6>Información basica</h6>
@@ -539,6 +538,29 @@
 
 					<div class="tab-pane" [ngClass]="{'active':fragment == 'training'}">
 						<div class="body">
+							<h6>Curriculum Vitae</h6>
+							<blockquote>
+								<form #formFotografia="ngForm" (ngSubmit)="editarCurriculum()">
+									<input #file1 type="file" style="display: none;" (change)="fileChangeEvent1($event)" accept="pdf/*">
+									<div class="text-left"> 
+										<button class="btn btn-warning mr-1" type="button" (click)="file1.click()"><i class="icon-paper-clip text-light"></i></button>
+										{{pdf_selected}}
+									</div>
+									<button class="btn btn-primary mt-1" type="submit">Subir Curriculum</button>
+									<div class="progress mt-1" *ngIf="filesToUpload1">
+										<div
+										  class="progress-bar progress-bar-info progress-bar-striped"
+										  role="progressbar"
+										  attr.aria-valuenow="{{ progress1 }}"
+										  aria-valuemin="0"
+										  aria-valuemax="100"
+										  [ngStyle]="{ width: progress1 + '%' }">
+										  {{ progress1 }}%
+										</div>
+									</div>
+								</form>
+							</blockquote>
+							
 							<h6>Formación profesional</h6>
 							<blockquote>
 								<form #formacionPro="ngForm" (ngSubmit)="guardarFormacion()">
