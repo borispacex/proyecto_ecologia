@@ -30,7 +30,8 @@ module.exports = (sequelize, DataTypes) => {
         conclusion: DataTypes.TEXT,
         tema: DataTypes.STRING,
         color: DataTypes.STRING,
-        estado: DataTypes.BOOLEAN
+        estado: DataTypes.BOOLEAN,
+        archivo: DataTypes.STRING
     });
     return personas;
 }

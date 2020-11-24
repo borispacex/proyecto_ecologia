@@ -108,7 +108,7 @@ ssh -i mi-llave bvargas7@35.226.114.61
     -- primero creamos dist
     ng build --prod
     -- Copiamos la carpeta dist al servidor
-scp -rp -i "/Users/boris/Documents/angular-projects/proyecto_ecologia/llaves-ecologia/llaves-ecologia" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargasp@35.199.66.1:/var/www/proyecto_ecologia/back-end
+    scp -rp -i "/Users/boris/Documents/angular-projects/proyecto_ecologia/llaves-ecologia/llaves-ecologia" /Users/boris/Documents/angular-projects/proyecto_ecologia/front-end/dist bvargasp@35.199.66.1:/var/www/proyecto_ecologia/back-end
 
 
 NODEMAILER gmail

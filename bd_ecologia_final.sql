@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-23 11:41:02 -04
+-- Started on 2020-11-24 07:40:42 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1233,7 +1233,8 @@ CREATE TABLE public.personas (
     color character varying(50) DEFAULT 'theme-cyan'::character varying NOT NULL,
     estado boolean DEFAULT true NOT NULL,
     "createdAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
-    "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL
+    "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
+    archivo character varying(100)
 );
 
 
@@ -2605,65 +2606,65 @@ COPY public.permiso_archivos (id_permiso_archivo, id_proyecto, tipo, archivo, no
 -- Data for Name: personas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, sexo, estado_civil, url, fec_nacimiento, ciudad, provincia, pais, direccion1, direccion2, correo, telefono, celular, lenguaje, grado_academico, formacion_pro, formacion_adi, habilidades, conclusion, tema, color, estado, "createdAt", "updatedAt") FROM stdin;
-4	1	Amurrio	Ordoñez	Patricia Janneth	333225	\N	\N	\N	\N	\N	\N	\N	\N	\N	pamurrio@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:08:13.296+00	2020-10-23 14:08:13.296+00
-5	1	García	Estigarribia	Emilia	221242	\N	\N	\N	\N	\N	\N	\N	\N	\N	egarciae@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:09:00.189+00	2020-10-23 14:09:00.189+00
-7	1	Maldonado	Goyzueta	Carla Brenda	4746052	\N	\N	\N	\N	\N	\N	\N	\N	\N	cmaldonado@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:11:09.377+00	2020-10-23 14:11:09.377+00
-8	1	Marín	Pantoja	Rubén Reynaldo	464519	\N	\N	\N	\N	\N	\N	\N	\N	\N	rmarin@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:11:59.911+00	2020-10-23 14:11:59.911+00
-10	1	Molina	Arzabe	Carlos Israel	4805941	\N	\N	\N	\N	\N	\N	\N	\N	\N	cmolinaa@fcpn.edu.bo	\N	\N	\N	D. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:18:46.433+00	2020-10-23 14:18:46.433+00
-12	1	Naoki		Kázuya	E0024263	\N	\N	\N	\N	\N	\N	\N	\N	\N	knaoki@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:20:36.537+00	2020-10-23 14:20:36.537+00
-13	1	Osorio	Zamora	Francisco Gerardo	2227535	\N	\N	\N	\N	\N	\N	\N	\N	\N	fosorio@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:21:19.047+00	2020-10-23 14:21:19.047+00
-14	1	Pacheco	Acosta	Luis Fernando	2017842	\N	\N	\N	\N	\N	\N	\N	\N	\N	lpacheco@fcpn.edu.bo	\N	\N	\N	D. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:22:08.173+00	2020-10-23 14:22:08.173+00
-15	1	Pérez	Béjar	María Esther	3368666	\N	\N	\N	\N	\N	\N	\N	\N	\N	eperez@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:23:11.632+00	2020-10-23 14:23:11.632+00
-16	1	Pinto	Mendieta	Julio Jorge	489921	\N	\N	\N	\N	\N	\N	\N	\N	\N	jpinto@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:24:13.953+00	2020-10-23 14:24:13.953+00
-18	1	Valenzuela	Celis	Julieta Esther	467484	\N	\N	\N	\N	\N	\N	\N	\N	\N	evalenzuela@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:26:43.822+00	2020-10-23 14:26:43.822+00
-2	15	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-20 11:26:44.491+00
-19	1	Lopez	Calderon	Ramiro	1356193	\N	\N	\N	\N	\N	\N	\N	\N	\N	rlopez@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:39:20.484+00	2020-10-23 18:39:20.484+00
-20	1	Saavedra	Agramont	Francisco	3820243	\N	\N	\N	\N	\N	\N	\N	\N	\N	fsaavedra@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:40:01.428+00	2020-10-23 18:40:01.428+00
-21	1	Tognelli		Marcelo	9999001	\N	\N	\N	\N	\N	\N	\N	\N	\N	001@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:44:41.878+00	2020-10-23 18:44:41.878+00
-22	1	Arellano		Stephanie	9999002	\N	\N	\N	\N	\N	\N	\N	\N	\N	002@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:45:17.784+00	2020-10-23 18:45:17.784+00
-23	1	Lazzaro		Xavier	1282003	\N	\N	\N	\N	\N	\N	\N	\N	\N	003@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:49:06.28+00	2020-10-23 18:49:06.28+00
-24	1	Quezada		Jorge	1922004	\N	\N	\N	\N	\N	\N	\N	\N	\N	004@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:49:46.446+00	2020-10-23 18:49:46.446+00
-25	1	Morales	B.	Isabel	1821005	\N	\N	\N	\N	\N	\N	\N	\N	\N	005@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:50:25.835+00	2020-10-23 18:50:25.835+00
-26	1	Ginart		Daniel	3381006	\N	\N	\N	\N	\N	\N	\N	\N	\N	006@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:50:58.896+00	2020-10-23 18:50:58.896+00
-27	1	Moya	D.	M. Isabel	4927007	\N	\N	\N	\N	\N	\N	\N	\N	\N	007@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:51:40.302+00	2020-10-23 18:51:40.302+00
-28	1	Roldan		Alejandra	3822008	\N	\N	\N	\N	\N	\N	\N	\N	\N	008@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:52:17.225+00	2020-10-23 18:52:17.225+00
-29	1	Lopez		Heidy	2829009	\N	\N	\N	\N	\N	\N	\N	\N	\N	009@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:52:52.841+00	2020-10-23 18:52:52.841+00
-30	1	Zenteno		Freddy	3937010	\N	\N	\N	\N	\N	\N	\N	\N	\N	010@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:53:37.257+00	2020-10-23 18:53:37.257+00
-31	1	Gallegos		Silvia	1272011	\N	\N	\N	\N	\N	\N	\N	\N	\N	011@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:54:09.334+00	2020-10-23 18:54:09.334+00
-32	1	Hurtado		Rosember	1482012	\N	\N	\N	\N	\N	\N	\N	\N	\N	012@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:54:39.293+00	2020-10-23 18:54:39.293+00
-33	1	Arranzola		Susana	3937013	\N	\N	\N	\N	\N	\N	\N	\N	\N	013@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:55:03.988+00	2020-10-23 18:55:03.988+00
-34	1	Vargas		Viviana	5927014	\N	\N	\N	\N	\N	\N	\N	\N	\N	014@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:55:33.451+00	2020-10-23 18:55:33.451+00
-35	1	Cornejo		Maritza	4922015	\N	\N	\N	\N	\N	\N	\N	\N	\N	015@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:56:10.2+00	2020-10-23 18:56:10.2+00
-36	1	Toledo		Gabriel	3212016	\N	\N	\N	\N	\N	\N	\N	\N	\N	016@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:56:41.572+00	2020-10-23 18:56:41.572+00
-37	1	Paniagua		Narel	4827017	\N	\N	\N	\N	\N	\N	\N	\N	\N	017@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:57:05.473+00	2020-10-23 18:57:05.473+00
-38	1	Cadima		Ximena	3927018	\N	\N	\N	\N	\N	\N	\N	\N	\N	018@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:57:40.47+00	2020-10-23 18:57:40.47+00
-39	1	Mendoza		Magaly	1827019	\N	\N	\N	\N	\N	\N	\N	\N	\N	019@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:58:04.943+00	2020-10-23 18:58:04.943+00
-40	1	Martin		Ruben	2937020	\N	\N	\N	\N	\N	\N	\N	\N	\N	020@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:58:34.176+00	2020-10-23 18:58:34.176+00
-41	1	Apaza		Roberto	3928021	\N	\N	\N	\N	\N	\N	\N	\N	\N	021@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:59:01.709+00	2020-10-23 18:59:01.709+00
-42	1	Blasón	Bayo	Laura	3972022	\N	\N	\N	\N	\N	\N	\N	\N	\N	022@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:59:40.129+00	2020-10-23 18:59:40.129+00
-43	1	Llorente	Espino	Miguel	1827023	\N	\N	\N	\N	\N	\N	\N	\N	\N	023@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:00:17.033+00	2020-10-23 19:00:17.033+00
-44	1	Leveau		Lucas	3927024	\N	\N	\N	\N	\N	\N	\N	\N	\N	024@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:00:47.579+00	2020-10-23 19:00:47.579+00
-45	1	Maldonado		Diego	4827025	\N	\N	\N	\N	\N	\N	\N	\N	\N	025@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:01:16.823+00	2020-10-23 19:01:16.823+00
-46	1	Revollo		Susana	3927026	\N	\N	\N	\N	\N	\N	\N	\N	\N	026@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:01:57.765+00	2020-10-23 19:01:57.765+00
-47	1	Negroes		Nuno	4928027	\N	\N	\N	\N	\N	\N	\N	\N	\N	027@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:02:25.786+00	2020-10-23 19:02:25.786+00
-48	1	Arteaga		Luis	5827028	\N	\N	\N	\N	\N	\N	\N	\N	\N	028@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:03:03.128+00	2020-10-23 19:03:03.128+00
-49	1	Porter		Leila	5820029	\N	\N	\N	\N	\N	\N	\N	\N	\N	029@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:03:37.201+00	2020-10-23 19:03:37.201+00
-50	1	Duran	Toledo	Pamela	4820030	\N	\N	\N	\N	\N	\N	\N	\N	\N	030@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:01.142+00	2020-10-23 19:05:01.142+00
-52	1	Larrea		Daniel	4927033	\N	\N	\N	\N	\N	\N	\N	\N	\N	033@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:56.693+00	2020-10-23 19:05:56.693+00
-53	1	Altimiras		Jordi	1828034	\N	\N	\N	\N	\N	\N	\N	\N	\N	034@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:06:24.496+00	2020-10-23 19:06:24.496+00
-54	1	Arce		Orlando	5820035	\N	\N	\N	\N	\N	\N	\N	\N	\N	035@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:07:36.386+00	2020-10-23 19:07:36.386+00
-55	1	Alandia		Erika	1827036	\N	\N	\N	\N	\N	\N	\N	\N	\N	036@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:22.829+00	2020-10-23 19:08:22.829+00
-56	1	Salazar-Brazo		Jorge	6826037	\N	\N	\N	\N	\N	\N	\N	\N	\N	037@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:49.378+00	2020-10-23 19:08:49.378+00
-57	1	Bravo		Raiza	8928038	\N	\N	\N	\N	\N	\N	\N	\N	\N	038@fcpn.edu.bo	\N	\N	\N	Dipl.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:11:43.939+00	2020-10-23 19:11:43.939+00
-11	4	Moraes	Ramírez	Mónica Graciela	476807	\N	\N	\N	\N	\N	\N	\N	\N	\N	mmoraes@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:19:37.912+00	2020-10-23 21:03:30.946+00
-3	6	Achá	Cordero	Darío	3374109	\N	\N	\N	\N	\N	\N	\N	\N	\N	dacha@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:07:23.745+00	2020-10-23 21:07:12.954+00
-58	1	Roque		Natalio	327132	\N	\N	\N	\N	\N	\N	\N	\N	\N	032@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-26 21:50:48.751+00	2020-10-26 21:50:48.751+00
-9	8	Miranda	Torrez	Guillermina	1316562	\N	\N	\N	\N	\N	\N	\N	\N	\N	gmiranda@umsa.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:14:02.946+00	2020-10-27 15:20:44.34+00
-17	7	Rico	Cernohorska	Adriana	2726683-1J	\N	\N	\N	\N	\N	\N	\N	\N	\N	arico@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:25:50.72+00	2020-10-27 15:12:48.407+00
-51	9	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-27 15:23:41.59+00
-6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-11-23 00:02:03.657+00
-1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-23 01:49:35.659+00
+COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, sexo, estado_civil, url, fec_nacimiento, ciudad, provincia, pais, direccion1, direccion2, correo, telefono, celular, lenguaje, grado_academico, formacion_pro, formacion_adi, habilidades, conclusion, tema, color, estado, "createdAt", "updatedAt", archivo) FROM stdin;
+4	1	Amurrio	Ordoñez	Patricia Janneth	333225	\N	\N	\N	\N	\N	\N	\N	\N	\N	pamurrio@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:08:13.296+00	2020-10-23 14:08:13.296+00	\N
+5	1	García	Estigarribia	Emilia	221242	\N	\N	\N	\N	\N	\N	\N	\N	\N	egarciae@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:09:00.189+00	2020-10-23 14:09:00.189+00	\N
+7	1	Maldonado	Goyzueta	Carla Brenda	4746052	\N	\N	\N	\N	\N	\N	\N	\N	\N	cmaldonado@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:11:09.377+00	2020-10-23 14:11:09.377+00	\N
+8	1	Marín	Pantoja	Rubén Reynaldo	464519	\N	\N	\N	\N	\N	\N	\N	\N	\N	rmarin@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:11:59.911+00	2020-10-23 14:11:59.911+00	\N
+10	1	Molina	Arzabe	Carlos Israel	4805941	\N	\N	\N	\N	\N	\N	\N	\N	\N	cmolinaa@fcpn.edu.bo	\N	\N	\N	D. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:18:46.433+00	2020-10-23 14:18:46.433+00	\N
+12	1	Naoki		Kázuya	E0024263	\N	\N	\N	\N	\N	\N	\N	\N	\N	knaoki@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:20:36.537+00	2020-10-23 14:20:36.537+00	\N
+13	1	Osorio	Zamora	Francisco Gerardo	2227535	\N	\N	\N	\N	\N	\N	\N	\N	\N	fosorio@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:21:19.047+00	2020-10-23 14:21:19.047+00	\N
+14	1	Pacheco	Acosta	Luis Fernando	2017842	\N	\N	\N	\N	\N	\N	\N	\N	\N	lpacheco@fcpn.edu.bo	\N	\N	\N	D. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:22:08.173+00	2020-10-23 14:22:08.173+00	\N
+15	1	Pérez	Béjar	María Esther	3368666	\N	\N	\N	\N	\N	\N	\N	\N	\N	eperez@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:23:11.632+00	2020-10-23 14:23:11.632+00	\N
+16	1	Pinto	Mendieta	Julio Jorge	489921	\N	\N	\N	\N	\N	\N	\N	\N	\N	jpinto@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:24:13.953+00	2020-10-23 14:24:13.953+00	\N
+18	1	Valenzuela	Celis	Julieta Esther	467484	\N	\N	\N	\N	\N	\N	\N	\N	\N	evalenzuela@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:26:43.822+00	2020-10-23 14:26:43.822+00	\N
+2	15	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-20 11:26:44.491+00	\N
+19	1	Lopez	Calderon	Ramiro	1356193	\N	\N	\N	\N	\N	\N	\N	\N	\N	rlopez@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:39:20.484+00	2020-10-23 18:39:20.484+00	\N
+20	1	Saavedra	Agramont	Francisco	3820243	\N	\N	\N	\N	\N	\N	\N	\N	\N	fsaavedra@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:40:01.428+00	2020-10-23 18:40:01.428+00	\N
+21	1	Tognelli		Marcelo	9999001	\N	\N	\N	\N	\N	\N	\N	\N	\N	001@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:44:41.878+00	2020-10-23 18:44:41.878+00	\N
+22	1	Arellano		Stephanie	9999002	\N	\N	\N	\N	\N	\N	\N	\N	\N	002@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:45:17.784+00	2020-10-23 18:45:17.784+00	\N
+23	1	Lazzaro		Xavier	1282003	\N	\N	\N	\N	\N	\N	\N	\N	\N	003@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:49:06.28+00	2020-10-23 18:49:06.28+00	\N
+24	1	Quezada		Jorge	1922004	\N	\N	\N	\N	\N	\N	\N	\N	\N	004@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:49:46.446+00	2020-10-23 18:49:46.446+00	\N
+25	1	Morales	B.	Isabel	1821005	\N	\N	\N	\N	\N	\N	\N	\N	\N	005@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:50:25.835+00	2020-10-23 18:50:25.835+00	\N
+26	1	Ginart		Daniel	3381006	\N	\N	\N	\N	\N	\N	\N	\N	\N	006@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:50:58.896+00	2020-10-23 18:50:58.896+00	\N
+27	1	Moya	D.	M. Isabel	4927007	\N	\N	\N	\N	\N	\N	\N	\N	\N	007@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:51:40.302+00	2020-10-23 18:51:40.302+00	\N
+28	1	Roldan		Alejandra	3822008	\N	\N	\N	\N	\N	\N	\N	\N	\N	008@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:52:17.225+00	2020-10-23 18:52:17.225+00	\N
+29	1	Lopez		Heidy	2829009	\N	\N	\N	\N	\N	\N	\N	\N	\N	009@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:52:52.841+00	2020-10-23 18:52:52.841+00	\N
+30	1	Zenteno		Freddy	3937010	\N	\N	\N	\N	\N	\N	\N	\N	\N	010@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:53:37.257+00	2020-10-23 18:53:37.257+00	\N
+31	1	Gallegos		Silvia	1272011	\N	\N	\N	\N	\N	\N	\N	\N	\N	011@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:54:09.334+00	2020-10-23 18:54:09.334+00	\N
+32	1	Hurtado		Rosember	1482012	\N	\N	\N	\N	\N	\N	\N	\N	\N	012@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:54:39.293+00	2020-10-23 18:54:39.293+00	\N
+33	1	Arranzola		Susana	3937013	\N	\N	\N	\N	\N	\N	\N	\N	\N	013@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:55:03.988+00	2020-10-23 18:55:03.988+00	\N
+34	1	Vargas		Viviana	5927014	\N	\N	\N	\N	\N	\N	\N	\N	\N	014@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:55:33.451+00	2020-10-23 18:55:33.451+00	\N
+35	1	Cornejo		Maritza	4922015	\N	\N	\N	\N	\N	\N	\N	\N	\N	015@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:56:10.2+00	2020-10-23 18:56:10.2+00	\N
+36	1	Toledo		Gabriel	3212016	\N	\N	\N	\N	\N	\N	\N	\N	\N	016@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:56:41.572+00	2020-10-23 18:56:41.572+00	\N
+37	1	Paniagua		Narel	4827017	\N	\N	\N	\N	\N	\N	\N	\N	\N	017@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:57:05.473+00	2020-10-23 18:57:05.473+00	\N
+38	1	Cadima		Ximena	3927018	\N	\N	\N	\N	\N	\N	\N	\N	\N	018@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:57:40.47+00	2020-10-23 18:57:40.47+00	\N
+39	1	Mendoza		Magaly	1827019	\N	\N	\N	\N	\N	\N	\N	\N	\N	019@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:58:04.943+00	2020-10-23 18:58:04.943+00	\N
+40	1	Martin		Ruben	2937020	\N	\N	\N	\N	\N	\N	\N	\N	\N	020@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:58:34.176+00	2020-10-23 18:58:34.176+00	\N
+41	1	Apaza		Roberto	3928021	\N	\N	\N	\N	\N	\N	\N	\N	\N	021@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:59:01.709+00	2020-10-23 18:59:01.709+00	\N
+42	1	Blasón	Bayo	Laura	3972022	\N	\N	\N	\N	\N	\N	\N	\N	\N	022@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:59:40.129+00	2020-10-23 18:59:40.129+00	\N
+43	1	Llorente	Espino	Miguel	1827023	\N	\N	\N	\N	\N	\N	\N	\N	\N	023@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:00:17.033+00	2020-10-23 19:00:17.033+00	\N
+44	1	Leveau		Lucas	3927024	\N	\N	\N	\N	\N	\N	\N	\N	\N	024@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:00:47.579+00	2020-10-23 19:00:47.579+00	\N
+45	1	Maldonado		Diego	4827025	\N	\N	\N	\N	\N	\N	\N	\N	\N	025@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:01:16.823+00	2020-10-23 19:01:16.823+00	\N
+46	1	Revollo		Susana	3927026	\N	\N	\N	\N	\N	\N	\N	\N	\N	026@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:01:57.765+00	2020-10-23 19:01:57.765+00	\N
+47	1	Negroes		Nuno	4928027	\N	\N	\N	\N	\N	\N	\N	\N	\N	027@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:02:25.786+00	2020-10-23 19:02:25.786+00	\N
+48	1	Arteaga		Luis	5827028	\N	\N	\N	\N	\N	\N	\N	\N	\N	028@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:03:03.128+00	2020-10-23 19:03:03.128+00	\N
+49	1	Porter		Leila	5820029	\N	\N	\N	\N	\N	\N	\N	\N	\N	029@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:03:37.201+00	2020-10-23 19:03:37.201+00	\N
+50	1	Duran	Toledo	Pamela	4820030	\N	\N	\N	\N	\N	\N	\N	\N	\N	030@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:01.142+00	2020-10-23 19:05:01.142+00	\N
+52	1	Larrea		Daniel	4927033	\N	\N	\N	\N	\N	\N	\N	\N	\N	033@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:56.693+00	2020-10-23 19:05:56.693+00	\N
+53	1	Altimiras		Jordi	1828034	\N	\N	\N	\N	\N	\N	\N	\N	\N	034@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:06:24.496+00	2020-10-23 19:06:24.496+00	\N
+54	1	Arce		Orlando	5820035	\N	\N	\N	\N	\N	\N	\N	\N	\N	035@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:07:36.386+00	2020-10-23 19:07:36.386+00	\N
+55	1	Alandia		Erika	1827036	\N	\N	\N	\N	\N	\N	\N	\N	\N	036@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:22.829+00	2020-10-23 19:08:22.829+00	\N
+56	1	Salazar-Brazo		Jorge	6826037	\N	\N	\N	\N	\N	\N	\N	\N	\N	037@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:49.378+00	2020-10-23 19:08:49.378+00	\N
+57	1	Bravo		Raiza	8928038	\N	\N	\N	\N	\N	\N	\N	\N	\N	038@fcpn.edu.bo	\N	\N	\N	Dipl.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:11:43.939+00	2020-10-23 19:11:43.939+00	\N
+11	4	Moraes	Ramírez	Mónica Graciela	476807	\N	\N	\N	\N	\N	\N	\N	\N	\N	mmoraes@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:19:37.912+00	2020-10-23 21:03:30.946+00	\N
+6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-11-24 11:36:54.188+00	RNiQslnFJNxGNLBQCi11lobQ.pdf
+3	6	Achá	Cordero	Darío	3374109	\N	\N	\N	\N	\N	\N	\N	\N	\N	dacha@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:07:23.745+00	2020-10-23 21:07:12.954+00	\N
+58	1	Roque		Natalio	327132	\N	\N	\N	\N	\N	\N	\N	\N	\N	032@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-26 21:50:48.751+00	2020-10-26 21:50:48.751+00	\N
+9	8	Miranda	Torrez	Guillermina	1316562	\N	\N	\N	\N	\N	\N	\N	\N	\N	gmiranda@umsa.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:14:02.946+00	2020-10-27 15:20:44.34+00	\N
+17	7	Rico	Cernohorska	Adriana	2726683-1J	\N	\N	\N	\N	\N	\N	\N	\N	\N	arico@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:25:50.72+00	2020-10-27 15:12:48.407+00	\N
+51	9	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-27 15:23:41.59+00	\N
+1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-23 01:49:35.659+00	\N
 \.
 
 
@@ -4162,7 +4163,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-23 11:41:05 -04
+-- Completed on 2020-11-24 07:40:44 -04
 
 --
 -- PostgreSQL database dump complete
