@@ -8,6 +8,8 @@ import { InvestigadoresService } from 'src/app/services/admin/investigadores.ser
 import { GLOBAL } from 'src/app/services/global';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AutoresService } from 'src/app/services/proyecto/autores.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-profile-post',
@@ -21,6 +23,8 @@ export class ProfilePostComponent implements OnInit {
   private token: string;
   public url: string;
   public who: string;
+
+  public comentario: any = {};
 
   public publicacion: any = {};
   public archivos: any = [];
@@ -42,7 +46,9 @@ export class ProfilePostComponent implements OnInit {
     private _servicePubliArchivos: PubliArchivosService,
     private _serviceInvestigador: InvestigadoresService,
     private _serviceAutores: AutoresService,
-    private _auth: AuthService
+    private _auth: AuthService,
+    private toastr: ToastrService,
+    private modalService: NgbModal
     ) {
       this.token = this._auth.getToken();
       this.url = GLOBAL.url;
@@ -116,6 +122,37 @@ export class ProfilePostComponent implements OnInit {
       return true;
     } else {
       return false;
+    }
+  }
+
+  guardarComentario() {
+    this.comentario.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
+    this.comentario.id_publicacion = this.publicacion.id_publicacion;
+    if (this.comentario.id_comentario) {
+      // actualizar
+      this._serviceComentarios.update(this.comentario.id_comentario, this.comentario, this.token)
+        .then(response => {
+          // console.log(response);
+          this.obtenerComentarios();
+          this.modalService.dismissAll();
+          this.toastr.success('Comentario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }).catch(error => {
+          console.log('Error al actualizar comentario', error);
+          this.toastr.error('Error al actualizar comentario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
+    } else {
+      if (this.publicacion.id_publicacion) {
+        this._serviceComentarios.save(this.comentario, this.token)
+        .then(response => {
+          // console.log(response);
+          this.obtenerComentarios();
+          this.modalService.dismissAll();
+          this.toastr.success('Comentario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        }).catch(error => {
+          console.log('Error al guardar comentario', error);
+          this.toastr.error('Error al guardar comentario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+        });
+      }
     }
   }
 

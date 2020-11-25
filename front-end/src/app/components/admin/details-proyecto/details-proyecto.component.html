@@ -3,12 +3,16 @@
         <div class="row">
             <div class="col-lg-5 col-md-8 col-sm-12">
                 <h2>
-                    Proyecto
+                    <a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+                    Detalles proyecto
                 </h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['../../']"><i class="icon-home"></i></a></li>
                     <li class="breadcrumb-item">Dashboard</li>
-                    <li class="breadcrumb-item"><a [routerLink]="['../../list-proyectos','proyecto']">Proyectos</a></li>
+                    <li class="breadcrumb-item"><a [routerLink]="['../../list-proyectos','proyecto']">Lista proyectos</a></li>
                     <li class="breadcrumb-item active">{{ id }}</li>
                 </ul>
             </div>
@@ -109,20 +113,20 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-4">
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
-                (click)="openModal(content,'lg', 1)"><i class="fa fa-plus-square"></i>&nbsp;<span class="h6"> Subir
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
+                (click)="openModal(content,'lg', 1)"><i class="icon-plus"></i>&nbsp;<span class="h6"> Subir
                     Archivo</span></button>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
-                (click)="openModal(content,'lg', 2)"><i class="fa fa-flag"></i>&nbsp;<span class="h6">
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
+                (click)="openModal(content,'lg', 2)"><span class="h6">
                     Permisos</span></button>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
-                (click)="openModal(content,'lg', 3)"><i class="fa fa-folder-open-o"></i>&nbsp;<span class="h6">
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
+                (click)="openModal(content,'lg', 3)"><span class="h6">
                     Suscripcion Convenios</span></button>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
-                (click)="openModal(content,'lg', 4)"><i class="fa fa-tags"></i>&nbsp;<span class="h6">
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
+                (click)="openModal(content,'lg', 4)"><span class="h6">
                     Personal contratado</span></button>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" href="javascript:void(0)"
-                (click)="openModal(content,'lg', 5)"><i class="fa fa-pencil"></i>&nbsp;<span class="h6"> Cierre Proyecto</span></button>
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
+                (click)="openModal(content,'lg', 5)"><i class="icon-screen-tablet"></i>&nbsp;<span class="h6"> Cierre Proyecto</span></button>
         </div>
     </div>
 

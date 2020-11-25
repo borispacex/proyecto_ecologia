@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-24 07:40:42 -04
+-- Started on 2020-11-25 02:04:02 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -23,7 +23,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 209 (class 1259 OID 19144)
+-- TOC entry 202 (class 1259 OID 19890)
 -- Name: adm_roles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -40,7 +40,7 @@ CREATE TABLE public.adm_roles (
 ALTER TABLE public.adm_roles OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 19142)
+-- TOC entry 203 (class 1259 OID 19899)
 -- Name: adm_roles_id_rol_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -57,7 +57,7 @@ ALTER TABLE public.adm_roles_id_rol_seq OWNER TO postgres;
 
 --
 -- TOC entry 3535 (class 0 OID 0)
--- Dependencies: 208
+-- Dependencies: 203
 -- Name: adm_roles_id_rol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -65,7 +65,7 @@ ALTER SEQUENCE public.adm_roles_id_rol_seq OWNED BY public.adm_roles.id_rol;
 
 
 --
--- TOC entry 211 (class 1259 OID 19160)
+-- TOC entry 204 (class 1259 OID 19901)
 -- Name: adm_usuario_roles; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -82,7 +82,7 @@ CREATE TABLE public.adm_usuario_roles (
 ALTER TABLE public.adm_usuario_roles OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 19158)
+-- TOC entry 205 (class 1259 OID 19907)
 -- Name: adm_usuario_roles_id_adm_usuario_rol_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -99,7 +99,7 @@ ALTER TABLE public.adm_usuario_roles_id_adm_usuario_rol_seq OWNER TO postgres;
 
 --
 -- TOC entry 3536 (class 0 OID 0)
--- Dependencies: 210
+-- Dependencies: 205
 -- Name: adm_usuario_roles_id_adm_usuario_rol_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -107,7 +107,7 @@ ALTER SEQUENCE public.adm_usuario_roles_id_adm_usuario_rol_seq OWNED BY public.a
 
 
 --
--- TOC entry 207 (class 1259 OID 19123)
+-- TOC entry 206 (class 1259 OID 19909)
 -- Name: adm_usuarios; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -128,7 +128,7 @@ CREATE TABLE public.adm_usuarios (
 ALTER TABLE public.adm_usuarios OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1259 OID 19121)
+-- TOC entry 207 (class 1259 OID 19918)
 -- Name: adm_usuarios_id_usuario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -145,7 +145,7 @@ ALTER TABLE public.adm_usuarios_id_usuario_seq OWNER TO postgres;
 
 --
 -- TOC entry 3537 (class 0 OID 0)
--- Dependencies: 206
+-- Dependencies: 207
 -- Name: adm_usuarios_id_usuario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -153,7 +153,7 @@ ALTER SEQUENCE public.adm_usuarios_id_usuario_seq OWNED BY public.adm_usuarios.i
 
 
 --
--- TOC entry 265 (class 1259 OID 19744)
+-- TOC entry 208 (class 1259 OID 19920)
 -- Name: autores; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -170,7 +170,7 @@ CREATE TABLE public.autores (
 ALTER TABLE public.autores OWNER TO postgres;
 
 --
--- TOC entry 264 (class 1259 OID 19742)
+-- TOC entry 209 (class 1259 OID 19926)
 -- Name: autores_id_autor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -187,7 +187,7 @@ ALTER TABLE public.autores_id_autor_seq OWNER TO postgres;
 
 --
 -- TOC entry 3538 (class 0 OID 0)
--- Dependencies: 264
+-- Dependencies: 209
 -- Name: autores_id_autor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -195,7 +195,7 @@ ALTER SEQUENCE public.autores_id_autor_seq OWNED BY public.autores.id_autor;
 
 
 --
--- TOC entry 235 (class 1259 OID 19425)
+-- TOC entry 210 (class 1259 OID 19928)
 -- Name: basica_tecnicas; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -215,7 +215,7 @@ CREATE TABLE public.basica_tecnicas (
 ALTER TABLE public.basica_tecnicas OWNER TO postgres;
 
 --
--- TOC entry 234 (class 1259 OID 19423)
+-- TOC entry 211 (class 1259 OID 19937)
 -- Name: basica_tecnicas_id_basica_tecnica_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -232,7 +232,7 @@ ALTER TABLE public.basica_tecnicas_id_basica_tecnica_seq OWNER TO postgres;
 
 --
 -- TOC entry 3539 (class 0 OID 0)
--- Dependencies: 234
+-- Dependencies: 211
 -- Name: basica_tecnicas_id_basica_tecnica_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -240,7 +240,7 @@ ALTER SEQUENCE public.basica_tecnicas_id_basica_tecnica_seq OWNED BY public.basi
 
 
 --
--- TOC entry 263 (class 1259 OID 19720)
+-- TOC entry 212 (class 1259 OID 19939)
 -- Name: comentarios; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -258,7 +258,7 @@ CREATE TABLE public.comentarios (
 ALTER TABLE public.comentarios OWNER TO postgres;
 
 --
--- TOC entry 262 (class 1259 OID 19718)
+-- TOC entry 213 (class 1259 OID 19948)
 -- Name: comentarios_id_comentario_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -275,7 +275,7 @@ ALTER TABLE public.comentarios_id_comentario_seq OWNER TO postgres;
 
 --
 -- TOC entry 3540 (class 0 OID 0)
--- Dependencies: 262
+-- Dependencies: 213
 -- Name: comentarios_id_comentario_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -283,7 +283,7 @@ ALTER SEQUENCE public.comentarios_id_comentario_seq OWNED BY public.comentarios.
 
 
 --
--- TOC entry 233 (class 1259 OID 19401)
+-- TOC entry 214 (class 1259 OID 19950)
 -- Name: contra_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -303,7 +303,7 @@ CREATE TABLE public.contra_archivos (
 ALTER TABLE public.contra_archivos OWNER TO postgres;
 
 --
--- TOC entry 232 (class 1259 OID 19399)
+-- TOC entry 215 (class 1259 OID 19959)
 -- Name: contra_archivos_id_contra_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -320,7 +320,7 @@ ALTER TABLE public.contra_archivos_id_contra_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3541 (class 0 OID 0)
--- Dependencies: 232
+-- Dependencies: 215
 -- Name: contra_archivos_id_contra_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -328,7 +328,7 @@ ALTER SEQUENCE public.contra_archivos_id_contra_archivo_seq OWNED BY public.cont
 
 
 --
--- TOC entry 231 (class 1259 OID 19376)
+-- TOC entry 216 (class 1259 OID 19961)
 -- Name: contratados; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -354,7 +354,7 @@ CREATE TABLE public.contratados (
 ALTER TABLE public.contratados OWNER TO postgres;
 
 --
--- TOC entry 230 (class 1259 OID 19374)
+-- TOC entry 217 (class 1259 OID 19971)
 -- Name: contratados_id_contratado_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -371,7 +371,7 @@ ALTER TABLE public.contratados_id_contratado_seq OWNER TO postgres;
 
 --
 -- TOC entry 3542 (class 0 OID 0)
--- Dependencies: 230
+-- Dependencies: 217
 -- Name: contratados_id_contratado_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -379,7 +379,7 @@ ALTER SEQUENCE public.contratados_id_contratado_seq OWNED BY public.contratados.
 
 
 --
--- TOC entry 229 (class 1259 OID 19352)
+-- TOC entry 218 (class 1259 OID 19973)
 -- Name: conv_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -400,7 +400,7 @@ CREATE TABLE public.conv_archivos (
 ALTER TABLE public.conv_archivos OWNER TO postgres;
 
 --
--- TOC entry 228 (class 1259 OID 19350)
+-- TOC entry 219 (class 1259 OID 19982)
 -- Name: conv_archivos_id_conv_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -417,7 +417,7 @@ ALTER TABLE public.conv_archivos_id_conv_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3543 (class 0 OID 0)
--- Dependencies: 228
+-- Dependencies: 219
 -- Name: conv_archivos_id_conv_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -425,7 +425,7 @@ ALTER SEQUENCE public.conv_archivos_id_conv_archivo_seq OWNED BY public.conv_arc
 
 
 --
--- TOC entry 227 (class 1259 OID 19327)
+-- TOC entry 220 (class 1259 OID 19984)
 -- Name: convenios; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -451,7 +451,7 @@ CREATE TABLE public.convenios (
 ALTER TABLE public.convenios OWNER TO postgres;
 
 --
--- TOC entry 226 (class 1259 OID 19325)
+-- TOC entry 221 (class 1259 OID 19994)
 -- Name: convenios_id_convenio_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -468,7 +468,7 @@ ALTER TABLE public.convenios_id_convenio_seq OWNER TO postgres;
 
 --
 -- TOC entry 3544 (class 0 OID 0)
--- Dependencies: 226
+-- Dependencies: 221
 -- Name: convenios_id_convenio_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -476,7 +476,7 @@ ALTER SEQUENCE public.convenios_id_convenio_seq OWNED BY public.convenios.id_con
 
 
 --
--- TOC entry 247 (class 1259 OID 19540)
+-- TOC entry 222 (class 1259 OID 19996)
 -- Name: curso_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -496,7 +496,7 @@ CREATE TABLE public.curso_archivos (
 ALTER TABLE public.curso_archivos OWNER TO postgres;
 
 --
--- TOC entry 246 (class 1259 OID 19538)
+-- TOC entry 223 (class 1259 OID 20005)
 -- Name: curso_archivos_id_curso_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -513,7 +513,7 @@ ALTER TABLE public.curso_archivos_id_curso_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3545 (class 0 OID 0)
--- Dependencies: 246
+-- Dependencies: 223
 -- Name: curso_archivos_id_curso_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -521,7 +521,7 @@ ALTER SEQUENCE public.curso_archivos_id_curso_archivo_seq OWNED BY public.curso_
 
 
 --
--- TOC entry 243 (class 1259 OID 19501)
+-- TOC entry 224 (class 1259 OID 20007)
 -- Name: cursos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -545,7 +545,7 @@ CREATE TABLE public.cursos (
 ALTER TABLE public.cursos OWNER TO postgres;
 
 --
--- TOC entry 242 (class 1259 OID 19499)
+-- TOC entry 225 (class 1259 OID 20017)
 -- Name: cursos_id_curso_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -562,7 +562,7 @@ ALTER TABLE public.cursos_id_curso_seq OWNER TO postgres;
 
 --
 -- TOC entry 3546 (class 0 OID 0)
--- Dependencies: 242
+-- Dependencies: 225
 -- Name: cursos_id_curso_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -570,7 +570,7 @@ ALTER SEQUENCE public.cursos_id_curso_seq OWNED BY public.cursos.id_curso;
 
 
 --
--- TOC entry 251 (class 1259 OID 19584)
+-- TOC entry 226 (class 1259 OID 20019)
 -- Name: evento_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -590,7 +590,7 @@ CREATE TABLE public.evento_archivos (
 ALTER TABLE public.evento_archivos OWNER TO postgres;
 
 --
--- TOC entry 250 (class 1259 OID 19582)
+-- TOC entry 227 (class 1259 OID 20028)
 -- Name: evento_archivos_id_evento_archivos_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -607,7 +607,7 @@ ALTER TABLE public.evento_archivos_id_evento_archivos_seq OWNER TO postgres;
 
 --
 -- TOC entry 3547 (class 0 OID 0)
--- Dependencies: 250
+-- Dependencies: 227
 -- Name: evento_archivos_id_evento_archivos_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -615,7 +615,7 @@ ALTER SEQUENCE public.evento_archivos_id_evento_archivos_seq OWNED BY public.eve
 
 
 --
--- TOC entry 249 (class 1259 OID 19564)
+-- TOC entry 228 (class 1259 OID 20030)
 -- Name: eventos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -637,7 +637,7 @@ CREATE TABLE public.eventos (
 ALTER TABLE public.eventos OWNER TO postgres;
 
 --
--- TOC entry 248 (class 1259 OID 19562)
+-- TOC entry 229 (class 1259 OID 20040)
 -- Name: eventos_id_evento_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -654,7 +654,7 @@ ALTER TABLE public.eventos_id_evento_seq OWNER TO postgres;
 
 --
 -- TOC entry 3548 (class 0 OID 0)
--- Dependencies: 248
+-- Dependencies: 229
 -- Name: eventos_id_evento_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -662,7 +662,7 @@ ALTER SEQUENCE public.eventos_id_evento_seq OWNED BY public.eventos.id_evento;
 
 
 --
--- TOC entry 259 (class 1259 OID 19671)
+-- TOC entry 230 (class 1259 OID 20042)
 -- Name: expo_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -682,7 +682,7 @@ CREATE TABLE public.expo_archivos (
 ALTER TABLE public.expo_archivos OWNER TO postgres;
 
 --
--- TOC entry 258 (class 1259 OID 19669)
+-- TOC entry 231 (class 1259 OID 20051)
 -- Name: expo_archivos_id_expo_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -699,7 +699,7 @@ ALTER TABLE public.expo_archivos_id_expo_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3549 (class 0 OID 0)
--- Dependencies: 258
+-- Dependencies: 231
 -- Name: expo_archivos_id_expo_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -707,7 +707,7 @@ ALTER SEQUENCE public.expo_archivos_id_expo_archivo_seq OWNED BY public.expo_arc
 
 
 --
--- TOC entry 257 (class 1259 OID 19651)
+-- TOC entry 232 (class 1259 OID 20053)
 -- Name: exposiciones; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -731,7 +731,7 @@ CREATE TABLE public.exposiciones (
 ALTER TABLE public.exposiciones OWNER TO postgres;
 
 --
--- TOC entry 256 (class 1259 OID 19649)
+-- TOC entry 233 (class 1259 OID 20063)
 -- Name: exposiciones_id_exposicion_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -748,7 +748,7 @@ ALTER TABLE public.exposiciones_id_exposicion_seq OWNER TO postgres;
 
 --
 -- TOC entry 3550 (class 0 OID 0)
--- Dependencies: 256
+-- Dependencies: 233
 -- Name: exposiciones_id_exposicion_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -756,7 +756,7 @@ ALTER SEQUENCE public.exposiciones_id_exposicion_seq OWNED BY public.exposicione
 
 
 --
--- TOC entry 245 (class 1259 OID 19521)
+-- TOC entry 234 (class 1259 OID 20065)
 -- Name: expositores; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -774,7 +774,7 @@ CREATE TABLE public.expositores (
 ALTER TABLE public.expositores OWNER TO postgres;
 
 --
--- TOC entry 244 (class 1259 OID 19519)
+-- TOC entry 235 (class 1259 OID 20074)
 -- Name: expositores_id_expositor_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -791,7 +791,7 @@ ALTER TABLE public.expositores_id_expositor_seq OWNER TO postgres;
 
 --
 -- TOC entry 3551 (class 0 OID 0)
--- Dependencies: 244
+-- Dependencies: 235
 -- Name: expositores_id_expositor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -799,7 +799,7 @@ ALTER SEQUENCE public.expositores_id_expositor_seq OWNED BY public.expositores.i
 
 
 --
--- TOC entry 239 (class 1259 OID 19463)
+-- TOC entry 236 (class 1259 OID 20076)
 -- Name: financiamientos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -818,7 +818,7 @@ CREATE TABLE public.financiamientos (
 ALTER TABLE public.financiamientos OWNER TO postgres;
 
 --
--- TOC entry 238 (class 1259 OID 19461)
+-- TOC entry 237 (class 1259 OID 20085)
 -- Name: financiamientos_id_financiamiento_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -835,7 +835,7 @@ ALTER TABLE public.financiamientos_id_financiamiento_seq OWNER TO postgres;
 
 --
 -- TOC entry 3552 (class 0 OID 0)
--- Dependencies: 238
+-- Dependencies: 237
 -- Name: financiamientos_id_financiamiento_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -843,7 +843,7 @@ ALTER SEQUENCE public.financiamientos_id_financiamiento_seq OWNED BY public.fina
 
 
 --
--- TOC entry 203 (class 1259 OID 19077)
+-- TOC entry 238 (class 1259 OID 20087)
 -- Name: fotografias; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -862,7 +862,7 @@ CREATE TABLE public.fotografias (
 ALTER TABLE public.fotografias OWNER TO postgres;
 
 --
--- TOC entry 202 (class 1259 OID 19075)
+-- TOC entry 239 (class 1259 OID 20098)
 -- Name: fotografias_id_fotografia_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -879,7 +879,7 @@ ALTER TABLE public.fotografias_id_fotografia_seq OWNER TO postgres;
 
 --
 -- TOC entry 3553 (class 0 OID 0)
--- Dependencies: 202
+-- Dependencies: 239
 -- Name: fotografias_id_fotografia_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -887,7 +887,7 @@ ALTER SEQUENCE public.fotografias_id_fotografia_seq OWNED BY public.fotografias.
 
 
 --
--- TOC entry 223 (class 1259 OID 19282)
+-- TOC entry 240 (class 1259 OID 20100)
 -- Name: inv_proyectos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -904,7 +904,7 @@ CREATE TABLE public.inv_proyectos (
 ALTER TABLE public.inv_proyectos OWNER TO postgres;
 
 --
--- TOC entry 222 (class 1259 OID 19280)
+-- TOC entry 241 (class 1259 OID 20106)
 -- Name: inv_proyectos_id_inv_proyecto_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -921,7 +921,7 @@ ALTER TABLE public.inv_proyectos_id_inv_proyecto_seq OWNER TO postgres;
 
 --
 -- TOC entry 3554 (class 0 OID 0)
--- Dependencies: 222
+-- Dependencies: 241
 -- Name: inv_proyectos_id_inv_proyecto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -929,7 +929,7 @@ ALTER SEQUENCE public.inv_proyectos_id_inv_proyecto_seq OWNED BY public.inv_proy
 
 
 --
--- TOC entry 213 (class 1259 OID 19181)
+-- TOC entry 242 (class 1259 OID 20108)
 -- Name: inv_tipos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -946,7 +946,7 @@ CREATE TABLE public.inv_tipos (
 ALTER TABLE public.inv_tipos OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 19179)
+-- TOC entry 243 (class 1259 OID 20117)
 -- Name: inv_tipos_id_inv_tipo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -963,7 +963,7 @@ ALTER TABLE public.inv_tipos_id_inv_tipo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3555 (class 0 OID 0)
--- Dependencies: 212
+-- Dependencies: 243
 -- Name: inv_tipos_id_inv_tipo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -971,7 +971,7 @@ ALTER SEQUENCE public.inv_tipos_id_inv_tipo_seq OWNED BY public.inv_tipos.id_inv
 
 
 --
--- TOC entry 217 (class 1259 OID 19209)
+-- TOC entry 244 (class 1259 OID 20119)
 -- Name: investigadores; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -988,7 +988,7 @@ CREATE TABLE public.investigadores (
 ALTER TABLE public.investigadores OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1259 OID 19207)
+-- TOC entry 245 (class 1259 OID 20125)
 -- Name: investigadores_id_investigador_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1005,7 +1005,7 @@ ALTER TABLE public.investigadores_id_investigador_seq OWNER TO postgres;
 
 --
 -- TOC entry 3556 (class 0 OID 0)
--- Dependencies: 216
+-- Dependencies: 245
 -- Name: investigadores_id_investigador_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1013,7 +1013,7 @@ ALTER SEQUENCE public.investigadores_id_investigador_seq OWNED BY public.investi
 
 
 --
--- TOC entry 241 (class 1259 OID 19482)
+-- TOC entry 246 (class 1259 OID 20127)
 -- Name: lugar_desarrollos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1037,7 +1037,7 @@ CREATE TABLE public.lugar_desarrollos (
 ALTER TABLE public.lugar_desarrollos OWNER TO postgres;
 
 --
--- TOC entry 240 (class 1259 OID 19480)
+-- TOC entry 247 (class 1259 OID 20136)
 -- Name: lugar_desarrollos_id_lugar_desarrollo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1054,7 +1054,7 @@ ALTER TABLE public.lugar_desarrollos_id_lugar_desarrollo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3557 (class 0 OID 0)
--- Dependencies: 240
+-- Dependencies: 247
 -- Name: lugar_desarrollos_id_lugar_desarrollo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1062,7 +1062,7 @@ ALTER SEQUENCE public.lugar_desarrollos_id_lugar_desarrollo_seq OWNED BY public.
 
 
 --
--- TOC entry 255 (class 1259 OID 19627)
+-- TOC entry 248 (class 1259 OID 20138)
 -- Name: nota_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1082,7 +1082,7 @@ CREATE TABLE public.nota_archivos (
 ALTER TABLE public.nota_archivos OWNER TO postgres;
 
 --
--- TOC entry 254 (class 1259 OID 19625)
+-- TOC entry 249 (class 1259 OID 20147)
 -- Name: nota_archivos_id_nota_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1099,7 +1099,7 @@ ALTER TABLE public.nota_archivos_id_nota_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3558 (class 0 OID 0)
--- Dependencies: 254
+-- Dependencies: 249
 -- Name: nota_archivos_id_nota_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1107,7 +1107,7 @@ ALTER SEQUENCE public.nota_archivos_id_nota_archivo_seq OWNED BY public.nota_arc
 
 
 --
--- TOC entry 253 (class 1259 OID 19608)
+-- TOC entry 250 (class 1259 OID 20149)
 -- Name: nota_prensas; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1129,7 +1129,7 @@ CREATE TABLE public.nota_prensas (
 ALTER TABLE public.nota_prensas OWNER TO postgres;
 
 --
--- TOC entry 252 (class 1259 OID 19606)
+-- TOC entry 251 (class 1259 OID 20158)
 -- Name: nota_prensas_id_nota_prensa_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1146,7 +1146,7 @@ ALTER TABLE public.nota_prensas_id_nota_prensa_seq OWNER TO postgres;
 
 --
 -- TOC entry 3559 (class 0 OID 0)
--- Dependencies: 252
+-- Dependencies: 251
 -- Name: nota_prensas_id_nota_prensa_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1154,7 +1154,7 @@ ALTER SEQUENCE public.nota_prensas_id_nota_prensa_seq OWNED BY public.nota_prens
 
 
 --
--- TOC entry 225 (class 1259 OID 19303)
+-- TOC entry 252 (class 1259 OID 20160)
 -- Name: permiso_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1175,7 +1175,7 @@ CREATE TABLE public.permiso_archivos (
 ALTER TABLE public.permiso_archivos OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 19301)
+-- TOC entry 253 (class 1259 OID 20169)
 -- Name: permiso_archivos_id_permiso_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1192,7 +1192,7 @@ ALTER TABLE public.permiso_archivos_id_permiso_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3560 (class 0 OID 0)
--- Dependencies: 224
+-- Dependencies: 253
 -- Name: permiso_archivos_id_permiso_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1200,7 +1200,7 @@ ALTER SEQUENCE public.permiso_archivos_id_permiso_archivo_seq OWNED BY public.pe
 
 
 --
--- TOC entry 205 (class 1259 OID 19093)
+-- TOC entry 254 (class 1259 OID 20171)
 -- Name: personas; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1241,7 +1241,7 @@ CREATE TABLE public.personas (
 ALTER TABLE public.personas OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1259 OID 19091)
+-- TOC entry 255 (class 1259 OID 20183)
 -- Name: personas_id_persona_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1258,7 +1258,7 @@ ALTER TABLE public.personas_id_persona_seq OWNER TO postgres;
 
 --
 -- TOC entry 3561 (class 0 OID 0)
--- Dependencies: 204
+-- Dependencies: 255
 -- Name: personas_id_persona_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1266,7 +1266,7 @@ ALTER SEQUENCE public.personas_id_persona_seq OWNED BY public.personas.id_person
 
 
 --
--- TOC entry 271 (class 1259 OID 19813)
+-- TOC entry 256 (class 1259 OID 20185)
 -- Name: peti_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1286,7 +1286,7 @@ CREATE TABLE public.peti_archivos (
 ALTER TABLE public.peti_archivos OWNER TO postgres;
 
 --
--- TOC entry 270 (class 1259 OID 19811)
+-- TOC entry 257 (class 1259 OID 20194)
 -- Name: peti_archivos_id_peti_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1303,7 +1303,7 @@ ALTER TABLE public.peti_archivos_id_peti_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3562 (class 0 OID 0)
--- Dependencies: 270
+-- Dependencies: 257
 -- Name: peti_archivos_id_peti_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1311,7 +1311,7 @@ ALTER SEQUENCE public.peti_archivos_id_peti_archivo_seq OWNED BY public.peti_arc
 
 
 --
--- TOC entry 269 (class 1259 OID 19789)
+-- TOC entry 258 (class 1259 OID 20196)
 -- Name: peticiones; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1331,7 +1331,7 @@ CREATE TABLE public.peticiones (
 ALTER TABLE public.peticiones OWNER TO postgres;
 
 --
--- TOC entry 268 (class 1259 OID 19787)
+-- TOC entry 259 (class 1259 OID 20205)
 -- Name: peticiones_id_peticion_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1348,7 +1348,7 @@ ALTER TABLE public.peticiones_id_peticion_seq OWNER TO postgres;
 
 --
 -- TOC entry 3563 (class 0 OID 0)
--- Dependencies: 268
+-- Dependencies: 259
 -- Name: peticiones_id_peticion_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1356,7 +1356,7 @@ ALTER SEQUENCE public.peticiones_id_peticion_seq OWNED BY public.peticiones.id_p
 
 
 --
--- TOC entry 221 (class 1259 OID 19258)
+-- TOC entry 260 (class 1259 OID 20207)
 -- Name: proy_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1376,7 +1376,7 @@ CREATE TABLE public.proy_archivos (
 ALTER TABLE public.proy_archivos OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 19256)
+-- TOC entry 261 (class 1259 OID 20216)
 -- Name: proy_archivos_id_proy_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1393,7 +1393,7 @@ ALTER TABLE public.proy_archivos_id_proy_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3564 (class 0 OID 0)
--- Dependencies: 220
+-- Dependencies: 261
 -- Name: proy_archivos_id_proy_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1401,7 +1401,7 @@ ALTER SEQUENCE public.proy_archivos_id_proy_archivo_seq OWNED BY public.proy_arc
 
 
 --
--- TOC entry 219 (class 1259 OID 19230)
+-- TOC entry 262 (class 1259 OID 20218)
 -- Name: proyectos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1432,7 +1432,7 @@ CREATE TABLE public.proyectos (
 ALTER TABLE public.proyectos OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 19228)
+-- TOC entry 263 (class 1259 OID 20231)
 -- Name: proyectos_id_proyecto_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1449,7 +1449,7 @@ ALTER TABLE public.proyectos_id_proyecto_seq OWNER TO postgres;
 
 --
 -- TOC entry 3565 (class 0 OID 0)
--- Dependencies: 218
+-- Dependencies: 263
 -- Name: proyectos_id_proyecto_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1457,7 +1457,7 @@ ALTER SEQUENCE public.proyectos_id_proyecto_seq OWNED BY public.proyectos.id_pro
 
 
 --
--- TOC entry 267 (class 1259 OID 19765)
+-- TOC entry 264 (class 1259 OID 20233)
 -- Name: publi_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1477,7 +1477,7 @@ CREATE TABLE public.publi_archivos (
 ALTER TABLE public.publi_archivos OWNER TO postgres;
 
 --
--- TOC entry 266 (class 1259 OID 19763)
+-- TOC entry 265 (class 1259 OID 20242)
 -- Name: publi_archivos_id_publi_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1494,7 +1494,7 @@ ALTER TABLE public.publi_archivos_id_publi_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3566 (class 0 OID 0)
--- Dependencies: 266
+-- Dependencies: 265
 -- Name: publi_archivos_id_publi_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1502,7 +1502,7 @@ ALTER SEQUENCE public.publi_archivos_id_publi_archivo_seq OWNED BY public.publi_
 
 
 --
--- TOC entry 261 (class 1259 OID 19695)
+-- TOC entry 266 (class 1259 OID 20244)
 -- Name: publicaciones; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1524,7 +1524,7 @@ CREATE TABLE public.publicaciones (
 ALTER TABLE public.publicaciones OWNER TO postgres;
 
 --
--- TOC entry 260 (class 1259 OID 19693)
+-- TOC entry 267 (class 1259 OID 20254)
 -- Name: publicaciones_id_publicacion_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1541,7 +1541,7 @@ ALTER TABLE public.publicaciones_id_publicacion_seq OWNER TO postgres;
 
 --
 -- TOC entry 3567 (class 0 OID 0)
--- Dependencies: 260
+-- Dependencies: 267
 -- Name: publicaciones_id_publicacion_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1549,7 +1549,7 @@ ALTER SEQUENCE public.publicaciones_id_publicacion_seq OWNED BY public.publicaci
 
 
 --
--- TOC entry 275 (class 1259 OID 19861)
+-- TOC entry 268 (class 1259 OID 20256)
 -- Name: segui_archivos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1569,7 +1569,7 @@ CREATE TABLE public.segui_archivos (
 ALTER TABLE public.segui_archivos OWNER TO postgres;
 
 --
--- TOC entry 274 (class 1259 OID 19859)
+-- TOC entry 269 (class 1259 OID 20265)
 -- Name: segui_archivos_id_segui_archivo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1586,7 +1586,7 @@ ALTER TABLE public.segui_archivos_id_segui_archivo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3568 (class 0 OID 0)
--- Dependencies: 274
+-- Dependencies: 269
 -- Name: segui_archivos_id_segui_archivo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1594,7 +1594,7 @@ ALTER SEQUENCE public.segui_archivos_id_segui_archivo_seq OWNED BY public.segui_
 
 
 --
--- TOC entry 273 (class 1259 OID 19837)
+-- TOC entry 270 (class 1259 OID 20267)
 -- Name: seguimientos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1615,7 +1615,7 @@ CREATE TABLE public.seguimientos (
 ALTER TABLE public.seguimientos OWNER TO postgres;
 
 --
--- TOC entry 272 (class 1259 OID 19835)
+-- TOC entry 271 (class 1259 OID 20276)
 -- Name: seguimientos_id_seguimiento_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1632,7 +1632,7 @@ ALTER TABLE public.seguimientos_id_seguimiento_seq OWNER TO postgres;
 
 --
 -- TOC entry 3569 (class 0 OID 0)
--- Dependencies: 272
+-- Dependencies: 271
 -- Name: seguimientos_id_seguimiento_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1640,7 +1640,7 @@ ALTER SEQUENCE public.seguimientos_id_seguimiento_seq OWNED BY public.seguimient
 
 
 --
--- TOC entry 215 (class 1259 OID 19195)
+-- TOC entry 272 (class 1259 OID 20278)
 -- Name: tipos; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1657,7 +1657,7 @@ CREATE TABLE public.tipos (
 ALTER TABLE public.tipos OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 19193)
+-- TOC entry 273 (class 1259 OID 20287)
 -- Name: tipos_id_tipo_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1674,7 +1674,7 @@ ALTER TABLE public.tipos_id_tipo_seq OWNER TO postgres;
 
 --
 -- TOC entry 3570 (class 0 OID 0)
--- Dependencies: 214
+-- Dependencies: 273
 -- Name: tipos_id_tipo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1682,7 +1682,7 @@ ALTER SEQUENCE public.tipos_id_tipo_seq OWNED BY public.tipos.id_tipo;
 
 
 --
--- TOC entry 237 (class 1259 OID 19444)
+-- TOC entry 274 (class 1259 OID 20289)
 -- Name: unidades; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1700,7 +1700,7 @@ CREATE TABLE public.unidades (
 ALTER TABLE public.unidades OWNER TO postgres;
 
 --
--- TOC entry 236 (class 1259 OID 19442)
+-- TOC entry 275 (class 1259 OID 20298)
 -- Name: unidades_id_unidad_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1717,7 +1717,7 @@ ALTER TABLE public.unidades_id_unidad_seq OWNER TO postgres;
 
 --
 -- TOC entry 3571 (class 0 OID 0)
--- Dependencies: 236
+-- Dependencies: 275
 -- Name: unidades_id_unidad_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1725,7 +1725,7 @@ ALTER SEQUENCE public.unidades_id_unidad_seq OWNED BY public.unidades.id_unidad;
 
 
 --
--- TOC entry 3043 (class 2604 OID 19147)
+-- TOC entry 3029 (class 2604 OID 20300)
 -- Name: adm_roles id_rol; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1733,7 +1733,7 @@ ALTER TABLE ONLY public.adm_roles ALTER COLUMN id_rol SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 3047 (class 2604 OID 19163)
+-- TOC entry 3033 (class 2604 OID 20301)
 -- Name: adm_usuario_roles id_adm_usuario_rol; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1741,7 +1741,7 @@ ALTER TABLE ONLY public.adm_usuario_roles ALTER COLUMN id_adm_usuario_rol SET DE
 
 
 --
--- TOC entry 3039 (class 2604 OID 19126)
+-- TOC entry 3037 (class 2604 OID 20302)
 -- Name: adm_usuarios id_usuario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1749,7 +1749,7 @@ ALTER TABLE ONLY public.adm_usuarios ALTER COLUMN id_usuario SET DEFAULT nextval
 
 
 --
--- TOC entry 3165 (class 2604 OID 19747)
+-- TOC entry 3041 (class 2604 OID 20303)
 -- Name: autores id_autor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1757,7 +1757,7 @@ ALTER TABLE ONLY public.autores ALTER COLUMN id_autor SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 3101 (class 2604 OID 19428)
+-- TOC entry 3045 (class 2604 OID 20304)
 -- Name: basica_tecnicas id_basica_tecnica; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1765,7 +1765,7 @@ ALTER TABLE ONLY public.basica_tecnicas ALTER COLUMN id_basica_tecnica SET DEFAU
 
 
 --
--- TOC entry 3161 (class 2604 OID 19723)
+-- TOC entry 3049 (class 2604 OID 20305)
 -- Name: comentarios id_comentario; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1773,7 +1773,7 @@ ALTER TABLE ONLY public.comentarios ALTER COLUMN id_comentario SET DEFAULT nextv
 
 
 --
--- TOC entry 3097 (class 2604 OID 19404)
+-- TOC entry 3053 (class 2604 OID 20306)
 -- Name: contra_archivos id_contra_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1781,7 +1781,7 @@ ALTER TABLE ONLY public.contra_archivos ALTER COLUMN id_contra_archivo SET DEFAU
 
 
 --
--- TOC entry 3092 (class 2604 OID 19379)
+-- TOC entry 3058 (class 2604 OID 20307)
 -- Name: contratados id_contratado; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1789,7 +1789,7 @@ ALTER TABLE ONLY public.contratados ALTER COLUMN id_contratado SET DEFAULT nextv
 
 
 --
--- TOC entry 3088 (class 2604 OID 19355)
+-- TOC entry 3062 (class 2604 OID 20308)
 -- Name: conv_archivos id_conv_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1797,7 +1797,7 @@ ALTER TABLE ONLY public.conv_archivos ALTER COLUMN id_conv_archivo SET DEFAULT n
 
 
 --
--- TOC entry 3083 (class 2604 OID 19330)
+-- TOC entry 3067 (class 2604 OID 20309)
 -- Name: convenios id_convenio; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1805,7 +1805,7 @@ ALTER TABLE ONLY public.convenios ALTER COLUMN id_convenio SET DEFAULT nextval('
 
 
 --
--- TOC entry 3126 (class 2604 OID 19543)
+-- TOC entry 3071 (class 2604 OID 20310)
 -- Name: curso_archivos id_curso_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1813,7 +1813,7 @@ ALTER TABLE ONLY public.curso_archivos ALTER COLUMN id_curso_archivo SET DEFAULT
 
 
 --
--- TOC entry 3117 (class 2604 OID 19504)
+-- TOC entry 3076 (class 2604 OID 20311)
 -- Name: cursos id_curso; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1821,7 +1821,7 @@ ALTER TABLE ONLY public.cursos ALTER COLUMN id_curso SET DEFAULT nextval('public
 
 
 --
--- TOC entry 3135 (class 2604 OID 19587)
+-- TOC entry 3080 (class 2604 OID 20312)
 -- Name: evento_archivos id_evento_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1829,7 +1829,7 @@ ALTER TABLE ONLY public.evento_archivos ALTER COLUMN id_evento_archivo SET DEFAU
 
 
 --
--- TOC entry 3130 (class 2604 OID 19567)
+-- TOC entry 3085 (class 2604 OID 20313)
 -- Name: eventos id_evento; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1837,7 +1837,7 @@ ALTER TABLE ONLY public.eventos ALTER COLUMN id_evento SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3152 (class 2604 OID 19674)
+-- TOC entry 3089 (class 2604 OID 20314)
 -- Name: expo_archivos id_expo_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1845,7 +1845,7 @@ ALTER TABLE ONLY public.expo_archivos ALTER COLUMN id_expo_archivo SET DEFAULT n
 
 
 --
--- TOC entry 3147 (class 2604 OID 19654)
+-- TOC entry 3094 (class 2604 OID 20315)
 -- Name: exposiciones id_exposicion; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1853,7 +1853,7 @@ ALTER TABLE ONLY public.exposiciones ALTER COLUMN id_exposicion SET DEFAULT next
 
 
 --
--- TOC entry 3122 (class 2604 OID 19524)
+-- TOC entry 3098 (class 2604 OID 20316)
 -- Name: expositores id_expositor; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1861,7 +1861,7 @@ ALTER TABLE ONLY public.expositores ALTER COLUMN id_expositor SET DEFAULT nextva
 
 
 --
--- TOC entry 3110 (class 2604 OID 19466)
+-- TOC entry 3102 (class 2604 OID 20317)
 -- Name: financiamientos id_financiamiento; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1869,7 +1869,7 @@ ALTER TABLE ONLY public.financiamientos ALTER COLUMN id_financiamiento SET DEFAU
 
 
 --
--- TOC entry 3026 (class 2604 OID 19080)
+-- TOC entry 3108 (class 2604 OID 20318)
 -- Name: fotografias id_fotografia; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1877,7 +1877,7 @@ ALTER TABLE ONLY public.fotografias ALTER COLUMN id_fotografia SET DEFAULT nextv
 
 
 --
--- TOC entry 3076 (class 2604 OID 19285)
+-- TOC entry 3112 (class 2604 OID 20319)
 -- Name: inv_proyectos id_inv_proyecto; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1885,7 +1885,7 @@ ALTER TABLE ONLY public.inv_proyectos ALTER COLUMN id_inv_proyecto SET DEFAULT n
 
 
 --
--- TOC entry 3051 (class 2604 OID 19184)
+-- TOC entry 3116 (class 2604 OID 20320)
 -- Name: inv_tipos id_inv_tipo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1893,7 +1893,7 @@ ALTER TABLE ONLY public.inv_tipos ALTER COLUMN id_inv_tipo SET DEFAULT nextval('
 
 
 --
--- TOC entry 3059 (class 2604 OID 19212)
+-- TOC entry 3120 (class 2604 OID 20321)
 -- Name: investigadores id_investigador; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1901,7 +1901,7 @@ ALTER TABLE ONLY public.investigadores ALTER COLUMN id_investigador SET DEFAULT 
 
 
 --
--- TOC entry 3113 (class 2604 OID 19485)
+-- TOC entry 3124 (class 2604 OID 20322)
 -- Name: lugar_desarrollos id_lugar_desarrollo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1909,7 +1909,7 @@ ALTER TABLE ONLY public.lugar_desarrollos ALTER COLUMN id_lugar_desarrollo SET D
 
 
 --
--- TOC entry 3143 (class 2604 OID 19630)
+-- TOC entry 3128 (class 2604 OID 20323)
 -- Name: nota_archivos id_nota_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1917,7 +1917,7 @@ ALTER TABLE ONLY public.nota_archivos ALTER COLUMN id_nota_archivo SET DEFAULT n
 
 
 --
--- TOC entry 3139 (class 2604 OID 19611)
+-- TOC entry 3132 (class 2604 OID 20324)
 -- Name: nota_prensas id_nota_prensa; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1925,7 +1925,7 @@ ALTER TABLE ONLY public.nota_prensas ALTER COLUMN id_nota_prensa SET DEFAULT nex
 
 
 --
--- TOC entry 3079 (class 2604 OID 19306)
+-- TOC entry 3136 (class 2604 OID 20325)
 -- Name: permiso_archivos id_permiso_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1933,7 +1933,7 @@ ALTER TABLE ONLY public.permiso_archivos ALTER COLUMN id_permiso_archivo SET DEF
 
 
 --
--- TOC entry 3032 (class 2604 OID 19096)
+-- TOC entry 3143 (class 2604 OID 20326)
 -- Name: personas id_persona; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1941,7 +1941,7 @@ ALTER TABLE ONLY public.personas ALTER COLUMN id_persona SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3177 (class 2604 OID 19816)
+-- TOC entry 3147 (class 2604 OID 20327)
 -- Name: peti_archivos id_peti_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1949,7 +1949,7 @@ ALTER TABLE ONLY public.peti_archivos ALTER COLUMN id_peti_archivo SET DEFAULT n
 
 
 --
--- TOC entry 3173 (class 2604 OID 19792)
+-- TOC entry 3151 (class 2604 OID 20328)
 -- Name: peticiones id_peticion; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1957,7 +1957,7 @@ ALTER TABLE ONLY public.peticiones ALTER COLUMN id_peticion SET DEFAULT nextval(
 
 
 --
--- TOC entry 3071 (class 2604 OID 19261)
+-- TOC entry 3155 (class 2604 OID 20329)
 -- Name: proy_archivos id_proy_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1965,7 +1965,7 @@ ALTER TABLE ONLY public.proy_archivos ALTER COLUMN id_proy_archivo SET DEFAULT n
 
 
 --
--- TOC entry 3063 (class 2604 OID 19233)
+-- TOC entry 3163 (class 2604 OID 20330)
 -- Name: proyectos id_proyecto; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1973,7 +1973,7 @@ ALTER TABLE ONLY public.proyectos ALTER COLUMN id_proyecto SET DEFAULT nextval('
 
 
 --
--- TOC entry 3169 (class 2604 OID 19768)
+-- TOC entry 3167 (class 2604 OID 20331)
 -- Name: publi_archivos id_publi_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1981,7 +1981,7 @@ ALTER TABLE ONLY public.publi_archivos ALTER COLUMN id_publi_archivo SET DEFAULT
 
 
 --
--- TOC entry 3156 (class 2604 OID 19698)
+-- TOC entry 3172 (class 2604 OID 20332)
 -- Name: publicaciones id_publicacion; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1989,7 +1989,7 @@ ALTER TABLE ONLY public.publicaciones ALTER COLUMN id_publicacion SET DEFAULT ne
 
 
 --
--- TOC entry 3185 (class 2604 OID 19864)
+-- TOC entry 3176 (class 2604 OID 20333)
 -- Name: segui_archivos id_segui_archivo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1997,7 +1997,7 @@ ALTER TABLE ONLY public.segui_archivos ALTER COLUMN id_segui_archivo SET DEFAULT
 
 
 --
--- TOC entry 3181 (class 2604 OID 19840)
+-- TOC entry 3180 (class 2604 OID 20334)
 -- Name: seguimientos id_seguimiento; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2005,7 +2005,7 @@ ALTER TABLE ONLY public.seguimientos ALTER COLUMN id_seguimiento SET DEFAULT nex
 
 
 --
--- TOC entry 3055 (class 2604 OID 19198)
+-- TOC entry 3184 (class 2604 OID 20335)
 -- Name: tipos id_tipo; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2013,7 +2013,7 @@ ALTER TABLE ONLY public.tipos ALTER COLUMN id_tipo SET DEFAULT nextval('public.t
 
 
 --
--- TOC entry 3105 (class 2604 OID 19447)
+-- TOC entry 3188 (class 2604 OID 20336)
 -- Name: unidades id_unidad; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -2021,8 +2021,8 @@ ALTER TABLE ONLY public.unidades ALTER COLUMN id_unidad SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 3463 (class 0 OID 19144)
--- Dependencies: 209
+-- TOC entry 3456 (class 0 OID 19890)
+-- Dependencies: 202
 -- Data for Name: adm_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2034,8 +2034,8 @@ COPY public.adm_roles (id_rol, rol, descripcion, estado, "createdAt", "updatedAt
 
 
 --
--- TOC entry 3465 (class 0 OID 19160)
--- Dependencies: 211
+-- TOC entry 3458 (class 0 OID 19901)
+-- Dependencies: 204
 -- Data for Name: adm_usuario_roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2105,8 +2105,8 @@ COPY public.adm_usuario_roles (id_adm_usuario_rol, id_usuario, id_rol, estado, "
 
 
 --
--- TOC entry 3461 (class 0 OID 19123)
--- Dependencies: 207
+-- TOC entry 3460 (class 0 OID 19909)
+-- Dependencies: 206
 -- Data for Name: adm_usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2173,47 +2173,20 @@ COPY public.adm_usuarios (id_usuario, id_persona, usuario, password, recordatori
 
 
 --
--- TOC entry 3519 (class 0 OID 19744)
--- Dependencies: 265
+-- TOC entry 3462 (class 0 OID 19920)
+-- Dependencies: 208
 -- Data for Name: autores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.autores (id_autor, id_investigador, id_publicacion, estado, "createdAt", "updatedAt") FROM stdin;
-1	6	1	t	2020-10-23 20:12:49.399+00	2020-10-23 20:12:49.399+00
-2	6	2	t	2020-10-23 20:21:18.624+00	2020-10-23 20:21:18.624+00
-3	2	3	t	2020-10-23 20:28:53.255+00	2020-10-23 20:28:53.255+00
-4	5	4	t	2020-10-23 20:37:20.795+00	2020-10-23 20:37:20.795+00
-5	12	5	t	2020-10-23 20:50:27.265+00	2020-10-23 20:50:27.265+00
-6	16	5	t	2020-10-23 20:50:27.273+00	2020-10-23 20:50:27.273+00
-7	10	6	t	2020-10-23 21:00:12.044+00	2020-10-23 21:00:12.044+00
-8	10	7	t	2020-10-26 02:39:08.26+00	2020-10-26 02:39:08.26+00
-9	5	8	t	2020-10-26 16:17:39.016+00	2020-10-26 16:17:39.016+00
-10	5	9	t	2020-10-26 18:51:46.607+00	2020-10-26 18:51:46.607+00
-11	43	9	t	2020-10-26 18:51:46.611+00	2020-10-26 18:51:46.611+00
-12	16	10	t	2020-10-26 21:28:17.13+00	2020-10-26 21:28:17.13+00
-13	13	10	t	2020-10-26 21:28:17.132+00	2020-10-26 21:28:17.132+00
-14	48	11	t	2020-10-26 21:40:34.213+00	2020-10-26 21:40:34.213+00
-15	26	11	t	2020-10-26 21:40:34.214+00	2020-10-26 21:40:34.214+00
-16	16	11	t	2020-10-26 21:40:34.218+00	2020-10-26 21:40:34.218+00
-17	49	11	t	2020-10-26 21:40:34.225+00	2020-10-26 21:40:34.225+00
-18	50	11	t	2020-10-26 21:40:34.225+00	2020-10-26 21:40:34.225+00
-19	29	12	t	2020-10-26 22:02:06.094+00	2020-10-26 22:02:06.094+00
-20	18	12	t	2020-10-26 22:02:06.097+00	2020-10-26 22:02:06.097+00
-21	57	12	t	2020-10-26 22:02:06.101+00	2020-10-26 22:02:06.101+00
-22	51	12	t	2020-10-26 22:02:06.106+00	2020-10-26 22:02:06.106+00
-23	5	13	t	2020-10-27 13:33:53.413+00	2020-10-27 13:33:53.413+00
-24	52	13	t	2020-10-27 13:33:53.414+00	2020-10-27 13:33:53.414+00
-25	53	13	t	2020-10-27 13:33:53.417+00	2020-10-27 13:33:53.417+00
-26	19	14	t	2020-10-27 14:11:16.76+00	2020-10-27 14:11:16.76+00
-27	9	15	t	2020-10-27 14:30:10.836+00	2020-10-27 14:30:10.836+00
-28	1	16	t	2020-11-20 10:04:54.272+00	2020-11-20 10:04:54.272+00
-29	1	17	t	2020-11-20 10:47:11.924+00	2020-11-20 10:47:11.924+00
+30	5	18	t	2020-11-25 05:22:49.071+00	2020-11-25 05:22:49.071+00
+31	5	19	t	2020-11-25 05:34:09.296+00	2020-11-25 05:34:09.296+00
 \.
 
 
 --
--- TOC entry 3489 (class 0 OID 19425)
--- Dependencies: 235
+-- TOC entry 3464 (class 0 OID 19928)
+-- Dependencies: 210
 -- Data for Name: basica_tecnicas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2222,73 +2195,58 @@ COPY public.basica_tecnicas (id_basica_tecnica, id_proyecto, tipo, area, tipo_p,
 
 
 --
--- TOC entry 3517 (class 0 OID 19720)
--- Dependencies: 263
+-- TOC entry 3466 (class 0 OID 19939)
+-- Dependencies: 212
 -- Data for Name: comentarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.comentarios (id_comentario, id_persona, id_publicacion, comentario, estado, "createdAt", "updatedAt") FROM stdin;
-1	2	9	Comentario de prueba	t	2020-11-23 03:51:16.024+00	2020-11-23 03:51:16.024+00
-2	6	9	comentario prueba 2	t	2020-11-23 14:29:23.964+00	2020-11-23 14:29:23.964+00
 \.
 
 
 --
--- TOC entry 3487 (class 0 OID 19401)
--- Dependencies: 233
+-- TOC entry 3468 (class 0 OID 19950)
+-- Dependencies: 214
 -- Data for Name: contra_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.contra_archivos (id_contra_archivo, id_contratado, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
-1	1	p_Dqdc-QIAzuASaGTu0kSYda.pdf	diploma-ingles-basico	des1	9	t	2020-11-17 02:54:47.72+00	2020-11-17 02:54:47.781+00
-2	1	8bZa1-4FuwteQx-MfPt4_eZ0.pdf	diploma-ingles-2	des2	9	t	2020-11-17 02:54:47.72+00	2020-11-17 02:54:47.789+00
 \.
 
 
 --
--- TOC entry 3485 (class 0 OID 19376)
--- Dependencies: 231
+-- TOC entry 3470 (class 0 OID 19961)
+-- Dependencies: 216
 -- Data for Name: contratados; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.contratados (id_contratado, id_proyecto, archivo, nombre_archivo, descripcion_archivo, id_tipo, tipo, nombrecompleto, ci, fechaini, fechafin, descripcion, estado, "createdAt", "updatedAt") FROM stdin;
-1	23	poFbjZJ0dXOsuTVBS0p8d3AB.pdf	Contrado de Juanito Perez	descripcion del documento: descripcion contrato	9	01	Juanito Perez	00001	2020-11-16 04:00:00+00	2020-11-19 04:00:00+00	descripcion contrato	t	2020-11-17 02:54:47.623+00	2020-11-17 02:54:47.689+00
 \.
 
 
 --
--- TOC entry 3483 (class 0 OID 19352)
--- Dependencies: 229
+-- TOC entry 3472 (class 0 OID 19973)
+-- Dependencies: 218
 -- Data for Name: conv_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.conv_archivos (id_conv_archivo, id_convenio, archivo, nombre, descripcion, id_tipo, tipo, estado, "createdAt", "updatedAt") FROM stdin;
-1	2	VEhH5ZqQjTbyUr_pMn-Gq46w.pdf	diploma-fundamentos-google	des1	8	\N	t	2020-11-17 02:53:34.62+00	2020-11-17 02:53:34.686+00
-2	2	KmBXI_W-HC77FloLI3joC6wI.pdf	diploma-fundamentos-circuitos	des2	8	\N	t	2020-11-17 02:53:34.621+00	2020-11-17 02:53:34.691+00
-3	3	0yQItVA7q0OLmvA3M9yFR5nV.pdf	diploma-lavarse-manos-correctamente	des1	8	\N	t	2020-11-17 14:53:38.225+00	2020-11-17 14:53:38.282+00
-4	3	uWbJdNTcVmWCiLGZ5_fewmmz.pdf	diploma-iot	des2	8	\N	t	2020-11-17 14:53:38.228+00	2020-11-17 14:53:38.361+00
-5	4	XYtqkqfrJmNQSMkh9mGDne18.pdf	diploma-ingles	des1	8	\N	t	2020-11-17 15:00:49.199+00	2020-11-17 15:00:49.316+00
-6	4	mTmKzjhVpLxG7JAr_OjevClv.pdf	diploma-ingles-gramatica	des2	8	\N	t	2020-11-17 15:00:49.206+00	2020-11-17 15:00:49.352+00
 \.
 
 
 --
--- TOC entry 3481 (class 0 OID 19327)
--- Dependencies: 227
+-- TOC entry 3474 (class 0 OID 19984)
+-- Dependencies: 220
 -- Data for Name: convenios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.convenios (id_convenio, id_proyecto, archivo, nombre_archivo, descripcion_archivo, id_tipo, tipo, titulo, objetivo, fechaini, fechafin, descripcion, estado, "createdAt", "updatedAt") FROM stdin;
-1	23		Convenio de titulo convenio prueba	descripcion de convenio: descripcion	8	convenio marco	titulo convenio prueba	objetivo convenio	2020-11-16 04:00:00+00	2020-11-13 04:00:00+00	descripcion	t	2020-11-17 02:52:59.951+00	2020-11-17 02:52:59.951+00
-2	23	aEVbHRuYp0F3ese-Y9MkmPiw.pdf	Convenio de titulo convenio prueba	descripcion de convenio: descripcion	8	convenio marco	titulo convenio prueba	objetivo convenio	2020-11-16 04:00:00+00	2020-11-13 04:00:00+00	descripcion	t	2020-11-17 02:53:34.499+00	2020-11-17 02:53:34.586+00
-3	23	QAv0E5EnQGUxBs0r72kuahh7.pdf	Convenio de titulo prueba	descripcion de convenio: descri	8	convenio marco	titulo prueba	objetivo	2020-11-17 04:00:00+00	2020-11-19 04:00:00+00	descri	t	2020-11-17 14:53:38.107+00	2020-11-17 14:53:38.188+00
-4	23	iGoy_rB1r6e6qd69ZLA4LKI8.pdf	Convenio de titulo prueab 4	descripcion de convenio: descripcion	8	convenio bilateral	titulo prueab 4	objetivo 5	2020-11-17 04:00:00+00	2020-11-18 04:00:00+00	descripcion	t	2020-11-17 15:00:49.156+00	2020-11-17 15:00:49.276+00
 \.
 
 
 --
--- TOC entry 3501 (class 0 OID 19540)
--- Dependencies: 247
+-- TOC entry 3476 (class 0 OID 19996)
+-- Dependencies: 222
 -- Data for Name: curso_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2297,8 +2255,8 @@ COPY public.curso_archivos (id_curso_archivo, id_curso, archivo, nombre, descrip
 
 
 --
--- TOC entry 3497 (class 0 OID 19501)
--- Dependencies: 243
+-- TOC entry 3478 (class 0 OID 20007)
+-- Dependencies: 224
 -- Data for Name: cursos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2307,8 +2265,8 @@ COPY public.cursos (id_curso, id_proyecto, titulo, objetivo, lugar, resumen, asi
 
 
 --
--- TOC entry 3505 (class 0 OID 19584)
--- Dependencies: 251
+-- TOC entry 3480 (class 0 OID 20019)
+-- Dependencies: 226
 -- Data for Name: evento_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2317,8 +2275,8 @@ COPY public.evento_archivos (id_evento_archivo, id_evento, archivo, nombre, desc
 
 
 --
--- TOC entry 3503 (class 0 OID 19564)
--- Dependencies: 249
+-- TOC entry 3482 (class 0 OID 20030)
+-- Dependencies: 228
 -- Data for Name: eventos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2327,8 +2285,8 @@ COPY public.eventos (id_evento, id_proyecto, titulo, objetivo, lugar, fechaini, 
 
 
 --
--- TOC entry 3513 (class 0 OID 19671)
--- Dependencies: 259
+-- TOC entry 3484 (class 0 OID 20042)
+-- Dependencies: 230
 -- Data for Name: expo_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2337,8 +2295,8 @@ COPY public.expo_archivos (id_expo_archivo, id_exposicion, archivo, nombre, desc
 
 
 --
--- TOC entry 3511 (class 0 OID 19651)
--- Dependencies: 257
+-- TOC entry 3486 (class 0 OID 20053)
+-- Dependencies: 232
 -- Data for Name: exposiciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2347,8 +2305,8 @@ COPY public.exposiciones (id_exposicion, id_proyecto, titulo, tema, objetivo, lu
 
 
 --
--- TOC entry 3499 (class 0 OID 19521)
--- Dependencies: 245
+-- TOC entry 3488 (class 0 OID 20065)
+-- Dependencies: 234
 -- Data for Name: expositores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2357,8 +2315,8 @@ COPY public.expositores (id_expositor, id_curso, nombres, apellidos, estado, "cr
 
 
 --
--- TOC entry 3493 (class 0 OID 19463)
--- Dependencies: 239
+-- TOC entry 3490 (class 0 OID 20076)
+-- Dependencies: 236
 -- Data for Name: financiamientos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2376,8 +2334,8 @@ COPY public.financiamientos (id_financiamiento, id_proyecto, fuente, aporte, obs
 
 
 --
--- TOC entry 3457 (class 0 OID 19077)
--- Dependencies: 203
+-- TOC entry 3492 (class 0 OID 20087)
+-- Dependencies: 238
 -- Data for Name: fotografias; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2399,8 +2357,8 @@ COPY public.fotografias (id_fotografia, imagen, descripcion, numero, estado, tip
 
 
 --
--- TOC entry 3477 (class 0 OID 19282)
--- Dependencies: 223
+-- TOC entry 3494 (class 0 OID 20100)
+-- Dependencies: 240
 -- Data for Name: inv_proyectos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2463,8 +2421,8 @@ COPY public.inv_proyectos (id_inv_proyecto, id_proyecto, id_investigador, estado
 
 
 --
--- TOC entry 3467 (class 0 OID 19181)
--- Dependencies: 213
+-- TOC entry 3496 (class 0 OID 20108)
+-- Dependencies: 242
 -- Data for Name: inv_tipos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2476,8 +2434,8 @@ COPY public.inv_tipos (id_inv_tipo, tipo, descripcion, estado, "createdAt", "upd
 
 
 --
--- TOC entry 3471 (class 0 OID 19209)
--- Dependencies: 217
+-- TOC entry 3498 (class 0 OID 20119)
+-- Dependencies: 244
 -- Data for Name: investigadores; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2543,8 +2501,8 @@ COPY public.investigadores (id_investigador, id_persona, id_inv_tipo, estado, "c
 
 
 --
--- TOC entry 3495 (class 0 OID 19482)
--- Dependencies: 241
+-- TOC entry 3500 (class 0 OID 20127)
+-- Dependencies: 246
 -- Data for Name: lugar_desarrollos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2555,8 +2513,8 @@ COPY public.lugar_desarrollos (id_lugar_desarrollo, id_proyecto, departamento, p
 
 
 --
--- TOC entry 3509 (class 0 OID 19627)
--- Dependencies: 255
+-- TOC entry 3502 (class 0 OID 20138)
+-- Dependencies: 248
 -- Data for Name: nota_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2565,8 +2523,8 @@ COPY public.nota_archivos (id_nota_archivo, id_nota_prensa, archivo, nombre, des
 
 
 --
--- TOC entry 3507 (class 0 OID 19608)
--- Dependencies: 253
+-- TOC entry 3504 (class 0 OID 20149)
+-- Dependencies: 250
 -- Data for Name: nota_prensas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2575,8 +2533,8 @@ COPY public.nota_prensas (id_nota_prensa, id_proyecto, titulo, objetivo, lugar, 
 
 
 --
--- TOC entry 3479 (class 0 OID 19303)
--- Dependencies: 225
+-- TOC entry 3506 (class 0 OID 20160)
+-- Dependencies: 252
 -- Data for Name: permiso_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2601,8 +2559,8 @@ COPY public.permiso_archivos (id_permiso_archivo, id_proyecto, tipo, archivo, no
 
 
 --
--- TOC entry 3459 (class 0 OID 19093)
--- Dependencies: 205
+-- TOC entry 3508 (class 0 OID 20171)
+-- Dependencies: 254
 -- Data for Name: personas; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2669,8 +2627,8 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 
 
 --
--- TOC entry 3525 (class 0 OID 19813)
--- Dependencies: 271
+-- TOC entry 3510 (class 0 OID 20185)
+-- Dependencies: 256
 -- Data for Name: peti_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2679,8 +2637,8 @@ COPY public.peti_archivos (id_peti_archivo, id_peticion, archivo, nombre, descri
 
 
 --
--- TOC entry 3523 (class 0 OID 19789)
--- Dependencies: 269
+-- TOC entry 3512 (class 0 OID 20196)
+-- Dependencies: 258
 -- Data for Name: peticiones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2689,8 +2647,8 @@ COPY public.peticiones (id_peticion, id_proyecto, id_investigador, tipo, motivos
 
 
 --
--- TOC entry 3475 (class 0 OID 19258)
--- Dependencies: 221
+-- TOC entry 3514 (class 0 OID 20207)
+-- Dependencies: 260
 -- Data for Name: proy_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2789,14 +2747,14 @@ COPY public.proy_archivos (id_proy_archivo, id_proyecto, archivo, nombre, descri
 92	14	jtYGvGlnyZlYBZCHFi8M6c6p.pdf	docker	descri docker	6	t	2020-11-16 18:56:54.119+00	2020-11-16 18:56:54.454+00
 93	23	WctPmpMhWp-7_N0euwDg4oos.pdf	Formulario	documento formulario	1	t	2020-11-17 01:23:57.92+00	2020-11-17 01:23:58.022+00
 94	23	COjwBkzJzgJ0nc9sxSIHnfQa.pdf	Inextenso	documento inextenso	1	t	2020-11-17 01:23:57.921+00	2020-11-17 01:23:58.023+00
-95	23	i1TBbxV_SqfH1HAoAu6cMnh2.pdf	diploma-algoritmos	prueba	1	t	2020-11-17 01:24:26.957+00	2020-11-17 01:24:27.01+00
-96	23	Ng-zc1xHwJFwlwKqL_d03eka.pdf	diploma-angular	prueba	7	t	2020-11-17 01:25:02.946+00	2020-11-17 01:25:02.991+00
+95	23	i1TBbxV_SqfH1HAoAu6cMnh2.pdf	Titulo	Titulo proyecto	1	t	2020-11-17 01:24:26.957+00	2020-11-25 05:12:15.975+00
+96	23	Ng-zc1xHwJFwlwKqL_d03eka.pdf	Caratula - investigacion	prueba	7	t	2020-11-17 01:25:02.946+00	2020-11-25 05:12:30.336+00
 \.
 
 
 --
--- TOC entry 3473 (class 0 OID 19230)
--- Dependencies: 219
+-- TOC entry 3516 (class 0 OID 20218)
+-- Dependencies: 262
 -- Data for Name: proyectos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2822,68 +2780,37 @@ COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, proceso, fec
 21	1	22	Observatorio permanente del lago Titicaca	30	2018-10-11 04:00:00+00	2021-10-08 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-10-27 14:49:30.15+00	2020-10-27 14:49:30.15+00	\N	\N
 18	1	16	Fortalecimiento del Programa Boliviano sobre ecologia y evolucion de enfermedades emergentes - PBE4 - Fase II	95	2016-08-01 04:00:00+00	2018-12-15 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	inactivo	2020-10-27 14:15:45.693+00	2020-10-30 13:46:14.279+00	\N	\N
 14	1	3	Evaluación de la aptitud de la tierra para tipos de utilización actual en la sub-cuenca del rio Sasanta Mayu, Ravelo Potosi	95	2018-04-03 04:00:00+00	2019-04-04 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	pendiente	2020-10-26 22:20:54.509+00	2020-11-16 14:30:07.041+00	\N	\N
-23	1	1	Proyecto de prueba	0	2020-11-16 04:00:00+00	2020-11-19 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-11-17 01:23:57.846+00	2020-11-17 01:23:57.846+00	\N	\N
+23	1	1	Investigación de aguas limpias lago titicaca	0	2020-11-16 04:00:00+00	2020-11-19 04:00:00+00	Biologia	Instituto de Ecologia	\N	\N	\N	\N	\N	\N	activo	2020-11-17 01:23:57.846+00	2020-11-25 05:10:03.107+00	\N	\N
 \.
 
 
 --
--- TOC entry 3521 (class 0 OID 19765)
--- Dependencies: 267
+-- TOC entry 3518 (class 0 OID 20233)
+-- Dependencies: 264
 -- Data for Name: publi_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
-1	1	_y9keDV36gITIoEXf8w52shi.pdf	PublicacionResumen	documento resumen de investigación	14	t	2020-10-23 20:12:49.401+00	2020-10-23 20:12:49.555+00
-2	2	mID-yCxZcyR7dCkUqWMgy67n.pdf	ProjectProposaIUCN	informacion documento	14	t	2020-10-23 20:21:18.632+00	2020-10-23 20:21:18.725+00
-3	3	QXfFj6oYnPSVkPs8GBv03YWD.pdf	ResumenEntidadEjecutoraInversion	documento con resumen	14	t	2020-10-23 20:28:53.261+00	2020-10-23 20:28:53.414+00
-4	4	FUcAdBip8hyBPmRdCeo_rJdp.pdf	MemoriaDetalladaDeLaActividad	actividad	14	t	2020-10-23 20:37:20.801+00	2020-10-23 20:37:21.01+00
-5	5	yfgL3BoB6SvFhqsLBoU-JiPD.pdf	ConvocatoriaDefondos2015	resumen	14	t	2020-10-23 20:50:27.277+00	2020-10-23 20:50:27.441+00
-6	6	83fQqMid9eJURezp0RsTzJrK.pdf	InformeProyectoInvestigacion	investigacion	14	t	2020-10-23 21:00:12.051+00	2020-10-23 21:00:12.246+00
-7	7	_EDy8AkerIqNtxzT86Rbu9Fq.pdf	TituloPropuesta	documento de propuesta	14	t	2020-10-26 02:39:08.272+00	2020-10-26 02:39:08.395+00
-8	8	W6wKz8Z7arFkPWwrRJle5Xk_.pdf	Avance	documento de trabajo	14	t	2020-10-26 16:17:39.018+00	2020-10-26 16:17:39.075+00
-9	9	GFNTTAEZ64H5YbfvdyHcjEU2.pdf	avance	documento propuesta	14	t	2020-10-26 18:51:46.619+00	2020-10-26 18:51:46.683+00
-10	10	u7IVvhjUy_KwSEhBM6fY4aRH.pdf	ProyectoInvestigacionCientificaConvocatoriaFondosConcursables	resumen	14	t	2020-10-26 21:28:17.138+00	2020-10-26 21:28:17.304+00
-11	11	SuZrNEQI1Rif36bPs52uzI84.pdf	InformeProyectosDeInvestigacion	documento final	14	t	2020-10-26 21:40:34.232+00	2020-10-26 21:40:34.333+00
-12	12	izaSmXiozT-2kHyceez4XfUT.pdf	InformeProyectoInvestigacion	documento investigación	14	t	2020-10-26 22:02:06.109+00	2020-10-26 22:02:06.165+00
-13	13	l3claB9kh_AbK6nRtqerlscf.pdf	InformeInvestigacion	documento de investigacion	14	t	2020-10-27 13:33:53.425+00	2020-10-27 13:33:53.511+00
-14	14	nu3WVfqgpU-BdtqEY5lPJfsN.pdf	InformeProyectoInvestigacion	documento investigacion	14	t	2020-10-27 14:11:16.761+00	2020-10-27 14:11:16.826+00
-15	15	0gy4tfKTuaWbRN79-eBxf7tq.pdf	InformePropuestaDeInvestigacion	documento propuesta	14	t	2020-10-27 14:30:10.85+00	2020-10-27 14:30:10.895+00
-17	16	ygIXfaFlFttDzg6e7Nzfg6a6.pdf	diploma-ingles-2	des2	14	t	2020-11-20 10:04:54.278+00	2020-11-20 10:04:54.359+00
-16	16	CE46fWjRjdsdKXoy9OqxuLWP.pdf	diploma-ingles-1	des1	14	t	2020-11-20 10:04:54.276+00	2020-11-20 10:04:54.361+00
-18	17	p-VMK3TAYzDQWA2ji6oRIT4q.pdf	diploma-redes	des	14	t	2020-11-20 10:47:11.929+00	2020-11-20 10:47:11.99+00
+19	18	WylfPpA7kw1E9REyWpb1s4Xn.pdf	Altimiras et al 2017	descripción de la publicación	14	t	2020-11-25 05:22:49.075+00	2020-11-25 05:22:49.199+00
+20	19	M__-CwpBtW4shTkmbDEgNfIL.pdf	Aerobic_performance_in_tinamous_is_limited_by_thei	descripcion	14	t	2020-11-25 05:34:09.299+00	2020-11-25 05:34:09.38+00
 \.
 
 
 --
--- TOC entry 3515 (class 0 OID 19695)
--- Dependencies: 261
+-- TOC entry 3520 (class 0 OID 20244)
+-- Dependencies: 266
 -- Data for Name: publicaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, fecha, contenido, tipo, estado, "createdAt", "updatedAt", autores) FROM stdin;
-1	1	6	Reconstructing South American mosoon sensitivity to interval and external forcing	2020-05-13 04:00:00+00	Resumen de la investigación ...	Datos	t	2020-10-23 20:12:49.344+00	2020-10-23 20:12:49.344+00	\N
-2	1	6	Assesing the risk of extinction of plants and updating Key Biodiversity Areas in the Tropical Andes	2019-10-10 04:00:00+00	Informacion de la investigacion, financiamientos, gastos ...	Investigación	t	2020-10-23 20:21:18.586+00	2020-10-23 20:21:18.586+00	\N
-3	2	2	Bioremediacion de las zonas de huatajata y bahia Cohana del lago Titicaca y revalorizacion cultural economica de la totora	2019-10-10 04:00:00+00	Resumen y detalles de financiamiento	Artículo	t	2020-10-23 20:28:53.2+00	2020-10-23 20:28:53.2+00	\N
-4	3	5	Memoria detallada de la actividad	2019-05-31 04:00:00+00	detalles de investigacion y financiamiento...	Datos	t	2020-10-23 20:37:20.753+00	2020-10-23 20:37:20.753+00	\N
-5	4	16	Defondos concursables	2018-01-18 04:00:00+00	Información de proyecto, mas detalles de los financiamientos..	Datos	t	2020-10-23 20:50:27.207+00	2020-10-23 20:50:27.207+00	\N
-6	5	10	Informe 2018 Plantas amenazadas de Bolivia	2019-04-03 04:00:00+00	Especies en estado critico: syagrus yunganesis y magnolia madidiensis	Investigación	t	2020-10-23 21:00:12.002+00	2020-10-23 21:00:12.002+00	\N
-7	6	10	RED IBEROAMERICANA DE CULTIVOS INFRAUTILIZADOS Y MARGINADOS CON VALOR AGROLIMENTARIO	2019-10-11 04:00:00+00	CultIVA	Propuesta	t	2020-10-26 02:39:08.22+00	2020-10-26 02:39:08.22+00	\N
-8	9	5	Dieta, tiempo de tránsito intestinal, consistencia feca y contenido en materia seca de las heces en Ateles chamek en semilibertad. ¿Cómo influye la evanta en estos parámetros?	2019-12-01 04:00:00+00	Introducción, Metodologia y Referencias.	Investigación	t	2020-10-26 16:17:38.978+00	2020-10-26 16:17:38.978+00	\N
-9	10	5	Dinámica estacional de las comunidades de aves y el temor de las aves en parques urbanos y cementerios de América Latina 	2019-12-05 04:00:00+00	Resumen Ejecutivo, Introducción, Metodos, Vegetación herbácea no manejada y Bibliografia.	Propuesta	t	2020-10-26 18:51:46.567+00	2020-10-26 18:51:46.567+00	\N
-10	11	16	Evaluación del riesgo de conflicto entre silvestre y actividad ganadera en los Municipios de Ixiamas y San Buenaventura	2018-08-31 04:00:00+00	Las interacciones entre actividades humanas y animales silvestres pueden presentarse en cualquier medio donde ellos coexistan ...	Investigación	t	2020-10-26 21:28:17.094+00	2020-10-26 21:28:17.094+00	\N
-11	12	48	Efectos de los transtornos antropogénicos en la salud de pequeños mamíferos en Bolivia y el riesgo de enfermedades zoonóticas	2019-12-11 04:00:00+00	Los mamíferos sirven como hospedadores para una amplia variedad de patógenos infecciosos ...	Investigación	t	2020-10-26 21:40:34.146+00	2020-10-26 21:40:34.146+00	\N
-12	13	18	Estrategias adaptativas de las anuales de verano de las regiones semiáridas de Bolivia	2020-10-20 04:00:00+00	Introducción, Antecedentes, Area de estudio, Requerimientos, Calendario, Personas que participaron 	Investigación	t	2020-10-26 22:02:06.055+00	2020-10-26 22:02:06.055+00	\N
-13	15	5	Límite aeróbico en aves primitivas, distinción entre efectos filogenéticos y adaptativos en la pisacca (Nothoprocta ornata) a nivel metabólico y cardiovascular	2019-10-17 04:00:00+00	Introducción, Objetivo general y específicos, Antecedentes para la solicitud de extension del proyecto, Diseño de investigación, Descripción detallada de los procedimientos de investigación, Resultados operados, Referencias.	Investigación	t	2020-10-27 13:33:53.367+00	2020-10-27 13:33:53.367+00	\N
-14	16	19	Efecto de variables ambientales y rasgos funcionales foliares sobre la tasa de transpiración de Theobroma cacao bajo diferentes sistemas de producción	2019-08-15 04:00:00+00	Introducción, Hipotesis, Predicciones, Objetivos, Metodos, Análisis estadísticos, Resultados esperados, Presupuesto y Bibliografia.	Investigación	t	2020-10-27 14:11:16.709+00	2020-10-27 14:11:16.709+00	\N
-15	19	9	Fortalecimiento de la colección científica de invertebrados	2019-10-24 04:00:00+00	Resumen especifico, Introducción, Antecedentes, Justificativo, Objetivos, Metodología y Referencias.	Propuesta	t	2020-10-27 14:30:10.802+00	2020-10-27 14:30:10.802+00	\N
-16	23	1	articulo prueba	1996-01-17 04:00:00+00	cita biblio	Artículo	t	2020-11-20 10:04:54.214+00	2020-11-20 10:04:54.214+00	Juanito, Perez
-17	23	1	titulo publi	2000-01-17 04:00:00+00	ninguna	Artículo	t	2020-11-20 10:47:11.869+00	2020-11-20 10:47:20.366+00	Boris, Juanito, Carito
+18	15	5	Aerobic performance in tinamous is limited by their small heart. A novel hypothesis in the evolution of avian flight	2017-01-17 04:00:00+00	Flight capacity is one of the most important innovations in animal evolution; it only evolved in insects, birds, mammals and the extinct pterodactyls. Given that powered flight represents a demanding aerobic activity, an efficient cardiovascular system is essential for the continuous delivery of oxygen to the pectoral muscles during flight. It is well known that the limiting step in the circulation is stroke volume (the volume of blood pumped from the ventricle to the body during each beat), which is determined by the size of the ventricle. Thus, the fresh mass of the heart represents a simple and repeatable anatomic measure of aerobic power of an animal. Although several authors have already compared heart masses across bird species, a phylogenetic comparative analysis of these comparisons is still lacking. Compiling heart sizes for 915 species and applying several statistical procedures controlling for body size and/or testing for adaptive trends in the dataset (e.g., model selection approaches, phylogenetic generalized linear models), we found that (residuals of) heart sizes are consistently associated with four categories of flight capacity. In general, our results indicate that species exhibiting continuous hovering flight (i.e., hummingbirds) have substantially larger hearts than do other groups, that species that use flapping flight and gliding show intermediate values, and that species categorized as poor flyers show the smallest values. Our study shows that at a broad scale, routine flight modes seem to have shaped the energetic requirements of birds sufficiently to be anatomically detected at the comparative level.	Artículo	t	2020-11-25 05:22:49.022+00	2020-11-25 05:22:49.022+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala
+19	15	5	Supplementary Material	2017-01-17 04:00:00+00	Some biomechanical studies from fossil specimens suggest that sustained flapping flight of birds could have appeared in their Mesozoic ancestors. We challenge this idea because a suitable musculoskeletal anatomy is not the only requirement for sustained flapping flight. We propose the “heart to fly” hypothesis that states that sustained flapping flight in modern birds required an enlargement of the heart for the aerobic performance of the flight muscles and test it experimentally by studying tinamous, the living birds with the smallest hearts. The small ventricular size of tinamous reduces cardiac output without limiting perfusion pressures, but when challenged to fly, the heart is unable to support aerobic metabolism (quick exhaustion, larger lactates and post-exercise oxygen consumption and compromised thermoregulation). At the same time, cardiac growth shows a crocodilian-like pattern and is correlated with differential gene expression in MAPK kinases. We integrate this physiological evidence in a new evolutionary scenario in which the ground-up, short and not sustained flapping flight displayed by tinamous represents an intermediate step in the evolution of the aerobic sustained flapping flight of modern birds.	Artículo	t	2020-11-25 05:34:09.249+00	2020-11-25 05:34:09.249+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala
 \.
 
 
 --
--- TOC entry 3529 (class 0 OID 19861)
--- Dependencies: 275
+-- TOC entry 3522 (class 0 OID 20256)
+-- Dependencies: 268
 -- Data for Name: segui_archivos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2892,8 +2819,8 @@ COPY public.segui_archivos (id_segui_archivo, id_seguimiento, archivo, nombre, d
 
 
 --
--- TOC entry 3527 (class 0 OID 19837)
--- Dependencies: 273
+-- TOC entry 3524 (class 0 OID 20267)
+-- Dependencies: 270
 -- Data for Name: seguimientos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2902,8 +2829,8 @@ COPY public.seguimientos (id_seguimiento, id_proyecto, id_director, tipo, revisi
 
 
 --
--- TOC entry 3469 (class 0 OID 19195)
--- Dependencies: 215
+-- TOC entry 3526 (class 0 OID 20278)
+-- Dependencies: 272
 -- Data for Name: tipos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2929,8 +2856,8 @@ COPY public.tipos (id_tipo, nombre, descripcion, estado, "createdAt", "updatedAt
 
 
 --
--- TOC entry 3491 (class 0 OID 19444)
--- Dependencies: 237
+-- TOC entry 3528 (class 0 OID 20289)
+-- Dependencies: 274
 -- Data for Name: unidades; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -2950,7 +2877,7 @@ COPY public.unidades (id_unidad, id_proyecto, nombre, observacion, estado, "crea
 
 --
 -- TOC entry 3572 (class 0 OID 0)
--- Dependencies: 208
+-- Dependencies: 203
 -- Name: adm_roles_id_rol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -2959,7 +2886,7 @@ SELECT pg_catalog.setval('public.adm_roles_id_rol_seq', 3, true);
 
 --
 -- TOC entry 3573 (class 0 OID 0)
--- Dependencies: 210
+-- Dependencies: 205
 -- Name: adm_usuario_roles_id_adm_usuario_rol_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -2968,7 +2895,7 @@ SELECT pg_catalog.setval('public.adm_usuario_roles_id_adm_usuario_rol_seq', 61, 
 
 --
 -- TOC entry 3574 (class 0 OID 0)
--- Dependencies: 206
+-- Dependencies: 207
 -- Name: adm_usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -2977,16 +2904,16 @@ SELECT pg_catalog.setval('public.adm_usuarios_id_usuario_seq', 58, true);
 
 --
 -- TOC entry 3575 (class 0 OID 0)
--- Dependencies: 264
+-- Dependencies: 209
 -- Name: autores_id_autor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.autores_id_autor_seq', 29, true);
+SELECT pg_catalog.setval('public.autores_id_autor_seq', 31, true);
 
 
 --
 -- TOC entry 3576 (class 0 OID 0)
--- Dependencies: 234
+-- Dependencies: 211
 -- Name: basica_tecnicas_id_basica_tecnica_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -2995,7 +2922,7 @@ SELECT pg_catalog.setval('public.basica_tecnicas_id_basica_tecnica_seq', 1, fals
 
 --
 -- TOC entry 3577 (class 0 OID 0)
--- Dependencies: 262
+-- Dependencies: 213
 -- Name: comentarios_id_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3004,7 +2931,7 @@ SELECT pg_catalog.setval('public.comentarios_id_comentario_seq', 2, true);
 
 --
 -- TOC entry 3578 (class 0 OID 0)
--- Dependencies: 232
+-- Dependencies: 215
 -- Name: contra_archivos_id_contra_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3013,7 +2940,7 @@ SELECT pg_catalog.setval('public.contra_archivos_id_contra_archivo_seq', 2, true
 
 --
 -- TOC entry 3579 (class 0 OID 0)
--- Dependencies: 230
+-- Dependencies: 217
 -- Name: contratados_id_contratado_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3022,7 +2949,7 @@ SELECT pg_catalog.setval('public.contratados_id_contratado_seq', 1, true);
 
 --
 -- TOC entry 3580 (class 0 OID 0)
--- Dependencies: 228
+-- Dependencies: 219
 -- Name: conv_archivos_id_conv_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3031,7 +2958,7 @@ SELECT pg_catalog.setval('public.conv_archivos_id_conv_archivo_seq', 6, true);
 
 --
 -- TOC entry 3581 (class 0 OID 0)
--- Dependencies: 226
+-- Dependencies: 221
 -- Name: convenios_id_convenio_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3040,7 +2967,7 @@ SELECT pg_catalog.setval('public.convenios_id_convenio_seq', 4, true);
 
 --
 -- TOC entry 3582 (class 0 OID 0)
--- Dependencies: 246
+-- Dependencies: 223
 -- Name: curso_archivos_id_curso_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3049,7 +2976,7 @@ SELECT pg_catalog.setval('public.curso_archivos_id_curso_archivo_seq', 1, false)
 
 --
 -- TOC entry 3583 (class 0 OID 0)
--- Dependencies: 242
+-- Dependencies: 225
 -- Name: cursos_id_curso_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3058,7 +2985,7 @@ SELECT pg_catalog.setval('public.cursos_id_curso_seq', 1, false);
 
 --
 -- TOC entry 3584 (class 0 OID 0)
--- Dependencies: 250
+-- Dependencies: 227
 -- Name: evento_archivos_id_evento_archivos_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3067,7 +2994,7 @@ SELECT pg_catalog.setval('public.evento_archivos_id_evento_archivos_seq', 1, fal
 
 --
 -- TOC entry 3585 (class 0 OID 0)
--- Dependencies: 248
+-- Dependencies: 229
 -- Name: eventos_id_evento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3076,7 +3003,7 @@ SELECT pg_catalog.setval('public.eventos_id_evento_seq', 1, false);
 
 --
 -- TOC entry 3586 (class 0 OID 0)
--- Dependencies: 258
+-- Dependencies: 231
 -- Name: expo_archivos_id_expo_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3085,7 +3012,7 @@ SELECT pg_catalog.setval('public.expo_archivos_id_expo_archivo_seq', 1, false);
 
 --
 -- TOC entry 3587 (class 0 OID 0)
--- Dependencies: 256
+-- Dependencies: 233
 -- Name: exposiciones_id_exposicion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3094,7 +3021,7 @@ SELECT pg_catalog.setval('public.exposiciones_id_exposicion_seq', 1, false);
 
 --
 -- TOC entry 3588 (class 0 OID 0)
--- Dependencies: 244
+-- Dependencies: 235
 -- Name: expositores_id_expositor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3103,7 +3030,7 @@ SELECT pg_catalog.setval('public.expositores_id_expositor_seq', 1, false);
 
 --
 -- TOC entry 3589 (class 0 OID 0)
--- Dependencies: 238
+-- Dependencies: 237
 -- Name: financiamientos_id_financiamiento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3112,7 +3039,7 @@ SELECT pg_catalog.setval('public.financiamientos_id_financiamiento_seq', 9, true
 
 --
 -- TOC entry 3590 (class 0 OID 0)
--- Dependencies: 202
+-- Dependencies: 239
 -- Name: fotografias_id_fotografia_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3121,7 +3048,7 @@ SELECT pg_catalog.setval('public.fotografias_id_fotografia_seq', 15, true);
 
 --
 -- TOC entry 3591 (class 0 OID 0)
--- Dependencies: 222
+-- Dependencies: 241
 -- Name: inv_proyectos_id_inv_proyecto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3130,7 +3057,7 @@ SELECT pg_catalog.setval('public.inv_proyectos_id_inv_proyecto_seq', 56, true);
 
 --
 -- TOC entry 3592 (class 0 OID 0)
--- Dependencies: 212
+-- Dependencies: 243
 -- Name: inv_tipos_id_inv_tipo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3139,7 +3066,7 @@ SELECT pg_catalog.setval('public.inv_tipos_id_inv_tipo_seq', 3, true);
 
 --
 -- TOC entry 3593 (class 0 OID 0)
--- Dependencies: 216
+-- Dependencies: 245
 -- Name: investigadores_id_investigador_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3148,7 +3075,7 @@ SELECT pg_catalog.setval('public.investigadores_id_investigador_seq', 57, true);
 
 --
 -- TOC entry 3594 (class 0 OID 0)
--- Dependencies: 240
+-- Dependencies: 247
 -- Name: lugar_desarrollos_id_lugar_desarrollo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3157,7 +3084,7 @@ SELECT pg_catalog.setval('public.lugar_desarrollos_id_lugar_desarrollo_seq', 2, 
 
 --
 -- TOC entry 3595 (class 0 OID 0)
--- Dependencies: 254
+-- Dependencies: 249
 -- Name: nota_archivos_id_nota_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3166,7 +3093,7 @@ SELECT pg_catalog.setval('public.nota_archivos_id_nota_archivo_seq', 1, false);
 
 --
 -- TOC entry 3596 (class 0 OID 0)
--- Dependencies: 252
+-- Dependencies: 251
 -- Name: nota_prensas_id_nota_prensa_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3175,7 +3102,7 @@ SELECT pg_catalog.setval('public.nota_prensas_id_nota_prensa_seq', 1, false);
 
 --
 -- TOC entry 3597 (class 0 OID 0)
--- Dependencies: 224
+-- Dependencies: 253
 -- Name: permiso_archivos_id_permiso_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3184,7 +3111,7 @@ SELECT pg_catalog.setval('public.permiso_archivos_id_permiso_archivo_seq', 16, t
 
 --
 -- TOC entry 3598 (class 0 OID 0)
--- Dependencies: 204
+-- Dependencies: 255
 -- Name: personas_id_persona_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3193,7 +3120,7 @@ SELECT pg_catalog.setval('public.personas_id_persona_seq', 58, true);
 
 --
 -- TOC entry 3599 (class 0 OID 0)
--- Dependencies: 270
+-- Dependencies: 257
 -- Name: peti_archivos_id_peti_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3202,7 +3129,7 @@ SELECT pg_catalog.setval('public.peti_archivos_id_peti_archivo_seq', 1, false);
 
 --
 -- TOC entry 3600 (class 0 OID 0)
--- Dependencies: 268
+-- Dependencies: 259
 -- Name: peticiones_id_peticion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3211,7 +3138,7 @@ SELECT pg_catalog.setval('public.peticiones_id_peticion_seq', 1, false);
 
 --
 -- TOC entry 3601 (class 0 OID 0)
--- Dependencies: 220
+-- Dependencies: 261
 -- Name: proy_archivos_id_proy_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3220,7 +3147,7 @@ SELECT pg_catalog.setval('public.proy_archivos_id_proy_archivo_seq', 96, true);
 
 --
 -- TOC entry 3602 (class 0 OID 0)
--- Dependencies: 218
+-- Dependencies: 263
 -- Name: proyectos_id_proyecto_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3229,25 +3156,25 @@ SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 23, true);
 
 --
 -- TOC entry 3603 (class 0 OID 0)
--- Dependencies: 266
+-- Dependencies: 265
 -- Name: publi_archivos_id_publi_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 18, true);
+SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 20, true);
 
 
 --
 -- TOC entry 3604 (class 0 OID 0)
--- Dependencies: 260
+-- Dependencies: 267
 -- Name: publicaciones_id_publicacion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 17, true);
+SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 19, true);
 
 
 --
 -- TOC entry 3605 (class 0 OID 0)
--- Dependencies: 274
+-- Dependencies: 269
 -- Name: segui_archivos_id_segui_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3256,7 +3183,7 @@ SELECT pg_catalog.setval('public.segui_archivos_id_segui_archivo_seq', 1, false)
 
 --
 -- TOC entry 3606 (class 0 OID 0)
--- Dependencies: 272
+-- Dependencies: 271
 -- Name: seguimientos_id_seguimiento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3265,7 +3192,7 @@ SELECT pg_catalog.setval('public.seguimientos_id_seguimiento_seq', 1, false);
 
 --
 -- TOC entry 3607 (class 0 OID 0)
--- Dependencies: 214
+-- Dependencies: 273
 -- Name: tipos_id_tipo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3274,7 +3201,7 @@ SELECT pg_catalog.setval('public.tipos_id_tipo_seq', 17, true);
 
 --
 -- TOC entry 3608 (class 0 OID 0)
--- Dependencies: 236
+-- Dependencies: 275
 -- Name: unidades_id_unidad_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -3282,7 +3209,7 @@ SELECT pg_catalog.setval('public.unidades_id_unidad_seq', 10, true);
 
 
 --
--- TOC entry 3206 (class 2606 OID 19155)
+-- TOC entry 3190 (class 2606 OID 20339)
 -- Name: adm_roles adm_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3291,7 +3218,7 @@ ALTER TABLE ONLY public.adm_roles
 
 
 --
--- TOC entry 3208 (class 2606 OID 19157)
+-- TOC entry 3192 (class 2606 OID 20341)
 -- Name: adm_roles adm_roles_rol_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3300,7 +3227,7 @@ ALTER TABLE ONLY public.adm_roles
 
 
 --
--- TOC entry 3210 (class 2606 OID 19168)
+-- TOC entry 3194 (class 2606 OID 20343)
 -- Name: adm_usuario_roles adm_usuario_roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3309,7 +3236,7 @@ ALTER TABLE ONLY public.adm_usuario_roles
 
 
 --
--- TOC entry 3202 (class 2606 OID 19134)
+-- TOC entry 3196 (class 2606 OID 20345)
 -- Name: adm_usuarios adm_usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3318,7 +3245,7 @@ ALTER TABLE ONLY public.adm_usuarios
 
 
 --
--- TOC entry 3204 (class 2606 OID 19136)
+-- TOC entry 3198 (class 2606 OID 20347)
 -- Name: adm_usuarios adm_usuarios_usuario_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3327,7 +3254,7 @@ ALTER TABLE ONLY public.adm_usuarios
 
 
 --
--- TOC entry 3264 (class 2606 OID 19752)
+-- TOC entry 3200 (class 2606 OID 20349)
 -- Name: autores autores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3336,7 +3263,7 @@ ALTER TABLE ONLY public.autores
 
 
 --
--- TOC entry 3234 (class 2606 OID 19436)
+-- TOC entry 3202 (class 2606 OID 20351)
 -- Name: basica_tecnicas basica_tecnicas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3345,7 +3272,7 @@ ALTER TABLE ONLY public.basica_tecnicas
 
 
 --
--- TOC entry 3262 (class 2606 OID 19731)
+-- TOC entry 3204 (class 2606 OID 20353)
 -- Name: comentarios comentarios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3354,7 +3281,7 @@ ALTER TABLE ONLY public.comentarios
 
 
 --
--- TOC entry 3232 (class 2606 OID 19412)
+-- TOC entry 3206 (class 2606 OID 20355)
 -- Name: contra_archivos contra_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3363,7 +3290,7 @@ ALTER TABLE ONLY public.contra_archivos
 
 
 --
--- TOC entry 3230 (class 2606 OID 19388)
+-- TOC entry 3208 (class 2606 OID 20357)
 -- Name: contratados contratados_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3372,7 +3299,7 @@ ALTER TABLE ONLY public.contratados
 
 
 --
--- TOC entry 3228 (class 2606 OID 19363)
+-- TOC entry 3210 (class 2606 OID 20359)
 -- Name: conv_archivos conv_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3381,7 +3308,7 @@ ALTER TABLE ONLY public.conv_archivos
 
 
 --
--- TOC entry 3226 (class 2606 OID 19339)
+-- TOC entry 3212 (class 2606 OID 20361)
 -- Name: convenios convenios_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3390,7 +3317,7 @@ ALTER TABLE ONLY public.convenios
 
 
 --
--- TOC entry 3246 (class 2606 OID 19551)
+-- TOC entry 3214 (class 2606 OID 20363)
 -- Name: curso_archivos curso_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3399,7 +3326,7 @@ ALTER TABLE ONLY public.curso_archivos
 
 
 --
--- TOC entry 3242 (class 2606 OID 19513)
+-- TOC entry 3216 (class 2606 OID 20365)
 -- Name: cursos cursos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3408,7 +3335,7 @@ ALTER TABLE ONLY public.cursos
 
 
 --
--- TOC entry 3250 (class 2606 OID 19595)
+-- TOC entry 3218 (class 2606 OID 20367)
 -- Name: evento_archivos evento_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3417,7 +3344,7 @@ ALTER TABLE ONLY public.evento_archivos
 
 
 --
--- TOC entry 3248 (class 2606 OID 19576)
+-- TOC entry 3220 (class 2606 OID 20369)
 -- Name: eventos eventos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3426,7 +3353,7 @@ ALTER TABLE ONLY public.eventos
 
 
 --
--- TOC entry 3258 (class 2606 OID 19682)
+-- TOC entry 3222 (class 2606 OID 20371)
 -- Name: expo_archivos expo_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3435,7 +3362,7 @@ ALTER TABLE ONLY public.expo_archivos
 
 
 --
--- TOC entry 3256 (class 2606 OID 19663)
+-- TOC entry 3224 (class 2606 OID 20373)
 -- Name: exposiciones exposiciones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3444,7 +3371,7 @@ ALTER TABLE ONLY public.exposiciones
 
 
 --
--- TOC entry 3244 (class 2606 OID 19532)
+-- TOC entry 3226 (class 2606 OID 20375)
 -- Name: expositores expositores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3453,7 +3380,7 @@ ALTER TABLE ONLY public.expositores
 
 
 --
--- TOC entry 3238 (class 2606 OID 19474)
+-- TOC entry 3228 (class 2606 OID 20377)
 -- Name: financiamientos financiamientos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3462,7 +3389,7 @@ ALTER TABLE ONLY public.financiamientos
 
 
 --
--- TOC entry 3190 (class 2606 OID 19090)
+-- TOC entry 3230 (class 2606 OID 20379)
 -- Name: fotografias fotografias_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3471,7 +3398,7 @@ ALTER TABLE ONLY public.fotografias
 
 
 --
--- TOC entry 3222 (class 2606 OID 19290)
+-- TOC entry 3232 (class 2606 OID 20381)
 -- Name: inv_proyectos inv_proyectos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3480,7 +3407,7 @@ ALTER TABLE ONLY public.inv_proyectos
 
 
 --
--- TOC entry 3212 (class 2606 OID 19192)
+-- TOC entry 3234 (class 2606 OID 20383)
 -- Name: inv_tipos inv_tipos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3489,7 +3416,7 @@ ALTER TABLE ONLY public.inv_tipos
 
 
 --
--- TOC entry 3216 (class 2606 OID 19217)
+-- TOC entry 3236 (class 2606 OID 20385)
 -- Name: investigadores investigadores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3498,7 +3425,7 @@ ALTER TABLE ONLY public.investigadores
 
 
 --
--- TOC entry 3240 (class 2606 OID 19493)
+-- TOC entry 3238 (class 2606 OID 20387)
 -- Name: lugar_desarrollos lugar_desarrollos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3507,7 +3434,7 @@ ALTER TABLE ONLY public.lugar_desarrollos
 
 
 --
--- TOC entry 3254 (class 2606 OID 19638)
+-- TOC entry 3240 (class 2606 OID 20389)
 -- Name: nota_archivos nota_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3516,7 +3443,7 @@ ALTER TABLE ONLY public.nota_archivos
 
 
 --
--- TOC entry 3252 (class 2606 OID 19619)
+-- TOC entry 3242 (class 2606 OID 20391)
 -- Name: nota_prensas nota_prensas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3525,7 +3452,7 @@ ALTER TABLE ONLY public.nota_prensas
 
 
 --
--- TOC entry 3224 (class 2606 OID 19314)
+-- TOC entry 3244 (class 2606 OID 20393)
 -- Name: permiso_archivos permiso_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3534,7 +3461,7 @@ ALTER TABLE ONLY public.permiso_archivos
 
 
 --
--- TOC entry 3192 (class 2606 OID 19115)
+-- TOC entry 3246 (class 2606 OID 20395)
 -- Name: personas personas_celular_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3543,7 +3470,7 @@ ALTER TABLE ONLY public.personas
 
 
 --
--- TOC entry 3194 (class 2606 OID 19109)
+-- TOC entry 3248 (class 2606 OID 20397)
 -- Name: personas personas_ci_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3552,7 +3479,7 @@ ALTER TABLE ONLY public.personas
 
 
 --
--- TOC entry 3196 (class 2606 OID 19111)
+-- TOC entry 3250 (class 2606 OID 20399)
 -- Name: personas personas_correo_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3561,7 +3488,7 @@ ALTER TABLE ONLY public.personas
 
 
 --
--- TOC entry 3198 (class 2606 OID 19107)
+-- TOC entry 3252 (class 2606 OID 20401)
 -- Name: personas personas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3570,7 +3497,7 @@ ALTER TABLE ONLY public.personas
 
 
 --
--- TOC entry 3200 (class 2606 OID 19113)
+-- TOC entry 3254 (class 2606 OID 20403)
 -- Name: personas personas_telefono_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3579,7 +3506,7 @@ ALTER TABLE ONLY public.personas
 
 
 --
--- TOC entry 3270 (class 2606 OID 19824)
+-- TOC entry 3256 (class 2606 OID 20405)
 -- Name: peti_archivos peti_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3588,7 +3515,7 @@ ALTER TABLE ONLY public.peti_archivos
 
 
 --
--- TOC entry 3268 (class 2606 OID 19800)
+-- TOC entry 3258 (class 2606 OID 20407)
 -- Name: peticiones peticiones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3597,7 +3524,7 @@ ALTER TABLE ONLY public.peticiones
 
 
 --
--- TOC entry 3220 (class 2606 OID 19269)
+-- TOC entry 3260 (class 2606 OID 20409)
 -- Name: proy_archivos proy_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3606,7 +3533,7 @@ ALTER TABLE ONLY public.proy_archivos
 
 
 --
--- TOC entry 3218 (class 2606 OID 19245)
+-- TOC entry 3262 (class 2606 OID 20411)
 -- Name: proyectos proyectos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3615,7 +3542,7 @@ ALTER TABLE ONLY public.proyectos
 
 
 --
--- TOC entry 3266 (class 2606 OID 19776)
+-- TOC entry 3264 (class 2606 OID 20413)
 -- Name: publi_archivos publi_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3624,7 +3551,7 @@ ALTER TABLE ONLY public.publi_archivos
 
 
 --
--- TOC entry 3260 (class 2606 OID 19707)
+-- TOC entry 3266 (class 2606 OID 20415)
 -- Name: publicaciones publicaciones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3633,7 +3560,7 @@ ALTER TABLE ONLY public.publicaciones
 
 
 --
--- TOC entry 3274 (class 2606 OID 19872)
+-- TOC entry 3268 (class 2606 OID 20417)
 -- Name: segui_archivos segui_archivos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3642,7 +3569,7 @@ ALTER TABLE ONLY public.segui_archivos
 
 
 --
--- TOC entry 3272 (class 2606 OID 19848)
+-- TOC entry 3270 (class 2606 OID 20419)
 -- Name: seguimientos seguimientos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3651,7 +3578,7 @@ ALTER TABLE ONLY public.seguimientos
 
 
 --
--- TOC entry 3214 (class 2606 OID 19206)
+-- TOC entry 3272 (class 2606 OID 20421)
 -- Name: tipos tipos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3660,7 +3587,7 @@ ALTER TABLE ONLY public.tipos
 
 
 --
--- TOC entry 3236 (class 2606 OID 19455)
+-- TOC entry 3274 (class 2606 OID 20423)
 -- Name: unidades unidades_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3669,7 +3596,7 @@ ALTER TABLE ONLY public.unidades
 
 
 --
--- TOC entry 3278 (class 2606 OID 19174)
+-- TOC entry 3275 (class 2606 OID 20424)
 -- Name: adm_usuario_roles adm_usuario_roles_id_rol_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3678,7 +3605,7 @@ ALTER TABLE ONLY public.adm_usuario_roles
 
 
 --
--- TOC entry 3277 (class 2606 OID 19169)
+-- TOC entry 3276 (class 2606 OID 20429)
 -- Name: adm_usuario_roles adm_usuario_roles_id_usuario_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3687,7 +3614,7 @@ ALTER TABLE ONLY public.adm_usuario_roles
 
 
 --
--- TOC entry 3276 (class 2606 OID 19137)
+-- TOC entry 3277 (class 2606 OID 20434)
 -- Name: adm_usuarios adm_usuarios_id_persona_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3696,7 +3623,7 @@ ALTER TABLE ONLY public.adm_usuarios
 
 
 --
--- TOC entry 3318 (class 2606 OID 19753)
+-- TOC entry 3278 (class 2606 OID 20439)
 -- Name: autores autores_id_investigador_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3705,7 +3632,7 @@ ALTER TABLE ONLY public.autores
 
 
 --
--- TOC entry 3319 (class 2606 OID 19758)
+-- TOC entry 3279 (class 2606 OID 20444)
 -- Name: autores autores_id_publicacion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3714,7 +3641,7 @@ ALTER TABLE ONLY public.autores
 
 
 --
--- TOC entry 3297 (class 2606 OID 19437)
+-- TOC entry 3280 (class 2606 OID 20449)
 -- Name: basica_tecnicas basica_tecnicas_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3723,7 +3650,7 @@ ALTER TABLE ONLY public.basica_tecnicas
 
 
 --
--- TOC entry 3316 (class 2606 OID 19732)
+-- TOC entry 3281 (class 2606 OID 20454)
 -- Name: comentarios comentarios_id_persona_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3732,7 +3659,7 @@ ALTER TABLE ONLY public.comentarios
 
 
 --
--- TOC entry 3317 (class 2606 OID 19737)
+-- TOC entry 3282 (class 2606 OID 20459)
 -- Name: comentarios comentarios_id_publicacion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3741,7 +3668,7 @@ ALTER TABLE ONLY public.comentarios
 
 
 --
--- TOC entry 3295 (class 2606 OID 19413)
+-- TOC entry 3283 (class 2606 OID 20464)
 -- Name: contra_archivos contra_archivos_id_contratado_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3750,7 +3677,7 @@ ALTER TABLE ONLY public.contra_archivos
 
 
 --
--- TOC entry 3296 (class 2606 OID 19418)
+-- TOC entry 3284 (class 2606 OID 20469)
 -- Name: contra_archivos contra_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3759,7 +3686,7 @@ ALTER TABLE ONLY public.contra_archivos
 
 
 --
--- TOC entry 3293 (class 2606 OID 19389)
+-- TOC entry 3285 (class 2606 OID 20474)
 -- Name: contratados contratados_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3768,7 +3695,7 @@ ALTER TABLE ONLY public.contratados
 
 
 --
--- TOC entry 3294 (class 2606 OID 19394)
+-- TOC entry 3286 (class 2606 OID 20479)
 -- Name: contratados contratados_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3777,7 +3704,7 @@ ALTER TABLE ONLY public.contratados
 
 
 --
--- TOC entry 3291 (class 2606 OID 19364)
+-- TOC entry 3287 (class 2606 OID 20484)
 -- Name: conv_archivos conv_archivos_id_convenio_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3786,7 +3713,7 @@ ALTER TABLE ONLY public.conv_archivos
 
 
 --
--- TOC entry 3292 (class 2606 OID 19369)
+-- TOC entry 3288 (class 2606 OID 20489)
 -- Name: conv_archivos conv_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3795,7 +3722,7 @@ ALTER TABLE ONLY public.conv_archivos
 
 
 --
--- TOC entry 3289 (class 2606 OID 19340)
+-- TOC entry 3289 (class 2606 OID 20494)
 -- Name: convenios convenios_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3804,7 +3731,7 @@ ALTER TABLE ONLY public.convenios
 
 
 --
--- TOC entry 3290 (class 2606 OID 19345)
+-- TOC entry 3290 (class 2606 OID 20499)
 -- Name: convenios convenios_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3813,7 +3740,7 @@ ALTER TABLE ONLY public.convenios
 
 
 --
--- TOC entry 3303 (class 2606 OID 19552)
+-- TOC entry 3291 (class 2606 OID 20504)
 -- Name: curso_archivos curso_archivos_id_curso_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3822,7 +3749,7 @@ ALTER TABLE ONLY public.curso_archivos
 
 
 --
--- TOC entry 3304 (class 2606 OID 19557)
+-- TOC entry 3292 (class 2606 OID 20509)
 -- Name: curso_archivos curso_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3831,7 +3758,7 @@ ALTER TABLE ONLY public.curso_archivos
 
 
 --
--- TOC entry 3301 (class 2606 OID 19514)
+-- TOC entry 3293 (class 2606 OID 20514)
 -- Name: cursos cursos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3840,7 +3767,7 @@ ALTER TABLE ONLY public.cursos
 
 
 --
--- TOC entry 3306 (class 2606 OID 19596)
+-- TOC entry 3294 (class 2606 OID 20519)
 -- Name: evento_archivos evento_archivos_id_evento_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3849,7 +3776,7 @@ ALTER TABLE ONLY public.evento_archivos
 
 
 --
--- TOC entry 3307 (class 2606 OID 19601)
+-- TOC entry 3295 (class 2606 OID 20524)
 -- Name: evento_archivos evento_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3858,7 +3785,7 @@ ALTER TABLE ONLY public.evento_archivos
 
 
 --
--- TOC entry 3305 (class 2606 OID 19577)
+-- TOC entry 3296 (class 2606 OID 20529)
 -- Name: eventos eventos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3867,7 +3794,7 @@ ALTER TABLE ONLY public.eventos
 
 
 --
--- TOC entry 3312 (class 2606 OID 19683)
+-- TOC entry 3297 (class 2606 OID 20534)
 -- Name: expo_archivos expo_archivos_id_exposicion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3876,7 +3803,7 @@ ALTER TABLE ONLY public.expo_archivos
 
 
 --
--- TOC entry 3313 (class 2606 OID 19688)
+-- TOC entry 3298 (class 2606 OID 20539)
 -- Name: expo_archivos expo_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3885,7 +3812,7 @@ ALTER TABLE ONLY public.expo_archivos
 
 
 --
--- TOC entry 3311 (class 2606 OID 19664)
+-- TOC entry 3299 (class 2606 OID 20544)
 -- Name: exposiciones exposiciones_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3894,7 +3821,7 @@ ALTER TABLE ONLY public.exposiciones
 
 
 --
--- TOC entry 3302 (class 2606 OID 19533)
+-- TOC entry 3300 (class 2606 OID 20549)
 -- Name: expositores expositores_id_curso_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3903,7 +3830,7 @@ ALTER TABLE ONLY public.expositores
 
 
 --
--- TOC entry 3299 (class 2606 OID 19475)
+-- TOC entry 3301 (class 2606 OID 20554)
 -- Name: financiamientos financiamientos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3912,7 +3839,7 @@ ALTER TABLE ONLY public.financiamientos
 
 
 --
--- TOC entry 3286 (class 2606 OID 19296)
+-- TOC entry 3302 (class 2606 OID 20559)
 -- Name: inv_proyectos inv_proyectos_id_investigador_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3921,7 +3848,7 @@ ALTER TABLE ONLY public.inv_proyectos
 
 
 --
--- TOC entry 3285 (class 2606 OID 19291)
+-- TOC entry 3303 (class 2606 OID 20564)
 -- Name: inv_proyectos inv_proyectos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3930,7 +3857,7 @@ ALTER TABLE ONLY public.inv_proyectos
 
 
 --
--- TOC entry 3280 (class 2606 OID 19223)
+-- TOC entry 3304 (class 2606 OID 20569)
 -- Name: investigadores investigadores_id_inv_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3939,7 +3866,7 @@ ALTER TABLE ONLY public.investigadores
 
 
 --
--- TOC entry 3279 (class 2606 OID 19218)
+-- TOC entry 3305 (class 2606 OID 20574)
 -- Name: investigadores investigadores_id_persona_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3948,7 +3875,7 @@ ALTER TABLE ONLY public.investigadores
 
 
 --
--- TOC entry 3300 (class 2606 OID 19494)
+-- TOC entry 3306 (class 2606 OID 20579)
 -- Name: lugar_desarrollos lugar_desarrollos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3957,7 +3884,7 @@ ALTER TABLE ONLY public.lugar_desarrollos
 
 
 --
--- TOC entry 3309 (class 2606 OID 19639)
+-- TOC entry 3307 (class 2606 OID 20584)
 -- Name: nota_archivos nota_archivos_id_nota_prensa_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3966,7 +3893,7 @@ ALTER TABLE ONLY public.nota_archivos
 
 
 --
--- TOC entry 3310 (class 2606 OID 19644)
+-- TOC entry 3308 (class 2606 OID 20589)
 -- Name: nota_archivos nota_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3975,7 +3902,7 @@ ALTER TABLE ONLY public.nota_archivos
 
 
 --
--- TOC entry 3308 (class 2606 OID 19620)
+-- TOC entry 3309 (class 2606 OID 20594)
 -- Name: nota_prensas nota_prensas_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3984,7 +3911,7 @@ ALTER TABLE ONLY public.nota_prensas
 
 
 --
--- TOC entry 3287 (class 2606 OID 19315)
+-- TOC entry 3310 (class 2606 OID 20599)
 -- Name: permiso_archivos permiso_archivos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -3993,7 +3920,7 @@ ALTER TABLE ONLY public.permiso_archivos
 
 
 --
--- TOC entry 3288 (class 2606 OID 19320)
+-- TOC entry 3311 (class 2606 OID 20604)
 -- Name: permiso_archivos permiso_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4002,7 +3929,7 @@ ALTER TABLE ONLY public.permiso_archivos
 
 
 --
--- TOC entry 3275 (class 2606 OID 19116)
+-- TOC entry 3312 (class 2606 OID 20609)
 -- Name: personas personas_id_fotografia_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4011,7 +3938,7 @@ ALTER TABLE ONLY public.personas
 
 
 --
--- TOC entry 3324 (class 2606 OID 19825)
+-- TOC entry 3313 (class 2606 OID 20614)
 -- Name: peti_archivos peti_archivos_id_peticion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4020,7 +3947,7 @@ ALTER TABLE ONLY public.peti_archivos
 
 
 --
--- TOC entry 3325 (class 2606 OID 19830)
+-- TOC entry 3314 (class 2606 OID 20619)
 -- Name: peti_archivos peti_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4029,7 +3956,7 @@ ALTER TABLE ONLY public.peti_archivos
 
 
 --
--- TOC entry 3323 (class 2606 OID 19806)
+-- TOC entry 3315 (class 2606 OID 20624)
 -- Name: peticiones peticiones_id_investigador_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4038,7 +3965,7 @@ ALTER TABLE ONLY public.peticiones
 
 
 --
--- TOC entry 3322 (class 2606 OID 19801)
+-- TOC entry 3316 (class 2606 OID 20629)
 -- Name: peticiones peticiones_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4047,7 +3974,7 @@ ALTER TABLE ONLY public.peticiones
 
 
 --
--- TOC entry 3283 (class 2606 OID 19270)
+-- TOC entry 3317 (class 2606 OID 20634)
 -- Name: proy_archivos proy_archivos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4056,7 +3983,7 @@ ALTER TABLE ONLY public.proy_archivos
 
 
 --
--- TOC entry 3284 (class 2606 OID 19275)
+-- TOC entry 3318 (class 2606 OID 20639)
 -- Name: proy_archivos proy_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4065,7 +3992,7 @@ ALTER TABLE ONLY public.proy_archivos
 
 
 --
--- TOC entry 3281 (class 2606 OID 19246)
+-- TOC entry 3319 (class 2606 OID 20644)
 -- Name: proyectos proyectos_id_adm_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4074,7 +4001,7 @@ ALTER TABLE ONLY public.proyectos
 
 
 --
--- TOC entry 3282 (class 2606 OID 19251)
+-- TOC entry 3320 (class 2606 OID 20649)
 -- Name: proyectos proyectos_id_coordinador_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4083,7 +4010,7 @@ ALTER TABLE ONLY public.proyectos
 
 
 --
--- TOC entry 3320 (class 2606 OID 19777)
+-- TOC entry 3321 (class 2606 OID 20654)
 -- Name: publi_archivos publi_archivos_id_publicacion_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4092,7 +4019,7 @@ ALTER TABLE ONLY public.publi_archivos
 
 
 --
--- TOC entry 3321 (class 2606 OID 19782)
+-- TOC entry 3322 (class 2606 OID 20659)
 -- Name: publi_archivos publi_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4101,7 +4028,7 @@ ALTER TABLE ONLY public.publi_archivos
 
 
 --
--- TOC entry 3315 (class 2606 OID 19713)
+-- TOC entry 3323 (class 2606 OID 20664)
 -- Name: publicaciones publicaciones_id_coordinador_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4110,7 +4037,7 @@ ALTER TABLE ONLY public.publicaciones
 
 
 --
--- TOC entry 3314 (class 2606 OID 19708)
+-- TOC entry 3324 (class 2606 OID 20669)
 -- Name: publicaciones publicaciones_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4119,7 +4046,7 @@ ALTER TABLE ONLY public.publicaciones
 
 
 --
--- TOC entry 3328 (class 2606 OID 19873)
+-- TOC entry 3325 (class 2606 OID 20674)
 -- Name: segui_archivos segui_archivos_id_seguimiento_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4128,7 +4055,7 @@ ALTER TABLE ONLY public.segui_archivos
 
 
 --
--- TOC entry 3329 (class 2606 OID 19878)
+-- TOC entry 3326 (class 2606 OID 20679)
 -- Name: segui_archivos segui_archivos_id_tipo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4137,7 +4064,7 @@ ALTER TABLE ONLY public.segui_archivos
 
 
 --
--- TOC entry 3327 (class 2606 OID 19854)
+-- TOC entry 3327 (class 2606 OID 20684)
 -- Name: seguimientos seguimientos_id_director_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4146,7 +4073,7 @@ ALTER TABLE ONLY public.seguimientos
 
 
 --
--- TOC entry 3326 (class 2606 OID 19849)
+-- TOC entry 3328 (class 2606 OID 20689)
 -- Name: seguimientos seguimientos_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4155,7 +4082,7 @@ ALTER TABLE ONLY public.seguimientos
 
 
 --
--- TOC entry 3298 (class 2606 OID 19456)
+-- TOC entry 3329 (class 2606 OID 20694)
 -- Name: unidades unidades_id_proyecto_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -4163,7 +4090,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-24 07:40:44 -04
+-- Completed on 2020-11-25 02:04:04 -04
 
 --
 -- PostgreSQL database dump complete

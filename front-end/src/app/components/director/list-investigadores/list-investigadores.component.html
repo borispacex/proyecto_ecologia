@@ -3,12 +3,16 @@
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
 				<h2>
-					Investigadores 
+					<a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+					Lista investigadores 
 				</h2>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a [routerLink]="['/director/dashboard/data']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
-					<li class="breadcrumb-item active">Investigadores</li>
+					<li class="breadcrumb-item active">Lista investigadores</li>
 				</ul>
 			</div>
 		</div>
@@ -22,7 +26,7 @@
 		</form>
 	
 		<div ngbDropdown class="d-inline-block" placement="bottom-left">
-			<button class="btn btn-default mr-1 mb-3" id="dropdownBasic2" ngbDropdownToggle>Investigadores</button>
+			<button class="btn btn-default mr-1 mb-3" id="dropdownBasic2" ngbDropdownToggle>Listado</button>
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic2">
 				<button class="btn btn-default" [routerLink]="['../', 'investigador']" ngbDropdownItem>Todos</button>
 				<button class="btn btn-default" [routerLink]="['../', 'inv-titular']" ngbDropdownItem>Titular</button>

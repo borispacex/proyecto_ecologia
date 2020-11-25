@@ -14,7 +14,7 @@ const routes: Routes = [
               path: 'dashboard',
               children: [
                   { path: '', redirectTo: 'stories', pathMatch: 'full' },
-                  { path: 'stories', component: StoriesComponent, data: { title: ':: Stories Home ::' } }
+                  { path: 'stories', component: StoriesComponent, data: { title: 'Todas publicaciones :: Instituto de Ecología' } }
               ]
           },
           { path: '**', redirectTo: 'dashboard' } // final

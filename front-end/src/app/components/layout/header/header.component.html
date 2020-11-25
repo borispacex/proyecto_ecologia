@@ -16,12 +16,12 @@
                     <li class="dropdown" ngbDropdown>
                         <a type="button" class="dropdown-toggle icon-menu d-none d-sm-block" ngbDropdownToggle>
                             <div class="icons-list">
-                                <i class="icon-user"></i> <strong> {{persona.grado_academico}}</strong> {{persona.nombres}} {{persona.paterno}} {{persona.materno}}
+                                <i class="icon-user"></i>&nbsp;<strong> {{persona.grado_academico}}</strong> {{persona.nombres}} {{persona.paterno}} {{persona.materno}}
                             </div>
                         </a>
                         <ul class="dropdown-menu user-menu menu-icon" ngbDropdownMenu>
                             <li class="menu-heading">CUENTA</li>
-                            <li *ngIf="rol==='investigador'"><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i> <span>Mi perfil</span></a></li>
+                            <li *ngIf="rol==='investigador'"><a [routerLink]="['dashboard/profile']"><i class="icon-user"></i><span>Mi perfil</span></a></li>
                             <li><a [routerLink]="['./settings/account']"><i class="icon-settings"></i> <span>Configuraciones</span></a></li>
                             <li><a type="button" (click)="logout()"><i class="icon-power"></i> <span>Salir</span></a></li>
                         </ul>

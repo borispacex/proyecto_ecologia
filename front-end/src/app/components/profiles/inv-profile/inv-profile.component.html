@@ -4,12 +4,16 @@
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
 				<h2>
-					Investigador
+					<a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+					Perfil investigador
 				</h2>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a [routerLink]="['../../../']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
-					<li class="breadcrumb-item">Investigador</li>
+					<li class="breadcrumb-item">Perfil investigador</li>
 					<li class="breadcrumb-item active">{{ id_persona }}</li>
 				</ul>
 			</div>
@@ -21,10 +25,18 @@
 				<div class="body">
 					<div class="profile-image"> <img src="{{who +'fotografias/'+ persona.fotografia.imagen + '/true'}}" class="rounded-circle" alt="fotografia"> </div>
 					<div>
-						<h4 class="m-b-0"><strong>{{persona.grado_academico}}</strong> {{persona.nombres}} {{persona.paterno}} {{persona.materno}}</h4>
+						<h4 class="m-b-0">
+							<!-- <strong>{{persona.grado_academico}}</strong>&nbsp; -->
+							{{persona.nombres}} {{persona.paterno}} 
+							<!-- {{persona.materno}} -->
+						</h4>
 						<div *ngIf="persona.ciudad && persona.pais">
-							<span>{{persona.ciudad}}, {{persona.pais}}</span>
+							<p><i class="fa fa-map-marker"></i> &nbsp; {{persona.ciudad}}, {{persona.pais}}</p>
 						</div>
+						<p>Investigador</p>
+						<p>Instituto de Ecología (IE)</p>
+						<p><i class="fa fa-paper-plane"></i> &nbsp; <a href="mailto:{{persona.correo}}" class="text-dark" target="_blank">{{persona.correo}}</a></p>
+						<p *ngIf="persona.archivo"> <i class="fa fa-file-pdf-o"></i> &nbsp; <a class="text-dark" type="button" target="_blank" href="{{who +'profiles/'+ persona.archivo}}">CV {{persona.paterno}}.pdf</a></p>
 					</div>
 				</div>
 			</div>
@@ -38,13 +50,8 @@
 					<p>{{persona.direccion1}}</p>
 					<div>
 						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3824.766504186264!2d-68.06978108512372!3d-16.537881546085497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f2192074626e7%3A0x94b64ad0dc9f22a4!2sInstituto%20de%20Ecolog%C3%ADa%20(IE)%20-%20Carrera%20de%20Biolog%C3%ADa!5e0!3m2!1ses-419!2sbo!4v1604522758499!5m2!1ses-419!2sbo" width="100%" height="150" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-						<!-- <iframe
-							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1923731.7533500232!2d-120.39098936853455!3d37.63767091877441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan+Francisco%2C+CA%2C+USA!5e0!3m2!1sen!2sin!4v1522391841133"
-							width="100%" height="150" frameborder="0" style="border:0" allowfullscreen></iframe> -->
 					</div>
 					<hr>
-					<small class="text-muted">Correo electronico: </small>
-					<p>{{persona.correo}}</p>
 					<div *ngIf="persona.telefono">
 						<hr>
 						<small class="text-muted">Telefono: </small>
@@ -130,19 +137,18 @@
 						</ul>
 					</div>
 					<div class="body">
-						<div class="row">
-							<div class="col-9 text-secondary align-justify text-capitalized">{{publicacion.contenido}}</div>
-							<div class="col-3 m-b-15 icons-list align-center">
-								<div class="img-post mb-1" *ngFor="let archivo of publicacion.archivos">
-									<!-- <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i class="fa fa-file-pdf-o text-primary"></i></a> -->
-									<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
-										<img class="img-fluid" src="assets/images/pdf.png"  width="100px" alt="image description">
-									</a>
-									<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
-										<img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="100px" alt="image description">
-									</a>
-								</div>
-							</div>
+						<div class="text-secondary align-justify text-capitalized">{{publicacion.contenido}}</div>
+						<div *ngFor="let archivo of publicacion.archivos">
+						  <a *ngIf="isPdf(archivo.archivo)" href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i
+						      class="fa fa-file-pdf-o text-primary"></i>&nbsp; {{archivo.nombre}}.pdf</a>
+						  <a *ngIf="!isPdf(archivo.archivo)" href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i
+						      class="fa fa-file-photo-o text-primary">&nbsp; {{archivo.nombre}}.png</i></a>
+							<!-- <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)">
+								<img class="img-fluid" src="assets/images/pdf.png" width="100px" alt="image description">
+							</a>
+							<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
+								<img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="100px" alt="image description">
+							</a> -->
 						</div>
 						<!-- <a [routerLink]="['../profile-post/', publicacion.id_publicacion]" title="read more" class="btn btn-info m-t-20">Continuar leyendo</a> -->
 					</div>

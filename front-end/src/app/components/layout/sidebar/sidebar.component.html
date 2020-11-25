@@ -103,7 +103,7 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'proyectos-dir'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-dir')"><i class="icon-users"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('proyectos-dir')"><i class="icon-layers"></i>
                                 <span>Proyectos</span></a>
                             <ul *ngIf="currentActiveMenu == 'proyectos-dir'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/director/dashboard/list-proyectos', 'proyecto']">Listar proyectos</a></li>
@@ -114,7 +114,7 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'investigadores'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('investigadores')"><i class="icon-layers"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('investigadores')"><i class="icon-users"></i>
                                 <span>Investigadores</span></a>
                             <ul *ngIf="currentActiveMenu == 'investigadores'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/director/dashboard/list-investigadores', 'investigador']">Listar investigadores</a></li>
@@ -124,7 +124,7 @@
                             </ul>
                         </li>
                         <li [ngClass]="{'active':currentActiveMenu == 'reportes'}">
-                            <a class="has-arrow" (click)="activeInactiveMenu('reportes')"><i class="icon-earphones"></i>
+                            <a class="has-arrow" (click)="activeInactiveMenu('reportes')"><i class="fa fa-files-o"></i>
                                 <span>Reportes</span></a>
                             <ul *ngIf="currentActiveMenu == 'reportes'">
                                 <li routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a [routerLink]="['/director/dashboard/generate-reportes']">Generar reportes</a></li>

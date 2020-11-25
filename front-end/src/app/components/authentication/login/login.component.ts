@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ThemeService } from 'src/app/services/theme.service';
 import { UsuariosService } from 'src/app/services/admin/usuarios.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { SidebarService } from 'src/app/services/sidebar.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
   public showPassword: boolean = false;
 
   constructor(
+    private sidebarService: SidebarService,
     private _serviceLogin: LoginService,
     private _router: Router,
     private toastr: ToastrService
@@ -55,14 +57,17 @@ export class LoginComponent implements OnInit {
                 if (this.roles.length === 1) {
                   switch (this.roles[0].id_rol) {
                     case 1:
+                      this.sidebarService.setTrue();
                       this._router.navigate(['/admin']);
                       localStorage.setItem('rol', 'administrador');
                       break;
                     case 2:
+                      this.sidebarService.setTrue();
                       this._router.navigate(['/director']);
                       localStorage.setItem('rol', 'director');
                       break;
                     case 3:
+                      this.sidebarService.setTrue();
                       this._router.navigate(['/investigador']);
                       localStorage.setItem('rol', 'investigador');
                       break;
@@ -90,14 +95,17 @@ export class LoginComponent implements OnInit {
   ingresar(id: number) {
     switch (id) {
       case 1:
+        this.sidebarService.setTrue();
         this._router.navigate(['/admin']);
         localStorage.setItem('rol', 'administrador');
         break;
       case 2:
+        this.sidebarService.setTrue();
         this._router.navigate(['/director']);
         localStorage.setItem('rol', 'director');
         break;
       case 3:
+        this.sidebarService.setTrue();
         this._router.navigate(['/investigador']);
         localStorage.setItem('rol', 'investigador');
         break;

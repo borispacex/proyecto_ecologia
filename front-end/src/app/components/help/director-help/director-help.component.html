@@ -4,11 +4,15 @@
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
 				<h2>
-					Centro de ayuda Director
+					<a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+					Centro ayuda director
 				</h2>
 				<ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['../../../']"><i class="icon-home"></i></a></li>
-					<li class="breadcrumb-item">Help</li>
+					<li class="breadcrumb-item">Ayuda</li>
 					<li class="breadcrumb-item active">Director</li>
 				</ul>
 			</div>

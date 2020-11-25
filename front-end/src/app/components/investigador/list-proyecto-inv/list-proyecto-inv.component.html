@@ -4,12 +4,16 @@
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
 				<h2>
-					Lista de proyectos del investigador
+					<a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+					Lista proyectos investigador
 				</h2>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a [routerLink]="['/investigador/dashboard/menu']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
-					<li class="breadcrumb-item active">Lista de proyectos del investigador</li>
+					<li class="breadcrumb-item active">Lista proyectos investigador</li>
 				</ul>
 			</div>
 		</div>

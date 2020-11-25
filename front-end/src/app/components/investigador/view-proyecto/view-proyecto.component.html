@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-lg-5 col-md-8 col-sm-12">
                 <h2>
-                    Proyecto
+                    <a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+                    Ver Proyecto
                 </h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
@@ -11,7 +15,7 @@
                     </li>
                     <li class="breadcrumb-item">Dashboard</li>
                     <li class="breadcrumb-item">
-                        <a [routerLink]="['../../list-proyectos-inv','proyecto']">Proyectos investigador</a>
+                        <a [routerLink]="['../../list-proyectos-inv','proyecto']">Lista proyectos investigador</a>
                     </li>
                     <li class="breadcrumb-item active">{{ id }}</li>
                 </ul>

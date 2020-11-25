@@ -14,14 +14,14 @@ const routes: Routes = [
       path: '', component: AuthenticationComponent,
       children: [
           { path: '', redirectTo: 'login', pathMatch: 'full' },
-          { path: 'login', component: LoginComponent, data: { title: 'Iniciar Sesion' } },
-          { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: 'Olvido su contraseña' } },
-          { path: 'update-password/:token', component: UpdatePasswordByEmailComponent, data: { title: 'Actualizar Contraseña' } },
-          { path: 'page-401', component: PageTokenExpiredComponent, data: { title: 'Pagina 401' } },
-          { path: 'page-403', component: PageForbiddonErrorComponent, data: { title: 'Pagina 403' } }, // error prohibido
-          { path: 'page-404', component: PageNotFoundComponent, data: { title: 'Pagina 404' } },       // no encontrado
-          { path: 'page-500', component: PageIsErrorComponent, data: { title: 'Pagina 500' } },        // error
-          { path: 'page-503', component: PageTryLaterComponent, data: { title: 'Pagina 503' } },        // intentar mas tarde
+          { path: 'login', component: LoginComponent, data: { title: 'Iniciar sesion :: Instituto de Ecología' } },
+          { path: 'forgot-password', component: ForgotPasswordComponent, data: { title: 'Recuperar contraseña :: Instituto de Ecología' } },
+          { path: 'update-password/:token', component: UpdatePasswordByEmailComponent, data: { title: 'Actualizar contraseña :: Instituto de Ecología' } },
+          { path: 'page-401', component: PageTokenExpiredComponent, data: { title: 'Pagina 401 :: Instituto de Ecología' } },
+          { path: 'page-403', component: PageForbiddonErrorComponent, data: { title: 'Pagina 403 :: Instituto de Ecología' } }, // error prohibido
+          { path: 'page-404', component: PageNotFoundComponent, data: { title: 'Pagina 404 :: Instituto de Ecología' } },       // no encontrado
+          { path: 'page-500', component: PageIsErrorComponent, data: { title: 'Pagina 500 :: Instituto de Ecología' } },        // error
+          { path: 'page-503', component: PageTryLaterComponent, data: { title: 'Pagina 503 :: Instituto de Ecología' } },        // intentar mas tarde
           { path: '**', redirectTo: 'login' },
       ]
   }

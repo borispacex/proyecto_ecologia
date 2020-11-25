@@ -2,11 +2,17 @@
 	<div class="block-header">
 		<div class="row">
 			<div class="col-lg-5 col-md-8 col-sm-12">
-				<h2>Seguimiento proyecto</h2>
+				<h2>
+                    <a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+                    Seguimiento proyecto
+                </h2>
 				<ul class="breadcrumb">
 					<li class="breadcrumb-item"><a [routerLink]="['/director']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
-					<li class="breadcrumb-item"><a [routerLink]="['/director/dashboard/list-proyectos/proyecto']">Proyectos</a></li>
+					<li class="breadcrumb-item"><a [routerLink]="['/director/dashboard/list-proyectos/proyecto']">Lista proyecto</a></li>
 					<li class="breadcrumb-item active">{{id}}</li>
 				</ul>
 			</div>

@@ -52,19 +52,18 @@
                     </ul>
                 </div>
                 <div class="body">
-                    <div class="row">
-                        <div class="col-9 text-secondary align-justify text-capitalized">{{publicacion.contenido}}</div>
-                        <div class="col-3 m-b-15 icons-list align-center">
-                            <div class="img-post mb-1" *ngFor="let archivo of publicacion.archivos">
-                                <!-- <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i class="fa fa-file-pdf-o text-primary"></i></a> -->
-                                <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
-                                    <img class="img-fluid" src="assets/images/pdf.png"  width="100px" alt="image description">
-                                </a>
-                                <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
-                                    <img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="100px" alt="image description">
-                                </a>
-                            </div>
-                        </div>
+                    <div class="text-secondary align-justify text-capitalized">{{publicacion.contenido}}</div>
+                    <div *ngFor="let archivo of publicacion.archivos">
+                      <a *ngIf="isPdf(archivo.archivo)" href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i
+                          class="fa fa-file-pdf-o text-primary"></i>&nbsp; {{archivo.nombre}}.pdf</a>
+                      <a *ngIf="!isPdf(archivo.archivo)" href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i
+                          class="fa fa-file-photo-o text-primary">&nbsp; {{archivo.nombre}}.png</i></a>
+                        <!-- <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)">
+                            <img class="img-fluid" src="assets/images/pdf.png" width="100px" alt="image description">
+                        </a>
+                        <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
+                            <img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="100px" alt="image description">
+                        </a> -->
                     </div>
                     <!-- <a [routerLink]="['../profile-post/', publicacion.id_publicacion]" title="read more" class="btn btn-info m-t-20">Continuar leyendo</a> -->
                 </div>

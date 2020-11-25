@@ -3,12 +3,16 @@
         <div class="row">
             <div class="col-lg-5 col-md-8 col-sm-12">
                 <h2>
-                    Dashboard
+                    <a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+                      <i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+                      <i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+                    </a>
+                    Menu investigador
                 </h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a [routerLink]="['/investigador/dashboard/menu']"><i class="icon-home"></i></a></li>
 					<li class="breadcrumb-item">Dashboard</li>
-					<li class="breadcrumb-item actice">Menu principal</li>
+					<li class="breadcrumb-item actice">Menu investigador</li>
                 </ul>
             </div>
         </div>

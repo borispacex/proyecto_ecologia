@@ -3,7 +3,11 @@
         <div class="row">
             <div class="col-lg-5 col-md-8 col-sm-12">
                 <h2>
-                    Proyecto
+                    <a type="button" class="btn btn-xs btn-link btn-toggle-fullwidth text-primary" (click)="toggleFullWidth()">
+						<i class="fa fa-arrow-left" *ngIf="sidebarVisible"></i>
+						<i class="fa fa-arrow-right" *ngIf="!sidebarVisible"></i>
+					</a>
+                    Avances proyecto
                 </h2>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item">
@@ -11,7 +15,7 @@
                     </li>
                     <li class="breadcrumb-item">Dashboard</li>
                     <li class="breadcrumb-item">
-                        <a [routerLink]="['../../list-proyectos-inv','proyecto']">Proyectos investigador</a>
+                        <a [routerLink]="['../../list-proyectos-inv','proyecto']">Lista proyectos investigador</a>
                     </li>
                     <li class="breadcrumb-item active">{{ id }}</li>
                 </ul>
@@ -114,20 +118,18 @@
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6">
             <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" (click)="openModalNuevaPublicacion(content4, 'lg')">
-                <i class="fa fa-plus-square"></i>&nbsp;<span class="h6">Realizar publicación</span>
+                <i class="icon-bag"></i> &nbsp;<span class="h6">Realizar publicación</span>
             </button>
 
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
-                (click)="openModalBaseTecnica(content1,'lg')">
-                <i class="fa fa-plus-square"></i>&nbsp;<span class="h6">Basica tecnica</span>
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" (click)="openModalBaseTecnica(content1,'lg')">
+                <i class="icon-info"></i> &nbsp;<span class="h6">Basica tecnica</span>
             </button>
-            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center"
-                (click)="openModalLugarDesarrollo(content2, 'lg')">
-                <i class="fa fa-flag"></i>&nbsp;<span class="h6"> Lugar de desarrollo</span>
+            <button type="button" class="btn btn-default mr-1 mb-3 card align-items-center" (click)="openModalLugarDesarrollo(content2, 'lg')">
+                <i class="icon-pointer"></i> &nbsp;<span class="h6">Lugar de desarrollo</span>
             </button>
             <div ngbDropdown>
                 <button class="btn btn-default mr-1 mb-3 card align-items-center" id="dropdownBasic1" ngbDropdownToggle>
-                    <i class="fa fa-folder-open-o"></i>&nbsp;<span class="h6">Difusión</span></button>
+                    <i class="icon-book-open"></i> &nbsp;<span class="h6">Difusión</span></button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 1)" ngbDropdownItem>Cursos, Seminarios y Talleres</button>
                     <button class="btn btn-default" (click)="openModalDifusion(content3, 'lg', 2)" ngbDropdownItem>Eventos cientificos</button>

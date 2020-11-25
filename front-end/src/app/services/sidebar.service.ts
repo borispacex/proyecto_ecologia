@@ -9,6 +9,10 @@ export class SidebarService {
 
   constructor() { }
 
+  setTrue() {
+    this.sidebarVisible = true;
+  }
+
   toggle() {
     this.sidebarVisible = !this.sidebarVisible;
   }

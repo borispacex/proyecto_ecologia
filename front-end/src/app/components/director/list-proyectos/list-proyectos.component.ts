@@ -17,6 +17,9 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class ListProyectosComponent implements OnInit {
 
+  public sidebarVisible: boolean = true;
+  public isResizing: boolean = false;
+
   public token: string;
   public proyectos: Array<Proyecto> = [];
   public url: string;
@@ -49,6 +52,17 @@ export class ListProyectosComponent implements OnInit {
 
     // buscador proyectos
     this.search.valueChanges.pipe( debounceTime(300) ).subscribe(value => this.valorBusqueda = value );
+  }
+
+  toggleFullWidth() {
+    this.isResizing = true;
+    this.sidebarService.toggle();
+    this.sidebarVisible = this.sidebarService.getStatus();
+    let that = this;
+    setTimeout(function () {
+      that.isResizing = false;
+      that.cdr.detectChanges();
+    }, 400);
   }
 
   getProyectosAdmin() {

@@ -26,36 +26,36 @@ const routes: Routes = [
               path: 'dashboard',
               children: [
                   { path: '', redirectTo: 'index', pathMatch: 'full' },
-                  { path: 'index', component: IndexComponent, data: { title: 'Index admin' } },
-                  { path: 'list-fotografias', component: ListFotografiaComponent, data: { title: 'Fotografias' } },
-                  { path: 'list-usuarios/:tipo', component: ListUsuarioComponent, data: { title: 'Usuarios' } },
-                  { path: 'list-proyectos/:tipo', component: ListProyectoComponent, data: { title: 'Proyectos' } },
-                  { path: 'detail-proyecto/:id', component: DetailsProyectoComponent, data: { title: 'Detalles del Proyecto' } }
+                  { path: 'index', component: IndexComponent, data: { title: 'Menu administrador :: Instituto de Ecología' } },
+                  { path: 'list-fotografias', component: ListFotografiaComponent, data: { title: 'Lista fotografias :: Instituto de Ecología' } },
+                  { path: 'list-usuarios/:tipo', component: ListUsuarioComponent, data: { title: 'Lista usuarios :: Instituto de Ecología' } },
+                  { path: 'list-proyectos/:tipo', component: ListProyectoComponent, data: { title: 'Lista proyectos :: Instituto de Ecología' } },
+                  { path: 'detail-proyecto/:id', component: DetailsProyectoComponent, data: { title: 'Detalles proyecto :: Instituto de Ecología' } }
               ],
           },
           {
             path: 'settings',
               children: [
                   { path: '', redirectTo: 'account', pathMatch: 'full' },
-                  { path: 'account', component: SetProfileComponent, data: { title: 'Configuración Cuenta' } },
+                  { path: 'account', component: SetProfileComponent, data: { title: 'Configuración cuenta :: Instituto de Ecología' } },
               ]
           },
           {
             path: 'help',
               children: [
                   { path: '', redirectTo: 'cuenta', pathMatch: 'full' },
-                  { path: 'cuenta/:tipo', component: CuentaHelpComponent, data: { title: 'Ayuda Cuenta' } },
-                  { path: 'admin/:tipo', component: AdminHelpComponent, data: { title: 'Ayuda Administrador' } },
-                  { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda Director' } },
-                  { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda Investigador' } }
+                  { path: 'cuenta/:tipo', component: CuentaHelpComponent, data: { title: 'Ayuda cuenta :: Instituto de Ecología' } },
+                  { path: 'admin/:tipo', component: AdminHelpComponent, data: { title: 'Ayuda administrador :: Instituto de Ecología' } },
+                  { path: 'director/:tipo', component: DirectorHelpComponent, data: { title: 'Ayuda director :: Instituto de Ecología' } },
+                  { path: 'investigador/:tipo', component: InvestigadorHelpComponent, data: { title: 'Ayuda investigador :: Instituto de Ecología' } }
               ]
           },
           {
             path: 'profiles',
               children: [
                   { path: '', redirectTo: 'cuenta', pathMatch: 'full' },
-                  { path: 'inv-profile/:id_persona', component: InvProfileComponent, data: { title: 'Investigador' } },
-                  { path: 'inv-profile-post/:id_persona/:id_publicacion', component: InvProfilePostComponent, data: { title: 'Publicación' } }
+                  { path: 'inv-profile/:id_persona', component: InvProfileComponent, data: { title: 'Investigador :: Instituto de Ecología' } },
+                  { path: 'inv-profile-post/:id_persona/:id_publicacion', component: InvProfilePostComponent, data: { title: 'Publicación :: Instituto de Ecología' } }
               ]
           },
           { path: '**', redirectTo: 'dashboard' },
