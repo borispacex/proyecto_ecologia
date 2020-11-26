@@ -147,6 +147,37 @@ function countByIdProyectoAndEstado(req, res) {
     })
 }
 
+// funcion para buscar y mostrar un seguimientos por id_proyecto
+function getAllByIdProyectoAndTipo(req, res) {
+    var id = req.params.id_proyecto;
+    var tipo_s = req.params.tipo;
+    seguimientos.findAll({
+        where: { id_proyecto: id, tipo: tipo_s }
+    })
+    .then(seguimientos => {
+        res.status(200).send({ seguimientos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un seguimientos por id_proyecto', err });
+    })
+}
+
+// funcion para buscar y mostrar un seguimientos por id_proyecto
+function getAllByIdProyectoTipoAndEstado(req, res) {
+    var id = req.params.id_proyecto;
+    var tipo_s = req.params.tipo;
+    var status = req.params.estado;
+    seguimientos.findAll({
+        where: { id_proyecto: id, tipo: tipo_s, estado: status }
+    })
+    .then(seguimientos => {
+        res.status(200).send({ seguimientos });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un seguimientos por id_proyecto', err });
+    })
+}
+
 module.exports = {
     create,
     update,
@@ -159,5 +190,8 @@ module.exports = {
 
     getAllByIdDirectorAndEstado,
     getAllByIdProyectoAndEstado,
-    countByIdProyectoAndEstado
+    countByIdProyectoAndEstado,
+
+    getAllByIdProyectoAndTipo,
+    getAllByIdProyectoTipoAndEstado
 }

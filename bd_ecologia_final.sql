@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-25 02:04:02 -04
+-- Started on 2020-11-25 20:07:59 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2576,7 +2576,6 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 15	1	Pérez	Béjar	María Esther	3368666	\N	\N	\N	\N	\N	\N	\N	\N	\N	eperez@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:23:11.632+00	2020-10-23 14:23:11.632+00	\N
 16	1	Pinto	Mendieta	Julio Jorge	489921	\N	\N	\N	\N	\N	\N	\N	\N	\N	jpinto@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:24:13.953+00	2020-10-23 14:24:13.953+00	\N
 18	1	Valenzuela	Celis	Julieta Esther	467484	\N	\N	\N	\N	\N	\N	\N	\N	\N	evalenzuela@fcpn.edu.bo	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:26:43.822+00	2020-10-23 14:26:43.822+00	\N
-2	15	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-20 11:26:44.491+00	\N
 19	1	Lopez	Calderon	Ramiro	1356193	\N	\N	\N	\N	\N	\N	\N	\N	\N	rlopez@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:39:20.484+00	2020-10-23 18:39:20.484+00	\N
 20	1	Saavedra	Agramont	Francisco	3820243	\N	\N	\N	\N	\N	\N	\N	\N	\N	fsaavedra@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:40:01.428+00	2020-10-23 18:40:01.428+00	\N
 21	1	Tognelli		Marcelo	9999001	\N	\N	\N	\N	\N	\N	\N	\N	\N	001@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 18:44:41.878+00	2020-10-23 18:44:41.878+00	\N
@@ -2623,6 +2622,7 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 17	7	Rico	Cernohorska	Adriana	2726683-1J	\N	\N	\N	\N	\N	\N	\N	\N	\N	arico@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:25:50.72+00	2020-10-27 15:12:48.407+00	\N
 51	9	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-27 15:23:41.59+00	\N
 1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-23 01:49:35.659+00	\N
+2	15	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-25 18:47:15.423+00	\N
 \.
 
 
@@ -2815,6 +2815,10 @@ COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, 
 --
 
 COPY public.segui_archivos (id_segui_archivo, id_seguimiento, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
+1	1	psIv-ev2derPVZyDebPUEaO3.pdf	Seguimiento Inicio	documento seguimiento inicio	15	t	2020-11-25 15:20:47.14+00	2020-11-25 15:20:47.252+00
+2	2	5AU5VW6aeSGwc9EyZuH_5k-Y.pdf	Seguimiento Ejecucion	documento descripcion	15	t	2020-11-25 17:51:49.729+00	2020-11-25 17:51:49.843+00
+3	3	J7OGq-VsuePHR_uPFrEEAKCl.pdf	Seguimiento Ejecucion 2	documento ejecucion2	15	t	2020-11-25 17:54:39.759+00	2020-11-25 17:54:39.85+00
+4	4	fKk6jkmNFPyL0pbhRToDipCD.pdf	Seguimiento Finalizacion	documento	15	t	2020-11-25 18:03:09.385+00	2020-11-25 18:03:09.445+00
 \.
 
 
@@ -2825,6 +2829,10 @@ COPY public.segui_archivos (id_segui_archivo, id_seguimiento, archivo, nombre, d
 --
 
 COPY public.seguimientos (id_seguimiento, id_proyecto, id_director, tipo, revision, observaciones, proceso, estado, "createdAt", "updatedAt") FROM stdin;
+1	15	2	Inicio	Se reviso documentos de inextenso, formulario	Corregir documento inextenso falta el nombre de los investigadores	95	t	2020-11-25 15:20:47.048+00	2020-11-25 15:20:47.048+00
+2	15	2	Ejecución	Publicaciones correctas	Debe realizar más avance en la difusión del proyecto de investigación.	95	t	2020-11-25 17:51:49.673+00	2020-11-25 17:51:49.673+00
+3	15	2	Ejecución	Revision de los cursos hechos por la semana de aniversario.	Debe subir archivos respecto a la difusion.	95	t	2020-11-25 17:54:39.707+00	2020-11-25 17:54:39.707+00
+4	15	2	Finalización	Todo listo para realizar la conclusion del proyecto.	Debes enviar nota de conclusion a dirección del IE para hacer los tramites de finalización.	95	t	2020-11-25 18:03:09.337+00	2020-11-25 18:03:09.337+00
 \.
 
 
@@ -3178,7 +3186,7 @@ SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 19, true);
 -- Name: segui_archivos_id_segui_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.segui_archivos_id_segui_archivo_seq', 1, false);
+SELECT pg_catalog.setval('public.segui_archivos_id_segui_archivo_seq', 4, true);
 
 
 --
@@ -3187,7 +3195,7 @@ SELECT pg_catalog.setval('public.segui_archivos_id_segui_archivo_seq', 1, false)
 -- Name: seguimientos_id_seguimiento_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.seguimientos_id_seguimiento_seq', 1, false);
+SELECT pg_catalog.setval('public.seguimientos_id_seguimiento_seq', 4, true);
 
 
 --
@@ -4090,7 +4098,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-25 02:04:04 -04
+-- Completed on 2020-11-25 20:08:02 -04
 
 --
 -- PostgreSQL database dump complete

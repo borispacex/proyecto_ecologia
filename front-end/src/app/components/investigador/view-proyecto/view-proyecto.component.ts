@@ -344,7 +344,9 @@ export class ViewProyectoComponent implements OnInit {
   id_persona = 0;
   id_peticion = 0;
 
-
+  inicioSegui: any = [];
+  ejecucionSegui: any = [];
+  finalizacionSegui: any = [];
 
   constructor(
     private sidebarService: SidebarService,
@@ -431,6 +433,9 @@ export class ViewProyectoComponent implements OnInit {
     this.obtenerPublicaciones(this.id);
     this.obtenerSeguimientos();
     this.obtenerPeticiones();
+
+    this.obtenerIniEjeFinaSeguimientos();
+
   }
   openModal(content, size, idPeticion?: number) {
     this.files = [];
@@ -1435,6 +1440,45 @@ export class ViewProyectoComponent implements OnInit {
   openModalEliminar(content, size, idPeticion: number) {
     this.modalService.open(content, { size: size });
     this.id_peticion = idPeticion;
+  }
+
+  obtenerIniEjeFinaSeguimientos() {
+    this._serviceSeguimientos.getSeguimientosByIdProyectoTipoAndEstado(this.id, 'Inicio', true, this.token)
+    .then(responseSegui => {
+      this.inicioSegui = [];
+      responseSegui.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.inicioSegui.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
+    this._serviceSeguimientos.getSeguimientosByIdProyectoTipoAndEstado(this.id, 'Ejecución', true, this.token)
+    .then(responseSegui => {
+      this.ejecucionSegui = [];
+      responseSegui.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.ejecucionSegui.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
+    this._serviceSeguimientos.getSeguimientosByIdProyectoTipoAndEstado(this.id, 'Finalización', true, this.token)
+    .then(responseSegui => {
+      this.finalizacionSegui = [];
+      responseSegui.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.finalizacionSegui.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
   }
 
 }

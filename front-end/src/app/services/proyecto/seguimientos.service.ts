@@ -113,4 +113,23 @@ export class SeguimientosService {
     .then(res => res);
   }
 
+  // obtenemos todos los seguimientos by id_proyecto
+  getSeguimientosByIdProyectoAndTipo(id_proyecto: number, tipo: string, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientosByIdProyectoAndTipo/' + id_proyecto + '/' + tipo, options).toPromise()
+    .then(res => res);
+  }
+  // obtenemos todos los seguimientos by id_proyecto
+  getSeguimientosByIdProyectoTipoAndEstado(id_proyecto: number, tipo: string, estado: boolean, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'seguimientosByIdProyectoTipoAndEstado/' + id_proyecto + '/' + tipo + '/' + estado, options).toPromise()
+    .then(res => res);
+  }
+
 }

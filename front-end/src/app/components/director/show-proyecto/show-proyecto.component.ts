@@ -330,6 +330,10 @@ export class ShowProyectoComponent implements OnInit {
   convenio: any = {};
   personal_rrhh: any = {};
 
+  inicioSegui: any = [];
+  ejecucionSegui: any = [];
+  finalizacionSegui: any = [];
+
   constructor(
     private sidebarService: SidebarService,
     private cdr: ChangeDetectorRef,
@@ -418,6 +422,7 @@ export class ShowProyectoComponent implements OnInit {
     this.obtenerSeguimientos();
 
     this.obtenerEstadistica();
+    this.obtenerIniEjeFinaSeguimientos();
 
   }
   toggleFullWidth() {
@@ -1332,6 +1337,7 @@ export class ShowProyectoComponent implements OnInit {
                 if (contador === this.files.length) {
                   this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                   this.obtenerSeguimientos();
+                  this.obtenerIniEjeFinaSeguimientos();
                   this.progress = 0;
                   this.modalService.dismissAll();
                 }
@@ -1341,6 +1347,7 @@ export class ShowProyectoComponent implements OnInit {
         } else {
           this.toastr.success('Seguimiento actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
           this.obtenerSeguimientos();
+          this.obtenerIniEjeFinaSeguimientos();
           this.progress = 0;
           this.modalService.dismissAll();
         }
@@ -1381,6 +1388,7 @@ export class ShowProyectoComponent implements OnInit {
                 contador++;
                 if (contador === this.files.length) {
                   this.obtenerSeguimientos();
+                  this.obtenerIniEjeFinaSeguimientos();
                   this.progress = 0;
                   this.modalService.dismissAll();
                   this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -1390,6 +1398,7 @@ export class ShowProyectoComponent implements OnInit {
           }
         } else {
           this.obtenerSeguimientos();
+          this.obtenerIniEjeFinaSeguimientos();
           this.progress = 0;
           this.modalService.dismissAll();
           this.toastr.success('Seguimiento guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
@@ -1491,6 +1500,45 @@ export class ShowProyectoComponent implements OnInit {
         break;
     }
     return tipo;
+  }
+
+  obtenerIniEjeFinaSeguimientos() {
+    this._serviceSeguimientos.getSeguimientosByIdProyectoTipoAndEstado(this.id, 'Inicio', true, this.token)
+    .then(responseSegui => {
+      this.inicioSegui = [];
+      responseSegui.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.inicioSegui.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
+    this._serviceSeguimientos.getSeguimientosByIdProyectoTipoAndEstado(this.id, 'Ejecución', true, this.token)
+    .then(responseSegui => {
+      this.ejecucionSegui = [];
+      responseSegui.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.ejecucionSegui.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
+    this._serviceSeguimientos.getSeguimientosByIdProyectoTipoAndEstado(this.id, 'Finalización', true, this.token)
+    .then(responseSegui => {
+      this.finalizacionSegui = [];
+      responseSegui.seguimientos.forEach(segui => {
+        segui.archivos = [];
+        this._serviceSeguiArchivos.getSeguiArchivosByIdSeguimiento(segui.id_seguimiento, this.token)
+        .then(response => {
+          segui.archivos = response.segui_archivos;
+          this.finalizacionSegui.push(segui);
+        }).catch(error => { console.log('Error al obtener segui archivo', error); });
+      });
+    }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
   }
 
 }

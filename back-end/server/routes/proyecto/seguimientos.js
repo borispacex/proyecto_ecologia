@@ -16,4 +16,8 @@ module.exports = (app) => {
     app.get('/api/seguimientosByIdDirectorAndEstado/:id_director/:estado', seguimientosController.getAllByIdDirectorAndEstado);
     app.get('/api/seguimientosByIdProyectoAndEstado/:id_proyecto/:estado', seguimientosController.getAllByIdProyectoAndEstado);
     app.get('/api/countSeguimientosByIdProyectoAndEstado/:id_proyecto/:estado', seguimientosController.countByIdProyectoAndEstado);
+
+    app.get('/api/seguimientosByIdProyectoAndTipo/:id_proyecto/:tipo', seguimientosController.getAllByIdProyectoAndTipo);
+    app.get('/api/seguimientosByIdProyectoTipoAndEstado/:id_proyecto/:tipo/:estado', seguimientosController.getAllByIdProyectoTipoAndEstado);
+
 }

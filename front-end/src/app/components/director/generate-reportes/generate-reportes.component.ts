@@ -1316,14 +1316,15 @@ export class GenerateReportesComponent
 
               proy.fecha_publicacion_anio = publicacion.fecha.substring(0, 4);
 
-              proy.publicado_por = '';
+              // proy.publicado_por = '';
+              // console.log(publicacion);
               this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
                 .then(responseA => {
+                  proy.publicado_por = '';
                   responseA.autores.forEach(autor => {
                     proy.publicado_por = proy.publicado_por + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} `;
                   });
                 }).catch(error => { console.log('Error al obtener autores', error); });
-
               proy.cita_bibliografica = publicacion.contenido;
               proys.push(proy);
             }
@@ -1843,7 +1844,9 @@ export class GenerateReportesComponent
       }
     }
     // console.log(this.proyectos);
-
+    // console.log(this.dataSource,'aaa', this.sort);
+    // console.log(this.dataSource.data.length);
+    // console.log(this.paginator);
   }
 
   filtroLugarDesarrollo(proyectos: any) {
