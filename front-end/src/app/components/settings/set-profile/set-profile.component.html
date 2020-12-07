@@ -46,7 +46,7 @@
 								<button class="btn btn-warning mr-1" type="button" (click)="file.click()"><i class="icon-paper-clip text-light"></i></button>
 								{{image_selected}}
 							</div>
-							<button class="btn btn-primary mt-1" type="submit">Subir Fotografia</button>
+							<button class="btn btn-color mt-1" type="submit">Subir Fotografia</button>
 							<div class="progress mt-1" *ngIf="filesToUpload">
 								<div
 								  class="progress-bar progress-bar-info progress-bar-striped"
@@ -381,8 +381,8 @@
 									</div>
 								</div>
 							</div>
-							<button type="submit" class="btn btn-primary mr-2">Actualizar</button>
-							<button type="button" class="btn btn-default" (click)="limpiarInfBasica()">Cancelar</button>
+							<button type="submit" class="btn btn-color mr-2">Actualizar</button>
+							<button type="button" class="btn btn-danger" (click)="limpiarInfBasica()">Cancelar</button>
 						</form>
 
 						<div class="body">
@@ -398,8 +398,8 @@
 									<div class="form-group">
 										<input type="text" [(ngModel)]="cuenta.celular" class="form-control" name="celular" #celular="ngModel" placeholder="Numero de celular">
 									</div>
-									<button type="submit" class="btn btn-primary mr-2">Actualizar</button>
-									<button type="button" class="btn btn-default" (click)="limpiarDateCuenta()">Cancelar</button>
+									<button type="submit" class="btn btn-color mr-2">Actualizar</button>
+									<button type="button" class="btn btn-danger" (click)="limpiarDateCuenta()">Cancelar</button>
 								</form>
 								<form class="col-lg-6 col-md-12 body" #formChangePassword="ngForm" (ngSubmit)="editarPassword()">
 									<h6>Cambiar contraseña</h6>
@@ -412,8 +412,8 @@
 									<div class="form-group">
 										<input type="password" [(ngModel)]="cuenta_pass.pass2" class="form-control" name="pass2" #pass2="ngModel" placeholder="Confirmar nueva contraseña">
 									</div>
-									<button type="submit" class="btn btn-primary">Actualizar</button> &nbsp;&nbsp;
-									<button type="button" class="btn btn-default" (click)="limpiarPassword()">Cancelar</button>
+									<button type="submit" class="btn btn-color">Actualizar</button> &nbsp;&nbsp;
+									<button type="button" class="btn btn-danger" (click)="limpiarPassword()">Cancelar</button>
 								</form>
 							</div>
 						</div>
@@ -519,8 +519,8 @@
 										<input type="text" [(ngModel)]="info.grado_academico" class="form-control" name="grado_academico"
 											#grado_academico="ngModel" disabled>
 									</div>
-									<button type="submit" class="btn btn-primary mr-2">Actualizar</button>
-									<button type="button" class="btn btn-default" (click)="limpiarInfGeneral()">Cancelar</button>
+									<button type="submit" class="btn btn-color mr-2">Actualizar</button>
+									<button type="button" class="btn btn-danger" (click)="limpiarInfGeneral()">Cancelar</button>
 								</form>
 								<form class="col-lg-6 col-md-12 body" #formEditarIntereses="ngForm" (ngSubmit)="editarIntereses()">
 									<h6>Información Intereses</h6>
@@ -533,8 +533,8 @@
 									<div class="form-group">
 										<input type="text" [(ngModel)]="intereses.preferencia" class="form-control" name="preferencia" #preferencia="ngModel" placeholder="Area de trabajo de preferencia">
 									</div>
-									<button type="submit" class="btn btn-primary">Actualizar</button> &nbsp;&nbsp;
-									<button type="button" class="btn btn-default" (click)="limpiarIntereses()">Cancelar</button>
+									<button type="submit" class="btn btn-color">Actualizar</button> &nbsp;&nbsp;
+									<button type="button" class="btn btn-danger" (click)="limpiarIntereses()">Cancelar</button>
 								</form>
 							</div>
 						</div>
@@ -550,7 +550,7 @@
 										<button class="btn btn-warning mr-1" type="button" (click)="file1.click()"><i class="icon-paper-clip text-light"></i></button>
 										{{pdf_selected}}
 									</div>
-									<button class="btn btn-primary mt-1" type="submit">Subir Curriculum</button>
+									<button class="btn btn-color mt-1" type="submit">Subir Curriculum</button>
 									<div class="progress mt-1" *ngIf="filesToUpload1">
 										<div
 										  class="progress-bar progress-bar-info progress-bar-striped"
@@ -574,8 +574,8 @@
 											<li class="parsley-required" *ngIf="textarea1.hasError('required')">Formacion profesional requerida.</li>
 										</ul>
 									</div>
-									<button type="submit" class="btn btn-primary mr-2" [disabled]="!formacionPro.form.valid">actualizar</button>
-									<button type="button" class="btn btn-default" (click)="limpiarFormacion()">Cancelar</button>
+									<button type="submit" class="btn btn-color mr-2" [disabled]="!formacionPro.form.valid">actualizar</button>
+									<button type="button" class="btn btn-danger" (click)="limpiarFormacion()">Cancelar</button>
 								</form>
 							</blockquote>
 
@@ -588,8 +588,8 @@
 											<li class="parsley-required" *ngIf="textarea2.hasError('required')">Formacion adicional requerida.</li>
 										</ul>
 									</div>
-									<button type="submit" class="btn btn-primary mr-2" [disabled]="!formacionAdi.form.valid">actualizar</button>
-									<button type="button" class="btn btn-default" (click)="limpiarFomacionAdi()">Cancelar</button>
+									<button type="submit" class="btn btn-color mr-2" [disabled]="!formacionAdi.form.valid">actualizar</button>
+									<button type="button" class="btn btn-danger" (click)="limpiarFomacionAdi()">Cancelar</button>
 								</form>
 							</blockquote>
 
@@ -602,8 +602,8 @@
 											<li class="parsley-required" *ngIf="textarea3.hasError('required')">Habilidades y capacidades requerida.</li>
 										</ul>
 									</div>
-									<button type="submit" class="btn btn-primary mr-2" [disabled]="!formHabilidades.form.valid">actualizar</button>
-									<button type="button" class="btn btn-default" (click)="limpiarHabilidades()">Cancelar</button>
+									<button type="submit" class="btn btn-color mr-2" [disabled]="!formHabilidades.form.valid">actualizar</button>
+									<button type="button" class="btn btn-danger" (click)="limpiarHabilidades()">Cancelar</button>
 								</form>
 							</blockquote>
 
@@ -616,8 +616,8 @@
 											<li class="parsley-required" *ngIf="textarea4.hasError('required')">Conclusion requerida.</li>
 										</ul>
 									</div>
-									<button type="submit" class="btn btn-primary mr-2" [disabled]="!formConlusion.form.valid">actualizar</button>
-									<button type="button" class="btn btn-default" (click)="limpiarConclusion()">Cancelar</button>
+									<button type="submit" class="btn btn-color mr-2" [disabled]="!formConlusion.form.valid">actualizar</button>
+									<button type="button" class="btn btn-danger" (click)="limpiarConclusion()">Cancelar</button>
 								</form>
 							</blockquote>
 						</div>

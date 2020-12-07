@@ -131,5 +131,14 @@ export class SeguimientosService {
     return this._httpClient.get<any>(this.url + 'seguimientosByIdProyectoTipoAndEstado/' + id_proyecto + '/' + tipo + '/' + estado, options).toPromise()
     .then(res => res);
   }
+  // obtenemos todos los seguimientos by id_proyecto
+  sendEmailSeguimiento(id_persona: number, id_proyecto: number, id_seguimiento: number, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'realizarSeguimiento/' + id_persona + '/' + id_proyecto + '/' + id_seguimiento, options).toPromise()
+    .then(res => res);
+  }
 
 }

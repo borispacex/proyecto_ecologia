@@ -44,3 +44,6 @@
   background-color: rgba(2, 117, 216, 0.5);
 }
 
+agm-map {
+  height: 250px;
+}

@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         fecha: DataTypes.DATE,
         autores: DataTypes.STRING,
         contenido: DataTypes.STRING,
+        resumen: DataTypes.STRING,
         estado: DataTypes.BOOLEAN
     });
     return publicaciones;

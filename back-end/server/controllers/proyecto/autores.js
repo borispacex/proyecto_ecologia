@@ -195,7 +195,26 @@ function getAllByIdInvestigador(req, res) {
             },
             { model: publicaciones }
         ]
-        
+    })
+    .then(autores => {
+        res.status(200).send({ autores });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al buscar un autores por id_investigador', err });
+    })
+}
+// funcion para buscar y mostrar un autores por id_investigador
+function getAllByIdInvestigadorDistinct(req, res) {
+    var id = req.params.id_investigador;
+    autores.findAll({
+        where: { id_investigador: id, estado: true },
+        include: [
+            { 
+                model: publicaciones,
+                attributes: ['fecha'],
+                group: 'fecha'
+            }
+        ]
     })
     .then(autores => {
         res.status(200).send({ autores });
@@ -279,6 +298,6 @@ module.exports = {
     getAllByEstado,
     getAllByIdPublicacionAndEstado,
     getAllByIdInvestigadorAndEstado,
-
+    getAllByIdInvestigadorDistinct
 
 }

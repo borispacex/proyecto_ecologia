@@ -185,5 +185,13 @@ export class ProyectosService {
     return this._httpClient.get<any>(this.url + 'getAllBetweenProccessBetweenDatesFinAndStatus/' + ini + '/' + fin + '/' + fechaini + '/' + fechafin + '/' + estado, options).toPromise()
     .then(res => res);
   }
+  sendEmailCreacionProyecto(id_persona: number, id_proyecto: number, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'proyectoCreado/' + id_persona + '/' + id_proyecto, options).toPromise()
+    .then(res => res);
+  }
 
 }

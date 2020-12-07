@@ -23,48 +23,68 @@
 	<div class="row clearfix">
 		<div class="col-lg-12 col-md-12">
 			<div class="card right-box single_post">
-				<div class="widget body pb-0">
-					<h4 class="m-t-0 m-b-5 text-dark"><b>{{publicacion.titulo}}</b></h4>
-					<ul class="meta">
-						<li>
-							<a type="button"><i class="icon-tag text-success"></i>{{publicacion.tipo}}</a>
+				<div class="body">
+					<span class="m-t-0 m-b-5 text-dark h2">{{publicacion.titulo}}</span>
+
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Titulo</b>
+								<span class="col-12 col-sm-10">{{publicacion.titulo}}</span>
+							</div>
 						</li>
-						<li>
-							<a type="button"><i class="icon-graduation text-primary"></i><strong>Publicado por:</strong> {{publicacion.autores}}</a>
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Tipo de publicación</b>
+								<span class="col-12 col-sm-10">{{publicacion.tipo}}</span>
+							</div>
 						</li>
-						<li>
-							<a type="button"><i class="icon-bubbles text-warning"></i><strong>Comentarios:</strong> {{publicacion.nroComentarios}}</a>
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Publicado por</b>
+								<span class="col-12 col-sm-10">{{publicacion.autores}}</span>
+							</div>
 						</li>
-						<li>
-							<a type="button"><i class="icon-calendar text-info"></i><strong>Año de publicación: </strong> {{publicacion.fecha | date: 'yyyy'}}</a>
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Año de publicación</b>
+								<span class="col-12 col-sm-10">{{publicacion.fecha | date: 'yyyy'}}</span>
+							</div>
 						</li>
-						<li>
-							<a type="button"><i class="icon-user text-danger"></i><strong>Autores: </strong> {{publicacion.autor}}</a>
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Autores</b>
+								<span class="col-12 col-sm-10">{{publicacion.autor}}</span>
+							</div>
 						</li>
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Cita biobliografica</b>
+								<span class="col-12 col-sm-10">{{publicacion.contenido}}</span>
+							</div>
+						</li>
+						<li class="list-group-item" *ngIf="publicacion.resumen">
+							<div class="row">
+								<b class="col-12 col-sm-2">Resumen</b>
+								<span class="col-12 col-sm-10">{{publicacion.resumen}}</span>
+							</div>
+						</li>
+						<li class="list-group-item">
+							<div class="row">
+								<b class="col-12 col-sm-2">Publicación</b>
+								<div class="col-12 col-sm-10" *ngFor="let archivo of publicacion.archivos">
+									<span *ngIf="isPdf(archivo.archivo)" >
+									  <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i class="fa fa-file-pdf-o text-primary"></i>&nbsp; {{archivo.nombre}}.pdf</a>
+									</span>
+									<span *ngIf="!isPdf(archivo.archivo)">
+									  <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i class="fa fa-file-photo-o text-primary">&nbsp; {{archivo.nombre}}.png</i></a>
+									</span>
+								  </div>
+							</div>
+						</li>
+						
 					</ul>
 				</div>
-				<div class="body">
-					<div class="row">
-						<div class="col-9 text-secondary align-justify text-capitalized">{{publicacion.contenido}}</div>
-						<div class="col-3 m-b-15 icons-list align-center">
-							<div class="img-post mb-1" *ngFor="let archivo of publicacion.archivos">
-								<!-- <a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank"><i class="fa fa-file-pdf-o text-primary"></i></a> -->
-								<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="isPdf(archivo.archivo)" >
-									<img class="img-fluid" src="assets/images/pdf.png"  width="100px" alt="image description">
-								</a>
-								<a href="{{who +'publicaciones/'+archivo.archivo}}" target="_blank" *ngIf="!isPdf(archivo.archivo)">
-									<img class="img-fluid" src="{{who +'publicaciones/'+archivo.archivo}}" width="100px" alt="image description">
-								</a>
-							</div>
-						</div>
-					</div>
-					<!-- <a [routerLink]="['../profile-post/', publicacion.id_publicacion]" title="read more" class="btn btn-info m-t-20">Continuar leyendo....</a> -->
-				</div>
-				<!-- <div class="footer">
-					<button type="button" class="btn btn-outline-primary" (click)="openModalNuevoComentario(content6, 'lg', publicacion)">
-						Comentar
-					</button>
-				</div> -->
 			</div>
 		</div>
 	</div>
@@ -85,7 +105,7 @@
 						</div>
 						<button class="btn btn-primary mr-1" [disabled]="!comentarioForm.form.valid" type="submit">Comentar</button>
 						<button class="btn btn-danger" (click)="comentario={};" type="button">Cancelar</button>
-						<a href="javascript:void(0);" class="float-right">Numero comentarios: <b>{{publicacion.nroComentarios}}</b></a>
+						<a type="button" class="float-right text-primary">Numero comentarios: <b>{{publicacion.nroComentarios}}</b></a>
 					</form>
 					<hr>
 
@@ -95,11 +115,15 @@
 
 					<ul class="right_chat list-unstyled" *ngIf="comentarios.length > 0">
 						<li class="online" *ngFor="let comentario of comentarios">
-							<a href="javascript:void(0);">
+							<a>
 								<div class="media">
 									<img class="media-object " src="{{who +'fotografias/'+ comentario.persona.fotografia.imagen + '/true'}}" alt="image-user">
 									<div class="media-body">
-										<span class="name"><b>{{comentario.persona.grado_academico}}</b> {{comentario.persona.nombres}} {{comentario.persona.paterno}} {{comentario.persona.materno}} <small class="float-right">{{comentario.updatedAt | date: 'mediumDate'}}</small></span>
+										<span class="name"><b>{{comentario.persona.grado_academico}}</b> {{comentario.persona.nombres}} {{comentario.persona.paterno}} {{comentario.persona.materno}} 
+											<small *ngIf="id_persona_actual === comentario.id_persona" class="text-primary"><a type="button" (click)="openModalComentario(content6,'lg', comentario)" >(Editar)</a></small>&nbsp;
+											<small *ngIf="id_persona_actual === comentario.id_persona" class="text-danger"><a type="button" (click)="openModal(content8,'sm', comentario.id_comentario)" >(Eliminar)</a></small> 
+											<small class="float-right">{{comentario.createdAt | date: 'short'}}</small>
+										</span>
 										<span class="message">{{comentario.comentario}}</span>
 										<span class="badge badge-outline status"></span>
 									</div>
@@ -119,14 +143,14 @@
 <!-- MODAL Guardar COMENTARIO-->
 <ng-template #content6 let-modal>
 	<div class="modal-header">
-		<h4 class="modal-title">Hacer comentario</h4>
+		<h4 class="modal-title">Actualizar comentario</h4>
 	</div>
 	<div class="modal-body">
 		<form class="container" #comentarioForm="ngForm" (ngSubmit)="guardarComentario()">
 			<div class="form-group row">
 				<label class="col-sm-3 col-12" for="tipo">Comentario: </label>
 				<div class="col-sm-9 col-12">
-					<textarea [(ngModel)]="comentario.comentario" rows="3" cols="30" class="form-control" name="contenido" #contenido="ngModel"
+					<textarea [(ngModel)]="comentarioA.comentario" rows="3" cols="30" class="form-control" name="contenido" #contenido="ngModel"
 						[ngClass]="{'parsley-error':!contenido.valid && (contenido.touched || comentarioForm.submitted)}"
                         required>
                     </textarea>
@@ -140,7 +164,7 @@
 			<div class="form-group">
 				<div class="form-check">
 					<input class="form-check-input" type="checkbox" id="estado" name="estado"
-						[(ngModel)]="comentario.estado">
+						[(ngModel)]="comentarioA.estado">
 					<label class="form-check-label" for="estado">Estado</label>
 				</div>
             </div>
@@ -150,4 +174,14 @@
             </div>
 		</form>
 	</div>
-</ng-template> 
+</ng-template>
+
+<ng-template #content8 let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">¿Estas seguro de borrar el comentario?</h4>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="eliminarComentario(id_comentario); modal.close('Ok click')">Si</button>
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss('Close click')">No</button>
+    </div>
+</ng-template>

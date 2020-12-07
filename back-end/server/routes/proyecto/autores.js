@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.get('/api/autores', autoresController.getAll);
     app.get('/api/autores-publi/:id_publicacion', autoresController.getAllByIdPublicacion);
     app.get('/api/autores-inv/:id_investigador', autoresController.getAllByIdInvestigador);
+    app.get('/api/autores-inv-distict/:id_investigador', autoresController.getAllByIdInvestigadorDistinct);
 
     app.get('/api/autor/:id_autor', autoresController.getById);
     app.delete('/api/autor/:id_autor', autoresController.deleteAutor);

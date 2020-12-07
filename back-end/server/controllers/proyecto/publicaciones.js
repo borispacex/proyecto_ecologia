@@ -35,7 +35,8 @@ function update(req, res) {
 // funcion para mostrar todos publicaciones
 function getAll(req, res) {
     publicaciones.findAll({
-        where: { estado: true }
+        where: { estado: true },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -48,7 +49,8 @@ function getAll(req, res) {
 function getAllByEstado(req, res) {
     var status = req.params.estado;
     publicaciones.findAll({
-        where: { estado: status }
+        where: { estado: status },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -72,7 +74,8 @@ function getById(req, res) {
 function getAllByIdCoordinador(req, res) {
     var id = req.params.id_coordinador;
     publicaciones.findAll({
-        where: { id_coordinador: id }
+        where: { id_coordinador: id },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -86,7 +89,8 @@ function getAllByIdCoordinadorAndEstado(req, res) {
     var id = req.params.id_coordinador;
     var status = req.params.estado;
     publicaciones.findAll({
-        where: { id_coordinador: id, estado: status }
+        where: { id_coordinador: id, estado: status },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -99,7 +103,8 @@ function getAllByIdCoordinadorAndEstado(req, res) {
 function getAllByIdProyecto(req, res) {
     var id = req.params.id_proyecto;
     publicaciones.findAll({
-        where: { id_proyecto: id }
+        where: { id_proyecto: id },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -113,7 +118,8 @@ function getAllByIdProyectoAndEstado(req, res) {
     var id = req.params.id_proyecto;
     var status = req.params.estado;
     publicaciones.findAll({
-        where: { id_proyecto: id, estado: status }
+        where: { id_proyecto: id, estado: status },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -153,7 +159,8 @@ function countByIdProyectoAndEstado(req, res) {
 function getAllByTipo(req, res) {
     var tipoP = req.params.tipo;
     publicaciones.findAll({
-        where: { tipo: tipoP }
+        where: { tipo: tipoP },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });
@@ -167,7 +174,8 @@ function getAllByTipoAndEstado(req, res) {
     var tipoP = req.params.tipo;
     var status = req.params.estado;
     publicaciones.findAll({
-        where: { tipo: tipoP, estado: status }
+        where: { tipo: tipoP, estado: status },
+        order:[['fecha','DESC']]
     })
     .then(publicaciones => {
         res.status(200).send({ publicaciones });

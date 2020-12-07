@@ -315,6 +315,14 @@ export class ListProyectoComponent implements OnInit {
                 contador++;
                 if (contador === this.files.length) {
                   this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+
+                  this._serviceInvestigadores.getInvestigador(responseProy.proyecto.id_coordinador, this.token)
+                  .then(responseI => {
+                    this._serviceProyecto.sendEmailCreacionProyecto(responseI.investigador.id_persona, responseProy.proyecto.id_proyecto, this.token)
+                    .then(response => {
+                    }).catch(error => { console.log('Error al enviar correo proyecto', error); });
+                  }).catch(error => { console.log('Error al obtener investigador por id_investigador'); });
+
                   this.modalService.dismissAll();
                   this.progress = 0;
                   this.comprobarTipoProyecto();
@@ -331,6 +339,14 @@ export class ListProyectoComponent implements OnInit {
           }
         } else {
           this.toastr.success('Proyecto guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+
+          this._serviceInvestigadores.getInvestigador(responseProy.proyecto.id_coordinador, this.token)
+          .then(responseI => {
+            this._serviceProyecto.sendEmailCreacionProyecto(responseI.investigador.id_persona, responseProy.proyecto.id_proyecto, this.token)
+            .then(response => {
+            }).catch(error => { console.log('Error al enviar correo proyecto', error); });
+          }).catch(error => { console.log('Error al obtener investigador por id_investigador'); });
+
           this.modalService.dismissAll();
           this.progress = 0;
           this.comprobarTipoProyecto();

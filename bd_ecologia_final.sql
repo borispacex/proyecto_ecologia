@@ -5,7 +5,7 @@
 -- Dumped from database version 12.4 (Debian 12.4-1.pgdg100+1)
 -- Dumped by pg_dump version 12.2
 
--- Started on 2020-11-25 20:07:59 -04
+-- Started on 2020-12-07 01:36:54 -04
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1517,7 +1517,8 @@ CREATE TABLE public.publicaciones (
     estado boolean DEFAULT true NOT NULL,
     "createdAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT ('now'::text)::timestamp(6) with time zone NOT NULL,
-    autores character varying(1000)
+    autores character varying(1000),
+    resumen character varying(3000)
 );
 
 
@@ -2181,6 +2182,7 @@ COPY public.adm_usuarios (id_usuario, id_persona, usuario, password, recordatori
 COPY public.autores (id_autor, id_investigador, id_publicacion, estado, "createdAt", "updatedAt") FROM stdin;
 30	5	18	t	2020-11-25 05:22:49.071+00	2020-11-25 05:22:49.071+00
 31	5	19	t	2020-11-25 05:34:09.296+00	2020-11-25 05:34:09.296+00
+32	5	20	t	2020-12-03 21:51:01.92+00	2020-12-03 21:51:01.92+00
 \.
 
 
@@ -2201,6 +2203,11 @@ COPY public.basica_tecnicas (id_basica_tecnica, id_proyecto, tipo, area, tipo_p,
 --
 
 COPY public.comentarios (id_comentario, id_persona, id_publicacion, comentario, estado, "createdAt", "updatedAt") FROM stdin;
+4	6	20	buen proyecto	t	2020-12-06 23:57:11.801+00	2020-12-06 23:57:11.801+00
+6	11	20	comentario de prueba actualizada 3	t	2020-12-07 00:34:49.933+00	2020-12-07 00:44:13.864+00
+3	6	20	hola	f	2020-12-06 23:55:54.36+00	2020-12-07 00:45:14.683+00
+5	6	20	hola actualizada 2 actualizada....	t	2020-12-06 23:58:08.444+00	2020-12-07 01:20:46.792+00
+7	6	20	comentario prueba... actualizada 2	f	2020-12-07 01:15:20.614+00	2020-12-07 01:28:52.336+00
 \.
 
 
@@ -2251,6 +2258,7 @@ COPY public.convenios (id_convenio, id_proyecto, archivo, nombre_archivo, descri
 --
 
 COPY public.curso_archivos (id_curso_archivo, id_curso, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
+1	1	G24NI13fInJ5aHAqYvkjsWkH.pdf	documento-curso	Descripcion	10	t	2020-12-07 03:10:00.551+00	2020-12-07 03:10:00.641+00
 \.
 
 
@@ -2261,6 +2269,7 @@ COPY public.curso_archivos (id_curso_archivo, id_curso, archivo, nombre, descrip
 --
 
 COPY public.cursos (id_curso, id_proyecto, titulo, objetivo, lugar, resumen, asistentes, fechaini, fechafin, horas, estado, "createdAt", "updatedAt") FROM stdin;
+1	15	Curso sobre Biologia	Hacer difusion del proyecto de investigación	La Paz	Resumen	100	2020-12-09 04:00:00+00	2020-12-17 04:00:00+00	50	t	2020-12-07 03:10:00.5+00	2020-12-07 03:10:00.5+00
 \.
 
 
@@ -2311,6 +2320,8 @@ COPY public.exposiciones (id_exposicion, id_proyecto, titulo, tema, objetivo, lu
 --
 
 COPY public.expositores (id_expositor, id_curso, nombres, apellidos, estado, "createdAt", "updatedAt") FROM stdin;
+1	1	Garitano		t	2020-12-07 03:10:00.543+00	2020-12-07 03:10:00.543+00
+2	1	Moraes		t	2020-12-07 03:10:00.544+00	2020-12-07 03:10:00.544+00
 \.
 
 
@@ -2507,8 +2518,8 @@ COPY public.investigadores (id_investigador, id_persona, id_inv_tipo, estado, "c
 --
 
 COPY public.lugar_desarrollos (id_lugar_desarrollo, id_proyecto, departamento, provincia, municipio, localidad, latmax, lonmax, latmin, lonmin, estado, "createdAt", "updatedAt") FROM stdin;
-2	15	La Paz	Aroma	La Paz	La Paz	-16.53788100	-68.06840500	-16.53788100	-68.06840500	t	2020-10-29 02:14:03.926+00	2020-10-29 02:14:03.926+00
 1	3	La Paz	Pedro Domingo Murillo	La Paz	La Paz	-16.53797250	-68.06823938	-16.53798170	-68.06823000	t	2020-10-29 01:32:27.507+00	2020-11-04 18:41:20.097+00
+2	15	La Paz	Aroma	La Paz	La Paz	-16.53781688	-68.06832082	-16.53787345	-68.06848444	t	2020-10-29 02:14:03.926+00	2020-12-07 03:04:34.334+00
 \.
 
 
@@ -2614,8 +2625,6 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 55	1	Alandia		Erika	1827036	\N	\N	\N	\N	\N	\N	\N	\N	\N	036@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:22.829+00	2020-10-23 19:08:22.829+00	\N
 56	1	Salazar-Brazo		Jorge	6826037	\N	\N	\N	\N	\N	\N	\N	\N	\N	037@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:08:49.378+00	2020-10-23 19:08:49.378+00	\N
 57	1	Bravo		Raiza	8928038	\N	\N	\N	\N	\N	\N	\N	\N	\N	038@fcpn.edu.bo	\N	\N	\N	Dipl.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:11:43.939+00	2020-10-23 19:11:43.939+00	\N
-11	4	Moraes	Ramírez	Mónica Graciela	476807	\N	\N	\N	\N	\N	\N	\N	\N	\N	mmoraes@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:19:37.912+00	2020-10-23 21:03:30.946+00	\N
-6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-11-24 11:36:54.188+00	RNiQslnFJNxGNLBQCi11lobQ.pdf
 3	6	Achá	Cordero	Darío	3374109	\N	\N	\N	\N	\N	\N	\N	\N	\N	dacha@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:07:23.745+00	2020-10-23 21:07:12.954+00	\N
 58	1	Roque		Natalio	327132	\N	\N	\N	\N	\N	\N	\N	\N	\N	032@fcpn.edu.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-26 21:50:48.751+00	2020-10-26 21:50:48.751+00	\N
 9	8	Miranda	Torrez	Guillermina	1316562	\N	\N	\N	\N	\N	\N	\N	\N	\N	gmiranda@umsa.bo	\N	\N	\N	M. Sc.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:14:02.946+00	2020-10-27 15:20:44.34+00	\N
@@ -2623,6 +2632,8 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 51	9	Martinez	Avendaño	Eddy Octavio	5027031	\N	\N	\N	\N	\N	\N	\N	\N	\N	031@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 19:05:31.963+00	2020-10-27 15:23:41.59+00	\N
 1	1	administrador	\N	usuario	00000000	\N	\N	\N	\N	\N	\N	\N	\N	\N	institutoecologiaumsa@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:16:53.813598+00	2020-11-23 01:49:35.659+00	\N
 2	15	Vargas	Paucara	Boris	9884972	\N	\N	\N	\N	\N	\N	\N	\N	\N	borisvargaspaucara@gmail.com	\N	\N	\N	Lic.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 13:32:01.048+00	2020-11-25 18:47:15.423+00	\N
+11	4	Moraes	Ramírez	Mónica Graciela	476807	\N	\N	\N	\N	\N	\N	\N	\N	\N	mmoraes@fcpn.edu.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-orange	t	2020-10-23 14:19:37.912+00	2020-12-07 01:30:19.885+00	\N
+6	5	Garitano-Zavala	Burgos	Luis Álvaro	3376712	Masculino	\N	\N	\N	La Paz	\N	Bolivia	\N	\N	agaritanozavala@umsa.bo	\N	\N	\N	Ph. D.	\N	\N	\N	\N		theme-cyan	t	2020-10-23 14:10:18.472+00	2020-12-07 01:37:34.307+00	RNiQslnFJNxGNLBQCi11lobQ.pdf
 \.
 
 
@@ -2633,6 +2644,7 @@ COPY public.personas (id_persona, id_fotografia, paterno, materno, nombres, ci, 
 --
 
 COPY public.peti_archivos (id_peti_archivo, id_peticion, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
+1	1	NuOsgZ3eIQyTKJCo2HPPbELT.pdf	documento-peticio	Descripcion peticion.	16	t	2020-12-07 03:11:23.152+00	2020-12-07 04:11:21.229+00
 \.
 
 
@@ -2643,6 +2655,7 @@ COPY public.peti_archivos (id_peti_archivo, id_peticion, archivo, nombre, descri
 --
 
 COPY public.peticiones (id_peticion, id_proyecto, id_investigador, tipo, motivos, detalle, estado, "createdAt", "updatedAt") FROM stdin;
+1	15	52	Manifestaciones	Realizar un peticion de un archivo	Detalles de la peticion a coordinador.	t	2020-12-07 03:11:23.118+00	2020-12-07 04:11:13.208+00
 \.
 
 
@@ -2793,6 +2806,7 @@ COPY public.proyectos (id_proyecto, id_adm, id_coordinador, titulo, proceso, fec
 COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, descripcion, id_tipo, estado, "createdAt", "updatedAt") FROM stdin;
 19	18	WylfPpA7kw1E9REyWpb1s4Xn.pdf	Altimiras et al 2017	descripción de la publicación	14	t	2020-11-25 05:22:49.075+00	2020-11-25 05:22:49.199+00
 20	19	M__-CwpBtW4shTkmbDEgNfIL.pdf	Aerobic_performance_in_tinamous_is_limited_by_thei	descripcion	14	t	2020-11-25 05:34:09.299+00	2020-11-25 05:34:09.38+00
+21	20	4h_v7Eu_Dk07P3IvC0cE1wK7.pdf	Articulo2020	resumen	14	t	2020-12-03 21:51:01.938+00	2020-12-03 21:51:01.985+00
 \.
 
 
@@ -2802,9 +2816,10 @@ COPY public.publi_archivos (id_publi_archivo, id_publicacion, archivo, nombre, d
 -- Data for Name: publicaciones; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, fecha, contenido, tipo, estado, "createdAt", "updatedAt", autores) FROM stdin;
-18	15	5	Aerobic performance in tinamous is limited by their small heart. A novel hypothesis in the evolution of avian flight	2017-01-17 04:00:00+00	Flight capacity is one of the most important innovations in animal evolution; it only evolved in insects, birds, mammals and the extinct pterodactyls. Given that powered flight represents a demanding aerobic activity, an efficient cardiovascular system is essential for the continuous delivery of oxygen to the pectoral muscles during flight. It is well known that the limiting step in the circulation is stroke volume (the volume of blood pumped from the ventricle to the body during each beat), which is determined by the size of the ventricle. Thus, the fresh mass of the heart represents a simple and repeatable anatomic measure of aerobic power of an animal. Although several authors have already compared heart masses across bird species, a phylogenetic comparative analysis of these comparisons is still lacking. Compiling heart sizes for 915 species and applying several statistical procedures controlling for body size and/or testing for adaptive trends in the dataset (e.g., model selection approaches, phylogenetic generalized linear models), we found that (residuals of) heart sizes are consistently associated with four categories of flight capacity. In general, our results indicate that species exhibiting continuous hovering flight (i.e., hummingbirds) have substantially larger hearts than do other groups, that species that use flapping flight and gliding show intermediate values, and that species categorized as poor flyers show the smallest values. Our study shows that at a broad scale, routine flight modes seem to have shaped the energetic requirements of birds sufficiently to be anatomically detected at the comparative level.	Artículo	t	2020-11-25 05:22:49.022+00	2020-11-25 05:22:49.022+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala
-19	15	5	Supplementary Material	2017-01-17 04:00:00+00	Some biomechanical studies from fossil specimens suggest that sustained flapping flight of birds could have appeared in their Mesozoic ancestors. We challenge this idea because a suitable musculoskeletal anatomy is not the only requirement for sustained flapping flight. We propose the “heart to fly” hypothesis that states that sustained flapping flight in modern birds required an enlargement of the heart for the aerobic performance of the flight muscles and test it experimentally by studying tinamous, the living birds with the smallest hearts. The small ventricular size of tinamous reduces cardiac output without limiting perfusion pressures, but when challenged to fly, the heart is unable to support aerobic metabolism (quick exhaustion, larger lactates and post-exercise oxygen consumption and compromised thermoregulation). At the same time, cardiac growth shows a crocodilian-like pattern and is correlated with differential gene expression in MAPK kinases. We integrate this physiological evidence in a new evolutionary scenario in which the ground-up, short and not sustained flapping flight displayed by tinamous represents an intermediate step in the evolution of the aerobic sustained flapping flight of modern birds.	Artículo	t	2020-11-25 05:34:09.249+00	2020-11-25 05:34:09.249+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala
+COPY public.publicaciones (id_publicacion, id_proyecto, id_coordinador, titulo, fecha, contenido, tipo, estado, "createdAt", "updatedAt", autores, resumen) FROM stdin;
+19	15	5	Supplementary Material	2017-01-17 04:00:00+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala et al.. 2017. “Aerobic performance in tinamous is limited by their small heart. A novel hypothesis in the evolution of avian flight”. Biology 65 (2): 305 - 326.	Artículo	t	2020-11-25 05:34:09.249+00	2020-11-25 05:34:09.249+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala	Some biomechanical studies from fossil specimens suggest that sustained flapping flight of birds could have appeared in their Mesozoic ancestors. We challenge this idea because a suitable musculoskeletal anatomy is not the only requirement for sustained flapping flight. We propose the “heart to fly” hypothesis that states that sustained flapping flight in modern birds required an enlargement of the heart for the aerobic performance of the flight muscles and test it experimentally by studying tinamous, the living birds with the smallest hearts. The small ventricular size of tinamous reduces cardiac output without limiting perfusion pressures, but when challenged to fly, the heart is unable to support aerobic metabolism (quick exhaustion, larger lactates and post-exercise oxygen consumption and compromised thermoregulation). At the same time, cardiac growth shows a crocodilian-like pattern and is correlated with differential gene expression in MAPK kinases. We integrate this physiological evidence in a new evolutionary scenario in which the ground-up, short and not sustained flapping flight displayed by tinamous represents an intermediate step in the evolution of the aerobic sustained flapping flight of modern birds.
+20	15	5	Unmasking Continental Natal Homing In Goliath Catfish From The Upper Amazon	2020-01-17 04:00:00+00	Hauser, Marilia , Fabrice Duponchelle, Theodore W Hermann, Karin E Limburg, Leandro Castello, Donald J Stewart, Gislene Torrente‐Vilara, et al.. 2020. “Unmasking Continental Natal Homing In Goliath Catfish From The Upper Amazon”. Freshwater Biology 65 (2): 325 - 336.	Artículo	t	2020-12-03 21:51:01.833+00	2020-12-03 21:51:01.833+00	Theodore W Hermann, Karin E Limburg, Leandro Castello, Donald J Stewart, Gislene Torrente‐Vilara	Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, perferendis. Rerum exercitationem consequuntur earum numquam voluptate eaque, tenetur voluptatem aliquam excepturi eos dicta impedit qui mollitia blanditiis doloremque est sequi.\n\t\tAsperiores, consequuntur delectus! Dolore quis consequatur voluptatum ut aliquid recusandae voluptas sequi, distinctio non animi hic, deleniti, ea ex ad aspernatur error harum vitae architecto temporibus tempora soluta. Eos, inventore!\n\t\tDoloribus, temporibus et unde esse earum commodi rerum. Nisi molestias excepturi saepe similique libero quae alias, omnis minima expedita recusandae culpa voluptatibus aspernatur iusto distinctio enim ex esse doloremque consequatur?\n\t\tQuod quas ut minima quisquam. Numquam molestias fugit necessitatibus modi dolore, similique accusantium odio maiores, beatae, dolorem iusto adipisci corrupti. Nulla nesciunt deserunt non repellendus qui inventore facere debitis hic.\n\t\tRepellat iste sed maxime et. Modi accusantium dicta consequatur eveniet nisi quia distinctio repellendus doloribus? Nisi quis numquam repudiandae exercitationem pariatur aliquam temporibus quo. Et fugiat nemo quam commodi. Dolores.
+18	15	5	Aerobic performance in tinamous is limited by their small heart. A novel hypothesis in the evolution of avian flight	2017-01-17 04:00:00+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala et al.. 2017. “Aerobic performance in tinamous is limited by their small heart. A novel hypothesis in the evolution of avian flight”. Biology 65 (2): 300 - 346.	Artículo	t	2020-11-25 05:22:49.022+00	2020-11-25 05:22:49.022+00	Jordi Altimiras Corderroure, Isa Lindgren, Lina María Giraldo-Deck, Alberto Matthei, Alvaro Garitano-Zavala	Flight capacity is one of the most important innovations in animal evolution; it only evolved in insects, birds, mammals and the extinct pterodactyls. Given that powered flight represents a demanding aerobic activity, an efficient cardiovascular system is essential for the continuous delivery of oxygen to the pectoral muscles during flight. It is well known that the limiting step in the circulation is stroke volume (the volume of blood pumped from the ventricle to the body during each beat), which is determined by the size of the ventricle. Thus, the fresh mass of the heart represents a simple and repeatable anatomic measure of aerobic power of an animal. Although several authors have already compared heart masses across bird species, a phylogenetic comparative analysis of these comparisons is still lacking. Compiling heart sizes for 915 species and applying several statistical procedures controlling for body size and/or testing for adaptive trends in the dataset (e.g., model selection approaches, phylogenetic generalized linear models), we found that (residuals of) heart sizes are consistently associated with four categories of flight capacity. In general, our results indicate that species exhibiting continuous hovering flight (i.e., hummingbirds) have substantially larger hearts than do other groups, that species that use flapping flight and gliding show intermediate values, and that species categorized as poor flyers show the smallest values. Our study shows that at a broad scale, routine flight modes seem to have shaped the energetic requirements of birds sufficiently to be anatomically detected at the comparative level.
 \.
 
 
@@ -2916,7 +2931,7 @@ SELECT pg_catalog.setval('public.adm_usuarios_id_usuario_seq', 58, true);
 -- Name: autores_id_autor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.autores_id_autor_seq', 31, true);
+SELECT pg_catalog.setval('public.autores_id_autor_seq', 32, true);
 
 
 --
@@ -2934,7 +2949,7 @@ SELECT pg_catalog.setval('public.basica_tecnicas_id_basica_tecnica_seq', 1, fals
 -- Name: comentarios_id_comentario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.comentarios_id_comentario_seq', 2, true);
+SELECT pg_catalog.setval('public.comentarios_id_comentario_seq', 7, true);
 
 
 --
@@ -2979,7 +2994,7 @@ SELECT pg_catalog.setval('public.convenios_id_convenio_seq', 4, true);
 -- Name: curso_archivos_id_curso_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.curso_archivos_id_curso_archivo_seq', 1, false);
+SELECT pg_catalog.setval('public.curso_archivos_id_curso_archivo_seq', 1, true);
 
 
 --
@@ -2988,7 +3003,7 @@ SELECT pg_catalog.setval('public.curso_archivos_id_curso_archivo_seq', 1, false)
 -- Name: cursos_id_curso_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.cursos_id_curso_seq', 1, false);
+SELECT pg_catalog.setval('public.cursos_id_curso_seq', 1, true);
 
 
 --
@@ -3033,7 +3048,7 @@ SELECT pg_catalog.setval('public.exposiciones_id_exposicion_seq', 1, false);
 -- Name: expositores_id_expositor_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.expositores_id_expositor_seq', 1, false);
+SELECT pg_catalog.setval('public.expositores_id_expositor_seq', 2, true);
 
 
 --
@@ -3132,7 +3147,7 @@ SELECT pg_catalog.setval('public.personas_id_persona_seq', 58, true);
 -- Name: peti_archivos_id_peti_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.peti_archivos_id_peti_archivo_seq', 1, false);
+SELECT pg_catalog.setval('public.peti_archivos_id_peti_archivo_seq', 1, true);
 
 
 --
@@ -3141,7 +3156,7 @@ SELECT pg_catalog.setval('public.peti_archivos_id_peti_archivo_seq', 1, false);
 -- Name: peticiones_id_peticion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.peticiones_id_peticion_seq', 1, false);
+SELECT pg_catalog.setval('public.peticiones_id_peticion_seq', 1, true);
 
 
 --
@@ -3168,7 +3183,7 @@ SELECT pg_catalog.setval('public.proyectos_id_proyecto_seq', 23, true);
 -- Name: publi_archivos_id_publi_archivo_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 20, true);
+SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 21, true);
 
 
 --
@@ -3177,7 +3192,7 @@ SELECT pg_catalog.setval('public.publi_archivos_id_publi_archivo_seq', 20, true)
 -- Name: publicaciones_id_publicacion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 19, true);
+SELECT pg_catalog.setval('public.publicaciones_id_publicacion_seq', 20, true);
 
 
 --
@@ -4098,7 +4113,7 @@ ALTER TABLE ONLY public.unidades
     ADD CONSTRAINT unidades_id_proyecto_fkey FOREIGN KEY (id_proyecto) REFERENCES public.proyectos(id_proyecto);
 
 
--- Completed on 2020-11-25 20:08:02 -04
+-- Completed on 2020-12-07 01:36:56 -04
 
 --
 -- PostgreSQL database dump complete

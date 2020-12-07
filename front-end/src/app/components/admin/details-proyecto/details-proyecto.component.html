@@ -188,13 +188,13 @@
                             </thead>
                             <tbody *ngFor="let archivo of result">
                                 <tr>
-                                    <td>
-                                        <a *ngIf="archivo.id_proy_archivo" type="button" target="_blank" href="{{who + 'proyectos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
-                                        <a *ngIf="archivo.id_permiso_archivo" type="button" target="_blank" href="{{who + 'permisos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
-                                        <a *ngIf="archivo.id_convenio" type="button" target="_blank" href="{{who + 'convenios/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
-                                        <a *ngIf="archivo.id_contratado" type="button" target="_blank" href="{{who + 'contratados/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                    <td> 
+                                        <a class="text-success" *ngIf="archivo.id_proy_archivo" type="button" target="_blank" href="{{who + 'proyectos/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
+                                        <a class="text-success" *ngIf="archivo.id_permiso_archivo" type="button" target="_blank" href="{{who + 'permisos/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
+                                        <a class="text-success" *ngIf="archivo.id_convenio" type="button" target="_blank" href="{{who + 'convenios/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
+                                        <a class="text-success" *ngIf="archivo.id_contratado" type="button" target="_blank" href="{{who + 'contratados/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
                                         &nbsp;
-                                        <span class="title"><a type="button" class="text-success" (click)="openModalArchivo(content1,'lg', archivo)">{{archivo.nombre}}</a></span>
+                                        <small class="text-primary"><a type="button" (click)="openModalArchivo(content1,'lg', archivo)">(Editar)</a></small>
                                     </td>
                                         
                                     <td>{{ archivo.descripcion }}</td>
@@ -202,10 +202,10 @@
                                     <td>
                                         <small *ngIf="!archivo.convArchivos">Ninguna</small>
                                         <div *ngFor="let archivoB of archivo.convArchivos">
-                                            <a *ngIf="archivoB.id_conv_archivo" type="button" target="_blank" href="{{who + 'convenios/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
-                                            <a *ngIf="archivoB.id_contra_archivo" type="button" target="_blank" href="{{who + 'contratados/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
+                                            <a class="text-info" *ngIf="archivoB.id_conv_archivo" type="button" target="_blank" href="{{who + 'convenios/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a>
+                                            <a class="text-info" *ngIf="archivoB.id_contra_archivo" type="button" target="_blank" href="{{who + 'contratados/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a>
                                             &nbsp;
-                                            <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content1,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                            <small class="text-primary"><a type="button" class="text-primary" (click)="openModalArchivo(content1,'lg', archivoB)">(Editar)</a></small>
                                         </div>
                                     </td>
                                     <td>

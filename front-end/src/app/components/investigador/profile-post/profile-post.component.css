@@ -1,1 +1,5 @@
-@import "../../../../assets/css/blog.css"
+@import "../../../../assets/css/blog.css";
+
+.table td, .table th {
+    min-width: 100px !important;
+}

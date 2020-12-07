@@ -87,7 +87,10 @@
 									</td>
 									<td>
 										<small *ngFor="let inv_proyecto of investigador.inv_proyectos; index as i">
-										<span class="text-primary">{{i+1}}.- </span><a [routerLink]="['../../show-proyecto', inv_proyecto.id_proyecto]">{{inv_proyecto.proyecto.titulo | slice:0:25}}</a><br/>
+										<span class="text-primary">{{i+1}}.- </span>
+											<a [routerLink]="['../../show-proyecto', inv_proyecto.id_proyecto]">{{inv_proyecto.proyecto.titulo | slice:0:25}}
+												<span *ngIf="inv_proyecto.proyecto.titulo.length > 25">...</span>
+											</a><br/>
                                         </small>
 									</td>
 								</tr>

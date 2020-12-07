@@ -196,12 +196,12 @@
                                         <tbody *ngFor="let archivo of result">
                                             <tr>
                                                 <td>
-                                                    <a *ngIf="archivo.id_proy_archivo" type="button" target="_blank" href="{{who + 'proyectos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
-                                                    <a *ngIf="archivo.id_permiso_archivo" type="button" target="_blank" href="{{who + 'permisos/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
-                                                    <a *ngIf="archivo.id_convenio" type="button" target="_blank" href="{{who + 'convenios/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
-                                                    <a *ngIf="archivo.id_contratado" type="button" target="_blank" href="{{who + 'contratados/' + archivo.archivo}}"><i class="fa fa-file text-success"></i></a>
+                                                    <a class="text-success" *ngIf="archivo.id_proy_archivo" type="button" target="_blank" href="{{who + 'proyectos/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
+                                                    <a class="text-success" *ngIf="archivo.id_permiso_archivo" type="button" target="_blank" href="{{who + 'permisos/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
+                                                    <a class="text-success" *ngIf="archivo.id_convenio" type="button" target="_blank" href="{{who + 'convenios/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
+                                                    <a class="text-success" *ngIf="archivo.id_contratado" type="button" target="_blank" href="{{who + 'contratados/' + archivo.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivo.nombre}}.pdf</a>
                                                     &nbsp;
-                                                    <span class="title"><a type="button" class="text-success" (click)="openModalArchivo(content5,'lg', archivo)">{{archivo.nombre}}</a></span>
+                                                    <small class="text-primary"><a type="button" (click)="openModalArchivo(content5,'lg', archivo)">(Ver)</a></small>
                                                 </td>
                                                     
                                                 <td>{{ archivo.descripcion }}</td>
@@ -209,18 +209,18 @@
                                                 <td>
                                                     <small *ngIf="!archivo.convArchivos">Ninguna</small>
                                                     <div *ngFor="let archivoB of archivo.convArchivos">
-                                                        <a *ngIf="archivoB.id_conv_archivo" type="button" target="_blank" href="{{who + 'convenios/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
-                                                        <a *ngIf="archivoB.id_contra_archivo" type="button" target="_blank" href="{{who + 'contratados/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a>
+                                                        <a class="text-success" *ngIf="archivoB.id_conv_archivo" type="button" target="_blank" href="{{who + 'convenios/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a>
+                                                        <a class="text-success" *ngIf="archivoB.id_contra_archivo" type="button" target="_blank" href="{{who + 'contratados/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a>
                                                         &nbsp;
-                                                        <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5,'lg', archivoB)">{{archivoB.nombre}}</a></small>
+                                                        <small class="text-primary"><a type="button" (click)="openModalArchivo(content5,'lg', archivoB)">(Ver)</a></small>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     {{archivo.createdAt | date: 'dd/MM/yyyy'}}
                                                 </td>
                                                 <td>
-                                                    <span *ngIf="archivo.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">activo</span>
-                                                    <span *ngIf="!archivo.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">eliminado</span>
+                                                    <span *ngIf="archivo.estado" [ngClass]="{'badge badge-success bg-success text-white': true}">Activo</span>
+                                                    <span *ngIf="!archivo.estado" [ngClass]="{'badge badge-danger bg-danger text-white': true}">Eliminado</span>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -248,7 +248,7 @@
                                             <th data-breakpoints="xs">Tipo de publicación</th>
                                             <th>Titulo</th>
                                             <th>Autores</th>
-                                            <th data-breakpoints="md">Fecha</th>
+                                            <th data-breakpoints="md">Año publicación</th>
                                             <th data-breakpoints="md">Archivos</th>
                                             <th data-breakpoints="xs md">Estado</th>
                                             <th data-breakpoints="sm xs md">Acción</th>
@@ -263,24 +263,23 @@
                                                     <small>{{autor.investigadore.persona.nombres}} {{autor.investigadore.persona.paterno}} {{autor.investigadore.persona.materno}}</small>
                                                 </div>
                                             </td>
-                                            <td>{{publicacion.fecha | date }}</td>
+                                            <td>{{publicacion.fecha | date: 'yyyy'}}</td>
                                             <td>
                                                 <div *ngFor="let archivoB of publicacion.archivos">
-                                                    <a type="button" target="_blank" href="{{who + 'publicaciones/' +archivoB.archivo}}">
-                                                        <i class="fa fa-file text-info"></i>
+                                                    <a class="text-success" type="button" target="_blank" href="{{who + 'publicaciones/' +archivoB.archivo}}">
+                                                        <i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf
                                                     </a> &nbsp;
-                                                    <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
-                                                    <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
+                                                    <small class="text-primary"><a type="button" (click)="openModalArchivo(content5, 'lg', archivoB)">(Ver)</a></small>
                                                 </div>
                                             </td>
                                             <td>
                                                 <span *ngIf="publicacion.estado===true"
-                                                    class="badge badge-success bg-success text-white">True</span>
+                                                    class="badge badge-success bg-success text-white">Activo</span>
                                                 <span *ngIf="publicacion.estado===false"
-                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                                    class="badge badge-danger bg-danger text-white">Eliminado</span>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', 1)">
+                                                <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevaPublicacion(content4, 'lg', publicacion.id_publicacion)">
                                                     <i class="icon-eye"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevoComentario(content6, 'lg', publicacion)">
@@ -321,18 +320,7 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let lugar_desarrollo of lugar_desarrollos">
-                                            <td>
-                                                <span *ngIf="lugar_desarrollo.departamento==='BE'">Beni</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='CH'">Chuquicasa</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='CB'">Cochabamba</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='LP'">La Paz</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='OR'">Oruro</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='PD'">Pando</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='PT'">Potosi</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='SC'">Santa Cruz de la
-                                                    Sierra</span>
-                                                <span *ngIf="lugar_desarrollo.departamento==='TJ'">Tarija</span>
-                                            </td>
+                                            <td>{{lugar_desarrollo.departamento}}</td>
                                             <td>{{lugar_desarrollo.provincia}}</td>
                                             <td>{{lugar_desarrollo.municipio}}</td>
                                             <td>{{lugar_desarrollo.localidad}}</td>
@@ -346,9 +334,9 @@
                                             </td>
                                             <td>
                                                 <span *ngIf="lugar_desarrollo.estado===true"
-                                                    class="badge badge-success bg-success text-white">True</span>
+                                                    class="badge badge-success bg-success text-white">Activo</span>
                                                 <span *ngIf="lugar_desarrollo.estado===false"
-                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                                    class="badge badge-danger bg-danger text-white">Eliminado</span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalLugarDesarrollo(content2, 'lg', lugar_desarrollo.id_lugar_desarrollo)">
@@ -420,20 +408,19 @@
                                             </td>
                                             <td>
                                                 <div *ngFor="let archivoB of difusion.archivos">
-                                                    <a *ngIf="archivoB.id_curso_archivo" type="button" target="_blank" href="{{who + 'cursos/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
-                                                    <a *ngIf="archivoB.id_evento_archivo" type="button" target="_blank" href="{{who + 'eventos/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
-                                                    <a *ngIf="archivoB.id_nota_archivo" type="button" target="_blank" href="{{who + 'notas_prensa/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
-                                                    <a *ngIf="archivoB.id_expo_archivo" type="button" target="_blank" href="{{who + 'exposiciones/' +archivoB.archivo}}"><i class="fa fa-file text-info"></i></a> 
+                                                    <a class="text-success" *ngIf="archivoB.id_curso_archivo" type="button" target="_blank" href="{{who + 'cursos/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a> 
+                                                    <a class="text-success" *ngIf="archivoB.id_evento_archivo" type="button" target="_blank" href="{{who + 'eventos/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a> 
+                                                    <a class="text-success" *ngIf="archivoB.id_nota_archivo" type="button" target="_blank" href="{{who + 'notas_prensa/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a> 
+                                                    <a class="text-success" *ngIf="archivoB.id_expo_archivo" type="button" target="_blank" href="{{who + 'exposiciones/' +archivoB.archivo}}"><i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf</a> 
                                                     &nbsp;
-                                                    <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
-                                                    <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
+                                                    <small class="text-primary"><a type="button" (click)="openModalArchivo(content5, 'lg', archivoB)">(Ver)</a></small>
                                                 </div>
                                             </td>
                                             <td>
                                                 <span *ngIf="difusion.estado===true"
-                                                    class="badge badge-success bg-success text-white">True</span>
+                                                    class="badge badge-success bg-success text-white">Activo</span>
                                                 <span *ngIf="difusion.estado===false"
-                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                                    class="badge badge-danger bg-danger text-white">Eliminado</span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalDifusion(content3, 'lg', difusion)">
@@ -533,18 +520,17 @@
                                             </td>
                                             <td>
                                                 <div *ngFor="let archivoB of segui.archivos">
-                                                    <a type="button" target="_blank" href="{{who + 'seguimientos/' +archivoB.archivo}}">
-                                                        <i class="fa fa-file text-info"></i>
-                                                    </a> &nbsp;
-                                                    <small class="title"><a type="button" class="text-primary" (click)="openModalArchivo(content5, 'lg', archivoB)">{{archivoB.nombre}}</a></small>
-                                                    <!-- <small><a (click)="openModalArchivo(content5, 'lg', archivoB)"> {{archivoB.nombre}} </a></small> -->
+                                                    <a class="text-success" type="button" target="_blank" href="{{who + 'seguimientos/' +archivoB.archivo}}">
+                                                        <i class="fa fa-file-pdf-o"></i> {{archivoB.nombre}}.pdf
+                                                    </a>&nbsp;
+                                                    <small class="text-primary"><a type="button" (click)="openModalArchivo(content5, 'lg', archivoB)">(Ver)</a></small>
                                                 </div>
                                             </td>
                                             <td>
                                                 <span *ngIf="segui.estado===true"
-                                                    class="badge badge-success bg-success text-white">True</span>
+                                                    class="badge badge-success bg-success text-white">Activo</span>
                                                 <span *ngIf="segui.estado===false"
-                                                    class="badge badge-danger bg-danger text-white">False</span>
+                                                    class="badge badge-danger bg-danger text-white">Eliminado</span>
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-outline-secondary mr-1" (click)="openModalNuevoSeguimiento(content7, 'lg', segui.id_seguimiento)" data-toggle="tooltip" data-placement="right" title="Editar">
@@ -800,6 +786,37 @@
                     </ul>
                 </div>
             </div>
+
+            <div>
+                <agm-map 
+                    [latitude]="lat"
+                    [longitude]="lng"
+                    [zoom]="zoom"
+                    [disableDefaultUI]="false">
+
+                    <agm-marker 
+                        *ngFor="let m of markers; let i = index"
+                        [latitude]="m.lat"
+                        [longitude]="m.lng"
+                        [label]="m.label"
+                        [markerDraggable]="m.draggable">
+                        
+                        <agm-info-window>
+                        <strong>InfoWindow content</strong>
+                        </agm-info-window>
+                        
+                    </agm-marker>
+                    
+                    <agm-circle [latitude]="lat + 0.3" [longitude]="lng" 
+                        [radius]="5000"
+                        [fillColor]="'red'"
+                        [circleDraggable]="true"
+                        [editable]="true">
+                    </agm-circle>
+
+                </agm-map>
+            </div>
+
             <div class="form-group">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="estado" name="estado"
@@ -1048,7 +1065,7 @@
             <section>
                 <div class="form-group row">
                     <label class="col-12 col-md-3">Tipo de publicación: </label>
-                    <div class="col-12 col-md-9">
+                    <div class="col-12 col-md-9 mb-1">
                         <select [(ngModel)]="publicacion.tipo" class="form-control" name="tipo" #tipo="ngModel"
                             [ngClass]="{'parsley-error':!tipo.valid && (tipo.touched || formPublicacion.submitted)}"
                             required>
@@ -1072,6 +1089,7 @@
                             <option value="Reporte técnico">Reporte técnico</option>
                             <option value="Tesis">Tesis</option>
                             <option value="Investigación">Investigación</option>
+                            <option value="Propuesta">Propuesta</option>
                         </select>
                         <ul class="parsley-errors-list filled"
                             *ngIf="!tipo.valid && (tipo.touched || formPublicacion.submitted)">
@@ -1079,11 +1097,9 @@
                                 requerida.</li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
                     <label class="col-12 col-md-3">Titulo: </label>
-                    <div class="col-12 col-md-9">
-                        <input [(ngModel)]="publicacion.titulo" class="form-control" name="titulo" #titulo="ngModel"
+                    <div class="col-12 col-md-9 mb-1">
+                        <input [(ngModel)]="publicacion.titulo" class="form-control" name="titulo" #titulo="ngModel" placeholder="Titulo de publicación"
                             [ngClass]="{'parsley-error':!titulo.valid && (titulo.touched || formPublicacion.submitted)}"
                             required />
                         <ul class="parsley-errors-list filled"
@@ -1093,53 +1109,58 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-md-3" for="tipo">Autores: </label>
-                    <div class="col-12 col-md-9">
+                    <label class="col-12 col-md-3">Autores: </label>
+                    <div class="col-12 col-md-9 mb-1">
+                        <input [(ngModel)]="publicacion.autores" class="form-control" name="autores" #autores="ngModel" placeholder="Autores de publicación"
+                            [ngClass]="{'parsley-error':!autores.valid && (autores.touched || formPublicacion.submitted)}"
+                            required />
+                        <ul class="parsley-errors-list filled"
+                            *ngIf="!autores.valid && (autores.touched || formPublicacion.submitted)">
+                            <li class="parsley-required" *ngIf="autores.hasError('required')">
+                                Autores de la publicacion requerida.
+                            </li>
+                        </ul>
+                    </div>
+                    <label class="col-12 col-md-3" for="tipo">Investigadores enlazados: </label>
+                    <div class="col-12 col-md-9 mb-1">
                         <ng-multiselect-dropdown name="multiSelect" #multiSelect="ngModel" [placeholder]="'Seleccionar'"
                             [settings]="dropdownConfiguracion" [data]="dropdownLista" [(ngModel)]="seleccionados"
                             [disabled]="disabled">
                         </ng-multiselect-dropdown>
                         <ul class="parsley-errors-list filled"
                             *ngIf="!multiSelect.valid && (multiSelect.touched || formPublicacion.submitted)">
-                            <li class="parsley-required" *ngIf="multiSelect.hasError('required')">Se requiere Autores
+                            <li class="parsley-required" *ngIf="multiSelect.hasError('required')">Enlazar a algun investigador del sistema.
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-md-3">Fecha: </label>
-                    <div class="col-12 col-md-9">
-                        <div class="input-group">
-                            <input [(ngModel)]="publicacion.fecha" class="form-control" placeholder="yyyy-mm-dd"
-                                name="fecha" #fecha="ngModel" ngbDatepicker #dp="ngbDatepicker"
-                                [ngClass]="{'parsley-error':!fecha.valid && (fecha.touched || formPublicacion.submitted)}"
-                                required>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary input-group-text" href="javascript:void(0);"
-                                    (click)="dp.toggle()" type="button"><i class="icon-calendar"></i></button>
-                            </div>
-                        </div>
+                    
+                    <label class="col-12 col-md-3">Año de publicación: </label>
+                    <div class="col-12 col-md-9 mb-1">
+                        <input [(ngModel)]="publicacion.fecha" class="form-control" name="fecha" #fecha="ngModel" placeholder="YYYY"
+                            [ngClass]="{'parsley-error':!fecha.valid && (fecha.touched || formPublicacion.submitted)}"
+                            required />
                         <ul class="parsley-errors-list filled"
                             *ngIf="!fecha.valid && (fecha.touched || formPublicacion.submitted)">
-                            <li class="parsley-required" *ngIf="fecha.hasError('required')">Fecha
-                                requerido.
+                            <li class="parsley-required" *ngIf="fecha.hasError('required')">
+                                Fecha año de la publicacion requerida.
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-12 col-md-3">Contenido: </label>
-                    <div class="col-12 col-md-9">
+                    <label class="col-12 col-md-3">Cita bibliografica: </label>
+                    <div class="col-12 col-md-9 mb-1">
                         <textarea class="form-control" rows="3" cols="30" [(ngModel)]="publicacion.contenido"
                             name="contenido" #contenido="ngModel" required
-                            [ngClass]="{'parsley-error':!contenido.valid && (contenido.touched || formPublicacion.submitted)}"></textarea>
+                            [ngClass]="{'parsley-error':!contenido.valid && (contenido.touched || formPublicacion.submitted)}" placeholder="Cita bibliografica de publicación..."></textarea>
                         <ul class="parsley-errors-list filled"
                             *ngIf="!contenido.valid && (contenido.touched || formPublicacion.submitted)">
-                            <li class="parsley-required" *ngIf="contenido.hasError('required')">Contenido es
-                                requerida</li>
+                            <li class="parsley-required" *ngIf="contenido.hasError('required')">Cita bibliografica es
+                                requerida.</li>
                         </ul>
+                    </div>
+                    <label class="col-12 col-md-3">Resumen: </label>
+                    <div class="col-12 col-md-9 mb-1">
+                        <textarea class="form-control" rows="4" cols="30" [(ngModel)]="publicacion.resumen"
+                            name="resumen" #resumen="ngModel" placeholder="Cita bibliografica de publicación..."></textarea>
                     </div>
                 </div>
                 <div class="form-group">

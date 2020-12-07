@@ -9,3 +9,7 @@
   vertical-align: middle;
   line-height: normal;
 }
+
+agm-map {
+  height: 250px;
+}

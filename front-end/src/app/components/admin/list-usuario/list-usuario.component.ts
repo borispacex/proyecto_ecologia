@@ -277,6 +277,11 @@ export class ListUsuarioComponent implements OnInit {
                   if (i === this.seleccionados.length - 1) {  // para cerrar modal en la ultima creacion
                     if (sw) {
                       this.toastr.success('Usuario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+
+                      this._serviceUsuarios.sendEmailBienvenidoUser(response.persona.id_persona, this.token)
+                      .then(responseS => {
+                      }).catch( error1 => { console.log('Error al enviar correo Usuario', error1); });
+
                       sw = false;
                       this.modalService.dismissAll();
                       this.vaciarUsuario();
@@ -285,10 +290,10 @@ export class ListUsuarioComponent implements OnInit {
                   }
                 }).catch(error => {
                   console.log('error adm usuario rol', error);
+                  this.toastr.error('Error al guardar rol de usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                   this.modalService.dismissAll();
                   this.vaciarUsuario();
                   this.comprobarTipoUsuario(this.tipo, this.estadoUsuario);
-                  this.toastr.error('Error al guardar rol de usuario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
                 });
             }
           }).catch(error => {

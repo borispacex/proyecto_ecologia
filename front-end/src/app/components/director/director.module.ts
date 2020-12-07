@@ -28,6 +28,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ngfModule } from 'angular-file';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ProfilesModule } from '../profiles/profiles.module';
+import { AgmCoreModule } from '@agm/core';
 
 
 
@@ -56,6 +57,11 @@ import { ProfilesModule } from '../profiles/profiles.module';
     ReactiveFormsModule,
     NgMultiSelectDropDownModule.forRoot(),
     ngfModule,
+    AgmCoreModule.forRoot({
+      // please get your own API key here:
+      // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+      apiKey: 'AIzaSyDbODMpMlsAdluHdgW_ZxcllSz5WwvoPkc'
+    }),
 
     // Material Modules
     MatTableExporterModule,

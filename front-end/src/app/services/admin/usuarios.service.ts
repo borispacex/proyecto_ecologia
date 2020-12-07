@@ -225,4 +225,13 @@ export class UsuariosService {
     return this._httpClient.post<any>(this.url + 'verificar-password', usuario, options).toPromise()
     .then(res => res);
   }
+  sendEmailBienvenidoUser(id_persona: number, token: string) {
+    let reqHeader = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    const options = { headers: reqHeader };
+    return this._httpClient.get<any>(this.url + 'bienvenidoUser/' + id_persona, options).toPromise()
+    .then(res => res);
+  }
+  
 }

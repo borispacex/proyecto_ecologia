@@ -178,7 +178,7 @@ export class ViewProyectoComponent implements OnInit {
 
   public provincias: any = [];
   public departamentos: any = [
-    { value: 'BE', depa: 'Beni', capi: 'Trinidad',
+    { value: 'Beni', depa: 'Beni', capi: 'Trinidad',
       provincias: [
         { provi: 'Cercado', capi: 'San Javier'},
         { provi: 'Antonio Vaca Díez', capi: 'Riberalta'},
@@ -190,7 +190,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Iténez', capi: 'Magdalena'}
       ]
     },
-    { value: 'CH', depa: 'Chuquisaca', capi: 'Sucre',
+    { value: 'Chuquisaca', depa: 'Chuquisaca', capi: 'Sucre',
       provincias: [
         { provi: 'Oropeza', capi: 'Sucre'},
         { provi: 'Juana Azurduy de Padilla', capi: 'Azurduy'},
@@ -204,7 +204,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Luis Calvo', capi: 'Villa Vaca Guzmán'}
       ]
     },
-    { value: 'CB', depa: 'Cochabamba', capi: 'Cochabamba',
+    { value: 'Cochabamba', depa: 'Cochabamba', capi: 'Cochabamba',
       provincias: [
         { provi: 'Arani', capi: 'Arani'},
         { provi: 'Esteban Arce', capi: 'Tarata'},
@@ -224,7 +224,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Tiraque', capi: 'Tiraque'}
       ]
     },
-    { value: 'LP', depa: 'La Paz', capi: 'La Paz',
+    { value: 'La Paz', depa: 'La Paz', capi: 'La Paz',
       provincias: [
         { provi: 'Aroma', capi: 'Sica Sica'},
         { provi: 'Bautista Saavedra', capi: 'Charazani'},
@@ -248,7 +248,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Sud Yungas', capi: 'Chulumani'}
       ]
     },
-    { value: 'OR', depa: 'Oruro', capi: 'Oruro',
+    { value: 'Oruro', depa: 'Oruro', capi: 'Oruro',
       provincias: [
         { provi: 'Sabaya', capi: 'Sabaya'},
         { provi: 'Carangas', capi: 'Corque'},
@@ -268,7 +268,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Tomas Barrón', capi: 'Eucaliptus'}
       ]
     },
-    { value: 'PD', depa: 'Pando', capi: 'Cobija',
+    { value: 'Pando', depa: 'Pando', capi: 'Cobija',
       provincias: [
         { provi: 'Abuná', capi: 'Santa Rosa del Abuná'},
         { provi: 'Federico Román', capi: 'Nueva Esperanza'},
@@ -277,7 +277,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Nicolás Suárez', capi: 'Cobija'}
       ]
     },
-    { value: 'PT', depa: 'Potosí', capi: 'Potosí',
+    { value: 'Potosí', depa: 'Potosí', capi: 'Potosí',
       provincias: [
         { provi: 'Alonzo de Ibáñez', capi: 'Villa de Sacaca'},
         { provi: 'Antonio Quijarro', capi: 'Uyuni'},
@@ -297,7 +297,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Tomás Frías', capi: 'Tinguipaya'}
       ]
     },
-    { value: 'SC', depa: 'Santa Cruz', capi: 'Santa Cruz de la Sierra',
+    { value: 'Santa Cruz', depa: 'Santa Cruz', capi: 'Santa Cruz de la Sierra',
       provincias: [
         { provi: 'Andrés Ibáñez', capi: 'Ciudad de Santa Cruz'},
         { provi: 'Ignacio Warnes', capi: 'Warnes'},
@@ -316,7 +316,7 @@ export class ViewProyectoComponent implements OnInit {
         { provi: 'Guarayos', capi: 'Ascensión'}
       ]
     },
-    { value: 'TJ', depa: 'Tarija', capi: 'Tarija',
+    { value: 'Tarija', depa: 'Tarija', capi: 'Tarija',
       provincias: [
         { provi: 'Aniceto Arce', capi: 'Padcaya'},
         { provi: 'Burdet OConnor', capi: 'Entre Ríos'},
@@ -347,6 +347,26 @@ export class ViewProyectoComponent implements OnInit {
   inicioSegui: any = [];
   ejecucionSegui: any = [];
   finalizacionSegui: any = [];
+
+  // google maps zoom level
+  zoom: number = 19;
+  lat: number = -16.537887;
+  lng: number = -68.067610;
+  markers: marker[] = [
+    {
+      lat: -16.537897,
+      lng: -68.067660,
+      label: 'Maximo',
+      draggable: true
+    },
+    {
+      lat: -16.537896,
+      lng: -68.067665,
+      label: 'Minimo',
+      draggable: false
+    }
+  ];
+  pos: number = 0;
 
   constructor(
     private sidebarService: SidebarService,
@@ -851,6 +871,12 @@ export class ViewProyectoComponent implements OnInit {
         this.lugar_desarrollo = responseLugar.lugar_desarrollo;
         // this.provincias = this.;
         this.obtenerProvincias();
+        this.lat = parseFloat(responseLugar.lugar_desarrollo.latmax);
+        this.lng = parseFloat(responseLugar.lugar_desarrollo.lonmax);
+        this.markers[0].lat = parseFloat(responseLugar.lugar_desarrollo.latmax);
+        this.markers[0].lng = parseFloat(responseLugar.lugar_desarrollo.lonmax);
+        this.markers[1].lat = parseFloat(responseLugar.lugar_desarrollo.latmin);
+        this.markers[1].lng = parseFloat(responseLugar.lugar_desarrollo.lonmin);
       }).catch(error => { console.log('Error al obtener lugar desarrollo', error); });
     } else {
       this.lugar_desarrollo = {
@@ -974,8 +1000,9 @@ export class ViewProyectoComponent implements OnInit {
       .then(response => {
         // console.log(response);
         this.publicacion = response.publicacion;
-        var date = new Date(this.publicacion.fecha);
-        this.publicacion.fecha = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+        this.publicacion.fecha = this.publicacion.fecha.substring(0, 4);
+        // var date = new Date(this.publicacion.fecha);
+        // this.publicacion.fecha = {  year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
         this._serviceAutores.getAutoresByIdPublicacion(id, this.token)
         .then(responseAutores => {
           // console.log(responseAutores);
@@ -1481,4 +1508,12 @@ export class ViewProyectoComponent implements OnInit {
     }).catch(error => { console.log('Error al obtener seguimientos por tipo', error); });
   }
 
+}
+
+// just an interface for type safety.
+interface marker {
+  lat: number;
+  lng: number;
+  label?: string;
+  draggable: boolean;
 }

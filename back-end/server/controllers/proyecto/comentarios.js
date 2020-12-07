@@ -39,6 +39,7 @@ function update(req, res) {
 function getAll(req, res) {
     comentarios.findAll({
         where: { estado: true },
+        order:[['createdAt','DESC']],
         include: [
             { model: personas,
                 include: [
@@ -67,6 +68,7 @@ function getAllByEstado(req, res) {
     var status = req.params.estado;
     comentarios.findAll({
         where: { estado: status },
+        order:[['createdAt','DESC']],
         include: [
             { model: personas,
                 include: [
@@ -106,6 +108,7 @@ function getAllByIdPublicacion(req, res) {
     var id = req.params.id_publicacion;
     comentarios.findAll({
         where: { id_publicacion: id },
+        order:[['createdAt','DESC']],
         include: [
             { model: personas,
                 include: [
@@ -133,6 +136,7 @@ function getAllByIdPublicacionAndEstado(req, res) {
     var status = req.params.estado;
     comentarios.findAll({
         where: { id_publicacion: id, estado: status },
+        order:[['createdAt','DESC']],
         include: [
             { model: personas,
                 include: [
@@ -158,7 +162,20 @@ function getAllByIdPublicacionAndEstado(req, res) {
 function countByIdPublicacion(req, res) {
     var id = req.params.id_publicacion;
     comentarios.count({
-        where: { id_publicacion: id }
+        where: { id_publicacion: id, estado: true }
+    })
+    .then(contador => {
+        res.status(200).send({ contador });
+    })
+    .catch(err => {
+        res.status(500).send({ message: 'Ocurrio un error al contar un comentarios por id_proyecto', err });
+    })
+}
+// funcion para contar comentarios por id_publicacion
+function countByIdPublicacionTrue(req, res) {
+    var id = req.params.id_publicacion;
+    comentarios.count({
+        where: { id_publicacion: id, estado: true }
     })
     .then(contador => {
         res.status(200).send({ contador });
@@ -190,6 +207,7 @@ module.exports = {
     getAll,
     getAllByIdPublicacion,
     countByIdPublicacion,
+    countByIdPublicacionTrue,
 
     getAllByEstado,
     getAllByIdPublicacionAndEstado,

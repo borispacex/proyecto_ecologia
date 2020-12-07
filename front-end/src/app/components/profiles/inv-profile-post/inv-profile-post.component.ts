@@ -36,6 +36,10 @@ export class InvProfilePostComponent implements OnInit {
   };
 
   public id_persona: number;
+  public id_comentario: number = 0;
+  public id_persona_actual: number = 0;
+  public comentarioA: any = {};
+
 
   constructor(
     private sidebarService: SidebarService,
@@ -54,7 +58,7 @@ export class InvProfilePostComponent implements OnInit {
       this.token = this._auth.getToken();
       this.url = GLOBAL.url;
       this.who = GLOBAL.who;
-      // this.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
+      this.id_persona_actual = JSON.parse(localStorage.getItem('identity_user')).id_persona;
   }
 
   ngOnInit(): void {
@@ -80,7 +84,7 @@ export class InvProfilePostComponent implements OnInit {
       this._servicePubliArchivos.getPubliArchivosByIdPublicacion(this.id_publicacion, this.token)
       .then(responseAr => {
         this.publicacion.archivos = responseAr.publi_archivos;
-        this._serviceComentarios.getCountByIdPublicacion(this.publicacion.id_publicacion, this.token)
+        this._serviceComentarios.getCountByIdPublicacionAndEstado(this.publicacion.id_publicacion, true, this.token)
         .then(response => {
           this.publicacion.nroComentarios = response.contador;
           this.publicacion.autor = this.publicacion.autores;
@@ -127,20 +131,20 @@ export class InvProfilePostComponent implements OnInit {
     }
   }
 
-  openModalNuevoComentario(content, size, publicacion: any) {
+  openModalComentario(content, size, comentario: any) {
     this.modalService.open(content, { size: size });
-    this.publicacion = publicacion;
+    this.comentarioA = comentario;
   }
   guardarComentario() {
-    this.comentario.id_persona = JSON.parse(localStorage.getItem('identity_user')).id_persona;
-    this.comentario.id_publicacion = this.publicacion.id_publicacion;
-    if (this.comentario.id_comentario) {
+    if (this.comentarioA.id_comentario) {
       // actualizar
-      this._serviceComentarios.update(this.comentario.id_comentario, this.comentario, this.token)
+      this._serviceComentarios.update(this.comentarioA.id_comentario, this.comentarioA, this.token)
         .then(response => {
           // console.log(response);
           this.obtenerComentarios();
           this.modalService.dismissAll();
+          this.comentario = {};
+          this.comentarioA = {};
           this.toastr.success('Comentario actualizado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }).catch(error => {
           console.log('Error al actualizar comentario', error);
@@ -148,11 +152,14 @@ export class InvProfilePostComponent implements OnInit {
         });
     } else {
       if (this.publicacion.id_publicacion) {
+        this.comentario.id_persona = this.id_persona_actual;
+        this.comentario.id_publicacion = this.publicacion.id_publicacion;
         this._serviceComentarios.save(this.comentario, this.token)
         .then(response => {
           // console.log(response);
           this.obtenerComentarios();
           this.modalService.dismissAll();
+          this.comentario = {};
           this.toastr.success('Comentario guardado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
         }).catch(error => {
           console.log('Error al guardar comentario', error);
@@ -160,6 +167,28 @@ export class InvProfilePostComponent implements OnInit {
         });
       }
     }
+  }
+
+  eliminarComentario(idComentario: number) {
+    this._serviceComentarios.update(idComentario, { estado: false }, this.token)
+    .then(response => {
+      this.obtenerComentarios();
+      this.comentario = {};
+      this.id_comentario = 0;
+      this.modalService.dismissAll();
+      this._serviceComentarios.getCountByIdPublicacionAndEstado(this.publicacion.id_publicacion, true, this.token)
+        .then(response => {
+          this.publicacion.nroComentarios = response.contador;
+        }).catch(error => { console.log('Error al obtener contador', error); });
+      this.toastr.success('Comentario eliminado', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    }).catch(error => { 
+      console.log('Error al eliminar comentario', error);
+      this.toastr.error('Error al eliminar comentario', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
+    });
+  }
+  openModal(content, size, idComentario: number) {
+    this.modalService.open(content, { size: size });
+    this.id_comentario = idComentario;
   }
 
 }

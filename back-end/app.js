@@ -66,6 +66,7 @@ require('./server/routes/proyecto/unidades')(app);
 // mensajes
 require('./server/routes/messages/welcomeUser')(app);
 require('./server/routes/messages/createProject')(app);
+require('./server/routes/messages/seguimientoProy')(app);
 
 // publicaciones
 require('./server/routes/proyecto/publicaciones')(app);
