@@ -368,15 +368,16 @@ export class GenerateReportesComponent
   ) {
     this.token = this._auth.getToken();
     this.url = GLOBAL.url;
+    // basica tecnica
     this.dropdownList = [
-      { item_id: 1, item_text: 'Carrera' },
-      { item_id: 2, item_text: 'Nombre Instituto' },
-      { item_id: 3, item_text: 'Tipo investigación' },
-      { item_id: 4, item_text: 'Area investigación' },
-      { item_id: 5, item_text: 'Tipo proyecto' },
-      { item_id: 6, item_text: 'Carga horaria' },
+      // { item_id: 1, item_text: 'Carrera' },
+      // { item_id: 2, item_text: 'Nombre Instituto' },
+      // { item_id: 3, item_text: 'Tipo investigación' },
+      // { item_id: 4, item_text: 'Area investigación' },
+      // { item_id: 5, item_text: 'Tipo proyecto' },
+      // { item_id: 6, item_text: 'Carga horaria' },
       { item_id: 7, item_text: 'Unidades' },
-      { item_id: 8, item_text: 'Financiamiento' },
+      // { item_id: 8, item_text: 'Financiamiento' },
       { item_id: 9, item_text: 'FInanciamientos' },
       { item_id: 10, item_text: 'FInanciamientos con Aporte' },
     ];
@@ -466,7 +467,8 @@ export class GenerateReportesComponent
       { publi_id: 3, publi_text: 'Autores' },
       { publi_id: 4, publi_text: 'Fecha año' },
       { publi_id: 5, publi_text: 'Publicado por' },
-      { publi_id: 6, publi_text: 'Cita bibliografica' }
+      { publi_id: 6, publi_text: 'Cita bibliografica' },
+      { publi_id: 7, publi_text: 'Resumen' }
     ];
     this.dropdownSettings5 = {
       singleSelection: false,
@@ -972,7 +974,7 @@ export class GenerateReportesComponent
     // console.log(this.proyectos);
     let proys: any = [];
     this.displayedColumns = [];
-    console.log(this.proyectos);
+    // console.log(this.proyectos);
     this.proyectos.forEach((proyecto) => {
       // buscando departamento o provincia
       if (this.filtro.mostrarInformacion) {
@@ -1306,7 +1308,8 @@ export class GenerateReportesComponent
                 autores_publicacion: '',
                 fecha_publicacion_anio: '',
                 publicado_por: '',
-                cita_bibliografica: ''
+                cita_bibliografica: '',
+                resumen: ''
               };
               proy.tipo_publicacion = publicacion.tipo;
 
@@ -1314,16 +1317,21 @@ export class GenerateReportesComponent
 
               proy.autores_publicacion = publicacion.autores;
 
+              proy.resumen = publicacion.resumen;
+
               proy.fecha_publicacion_anio = publicacion.fecha.substring(0, 4);
 
               // proy.publicado_por = '';
               // console.log(publicacion);
               this._serviceAutores.getAutoresByIdPublicacionAndEstado(publicacion.id_publicacion, true, this.token)
                 .then(responseA => {
-                  proy.publicado_por = '';
+                  var publicado_por = '';
                   responseA.autores.forEach(autor => {
-                    proy.publicado_por = proy.publicado_por + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} `;
+                    publicado_por = publicado_por + `${autor.investigadore.persona.grado_academico} ${autor.investigadore.persona.nombres} ${autor.investigadore.persona.paterno} ${autor.investigadore.persona.materno} `;
                   });
+                  console.log(proy.publicado_por);
+                  proy.publicado_por = publicado_por;
+                  console.log(proy.publicado_por);
                 }).catch(error => { console.log('Error al obtener autores', error); });
               proy.cita_bibliografica = publicacion.contenido;
               proys.push(proy);
@@ -1745,6 +1753,10 @@ export class GenerateReportesComponent
             this.displayedColumns.push('cita_bibliografica');
             this.columnsToDisplay = this.displayedColumns.slice();
             break;
+          case 7:
+            this.displayedColumns.push('resumen');
+            this.columnsToDisplay = this.displayedColumns.slice();
+            break;
           default:
             break;
         }
@@ -1847,6 +1859,7 @@ export class GenerateReportesComponent
     // console.log(this.dataSource,'aaa', this.sort);
     // console.log(this.dataSource.data.length);
     // console.log(this.paginator);
+    this.toastr.success('Filtro realizo', undefined, { closeButton: true, positionClass: 'toast-bottom-right' });
   }
 
   filtroLugarDesarrollo(proyectos: any) {

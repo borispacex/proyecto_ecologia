@@ -9,14 +9,14 @@ server {
 		client_max_body_size 101M;
 		# index.html
                 root /var/www/proyecto_ecologia/front-end/dist/front-end;
-                # root /var/www/uploadFile/frontend-angular/dist/frontend-angular;
+                #root /var/www/uploadFile/frontend-angular/dist/frontend-angular;
 		try_files $uri $uri/ /index.html;
 	}
 
 	location /v1/ {
 		client_max_body_size 101M;
 		proxy_pass http://localhost:8012/;
-                # proxy_pass http://localhost:8080/;
+                #proxy_pass http://localhost:8080/;
                 proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header Host $host;
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -24,7 +24,7 @@ server {
 		proxy_http_version 1.1;
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
-		# Follwing is neccessary for limit files                
+		# Follwing is neccessary for limit files
 		proxy_connect_timeout 1200s;
 		proxy_send_timeout 1200s;
 		proxy_read_timeout 1200s;
@@ -43,7 +43,7 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/proyectosecologia.net.bo/privkey.pem; # managed by Certbot
     include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-	
+
 	client_max_body_size 101M;
 }
 
