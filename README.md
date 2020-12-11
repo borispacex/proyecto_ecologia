@@ -16,7 +16,7 @@ Ejecute Ejecutar `ng serve --open` para un servidor de desarrollo. Navegue a `ht
 
 ### Comprobar SERVIDOR
 
-```js
+```console
 sudo apt-get upgrade
 sudo apt-get update
 sudo apt-get install -y git			// instalado por defecto en linux
