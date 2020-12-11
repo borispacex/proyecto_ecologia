@@ -12,17 +12,17 @@ Ejecute `npm install` para instalar dependencias.
 
 Ejecute Ejecutar `ng serve --open` para un servidor de desarrollo. Navegue a `http://localhost:4200/`.
 
-# Proyecto Ecologia subirlo a un servidor Linux Ubuntu 20.04
+## Proyecto Ecologia subirlo a un servidor Linux Ubuntu 20.04
 
-## Comprobar SERVIDOR
+### Comprobar SERVIDOR
 
-```
+```js
 sudo apt-get upgrade
 sudo apt-get update
 sudo apt-get install -y git			// instalado por defecto en linux
 ```
 
-## Instalar NodeJS y Verificar si tenemos instalado Nodejs 10 o superior.
+### Instalar NodeJS y Verificar si tenemos instalado Nodejs 10 o superior.
 
 ```
 sudo apt-get install -y nodejs
@@ -34,31 +34,31 @@ sudo bash setup_node.sh
 sudo apt-get install -y nodejs
 ```
 
-## Instalar Angular/cli.
+### Instalar Angular/cli.
 
 ```
 sudo npm install -g @angular/cli
 ```
 
-## Instalar NGINX.
+### Instalar NGINX.
 
 ```
 sudo apt-get install -y nginx
 ```
 
-## Instalar PM2.
+### Instalar PM2.
 
 ```
 sudo npm install pm2 -g
 ```
 
-## Instalamos postgreSQL
+### Instalamos postgreSQL
 
 ```
 sudo apt install postgresql postgresql-contrib
 ```
 
-## Clonar los archivos del sistema con la ayuda del repositorio.
+### Clonar los archivos del sistema con la ayuda del repositorio.
 
 ```
 cd /var/www/
@@ -68,7 +68,7 @@ cd proyecto_ecologia/back-end
 npm install
 ```
 
-## Configuración de la Base de datos e Importación de la base de datos.
+### Configuración de la Base de datos e Importación de la base de datos.
 
 ```
 sudo su - postgres              				// ingresar al usuario postgres
@@ -85,7 +85,7 @@ psql -U postgres -W
 SELECT * FROM adm_usuarios;			// mostrar usuarios
 ```
 
-## Configuración Backend con PM2.
+### Configuración Backend con PM2.
 
 ```
 cd /var/www/proyecto_ecologia/back-end/
@@ -101,7 +101,7 @@ sudo pm2 restart web
 sudo pm2 logs web					// mostrar logs backend
 ```
 
-## Configuración NGINX.
+### Configuración NGINX.
 
 ```
 cd /etc/nginx/
@@ -110,7 +110,7 @@ cd /etc/nginx/sites-available/
 sudo nano default					// configurar servidor
 ```
 
-## Configuración Frontend con NG.
+### Configuración Frontend con NG.
 
 ```
 cd /var/www/proyecto_ecologia/front-end/
@@ -118,7 +118,7 @@ npm install
 ng build --prod						// generar dist
 ```
 
-## Instalar Cerbot y configuración de Cerbot para HTTPS.
+### Instalar Cerbot y configuración de Cerbot para HTTPS.
 
 ```
 sudo apt install certbot python3-certbot-nginx
@@ -127,7 +127,7 @@ sudo certbot --nginx -d proyectosecologia.net.bo -d www.proyectosecologia.net.bo
 sudo systemctl status certbot.timer
 ```
 
-## Para realizar cambios en Backend y Frontend.
+### Para realizar cambios en Backend y Frontend.
 ```
 sudo pm2 restart web
 sudo service nginx restart
